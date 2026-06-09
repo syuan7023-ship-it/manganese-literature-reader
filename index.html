@@ -1,11 +1,1334 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>低品位锰矿文献工作台</title>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs" type="module"></script>
+
+  <style>
+    :root {
+      --bg: #f4f6f5;
+      --panel: #ffffff;
+      --paper: #ffffff;
+      --ink: #1f2933;
+      --text: #344054;
+      --muted: #667085;
+      --line: #d8dedb;
+      --line-soft: #e6ebe8;
+      --green: #2f6f5e;
+      --green-dark: #1f5a4b;
+      --green-soft: #e8f1ed;
+      --amber: #b87916;
+      --amber-soft: #fff3d6;
+      --shadow: 0 8px 22px rgba(15, 23, 42, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans CJK SC", Arial, sans-serif;
+    }
+
+    button, input, select, textarea {
+      font-family: inherit;
+    }
+
+    .app {
+      height: 100vh;
+      display: grid;
+      grid-template-columns: 310px minmax(0, 1fr);
+      overflow: hidden;
+    }
+
+    .sidebar {
+      background: var(--panel);
+      border-right: 1px solid var(--line);
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .brand {
+      height: 64px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 16px;
+      border-bottom: 1px solid var(--line-soft);
+      flex-shrink: 0;
+    }
+
+    .logo {
+      width: 34px;
+      height: 34px;
+      border-radius: 7px;
+      background: var(--green);
+      color: white;
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+    }
+
+    .brand-title {
+      font-weight: 800;
+      font-size: 15px;
+      line-height: 1.2;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .brand-subtitle {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 3px;
+    }
+
+    .nav {
+      display: grid;
+      gap: 7px;
+      padding: 12px;
+      border-bottom: 1px solid var(--line-soft);
+      flex-shrink: 0;
+    }
+
+    .nav button {
+      height: 38px;
+      border: 1px solid transparent;
+      border-radius: 6px;
+      background: white;
+      color: var(--text);
+      text-align: left;
+      padding: 0 11px;
+      cursor: pointer;
+      font-size: 13px;
+    }
+
+    .nav button:hover {
+      background: #f7faf8;
+      border-color: #dbe6e1;
+    }
+
+    .nav button.active {
+      background: var(--green-soft);
+      border-color: #bdd4ca;
+      color: var(--green-dark);
+      font-weight: 700;
+    }
+
+    .sidebar-content {
+      padding: 12px;
+      overflow: auto;
+      min-height: 0;
+    }
+
+    .paper-card {
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 13px;
+      margin-bottom: 12px;
+    }
+
+    .paper-card h3 {
+      margin: 0 0 7px;
+      font-size: 14px;
+      line-height: 1.45;
+      color: #182230;
+      overflow-wrap: anywhere;
+    }
+
+    .cn-title {
+      font-size: 13px;
+      line-height: 1.55;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+
+    .meta {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px 9px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+      margin: 10px 0;
+    }
+
+    .meta span {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .meta b {
+      color: #475467;
+      margin-right: 4px;
+    }
+
+    .meta .doi {
+      grid-column: 1 / -1;
+      overflow-wrap: anywhere;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin: 10px 0 12px;
+    }
+
+    .tag {
+      border: 1px solid #cbd8d2;
+      background: #f7faf8;
+      color: #31594d;
+      font-size: 11px;
+      border-radius: 999px;
+      padding: 4px 7px;
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .primary,
+    .secondary,
+    .tool-btn {
+      border-radius: 6px;
+      height: 34px;
+      padding: 0 11px;
+      font-size: 12px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .primary {
+      background: var(--green);
+      color: white;
+      border: 1px solid var(--green-dark);
+      font-weight: 700;
+    }
+
+    .primary:hover {
+      background: var(--green-dark);
+    }
+
+    .secondary,
+    .tool-btn {
+      background: white;
+      color: var(--text);
+      border: 1px solid var(--line);
+      font-weight: 600;
+    }
+
+    .secondary:hover,
+    .tool-btn:hover {
+      background: #f7faf8;
+    }
+
+    .main {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+
+    .toolbar {
+      height: 64px;
+      background: white;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 0 14px;
+      min-width: 0;
+      flex-shrink: 0;
+    }
+
+    .toolbar select,
+    .toolbar input {
+      height: 34px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 0 10px;
+      background: white;
+      color: var(--text);
+      font-size: 12px;
+      outline: none;
+      min-width: 0;
+    }
+
+    .paper-select {
+      width: 310px;
+    }
+
+    .page-input {
+      width: 68px;
+      text-align: center;
+    }
+
+    .search-input {
+      width: 190px;
+    }
+
+    .tool-group {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--muted);
+      font-size: 12px;
+      flex-shrink: 0;
+    }
+
+    .tool-btn {
+      min-width: 32px;
+      padding: 0 9px;
+    }
+
+    .spacer {
+      flex: 1;
+    }
+
+    .view {
+      display: none;
+      height: calc(100vh - 64px);
+      min-height: 0;
+    }
+
+    .view.active {
+      display: block;
+    }
+
+    .panel {
+      height: 100%;
+      overflow: auto;
+      padding: 18px;
+      background: #f5f7f6;
+    }
+
+    .panel-head {
+      max-width: 1120px;
+      margin: 0 auto 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 12px;
+    }
+
+    .panel-head h2 {
+      margin: 0;
+      font-size: 21px;
+    }
+
+    .panel-head p {
+      margin: 5px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .grid {
+      max-width: 1120px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .box {
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 15px;
+    }
+
+    .box h3 {
+      margin: 0 0 10px;
+      font-size: 14px;
+      color: #243b35;
+    }
+
+    .box p,
+    .box li {
+      font-size: 13px;
+      line-height: 1.85;
+      color: var(--text);
+    }
+
+    .box ul {
+      margin: 0 0 0 18px;
+      padding: 0;
+    }
+
+    .wide {
+      grid-column: 1 / -1;
+    }
+
+    .upload-grid {
+      max-width: 1120px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .drop {
+      background: white;
+      border: 1px dashed #9eb8ae;
+      border-radius: 8px;
+      padding: 18px;
+      min-height: 220px;
+    }
+
+    .drop h3 {
+      margin: 0 0 8px;
+      font-size: 15px;
+      color: #243b35;
+    }
+
+    .drop p {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.75;
+      margin: 0 0 12px;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 170px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 10px;
+      resize: vertical;
+      font-size: 12px;
+      line-height: 1.6;
+      color: var(--text);
+      outline: none;
+    }
+
+    .small-note {
+      color: var(--green-dark);
+      font-size: 12px;
+      margin-top: 10px;
+      min-height: 18px;
+      overflow-wrap: anywhere;
+    }
+
+    .reader {
+      height: 100%;
+      overflow: auto;
+      background: #edf1ef;
+      padding: 18px;
+    }
+
+    .reader-inner {
+      transform-origin: top center;
+      transition: transform 0.12s;
+    }
+
+    .page-row {
+      max-width: 1280px;
+      margin: 0 auto 20px;
+      display: grid;
+      grid-template-columns: minmax(350px, 1fr) minmax(350px, 1fr);
+      gap: 18px;
+      align-items: start;
+    }
+
+    .paper-page {
+      aspect-ratio: 0.707 / 1;
+      background: var(--paper);
+      border: 1px solid #cfd6d2;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+      min-width: 0;
+    }
+
+    .pdf-page {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      background: white;
+    }
+
+    .pdf-placeholder {
+      padding: 34px 38px 44px;
+      width: 100%;
+      height: 100%;
+      font-family: Georgia, "Times New Roman", serif;
+      color: #1f2933;
+    }
+
+    .pdf-placeholder h1 {
+      font-size: 19px;
+      line-height: 1.28;
+      margin: 0 0 10px;
+    }
+
+    .pdf-placeholder h2 {
+      font-size: 14px;
+      margin: 16px 0 8px;
+    }
+
+    .pdf-placeholder p {
+      font-size: 12px;
+      line-height: 1.65;
+      text-align: justify;
+      color: #27323a;
+      margin: 0 0 8px;
+    }
+
+    .abstract {
+      border-top: 1px solid #e2e8e5;
+      border-bottom: 1px solid #e2e8e5;
+      padding: 8px 0;
+      margin: 10px 0;
+    }
+
+    .mock-figure {
+      height: 110px;
+      border: 1px solid #cfd6d2;
+      background:
+        linear-gradient(90deg, rgba(47,111,94,.08), transparent),
+        repeating-linear-gradient(45deg, #f8fafc, #f8fafc 8px, #eef2f1 8px, #eef2f1 16px);
+      display: grid;
+      place-items: center;
+      text-align: center;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+      margin: 12px 0;
+      padding: 8px;
+    }
+
+    .mock-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 10px 0;
+      font-size: 10.8px;
+      color: var(--text);
+    }
+
+    .mock-table th,
+    .mock-table td {
+      border: 1px solid #d6ddd9;
+      padding: 5px;
+      text-align: left;
+    }
+
+    .translation-page {
+      padding: 34px 38px 44px;
+    }
+
+    .translation-page h2 {
+      font-size: 17px;
+      line-height: 1.45;
+      margin: 0 0 13px;
+      color: #1f2933;
+    }
+
+    .translation-page p {
+      font-size: 13px;
+      line-height: 1.95;
+      text-align: justify;
+      color: #263238;
+      margin: 0 0 10px;
+      overflow-wrap: anywhere;
+    }
+
+    .figure-note {
+      background: var(--amber-soft);
+      border-left: 3px solid var(--amber);
+      color: #6b4b14;
+      font-size: 12px;
+      line-height: 1.65;
+      padding: 8px 10px;
+      margin: 12px 0;
+    }
+
+    details.evidence {
+      border-top: 1px solid var(--line-soft);
+      margin-top: 10px;
+      padding-top: 8px;
+    }
+
+    details.evidence summary {
+      font-size: 12px;
+      color: var(--green-dark);
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    details.evidence li {
+      font-size: 12px;
+      line-height: 1.7;
+      color: #475467;
+      margin-bottom: 4px;
+    }
+
+    .page-no {
+      position: absolute;
+      bottom: 14px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      color: #98a2b3;
+      font-size: 11px;
+    }
+
+    .highlight {
+      background: #ffe08a;
+      border-radius: 3px;
+      padding: 0 2px;
+    }
+
+    .toast {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      background: #193f35;
+      color: white;
+      padding: 10px 12px;
+      border-radius: 7px;
+      box-shadow: 0 8px 22px rgba(15, 23, 42, 0.18);
+      font-size: 12px;
+      line-height: 1.5;
+      max-width: 360px;
+      display: none;
+      z-index: 20;
+    }
+
+    canvas {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    @media (max-width: 980px) {
+      .app {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        height: 170px;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .sidebar-content {
+        display: none;
+      }
+
+      .nav {
+        grid-template-columns: repeat(4, 1fr);
+        padding: 8px;
+      }
+
+      .nav button {
+        text-align: center;
+        padding: 0 4px;
+      }
+
+      .toolbar {
+        overflow-x: auto;
+        gap: 7px;
+      }
+
+      .paper-select {
+        width: 230px;
+      }
+
+      .search-input {
+        width: 160px;
+      }
+
+      .page-row {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .grid,
+      .upload-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .wide {
+        grid-column: auto;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .brand {
+        height: 58px;
+      }
+
+      .nav {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .sidebar {
+        height: 190px;
+      }
+
+      .toolbar {
+        height: 78px;
+        flex-wrap: wrap;
+        align-content: center;
+      }
+
+      .view {
+        height: calc(100vh - 78px);
+      }
+
+      .translation-page,
+      .pdf-placeholder {
+        padding: 26px 26px 38px;
+      }
+
+      .translation-page h2 {
+        font-size: 15px;
+      }
+
+      .translation-page p {
+        font-size: 12px;
+        line-height: 1.85;
+      }
+    }
+  </style>
 </head>
+
 <body>
-  <h1>低品位锰矿文献工作台</h1>
-  <p>网站已创建成功。</p>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="logo">Mn</div>
+        <div>
+          <div class="brand-title">低品位锰矿文献工作台</div>
+          <div class="brand-subtitle">中英文对照阅读 · 分离与富集</div>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <button class="active" data-view="library">▦ 文献库</button>
+        <button data-view="upload">⇧ 上传/导入</button>
+        <button data-view="reader">◫ 对照阅读</button>
+        <button data-view="ai">◎ 精读结果</button>
+      </nav>
+
+      <div class="sidebar-content">
+        <div id="sidebarPapers"></div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <div class="toolbar">
+        <select id="paperSelect" class="paper-select"></select>
+
+        <div class="tool-group">
+          页码
+          <input id="pageInput" class="page-input" value="1" inputmode="numeric" />
+          / <span id="pageTotal">3</span>
+          <button class="tool-btn" id="jumpBtn">跳转</button>
+        </div>
+
+        <div class="tool-group">
+          缩放
+          <button class="tool-btn" id="zoomOut">−</button>
+          <span id="zoomText" style="min-width:42px;text-align:center;">100%</span>
+          <button class="tool-btn" id="zoomIn">＋</button>
+        </div>
+
+        <div class="spacer"></div>
+
+        <input id="searchInput" class="search-input" placeholder="搜索中文译文" />
+        <button class="secondary" data-view-btn="ai">◎ 精读结果</button>
+      </div>
+
+      <section id="view-library" class="view active">
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <h2>文献库</h2>
+              <p>管理英文 PDF、中文译文、图表说明、关键点和英文依据。当前内置一篇示例文献。</p>
+            </div>
+            <button class="primary" data-view-btn="upload">⇧ 上传/导入</button>
+          </div>
+
+          <div id="libraryGrid" class="grid"></div>
+        </div>
+      </section>
+
+      <section id="view-upload" class="view">
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <h2>上传 / 导入</h2>
+              <p>PDF 用于左侧原文页；JSON 用于右侧译文、图表说明、关键点和精读结果。第一版不接 API。</p>
+            </div>
+          </div>
+
+          <div class="upload-grid">
+            <div class="drop">
+              <h3>📄 上传英文 PDF</h3>
+              <p>上传后左侧阅读页会用 PDF.js 渲染，不使用 iframe、embed 或 object。当前页面会先渲染前几页。</p>
+              <input id="pdfInput" type="file" accept="application/pdf" />
+              <div id="pdfStatus" class="small-note"></div>
+            </div>
+
+            <div class="drop">
+              <h3>{ } 导入 AI 分析 JSON</h3>
+              <p>支持字段：title, titleCn, journal, year, doi, journalRank, tags, pageTranslations, pageFigures, pageKeyPoints, originalEvidence, readingAnchors。</p>
+              <textarea id="jsonInput">{
+  "title": "Extraction and separation of manganese and iron from ferruginous manganese ores: A review",
+  "titleCn": "铁质锰矿中锰和铁的提取与分离：综述",
+  "journal": "Minerals Engineering",
+  "year": 2019,
+  "doi": "10.1016/j.mineng.2018.11.016",
+  "journalRank": {
+    "CAS": "2区",
+    "JCR": "Q1",
+    "IF": "5.0"
+  },
+  "tags": ["矿物学诊断", "磁选", "焙烧", "酸浸", "Fe/S/Mn内源还原", "工程放大", "环境约束"],
+  "pageTranslations": {
+    "1": "铁质锰矿资源背景：中国 73% 以上锰矿属于低 Mn/Fe 比铁质锰矿，锰合金生产通常要求 Mn > 30%、Mn/Fe > 5。",
+    "2": "资源分布和物理分选局限：重选、磁选、浮选难以单独分离 Mn 和 Fe。",
+    "3": "矿物学诊断：Fe-Mn 复合氧化物、5-10 μm 细粒共生是分离困难根源。"
+  }
+}</textarea>
+
+              <div class="button-row" style="margin-top:10px;">
+                <button id="importJsonBtn" class="primary">导入 JSON</button>
+                <button id="resetBtn" class="secondary">恢复示例</button>
+              </div>
+              <div id="jsonStatus" class="small-note"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="view-reader" class="view">
+        <div id="reader" class="reader">
+          <div id="readerInner" class="reader-inner"></div>
+        </div>
+      </section>
+
+      <section id="view-ai" class="view">
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <h2>AI 精读结果</h2>
+              <p>这里只展示已导入 JSON 或内置示例中的分析结果，不调用实时 AI。</p>
+            </div>
+            <button class="primary" data-view-btn="reader">◫ 回到对照阅读</button>
+          </div>
+
+          <div id="aiGrid" class="grid"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <script type="module">
+    import * as pdfjsLib from "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs";
+    pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.mjs";
+
+    const samplePaper = {
+      id: "sample-review-2019",
+      title: "Extraction and separation of manganese and iron from ferruginous manganese ores: A review",
+      titleCn: "铁质锰矿中锰和铁的提取与分离：综述",
+      journal: "Minerals Engineering",
+      year: "2019",
+      doi: "10.1016/j.mineng.2018.11.016",
+      journalRank: {
+        CAS: "2区",
+        JCR: "Q1",
+        IF: "5.0"
+      },
+      tags: ["矿物学诊断", "磁选", "焙烧", "酸浸", "Fe/S/Mn内源还原", "工程放大", "环境约束"],
+      pageCount: 3,
+      pageTranslations: {
+        1: [
+          "锰是钢铁、电池和化工领域的重要战略金属。铁质锰矿由于锰、铁矿物嵌布关系复杂，常表现为低锰品位和低 Mn/Fe 比，直接用于锰合金生产受到限制。",
+          "中国 73% 以上锰矿属于低 Mn/Fe 比铁质锰矿，而锰合金生产通常要求 Mn > 30%、Mn/Fe > 5。因此，单纯提高锰品位并不足够，还需要实现锰铁分离和杂质控制。"
+        ],
+        2: [
+          "铁质锰矿常与赤铁矿、针铁矿、褐铁矿等含铁矿物共生。重选、磁选、浮选均可用于预富集，但分选效果受到锰铁矿物嵌布粒度、连生关系和表面性质的限制。",
+          "对于复杂铁质锰矿，重选、磁选、浮选难以单独分离 Mn 和 Fe。单一物理分选工艺往往难以同时实现较高锰回收率、明显 Fe 脱除和稳定的 Mn/Fe 比提升。",
+          "因此，物理富集不应只看锰品位，还应与后续焙烧、酸浸、除杂和浸出液质量耦合评价。"
+        ],
+        3: [
+          "工艺选择前必须先进行矿物学诊断。锰和铁可能以独立矿物形式存在，也可能形成 Fe-Mn 复合氧化物；后者会显著降低物理分选和选择性浸出的效率。",
+          "Fe-Mn 复合氧化物和 5-10 μm 细粒共生是分离困难的根源。普通磨矿难以充分解离这类细粒共生体，因此不能简单假设“磨得更细就能分开”。",
+          "这类矿样应优先结合 XRF、XRD、ICP 进行快速判断，并选择关键样品做 AMICS、EPMA 或 MLA，以确定 Mn/Fe 赋存状态、嵌布粒度和后续分选—浸出的可行性。"
+        ]
+      },
+      pageFigures: {
+        1: "本页用于说明铁质锰矿资源背景、工业利用门槛和分离富集研究必要性。",
+        2: "表格区域可用于比较重选、磁选、浮选的作用机制和局限。",
+        3: "本页适合展示 Fe-Mn 复合氧化物、细粒共生和矿物嵌布图。"
+      },
+      pageKeyPoints: {
+        1: ["铁质锰矿的核心问题是低 Mn 品位和低 Mn/Fe 比。"],
+        2: ["重选、磁选、浮选难以单独完成 Mn 和 Fe 的有效分离。"],
+        3: ["Fe-Mn 复合氧化物和 5-10 μm 细粒共生决定了分离难度。"]
+      },
+      originalEvidence: {
+        1: ["direct utilization is restricted by low Mn grade and low Mn/Fe ratio."],
+        2: ["A single physical beneficiation process usually cannot achieve sufficient Mn enrichment and Fe removal simultaneously."],
+        3: ["Fine intergrowths of 5–10 μm are frequently observed and are difficult to liberate by ordinary grinding."]
+      },
+      aiReading: {
+        summary: "该综述围绕铁质锰矿中锰和铁的提取与分离展开，强调矿物学诊断、物理分选、焙烧转化、酸浸和环境约束之间的耦合关系。",
+        innovation: [
+          "将 Mn/Fe 比、矿物嵌布、相变行为和环境约束放在同一工艺框架中讨论。",
+          "强调单一分选方法难以处理复杂铁质锰矿。"
+        ],
+        methods: "矿物学表征 → 物理分选 → 还原焙烧或酸浸 → 锰铁分离 → 工程放大与环境评价。",
+        keyData: [
+          "中国 73% 以上锰矿属于低 Mn/Fe 比铁质锰矿。",
+          "锰合金生产通常要求 Mn > 30%、Mn/Fe > 5。",
+          "5-10 μm 细粒共生会显著增加解离难度。"
+        ],
+        process: "矿物学诊断 → 判断 Mn/Fe 赋存关系 → 选择重选/磁选/浮选或联合预富集 → 必要时焙烧相变 → 酸浸或还原浸出 → 除铁除杂 → 评价 Mn 回收率与溶液质量。",
+        relevance: "适合用于“低品位锰矿分离与富集”课题的研究背景、分选局限、矿物学诊断必要性和工艺路线选择依据。",
+        quote: "铁质锰矿的分离富集不能仅以锰品位提升为目标，还应同时评价 Mn 回收率、Fe 脱除效果、Mn/Fe 比变化、酸耗和后续浸出液杂质负荷。"
+      }
+    };
+
+    let papers = [structuredClone(samplePaper)];
+    let currentPaperId = papers[0].id;
+    let scale = 1;
+    let uploadedPdf = null;
+    let renderedPages = new Map();
+
+    const els = {
+      sidebarPapers: document.getElementById("sidebarPapers"),
+      libraryGrid: document.getElementById("libraryGrid"),
+      paperSelect: document.getElementById("paperSelect"),
+      pageTotal: document.getElementById("pageTotal"),
+      reader: document.getElementById("reader"),
+      readerInner: document.getElementById("readerInner"),
+      pageInput: document.getElementById("pageInput"),
+      zoomText: document.getElementById("zoomText"),
+      searchInput: document.getElementById("searchInput"),
+      toast: document.getElementById("toast"),
+      pdfInput: document.getElementById("pdfInput"),
+      pdfStatus: document.getElementById("pdfStatus"),
+      jsonInput: document.getElementById("jsonInput"),
+      jsonStatus: document.getElementById("jsonStatus"),
+      aiGrid: document.getElementById("aiGrid")
+    };
+
+    function currentPaper() {
+      return papers.find(p => p.id === currentPaperId) || papers[0];
+    }
+
+    function escapeHtml(text) {
+      return String(text ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function normalizeList(value) {
+      if (!value) return [];
+      if (Array.isArray(value)) return value;
+      return [String(value)];
+    }
+
+    function toast(message) {
+      els.toast.textContent = message;
+      els.toast.style.display = "block";
+      setTimeout(() => els.toast.style.display = "none", 2400);
+    }
+
+    function showView(name) {
+      document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
+      document.getElementById(`view-${name}`).classList.add("active");
+      document.querySelectorAll(".nav button").forEach(b => {
+        b.classList.toggle("active", b.dataset.view === name);
+      });
+      if (name === "reader") {
+        setTimeout(() => {
+          renderVisiblePdfPages();
+        }, 120);
+      }
+    }
+
+    function renderPaperCard(paper) {
+      const tags = normalizeList(paper.tags).map(tag => `<span class="tag">${escapeHtml(tag)}</span>`).join("");
+      return `
+        <div class="paper-card">
+          <h3>${escapeHtml(paper.title)}</h3>
+          <div class="cn-title">${escapeHtml(paper.titleCn)}</div>
+          <div class="meta">
+            <span><b>期刊</b>${escapeHtml(paper.journal || "-")}</span>
+            <span><b>年份</b>${escapeHtml(paper.year || "-")}</span>
+            <span><b>CAS</b>${escapeHtml(paper.journalRank?.CAS || "-")}</span>
+            <span><b>JCR</b>${escapeHtml(paper.journalRank?.JCR || "-")}</span>
+            <span><b>IF</b>${escapeHtml(paper.journalRank?.IF || "-")}</span>
+            <span class="doi"><b>DOI</b>${escapeHtml(paper.doi || "-")}</span>
+          </div>
+          <div class="tags">${tags}</div>
+          <button class="primary" data-open-reader="${paper.id}">📖 打开对照阅读</button>
+        </div>
+      `;
+    }
+
+    function renderLibrary() {
+      els.sidebarPapers.innerHTML = papers.map(renderPaperCard).join("");
+      els.libraryGrid.innerHTML = papers.map(paper => `
+        <div class="box wide">
+          ${renderPaperCard(paper)}
+        </div>
+      `).join("");
+
+      els.paperSelect.innerHTML = papers.map(paper => `
+        <option value="${paper.id}" ${paper.id === currentPaperId ? "selected" : ""}>
+          ${escapeHtml(paper.title)}
+        </option>
+      `).join("");
+
+      document.querySelectorAll("[data-open-reader]").forEach(btn => {
+        btn.onclick = () => {
+          currentPaperId = btn.dataset.openReader;
+          renderAll();
+          showView("reader");
+        };
+      });
+    }
+
+    function mockPdfPage(pageNo) {
+      if (pageNo === 1) {
+        return `
+          <div class="pdf-placeholder">
+            <h1>Extraction and separation of manganese and iron from ferruginous manganese ores: A review</h1>
+            <p style="color:#667085;font-size:11px;">Minerals Engineering · 2019 · DOI: 10.1016/j.mineng.2018.11.016</p>
+            <div class="abstract">
+              <p><b>Abstract.</b> Manganese is an important strategic metal. Ferruginous manganese ores are difficult to upgrade because manganese and iron often occur in fine-grained composite oxides.</p>
+            </div>
+            <h2>1. Introduction</h2>
+            <p>Low-grade manganese resources are widely distributed, but direct utilization is restricted by low Mn grade and low Mn/Fe ratio.</p>
+            <p>Beneficiation and separation strategies must be designed according to mineralogical characteristics and industrial requirements.</p>
+            <div class="mock-figure">Original PDF page mock<br>Title · Abstract · Introduction</div>
+          </div>
+        `;
+      }
+
+      if (pageNo === 2) {
+        return `
+          <div class="pdf-placeholder">
+            <h2>2. Resource distribution and physical beneficiation</h2>
+            <p>Ferruginous manganese ores are associated with hematite, goethite, limonite and other iron-bearing minerals.</p>
+            <table class="mock-table">
+              <tr><th>Method</th><th>Function</th><th>Limitation</th></tr>
+              <tr><td>Gravity</td><td>Density difference</td><td>Fine intergrowth</td></tr>
+              <tr><td>Magnetic</td><td>Magnetic susceptibility</td><td>Fe-Mn composite phases</td></tr>
+              <tr><td>Flotation</td><td>Surface chemistry</td><td>Similar surface behavior</td></tr>
+            </table>
+            <p>Gravity separation, magnetic separation and flotation have been applied, but their efficiency is strongly limited by dissemination size and mineral intergrowth.</p>
+            <div class="mock-figure">Table 1 · Physical beneficiation methods and limitations</div>
+            <p>A single physical beneficiation process usually cannot achieve sufficient Mn enrichment and Fe removal simultaneously.</p>
+          </div>
+        `;
+      }
+
+      return `
+        <div class="pdf-placeholder">
+          <h2>3. Mineralogical diagnosis</h2>
+          <p>Mineralogical diagnosis is essential before process selection. Manganese and iron may occur as independent minerals or as Fe-Mn composite oxides.</p>
+          <div class="mock-figure">Figure 2 · Fe-Mn composite oxides<br>5–10 μm fine intergrowth</div>
+          <p>Fine intergrowths of 5–10 μm are frequently observed and are difficult to liberate by ordinary grinding.</p>
+          <p>The origin of separation difficulty should be traced to mineral occurrence, dissemination size and phase transformation behavior.</p>
+        </div>
+      `;
+    }
+
+    function renderTranslationPage(paper, pageNo) {
+      const translations = normalizeList(paper.pageTranslations?.[pageNo]);
+      const figure = paper.pageFigures?.[pageNo];
+      const keyPoints = normalizeList(paper.pageKeyPoints?.[pageNo]);
+      const evidence = normalizeList(paper.originalEvidence?.[pageNo]);
+
+      return `
+        <article class="paper-page translation-page">
+          <h2>第 ${pageNo} 页译文</h2>
+          ${translations.map(t => `<p data-cn>${escapeHtml(t)}</p>`).join("") || `<p data-cn>暂无本页中文译文。请导入 AI 分析 JSON。</p>`}
+          ${figure ? `<div class="figure-note">图表说明：${escapeHtml(figure)}</div>` : ""}
+          <details class="evidence">
+            <summary>关键点与英文依据</summary>
+            <ul>
+              ${keyPoints.map(k => `<li><b>关键点：</b>${escapeHtml(k)}</li>`).join("")}
+              ${evidence.map(e => `<li><b>英文依据：</b>${escapeHtml(e)}</li>`).join("")}
+            </ul>
+          </details>
+          <div class="page-no">${pageNo}</div>
+        </article>
+      `;
+    }
+
+    function renderReader() {
+      const paper = currentPaper();
+      const pageCount = uploadedPdf ? uploadedPdf.numPages : Number(paper.pageCount || Object.keys(paper.pageTranslations || {}).length || 3);
+      els.pageTotal.textContent = pageCount;
+
+      const rows = [];
+      for (let i = 1; i <= pageCount; i++) {
+        rows.push(`
+          <div class="page-row" data-page="${i}">
+            <article class="paper-page pdf-page" data-pdf-page="${i}">
+              ${uploadedPdf ? `<div class="pdf-placeholder"><p>PDF 第 ${i} 页等待渲染...</p></div>` : mockPdfPage(i)}
+              <div class="page-no">${i}</div>
+            </article>
+            ${renderTranslationPage(paper, i)}
+          </div>
+        `);
+      }
+
+      els.readerInner.innerHTML = rows.join("");
+      renderedPages.clear();
+      renderVisiblePdfPages();
+    }
+
+    async function renderPdfPage(pageNo) {
+      if (!uploadedPdf || renderedPages.has(pageNo)) return;
+
+      const holder = document.querySelector(`[data-pdf-page="${pageNo}"]`);
+      if (!holder) return;
+
+      renderedPages.set(pageNo, true);
+
+      try {
+        const page = await uploadedPdf.getPage(pageNo);
+        const viewport = page.getViewport({ scale: 1.35 });
+        const canvas = document.createElement("canvas");
+        const context = canvas.getContext("2d");
+        canvas.width = viewport.width;
+        canvas.height = viewport.height;
+        holder.innerHTML = "";
+        holder.appendChild(canvas);
+
+        await page.render({
+          canvasContext: context,
+          viewport
+        }).promise;
+
+        const no = document.createElement("div");
+        no.className = "page-no";
+        no.textContent = pageNo;
+        holder.appendChild(no);
+      } catch (err) {
+        holder.innerHTML = `<div class="pdf-placeholder"><p>PDF 第 ${pageNo} 页渲染失败。</p></div><div class="page-no">${pageNo}</div>`;
+      }
+    }
+
+    function renderVisiblePdfPages() {
+      if (!uploadedPdf) return;
+
+      const rows = Array.from(document.querySelectorAll(".page-row"));
+      const readerRect = els.reader.getBoundingClientRect();
+
+      rows.forEach(row => {
+        const rect = row.getBoundingClientRect();
+        const pageNo = Number(row.dataset.page);
+        if (rect.bottom > readerRect.top - 800 && rect.top < readerRect.bottom + 1200) {
+          renderPdfPage(pageNo);
+        }
+      });
+
+      for (let i = 1; i <= Math.min(3, uploadedPdf.numPages); i++) {
+        renderPdfPage(i);
+      }
+    }
+
+    function renderAi() {
+      const paper = currentPaper();
+      const ai = paper.aiReading || {};
+
+      function list(items) {
+        return `<ul>${normalizeList(items).map(x => `<li>${escapeHtml(x)}</li>`).join("")}</ul>`;
+      }
+
+      els.aiGrid.innerHTML = `
+        <div class="box wide">
+          <h3>全文摘要</h3>
+          <p>${escapeHtml(ai.summary || "暂无全文摘要。")}</p>
+        </div>
+        <div class="box">
+          <h3>创新点</h3>
+          ${list(ai.innovation || [])}
+        </div>
+        <div class="box">
+          <h3>实验方法</h3>
+          <p>${escapeHtml(ai.methods || "暂无实验方法整理。")}</p>
+        </div>
+        <div class="box">
+          <h3>关键数据</h3>
+          ${list(ai.keyData || [])}
+        </div>
+        <div class="box">
+          <h3>工艺流程</h3>
+          <p>${escapeHtml(ai.process || "暂无工艺流程整理。")}</p>
+        </div>
+        <div class="box">
+          <h3>课题相关性</h3>
+          <p>${escapeHtml(ai.relevance || "暂无课题相关性分析。")}</p>
+        </div>
+        <div class="box">
+          <h3>适合综述引用的句子</h3>
+          <p>${escapeHtml(ai.quote || "暂无推荐引用句。")}</p>
+        </div>
+        <div class="box wide">
+          <h3>英文依据</h3>
+          ${list(Object.values(paper.originalEvidence || {}).flat())}
+        </div>
+      `;
+    }
+
+    function renderAll() {
+      renderLibrary();
+      renderReader();
+      renderAi();
+      els.paperSelect.value = currentPaperId;
+    }
+
+    function importJson() {
+      try {
+        const data = JSON.parse(els.jsonInput.value);
+        const imported = {
+          ...structuredClone(samplePaper),
+          ...data,
+          id: `paper-${Date.now()}`,
+          pageCount: data.pageCount || Object.keys(data.pageTranslations || {}).length || 3,
+          journalRank: data.journalRank || data.rank || {}
+        };
+
+        if (data.pageTranslations && !Array.isArray(data.pageTranslations[1])) {
+          Object.keys(data.pageTranslations).forEach(k => {
+            imported.pageTranslations[k] = normalizeList(data.pageTranslations[k]);
+          });
+        }
+
+        papers.push(imported);
+        currentPaperId = imported.id;
+        uploadedPdf = null;
+        renderAll();
+        showView("reader");
+        els.jsonStatus.textContent = "JSON 导入成功，已生成新文献。";
+        toast("JSON 导入成功。");
+      } catch (err) {
+        els.jsonStatus.textContent = `JSON 格式错误：${err.message}`;
+      }
+    }
+
+    async function loadPdf(file) {
+      if (!file) return;
+
+      try {
+        els.pdfStatus.textContent = `正在读取：${file.name}`;
+        const buffer = await file.arrayBuffer();
+        uploadedPdf = await pdfjsLib.getDocument({ data: buffer }).promise;
+
+        const paper = currentPaper();
+        paper.pageCount = uploadedPdf.numPages;
+
+        els.pdfStatus.textContent = `PDF 已载入：${file.name}，共 ${uploadedPdf.numPages} 页。`;
+        renderReader();
+        showView("reader");
+        toast("PDF 已载入，左侧开始用 PDF.js 渲染。");
+      } catch (err) {
+        els.pdfStatus.textContent = `PDF 读取失败：${err.message}`;
+      }
+    }
+
+    function searchChinese(q) {
+      const term = q.trim();
+      document.querySelectorAll("[data-cn]").forEach(p => {
+        const raw = p.dataset.raw || p.textContent;
+        p.dataset.raw = raw;
+
+        if (!term) {
+          p.textContent = raw;
+          return;
+        }
+
+        const safe = term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+        const re = new RegExp(safe, "gi");
+        p.innerHTML = raw.replace(re, match => `<span class="highlight">${match}</span>`);
+      });
+    }
+
+    function jumpToPage() {
+      const pageNo = Number(els.pageInput.value) || 1;
+      showView("reader");
+      setTimeout(() => {
+        const row = document.querySelector(`.page-row[data-page="${pageNo}"]`);
+        if (row) row.scrollIntoView({ behavior: "smooth", block: "start" });
+        else toast("没有找到该页码。");
+      }, 80);
+    }
+
+    function setZoom(delta) {
+      scale = Math.max(0.75, Math.min(1.35, scale + delta));
+      els.readerInner.style.transform = `scale(${scale})`;
+      els.zoomText.textContent = `${Math.round(scale * 100)}%`;
+    }
+
+    document.querySelectorAll(".nav button").forEach(btn => {
+      btn.addEventListener("click", () => showView(btn.dataset.view));
+    });
+
+    document.querySelectorAll("[data-view-btn]").forEach(btn => {
+      btn.addEventListener("click", () => showView(btn.dataset.viewBtn));
+    });
+
+    els.paperSelect.addEventListener("change", () => {
+      currentPaperId = els.paperSelect.value;
+      uploadedPdf = null;
+      renderAll();
+    });
+
+    document.getElementById("jumpBtn").addEventListener("click", jumpToPage);
+    document.getElementById("zoomOut").addEventListener("click", () => setZoom(-0.08));
+    document.getElementById("zoomIn").addEventListener("click", () => setZoom(0.08));
+    document.getElementById("importJsonBtn").addEventListener("click", importJson);
+    document.getElementById("resetBtn").addEventListener("click", () => {
+      papers = [structuredClone(samplePaper)];
+      currentPaperId = papers[0].id;
+      uploadedPdf = null;
+      renderAll();
+      showView("library");
+      toast("已恢复示例文献。");
+    });
+
+    els.searchInput.addEventListener("input", () => searchChinese(els.searchInput.value));
+    els.reader.addEventListener("scroll", renderVisiblePdfPages);
+    els.pdfInput.addEventListener("change", e => loadPdf(e.target.files?.[0]));
+
+    renderAll();
+  </script>
 </body>
 </html>
