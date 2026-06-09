@@ -5,14 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>低品位锰矿文献工作台</title>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs" type="module"></script>
-
   <style>
     :root {
       --bg: #f4f6f5;
       --panel: #ffffff;
       --paper: #ffffff;
-      --ink: #1f2933;
+      --ink: #17212b;
       --text: #344054;
       --muted: #667085;
       --line: #d8dedb;
@@ -22,7 +20,11 @@
       --green-soft: #e8f1ed;
       --amber: #b87916;
       --amber-soft: #fff3d6;
+      --blue-gray: #41546b;
+      --blue-soft: #edf2f7;
       --shadow: 0 8px 22px rgba(15, 23, 42, 0.08);
+      --sidebar-width: 310px;
+      --left-col: 50%;
     }
 
     * {
@@ -31,38 +33,83 @@
 
     body {
       margin: 0;
+      height: 100vh;
+      overflow: hidden;
       background: var(--bg);
       color: var(--ink);
       font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans CJK SC", Arial, sans-serif;
     }
 
-    button, input, select, textarea {
+    button,
+    input,
+    select,
+    textarea {
       font-family: inherit;
     }
 
     .app {
       height: 100vh;
       display: grid;
-      grid-template-columns: 310px minmax(0, 1fr);
+      grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
       overflow: hidden;
+      transition: grid-template-columns 0.16s ease;
+    }
+
+    .app.reading {
+      --sidebar-width: 68px;
     }
 
     .sidebar {
+      position: relative;
       background: var(--panel);
       border-right: 1px solid var(--line);
       display: flex;
       flex-direction: column;
       min-width: 0;
+      overflow: hidden;
+    }
+
+    .sidebar-resizer {
+      position: absolute;
+      top: 0;
+      right: -3px;
+      width: 6px;
+      height: 100%;
+      cursor: col-resize;
+      z-index: 6;
+    }
+
+    .sidebar-resizer:hover {
+      background: rgba(47, 111, 94, 0.16);
     }
 
     .brand {
-      height: 64px;
+      height: 62px;
       display: flex;
       align-items: center;
       gap: 10px;
-      padding: 0 16px;
+      padding: 0 12px;
       border-bottom: 1px solid var(--line-soft);
       flex-shrink: 0;
+      min-width: 0;
+    }
+
+    .toggle-side {
+      width: 36px;
+      height: 36px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: #fff;
+      color: var(--green-dark);
+      font-size: 18px;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+    }
+
+    .toggle-side:hover {
+      background: var(--green-soft);
     }
 
     .logo {
@@ -74,6 +121,11 @@
       display: grid;
       place-items: center;
       font-weight: 800;
+      flex-shrink: 0;
+    }
+
+    .brand-text {
+      min-width: 0;
     }
 
     .brand-title {
@@ -89,12 +141,30 @@
       color: var(--muted);
       font-size: 12px;
       margin-top: 3px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .app.reading .brand-text,
+    .app.reading .sidebar-content,
+    .app.reading .nav-label {
+      display: none;
+    }
+
+    .app.reading .brand {
+      justify-content: center;
+      padding: 0;
+    }
+
+    .app.reading .logo {
+      display: none;
     }
 
     .nav {
       display: grid;
       gap: 7px;
-      padding: 12px;
+      padding: 10px;
       border-bottom: 1px solid var(--line-soft);
       flex-shrink: 0;
     }
@@ -109,6 +179,16 @@
       padding: 0 11px;
       cursor: pointer;
       font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .app.reading .nav button {
+      justify-content: center;
+      padding: 0;
+      font-size: 16px;
     }
 
     .nav button:hover {
@@ -138,7 +218,7 @@
     }
 
     .paper-card h3 {
-      margin: 0 0 7px;
+      margin: 0 0 8px;
       font-size: 14px;
       line-height: 1.45;
       color: #182230;
@@ -152,6 +232,42 @@
       margin-bottom: 10px;
     }
 
+    .rank-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin: 8px 0 10px;
+    }
+
+    .rank-badge {
+      display: inline-flex;
+      align-items: center;
+      height: 25px;
+      border-radius: 999px;
+      padding: 0 9px;
+      font-size: 12px;
+      font-weight: 800;
+      border: 1px solid transparent;
+    }
+
+    .rank-if {
+      color: #6b4b14;
+      background: var(--amber-soft);
+      border-color: #eccb84;
+    }
+
+    .rank-cas {
+      color: var(--green-dark);
+      background: var(--green-soft);
+      border-color: #b8d2c8;
+    }
+
+    .rank-jcr {
+      color: #31435a;
+      background: var(--blue-soft);
+      border-color: #c9d5e3;
+    }
+
     .meta {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -159,7 +275,7 @@
       color: var(--muted);
       font-size: 12px;
       line-height: 1.45;
-      margin: 10px 0;
+      margin: 8px 0;
     }
 
     .meta span {
@@ -205,7 +321,8 @@
 
     .primary,
     .secondary,
-    .tool-btn {
+    .tool-btn,
+    .mode-btn {
       border-radius: 6px;
       height: 34px;
       padding: 0 11px;
@@ -230,7 +347,8 @@
     }
 
     .secondary,
-    .tool-btn {
+    .tool-btn,
+    .mode-btn {
       background: white;
       color: var(--text);
       border: 1px solid var(--line);
@@ -238,8 +356,16 @@
     }
 
     .secondary:hover,
-    .tool-btn:hover {
+    .tool-btn:hover,
+    .mode-btn:hover {
       background: #f7faf8;
+    }
+
+    .mode-btn.active {
+      background: var(--green-soft);
+      border-color: #bdd4ca;
+      color: var(--green-dark);
+      font-weight: 800;
     }
 
     .main {
@@ -250,13 +376,13 @@
     }
 
     .toolbar {
-      height: 64px;
+      height: 58px;
       background: white;
       border-bottom: 1px solid var(--line);
       display: flex;
       align-items: center;
-      gap: 9px;
-      padding: 0 14px;
+      gap: 8px;
+      padding: 0 12px;
       min-width: 0;
       flex-shrink: 0;
     }
@@ -275,16 +401,16 @@
     }
 
     .paper-select {
-      width: 310px;
+      width: 300px;
     }
 
     .page-input {
-      width: 68px;
+      width: 66px;
       text-align: center;
     }
 
     .search-input {
-      width: 190px;
+      width: 180px;
     }
 
     .tool-group {
@@ -301,13 +427,20 @@
       padding: 0 9px;
     }
 
+    .mode-group {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      flex-shrink: 0;
+    }
+
     .spacer {
       flex: 1;
     }
 
     .view {
       display: none;
-      height: calc(100vh - 64px);
+      height: calc(100vh - 58px);
       min-height: 0;
     }
 
@@ -384,7 +517,7 @@
       max-width: 1120px;
       margin: 0 auto;
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 14px;
     }
 
@@ -392,8 +525,8 @@
       background: white;
       border: 1px dashed #9eb8ae;
       border-radius: 8px;
-      padding: 18px;
-      min-height: 220px;
+      padding: 16px;
+      min-height: 230px;
     }
 
     .drop h3 {
@@ -434,7 +567,7 @@
       height: 100%;
       overflow: auto;
       background: #edf1ef;
-      padding: 18px;
+      padding: 14px;
     }
 
     .reader-inner {
@@ -443,12 +576,37 @@
     }
 
     .page-row {
-      max-width: 1280px;
-      margin: 0 auto 20px;
+      max-width: 1600px;
+      margin: 0 auto 18px;
       display: grid;
-      grid-template-columns: minmax(350px, 1fr) minmax(350px, 1fr);
-      gap: 18px;
+      grid-template-columns: minmax(300px, var(--left-col)) 10px minmax(300px, 1fr);
+      gap: 14px;
       align-items: start;
+    }
+
+    .pane-resizer {
+      width: 10px;
+      min-height: 120px;
+      align-self: stretch;
+      cursor: col-resize;
+      position: relative;
+    }
+
+    .pane-resizer::before {
+      content: "";
+      position: sticky;
+      top: 80px;
+      display: block;
+      width: 4px;
+      height: 70vh;
+      margin: 0 auto;
+      border-radius: 999px;
+      background: transparent;
+      transition: background 0.12s;
+    }
+
+    .pane-resizer:hover::before {
+      background: rgba(47, 111, 94, 0.28);
     }
 
     .paper-page {
@@ -622,34 +780,21 @@
       display: block;
     }
 
-    @media (max-width: 980px) {
-      .app {
+    .empty-pdf {
+      width: 100%;
+      height: 100%;
+      padding: 34px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.8;
+    }
+
+    @media (max-width: 1100px) {
+      .upload-grid {
         grid-template-columns: 1fr;
-      }
-
-      .sidebar {
-        height: 170px;
-        border-right: 0;
-        border-bottom: 1px solid var(--line);
-      }
-
-      .sidebar-content {
-        display: none;
-      }
-
-      .nav {
-        grid-template-columns: repeat(4, 1fr);
-        padding: 8px;
-      }
-
-      .nav button {
-        text-align: center;
-        padding: 0 4px;
-      }
-
-      .toolbar {
-        overflow-x: auto;
-        gap: 7px;
       }
 
       .paper-select {
@@ -657,16 +802,94 @@
       }
 
       .search-input {
-        width: 160px;
+        width: 150px;
+      }
+    }
+
+    @media (max-width: 840px) {
+      body {
+        overflow: auto;
+      }
+
+      .app,
+      .app.reading {
+        height: auto;
+        min-height: 100vh;
+        display: block;
+      }
+
+      .sidebar {
+        height: auto;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .sidebar-resizer {
+        display: none;
+      }
+
+      .brand-text,
+      .sidebar-content,
+      .nav-label,
+      .app.reading .brand-text,
+      .app.reading .sidebar-content,
+      .app.reading .nav-label {
+        display: block;
+      }
+
+      .brand {
+        justify-content: flex-start;
+      }
+
+      .app.reading .logo {
+        display: grid;
+      }
+
+      .nav {
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      .nav button,
+      .app.reading .nav button {
+        justify-content: center;
+        font-size: 13px;
+      }
+
+      .sidebar-content {
+        display: none !important;
+      }
+
+      .main {
+        height: auto;
+      }
+
+      .toolbar {
+        height: auto;
+        min-height: 72px;
+        flex-wrap: wrap;
+        padding: 8px;
+      }
+
+      .view {
+        height: auto;
+        min-height: calc(100vh - 160px);
+      }
+
+      .reader {
+        min-height: calc(100vh - 160px);
       }
 
       .page-row {
+        display: grid;
         grid-template-columns: 1fr;
         gap: 12px;
       }
 
-      .grid,
-      .upload-grid {
+      .pane-resizer {
+        display: none;
+      }
+
+      .grid {
         grid-template-columns: 1fr;
       }
 
@@ -674,63 +897,28 @@
         grid-column: auto;
       }
     }
-
-    @media (max-width: 560px) {
-      .brand {
-        height: 58px;
-      }
-
-      .nav {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .sidebar {
-        height: 190px;
-      }
-
-      .toolbar {
-        height: 78px;
-        flex-wrap: wrap;
-        align-content: center;
-      }
-
-      .view {
-        height: calc(100vh - 78px);
-      }
-
-      .translation-page,
-      .pdf-placeholder {
-        padding: 26px 26px 38px;
-      }
-
-      .translation-page h2 {
-        font-size: 15px;
-      }
-
-      .translation-page p {
-        font-size: 12px;
-        line-height: 1.85;
-      }
-    }
   </style>
 </head>
 
 <body>
-  <div class="app">
-    <aside class="sidebar">
+  <div class="app" id="app">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-resizer" id="sidebarResizer"></div>
+
       <div class="brand">
+        <button class="toggle-side" id="toggleSidebar" title="展开/收起侧栏">☰</button>
         <div class="logo">Mn</div>
-        <div>
+        <div class="brand-text">
           <div class="brand-title">低品位锰矿文献工作台</div>
           <div class="brand-subtitle">中英文对照阅读 · 分离与富集</div>
         </div>
       </div>
 
       <nav class="nav">
-        <button class="active" data-view="library">▦ 文献库</button>
-        <button data-view="upload">⇧ 上传/导入</button>
-        <button data-view="reader">◫ 对照阅读</button>
-        <button data-view="ai">◎ 精读结果</button>
+        <button class="active" data-view="library">▦ <span class="nav-label">文献库</span></button>
+        <button data-view="upload">⇧ <span class="nav-label">上传/导入</span></button>
+        <button data-view="reader">◫ <span class="nav-label">对照阅读</span></button>
+        <button data-view="ai">◎ <span class="nav-label">精读结果</span></button>
       </nav>
 
       <div class="sidebar-content">
@@ -756,9 +944,14 @@
           <button class="tool-btn" id="zoomIn">＋</button>
         </div>
 
+        <div class="mode-group">
+          <button class="mode-btn active" id="modePdf">译文 PDF</button>
+          <button class="mode-btn" id="modeJson">JSON 译文</button>
+        </div>
+
         <div class="spacer"></div>
 
-        <input id="searchInput" class="search-input" placeholder="搜索中文译文" />
+        <input id="searchInput" class="search-input" placeholder="搜索 JSON 译文" />
         <button class="secondary" data-view-btn="ai">◎ 精读结果</button>
       </div>
 
@@ -767,7 +960,7 @@
           <div class="panel-head">
             <div>
               <h2>文献库</h2>
-              <p>管理英文 PDF、中文译文、图表说明、关键点和英文依据。当前内置一篇示例文献。</p>
+              <p>管理英文 PDF、中文译文 PDF、AI 精读 JSON。阅读器可在“译文 PDF”和“JSON 译文”之间切换。</p>
             </div>
             <button class="primary" data-view-btn="upload">⇧ 上传/导入</button>
           </div>
@@ -781,21 +974,28 @@
           <div class="panel-head">
             <div>
               <h2>上传 / 导入</h2>
-              <p>PDF 用于左侧原文页；JSON 用于右侧译文、图表说明、关键点和精读结果。第一版不接 API。</p>
+              <p>英文 PDF 负责左侧原文页；中文 PDF 负责右侧译文版式；JSON 负责精读结果和可搜索译文。</p>
             </div>
           </div>
 
           <div class="upload-grid">
             <div class="drop">
-              <h3>📄 上传英文 PDF</h3>
-              <p>上传后左侧阅读页会用 PDF.js 渲染，不使用 iframe、embed 或 object。当前页面会先渲染前几页。</p>
-              <input id="pdfInput" type="file" accept="application/pdf" />
-              <div id="pdfStatus" class="small-note"></div>
+              <h3>📄 上传英文原文 PDF</h3>
+              <p>用于左侧原文页。PDF.js 渲染，不使用 iframe、embed 或 object。</p>
+              <input id="sourcePdfInput" type="file" accept="application/pdf" />
+              <div id="sourcePdfStatus" class="small-note"></div>
             </div>
 
             <div class="drop">
-              <h3>{ } 导入 AI 分析 JSON</h3>
-              <p>支持字段：title, titleCn, journal, year, doi, journalRank, tags, pageTranslations, pageFigures, pageKeyPoints, originalEvidence, readingAnchors。</p>
+              <h3>📘 上传中文翻译 PDF</h3>
+              <p>用于右侧“译文 PDF”模式。适合保留中文翻译页的排版、图表、公式和分页。</p>
+              <input id="translationPdfInput" type="file" accept="application/pdf" />
+              <div id="translationPdfStatus" class="small-note"></div>
+            </div>
+
+            <div class="drop">
+              <h3>{ } 导入 AI 精读 JSON</h3>
+              <p>用于“JSON 译文”和精读结果，不强求与 PDF 版式完全一致。</p>
               <textarea id="jsonInput">{
   "title": "Extraction and separation of manganese and iron from ferruginous manganese ores: A review",
   "titleCn": "铁质锰矿中锰和铁的提取与分离：综述",
@@ -803,15 +1003,15 @@
   "year": 2019,
   "doi": "10.1016/j.mineng.2018.11.016",
   "journalRank": {
+    "IF": "5.0",
     "CAS": "2区",
-    "JCR": "Q1",
-    "IF": "5.0"
+    "JCR": "Q1"
   },
   "tags": ["矿物学诊断", "磁选", "焙烧", "酸浸", "Fe/S/Mn内源还原", "工程放大", "环境约束"],
   "pageTranslations": {
-    "1": "铁质锰矿资源背景：中国 73% 以上锰矿属于低 Mn/Fe 比铁质锰矿，锰合金生产通常要求 Mn > 30%、Mn/Fe > 5。",
-    "2": "资源分布和物理分选局限：重选、磁选、浮选难以单独分离 Mn 和 Fe。",
-    "3": "矿物学诊断：Fe-Mn 复合氧化物、5-10 μm 细粒共生是分离困难根源。"
+    "1": ["铁质锰矿资源背景：中国 73% 以上锰矿属于低 Mn/Fe 比铁质锰矿，锰合金生产通常要求 Mn > 30%、Mn/Fe > 5。"],
+    "2": ["资源分布和物理分选局限：重选、磁选、浮选难以单独分离 Mn 和 Fe。"],
+    "3": ["矿物学诊断：Fe-Mn 复合氧化物、5-10 μm 细粒共生是分离困难根源。"]
   }
 }</textarea>
 
@@ -836,7 +1036,7 @@
           <div class="panel-head">
             <div>
               <h2>AI 精读结果</h2>
-              <p>这里只展示已导入 JSON 或内置示例中的分析结果，不调用实时 AI。</p>
+              <p>展示已导入 JSON 或内置示例中的结构化结果，不调用实时 AI。</p>
             </div>
             <button class="primary" data-view-btn="reader">◫ 回到对照阅读</button>
           </div>
@@ -861,9 +1061,9 @@
       year: "2019",
       doi: "10.1016/j.mineng.2018.11.016",
       journalRank: {
+        IF: "5.0",
         CAS: "2区",
-        JCR: "Q1",
-        IF: "5.0"
+        JCR: "Q1"
       },
       tags: ["矿物学诊断", "磁选", "焙烧", "酸浸", "Fe/S/Mn内源还原", "工程放大", "环境约束"],
       pageCount: 3,
@@ -918,11 +1118,16 @@
 
     let papers = [structuredClone(samplePaper)];
     let currentPaperId = papers[0].id;
+    let sourcePdf = null;
+    let translationPdf = null;
+    let rightMode = "json";
     let scale = 1;
-    let uploadedPdf = null;
-    let renderedPages = new Map();
+    let rendered = new Set();
+    let sidebarExpandedBeforeReading = true;
 
     const els = {
+      app: document.getElementById("app"),
+      sidebar: document.getElementById("sidebar"),
       sidebarPapers: document.getElementById("sidebarPapers"),
       libraryGrid: document.getElementById("libraryGrid"),
       paperSelect: document.getElementById("paperSelect"),
@@ -933,11 +1138,15 @@
       zoomText: document.getElementById("zoomText"),
       searchInput: document.getElementById("searchInput"),
       toast: document.getElementById("toast"),
-      pdfInput: document.getElementById("pdfInput"),
-      pdfStatus: document.getElementById("pdfStatus"),
+      sourcePdfInput: document.getElementById("sourcePdfInput"),
+      sourcePdfStatus: document.getElementById("sourcePdfStatus"),
+      translationPdfInput: document.getElementById("translationPdfInput"),
+      translationPdfStatus: document.getElementById("translationPdfStatus"),
       jsonInput: document.getElementById("jsonInput"),
       jsonStatus: document.getElementById("jsonStatus"),
-      aiGrid: document.getElementById("aiGrid")
+      aiGrid: document.getElementById("aiGrid"),
+      modePdf: document.getElementById("modePdf"),
+      modeJson: document.getElementById("modeJson")
     };
 
     function currentPaper() {
@@ -968,28 +1177,41 @@
     function showView(name) {
       document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
       document.getElementById(`view-${name}`).classList.add("active");
+
       document.querySelectorAll(".nav button").forEach(b => {
         b.classList.toggle("active", b.dataset.view === name);
       });
+
       if (name === "reader") {
-        setTimeout(() => {
-          renderVisiblePdfPages();
-        }, 120);
+        els.app.classList.add("reading");
+        setTimeout(renderVisiblePdfPages, 120);
+      } else {
+        els.app.classList.remove("reading");
       }
+    }
+
+    function rankBadges(paper) {
+      const rank = paper.journalRank || {};
+      return `
+        <div class="rank-row">
+          <span class="rank-badge rank-if">IF ${escapeHtml(rank.IF || "-")}</span>
+          <span class="rank-badge rank-cas">CAS ${escapeHtml(rank.CAS || "-")}</span>
+          <span class="rank-badge rank-jcr">JCR ${escapeHtml(rank.JCR || "-")}</span>
+        </div>
+      `;
     }
 
     function renderPaperCard(paper) {
       const tags = normalizeList(paper.tags).map(tag => `<span class="tag">${escapeHtml(tag)}</span>`).join("");
+
       return `
         <div class="paper-card">
           <h3>${escapeHtml(paper.title)}</h3>
           <div class="cn-title">${escapeHtml(paper.titleCn)}</div>
+          ${rankBadges(paper)}
           <div class="meta">
             <span><b>期刊</b>${escapeHtml(paper.journal || "-")}</span>
             <span><b>年份</b>${escapeHtml(paper.year || "-")}</span>
-            <span><b>CAS</b>${escapeHtml(paper.journalRank?.CAS || "-")}</span>
-            <span><b>JCR</b>${escapeHtml(paper.journalRank?.JCR || "-")}</span>
-            <span><b>IF</b>${escapeHtml(paper.journalRank?.IF || "-")}</span>
             <span class="doi"><b>DOI</b>${escapeHtml(paper.doi || "-")}</span>
           </div>
           <div class="tags">${tags}</div>
@@ -1000,6 +1222,7 @@
 
     function renderLibrary() {
       els.sidebarPapers.innerHTML = papers.map(renderPaperCard).join("");
+
       els.libraryGrid.innerHTML = papers.map(paper => `
         <div class="box wide">
           ${renderPaperCard(paper)}
@@ -1021,7 +1244,19 @@
       });
     }
 
-    function mockPdfPage(pageNo) {
+    function mockPdfPage(pageNo, type = "source") {
+      if (type === "translation") {
+        return `
+          <div class="empty-pdf">
+            <div>
+              <b>未上传中文翻译 PDF</b><br>
+              当前可切换到“JSON 译文”查看结构化中文页。<br>
+              上传中文 PDF 后这里会逐页显示翻译 PDF。
+            </div>
+          </div>
+        `;
+      }
+
       if (pageNo === 1) {
         return `
           <div class="pdf-placeholder">
@@ -1067,7 +1302,7 @@
       `;
     }
 
-    function renderTranslationPage(paper, pageNo) {
+    function renderTranslationJsonPage(paper, pageNo) {
       const translations = normalizeList(paper.pageTranslations?.[pageNo]);
       const figure = paper.pageFigures?.[pageNo];
       const keyPoints = normalizeList(paper.pageKeyPoints?.[pageNo]);
@@ -1075,10 +1310,10 @@
 
       return `
         <article class="paper-page translation-page">
-          <h2>第 ${pageNo} 页译文</h2>
-          ${translations.map(t => `<p data-cn>${escapeHtml(t)}</p>`).join("") || `<p data-cn>暂无本页中文译文。请导入 AI 分析 JSON。</p>`}
+          <h2>第 ${pageNo} 页 JSON 译文</h2>
+          ${translations.map(t => `<p data-cn>${escapeHtml(t)}</p>`).join("") || `<p data-cn>暂无本页中文译文。请导入 AI 精读 JSON。</p>`}
           ${figure ? `<div class="figure-note">图表说明：${escapeHtml(figure)}</div>` : ""}
-          <details class="evidence">
+          <details class="evidence" open>
             <summary>关键点与英文依据</summary>
             <ul>
               ${keyPoints.map(k => `<li><b>关键点：</b>${escapeHtml(k)}</li>`).join("")}
@@ -1092,42 +1327,62 @@
 
     function renderReader() {
       const paper = currentPaper();
-      const pageCount = uploadedPdf ? uploadedPdf.numPages : Number(paper.pageCount || Object.keys(paper.pageTranslations || {}).length || 3);
+      const pageCount = Math.max(
+        sourcePdf?.numPages || 0,
+        translationPdf?.numPages || 0,
+        Number(paper.pageCount || Object.keys(paper.pageTranslations || {}).length || 3)
+      );
+
       els.pageTotal.textContent = pageCount;
 
       const rows = [];
+
       for (let i = 1; i <= pageCount; i++) {
-        rows.push(`
-          <div class="page-row" data-page="${i}">
-            <article class="paper-page pdf-page" data-pdf-page="${i}">
-              ${uploadedPdf ? `<div class="pdf-placeholder"><p>PDF 第 ${i} 页等待渲染...</p></div>` : mockPdfPage(i)}
+        let rightHtml;
+
+        if (rightMode === "pdf") {
+          rightHtml = `
+            <article class="paper-page pdf-page" data-render-type="translation" data-pdf-page="${i}">
+              ${translationPdf ? `<div class="empty-pdf">中文 PDF 第 ${i} 页等待渲染...</div>` : mockPdfPage(i, "translation")}
               <div class="page-no">${i}</div>
             </article>
-            ${renderTranslationPage(paper, i)}
+          `;
+        } else {
+          rightHtml = renderTranslationJsonPage(paper, i);
+        }
+
+        rows.push(`
+          <div class="page-row" data-page="${i}">
+            <article class="paper-page pdf-page" data-render-type="source" data-pdf-page="${i}">
+              ${sourcePdf ? `<div class="empty-pdf">英文 PDF 第 ${i} 页等待渲染...</div>` : mockPdfPage(i, "source")}
+              <div class="page-no">${i}</div>
+            </article>
+            <div class="pane-resizer" title="拖动调整左右页面宽度"></div>
+            ${rightHtml}
           </div>
         `);
       }
 
       els.readerInner.innerHTML = rows.join("");
-      renderedPages.clear();
+      rendered.clear();
+      bindPaneResizers();
       renderVisiblePdfPages();
+      searchChinese(els.searchInput.value);
     }
 
-    async function renderPdfPage(pageNo) {
-      if (!uploadedPdf || renderedPages.has(pageNo)) return;
+    async function renderPdfPage(pdf, holder, key, pageNo) {
+      if (!pdf || rendered.has(key) || pageNo > pdf.numPages) return;
 
-      const holder = document.querySelector(`[data-pdf-page="${pageNo}"]`);
-      if (!holder) return;
-
-      renderedPages.set(pageNo, true);
+      rendered.add(key);
 
       try {
-        const page = await uploadedPdf.getPage(pageNo);
-        const viewport = page.getViewport({ scale: 1.35 });
+        const page = await pdf.getPage(pageNo);
+        const viewport = page.getViewport({ scale: 1.45 });
         const canvas = document.createElement("canvas");
         const context = canvas.getContext("2d");
         canvas.width = viewport.width;
         canvas.height = viewport.height;
+
         holder.innerHTML = "";
         holder.appendChild(canvas);
 
@@ -1141,26 +1396,39 @@
         no.textContent = pageNo;
         holder.appendChild(no);
       } catch (err) {
-        holder.innerHTML = `<div class="pdf-placeholder"><p>PDF 第 ${pageNo} 页渲染失败。</p></div><div class="page-no">${pageNo}</div>`;
+        holder.innerHTML = `<div class="empty-pdf">第 ${pageNo} 页渲染失败。</div><div class="page-no">${pageNo}</div>`;
       }
     }
 
     function renderVisiblePdfPages() {
-      if (!uploadedPdf) return;
-
       const rows = Array.from(document.querySelectorAll(".page-row"));
       const readerRect = els.reader.getBoundingClientRect();
 
       rows.forEach(row => {
         const rect = row.getBoundingClientRect();
         const pageNo = Number(row.dataset.page);
-        if (rect.bottom > readerRect.top - 800 && rect.top < readerRect.bottom + 1200) {
-          renderPdfPage(pageNo);
+
+        if (rect.bottom > readerRect.top - 900 && rect.top < readerRect.bottom + 1400) {
+          const sourceHolder = row.querySelector('[data-render-type="source"]');
+          if (sourceHolder && sourcePdf) {
+            renderPdfPage(sourcePdf, sourceHolder, `source-${pageNo}`, pageNo);
+          }
+
+          const transHolder = row.querySelector('[data-render-type="translation"]');
+          if (transHolder && translationPdf && rightMode === "pdf") {
+            renderPdfPage(translationPdf, transHolder, `translation-${pageNo}`, pageNo);
+          }
         }
       });
 
-      for (let i = 1; i <= Math.min(3, uploadedPdf.numPages); i++) {
-        renderPdfPage(i);
+      for (let i = 1; i <= Math.min(3, sourcePdf?.numPages || 0); i++) {
+        const h = document.querySelector(`[data-render-type="source"][data-pdf-page="${i}"]`);
+        if (h) renderPdfPage(sourcePdf, h, `source-${i}`, i);
+      }
+
+      for (let i = 1; i <= Math.min(3, translationPdf?.numPages || 0); i++) {
+        const h = document.querySelector(`[data-render-type="translation"][data-pdf-page="${i}"]`);
+        if (h && rightMode === "pdf") renderPdfPage(translationPdf, h, `translation-${i}`, i);
       }
     }
 
@@ -1213,6 +1481,8 @@
       renderReader();
       renderAi();
       els.paperSelect.value = currentPaperId;
+      els.modePdf.classList.toggle("active", rightMode === "pdf");
+      els.modeJson.classList.toggle("active", rightMode === "json");
     }
 
     function importJson() {
@@ -1226,7 +1496,7 @@
           journalRank: data.journalRank || data.rank || {}
         };
 
-        if (data.pageTranslations && !Array.isArray(data.pageTranslations[1])) {
+        if (data.pageTranslations) {
           Object.keys(data.pageTranslations).forEach(k => {
             imported.pageTranslations[k] = normalizeList(data.pageTranslations[k]);
           });
@@ -1234,7 +1504,6 @@
 
         papers.push(imported);
         currentPaperId = imported.id;
-        uploadedPdf = null;
         renderAll();
         showView("reader");
         els.jsonStatus.textContent = "JSON 导入成功，已生成新文献。";
@@ -1244,28 +1513,36 @@
       }
     }
 
-    async function loadPdf(file) {
+    async function loadPdf(file, type) {
       if (!file) return;
 
+      const status = type === "source" ? els.sourcePdfStatus : els.translationPdfStatus;
+
       try {
-        els.pdfStatus.textContent = `正在读取：${file.name}`;
+        status.textContent = `正在读取：${file.name}`;
         const buffer = await file.arrayBuffer();
-        uploadedPdf = await pdfjsLib.getDocument({ data: buffer }).promise;
+        const pdf = await pdfjsLib.getDocument({ data: buffer }).promise;
 
-        const paper = currentPaper();
-        paper.pageCount = uploadedPdf.numPages;
+        if (type === "source") {
+          sourcePdf = pdf;
+          status.textContent = `英文 PDF 已载入：${file.name}，共 ${pdf.numPages} 页。`;
+        } else {
+          translationPdf = pdf;
+          rightMode = "pdf";
+          status.textContent = `中文翻译 PDF 已载入：${file.name}，共 ${pdf.numPages} 页。`;
+        }
 
-        els.pdfStatus.textContent = `PDF 已载入：${file.name}，共 ${uploadedPdf.numPages} 页。`;
-        renderReader();
+        renderAll();
         showView("reader");
-        toast("PDF 已载入，左侧开始用 PDF.js 渲染。");
+        toast(type === "source" ? "英文 PDF 已载入。" : "中文翻译 PDF 已载入，右侧已切换为译文 PDF。");
       } catch (err) {
-        els.pdfStatus.textContent = `PDF 读取失败：${err.message}`;
+        status.textContent = `PDF 读取失败：${err.message}`;
       }
     }
 
     function searchChinese(q) {
       const term = q.trim();
+
       document.querySelectorAll("[data-cn]").forEach(p => {
         const raw = p.dataset.raw || p.textContent;
         p.dataset.raw = raw;
@@ -1284,6 +1561,7 @@
     function jumpToPage() {
       const pageNo = Number(els.pageInput.value) || 1;
       showView("reader");
+
       setTimeout(() => {
         const row = document.querySelector(`.page-row[data-page="${pageNo}"]`);
         if (row) row.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -1292,9 +1570,55 @@
     }
 
     function setZoom(delta) {
-      scale = Math.max(0.75, Math.min(1.35, scale + delta));
+      scale = Math.max(0.72, Math.min(1.35, scale + delta));
       els.readerInner.style.transform = `scale(${scale})`;
       els.zoomText.textContent = `${Math.round(scale * 100)}%`;
+    }
+
+    function bindPaneResizers() {
+      document.querySelectorAll(".pane-resizer").forEach(handle => {
+        handle.addEventListener("pointerdown", event => {
+          event.preventDefault();
+          const row = handle.closest(".page-row");
+          const rect = row.getBoundingClientRect();
+
+          function move(e) {
+            const pct = ((e.clientX - rect.left) / rect.width) * 100;
+            const clamped = Math.max(34, Math.min(66, pct));
+            document.documentElement.style.setProperty("--left-col", `${clamped}%`);
+          }
+
+          function up() {
+            window.removeEventListener("pointermove", move);
+            window.removeEventListener("pointerup", up);
+          }
+
+          window.addEventListener("pointermove", move);
+          window.addEventListener("pointerup", up);
+        });
+      });
+    }
+
+    function bindSidebarResize() {
+      const handle = document.getElementById("sidebarResizer");
+
+      handle.addEventListener("pointerdown", event => {
+        event.preventDefault();
+        els.app.classList.remove("reading");
+
+        function move(e) {
+          const width = Math.max(220, Math.min(430, e.clientX));
+          document.documentElement.style.setProperty("--sidebar-width", `${width}px`);
+        }
+
+        function up() {
+          window.removeEventListener("pointermove", move);
+          window.removeEventListener("pointerup", up);
+        }
+
+        window.addEventListener("pointermove", move);
+        window.addEventListener("pointerup", up);
+      });
     }
 
     document.querySelectorAll(".nav button").forEach(btn => {
@@ -1305,29 +1629,51 @@
       btn.addEventListener("click", () => showView(btn.dataset.viewBtn));
     });
 
+    document.getElementById("toggleSidebar").addEventListener("click", () => {
+      els.app.classList.toggle("reading");
+    });
+
     els.paperSelect.addEventListener("change", () => {
       currentPaperId = els.paperSelect.value;
-      uploadedPdf = null;
       renderAll();
     });
 
     document.getElementById("jumpBtn").addEventListener("click", jumpToPage);
     document.getElementById("zoomOut").addEventListener("click", () => setZoom(-0.08));
     document.getElementById("zoomIn").addEventListener("click", () => setZoom(0.08));
+
     document.getElementById("importJsonBtn").addEventListener("click", importJson);
+
     document.getElementById("resetBtn").addEventListener("click", () => {
       papers = [structuredClone(samplePaper)];
       currentPaperId = papers[0].id;
-      uploadedPdf = null;
+      sourcePdf = null;
+      translationPdf = null;
+      rightMode = "json";
       renderAll();
       showView("library");
       toast("已恢复示例文献。");
     });
 
+    els.modePdf.addEventListener("click", () => {
+      rightMode = "pdf";
+      renderAll();
+      showView("reader");
+    });
+
+    els.modeJson.addEventListener("click", () => {
+      rightMode = "json";
+      renderAll();
+      showView("reader");
+    });
+
     els.searchInput.addEventListener("input", () => searchChinese(els.searchInput.value));
     els.reader.addEventListener("scroll", renderVisiblePdfPages);
-    els.pdfInput.addEventListener("change", e => loadPdf(e.target.files?.[0]));
 
+    els.sourcePdfInput.addEventListener("change", e => loadPdf(e.target.files?.[0], "source"));
+    els.translationPdfInput.addEventListener("change", e => loadPdf(e.target.files?.[0], "translation"));
+
+    bindSidebarResize();
     renderAll();
   </script>
 </body>
