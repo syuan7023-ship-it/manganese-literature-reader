@@ -20,16 +20,13 @@
       --green-soft: #e8f1ed;
       --amber: #b87916;
       --amber-soft: #fff3d6;
-      --blue-gray: #41546b;
       --blue-soft: #edf2f7;
-      --shadow: 0 8px 22px rgba(15, 23, 42, 0.08);
+      --shadow: 0 4px 14px rgba(15, 23, 42, 0.08);
       --sidebar-width: 310px;
       --left-col: 50%;
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -40,11 +37,13 @@
       font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans CJK SC", Arial, sans-serif;
     }
 
-    button,
-    input,
-    select,
-    textarea {
+    button, input, select, textarea {
       font-family: inherit;
+    }
+
+    button:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
     }
 
     .app {
@@ -52,11 +51,15 @@
       display: grid;
       grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
       overflow: hidden;
-      transition: grid-template-columns 0.16s ease;
+      transition: grid-template-columns 0.14s ease;
     }
 
     .app.reading {
-      --sidebar-width: 68px;
+      --sidebar-width: 48px;
+    }
+
+    .app.reading.side-open {
+      --sidebar-width: 300px;
     }
 
     .sidebar {
@@ -67,6 +70,7 @@
       flex-direction: column;
       min-width: 0;
       overflow: hidden;
+      z-index: 30;
     }
 
     .sidebar-resizer {
@@ -76,27 +80,27 @@
       width: 6px;
       height: 100%;
       cursor: col-resize;
-      z-index: 6;
+      z-index: 10;
     }
 
     .sidebar-resizer:hover {
-      background: rgba(47, 111, 94, 0.16);
+      background: rgba(47,111,94,.18);
     }
 
     .brand {
-      height: 62px;
+      height: 58px;
       display: flex;
       align-items: center;
-      gap: 10px;
-      padding: 0 12px;
+      gap: 9px;
+      padding: 0 10px;
       border-bottom: 1px solid var(--line-soft);
       flex-shrink: 0;
       min-width: 0;
     }
 
     .toggle-side {
-      width: 36px;
-      height: 36px;
+      width: 32px;
+      height: 32px;
       border: 1px solid var(--line);
       border-radius: 7px;
       background: #fff;
@@ -113,8 +117,8 @@
     }
 
     .logo {
-      width: 34px;
-      height: 34px;
+      width: 32px;
+      height: 32px;
       border-radius: 7px;
       background: var(--green);
       color: white;
@@ -140,43 +144,40 @@
     .brand-subtitle {
       color: var(--muted);
       font-size: 12px;
-      margin-top: 3px;
+      margin-top: 2px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
 
-    .app.reading .brand-text,
-    .app.reading .sidebar-content,
-    .app.reading .nav-label {
+    .app.reading:not(.side-open) .brand-text,
+    .app.reading:not(.side-open) .logo,
+    .app.reading:not(.side-open) .sidebar-content,
+    .app.reading:not(.side-open) .nav-label {
       display: none;
     }
 
-    .app.reading .brand {
+    .app.reading:not(.side-open) .brand {
       justify-content: center;
       padding: 0;
     }
 
-    .app.reading .logo {
-      display: none;
-    }
-
     .nav {
       display: grid;
-      gap: 7px;
-      padding: 10px;
+      gap: 6px;
+      padding: 9px;
       border-bottom: 1px solid var(--line-soft);
       flex-shrink: 0;
     }
 
     .nav button {
-      height: 38px;
+      height: 36px;
       border: 1px solid transparent;
       border-radius: 6px;
       background: white;
       color: var(--text);
       text-align: left;
-      padding: 0 11px;
+      padding: 0 10px;
       cursor: pointer;
       font-size: 13px;
       display: flex;
@@ -185,7 +186,7 @@
       min-width: 0;
     }
 
-    .app.reading .nav button {
+    .app.reading:not(.side-open) .nav button {
       justify-content: center;
       padding: 0;
       font-size: 16px;
@@ -204,7 +205,7 @@
     }
 
     .sidebar-content {
-      padding: 12px;
+      padding: 10px;
       overflow: auto;
       min-height: 0;
     }
@@ -213,12 +214,12 @@
       background: white;
       border: 1px solid var(--line);
       border-radius: 8px;
-      padding: 13px;
-      margin-bottom: 12px;
+      padding: 12px;
+      margin-bottom: 10px;
     }
 
     .paper-card h3 {
-      margin: 0 0 8px;
+      margin: 0 0 7px;
       font-size: 14px;
       line-height: 1.45;
       color: #182230;
@@ -229,14 +230,14 @@
       font-size: 13px;
       line-height: 1.55;
       color: var(--text);
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
 
     .rank-row {
       display: flex;
       flex-wrap: wrap;
       gap: 6px;
-      margin: 8px 0 10px;
+      margin: 8px 0 9px;
     }
 
     .rank-badge {
@@ -271,17 +272,11 @@
     .meta {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 6px 9px;
+      gap: 5px 8px;
       color: var(--muted);
       font-size: 12px;
       line-height: 1.45;
       margin: 8px 0;
-    }
-
-    .meta span {
-      min-width: 0;
-      overflow: hidden;
-      text-overflow: ellipsis;
     }
 
     .meta b {
@@ -298,7 +293,7 @@
       display: flex;
       flex-wrap: wrap;
       gap: 5px;
-      margin: 10px 0 12px;
+      margin: 9px 0 11px;
     }
 
     .tag {
@@ -324,8 +319,8 @@
     .tool-btn,
     .mode-btn {
       border-radius: 6px;
-      height: 34px;
-      padding: 0 11px;
+      height: 32px;
+      padding: 0 10px;
       font-size: 12px;
       cursor: pointer;
       display: inline-flex;
@@ -373,26 +368,56 @@
       display: flex;
       flex-direction: column;
       height: 100vh;
+      position: relative;
+    }
+
+    .top-hotzone {
+      display: none;
     }
 
     .toolbar {
-      height: 58px;
+      height: 54px;
       background: white;
       border-bottom: 1px solid var(--line);
       display: flex;
       align-items: center;
-      gap: 8px;
-      padding: 0 12px;
+      gap: 7px;
+      padding: 0 10px;
       min-width: 0;
       flex-shrink: 0;
+      z-index: 25;
+    }
+
+    .app.reading .toolbar {
+      position: fixed;
+      left: var(--sidebar-width);
+      right: 0;
+      top: -54px;
+      height: 54px;
+      transition: top .16s ease, left .14s ease;
+      box-shadow: 0 8px 18px rgba(15,23,42,.08);
+    }
+
+    .app.reading.top-open .toolbar {
+      top: 0;
+    }
+
+    .app.reading .top-hotzone {
+      display: block;
+      position: fixed;
+      top: 0;
+      left: var(--sidebar-width);
+      right: 0;
+      height: 8px;
+      z-index: 24;
     }
 
     .toolbar select,
     .toolbar input {
-      height: 34px;
+      height: 32px;
       border: 1px solid var(--line);
       border-radius: 6px;
-      padding: 0 10px;
+      padding: 0 9px;
       background: white;
       color: var(--text);
       font-size: 12px;
@@ -405,26 +430,26 @@
     }
 
     .page-input {
-      width: 66px;
+      width: 62px;
       text-align: center;
     }
 
     .search-input {
-      width: 180px;
+      width: 165px;
     }
 
     .tool-group {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
       color: var(--muted);
       font-size: 12px;
       flex-shrink: 0;
     }
 
     .tool-btn {
-      min-width: 32px;
-      padding: 0 9px;
+      min-width: 30px;
+      padding: 0 8px;
     }
 
     .mode-group {
@@ -440,12 +465,16 @@
 
     .view {
       display: none;
-      height: calc(100vh - 58px);
+      height: calc(100vh - 54px);
       min-height: 0;
     }
 
     .view.active {
       display: block;
+    }
+
+    .app.reading .view {
+      height: 100vh;
     }
 
     .panel {
@@ -456,7 +485,7 @@
     }
 
     .panel-head {
-      max-width: 1120px;
+      max-width: 1180px;
       margin: 0 auto 14px;
       display: flex;
       justify-content: space-between;
@@ -477,7 +506,7 @@
     }
 
     .grid {
-      max-width: 1120px;
+      max-width: 1180px;
       margin: 0 auto;
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -513,8 +542,22 @@
       grid-column: 1 / -1;
     }
 
+    .upload-actions {
+      max-width: 1180px;
+      margin: 0 auto 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .current-label {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
     .upload-grid {
-      max-width: 1120px;
+      max-width: 1180px;
       margin: 0 auto;
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -544,7 +587,7 @@
 
     textarea {
       width: 100%;
-      min-height: 170px;
+      min-height: 150px;
       border: 1px solid var(--line);
       border-radius: 6px;
       padding: 10px;
@@ -566,51 +609,39 @@
     .reader {
       height: 100%;
       overflow: auto;
-      background: #edf1ef;
-      padding: 14px;
+      background: #eef2f0;
+      padding: 2px;
     }
 
     .reader-inner {
-      transform-origin: top center;
-      transition: transform 0.12s;
+      width: 100%;
+      min-width: 760px;
+      margin: 0 auto;
     }
 
     .page-row {
-      max-width: 1600px;
-      margin: 0 auto 18px;
+      width: 100%;
+      max-width: none;
+      margin: 0 auto 4px;
       display: grid;
-      grid-template-columns: minmax(300px, var(--left-col)) 10px minmax(300px, 1fr);
-      gap: 14px;
+      grid-template-columns: minmax(280px, var(--left-col)) 4px minmax(280px, 1fr);
+      gap: 2px;
       align-items: start;
     }
 
     .pane-resizer {
-      width: 10px;
+      width: 4px;
       min-height: 120px;
       align-self: stretch;
       cursor: col-resize;
-      position: relative;
-    }
-
-    .pane-resizer::before {
-      content: "";
-      position: sticky;
-      top: 80px;
-      display: block;
-      width: 4px;
-      height: 70vh;
-      margin: 0 auto;
-      border-radius: 999px;
       background: transparent;
-      transition: background 0.12s;
     }
 
-    .pane-resizer:hover::before {
-      background: rgba(47, 111, 94, 0.28);
+    .pane-resizer:hover {
+      background: rgba(47,111,94,.35);
     }
 
     .paper-page {
-      aspect-ratio: 0.707 / 1;
       background: var(--paper);
       border: 1px solid #cfd6d2;
       box-shadow: var(--shadow);
@@ -619,12 +650,18 @@
       min-width: 0;
     }
 
+    .mock-page,
+    .translation-page {
+      aspect-ratio: 0.707 / 1;
+    }
+
     .pdf-page {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: center;
       padding: 0;
       background: white;
+      min-height: 400px;
     }
 
     .pdf-placeholder {
@@ -744,12 +781,13 @@
 
     .page-no {
       position: absolute;
-      bottom: 14px;
+      bottom: 10px;
       left: 0;
       right: 0;
       text-align: center;
       color: #98a2b3;
       font-size: 11px;
+      pointer-events: none;
     }
 
     .highlight {
@@ -771,7 +809,7 @@
       line-height: 1.5;
       max-width: 360px;
       display: none;
-      z-index: 20;
+      z-index: 60;
     }
 
     canvas {
@@ -782,7 +820,7 @@
 
     .empty-pdf {
       width: 100%;
-      height: 100%;
+      min-height: 420px;
       padding: 34px;
       display: grid;
       place-items: center;
@@ -798,11 +836,11 @@
       }
 
       .paper-select {
-        width: 230px;
+        width: 220px;
       }
 
       .search-input {
-        width: 150px;
+        width: 145px;
       }
     }
 
@@ -812,7 +850,8 @@
       }
 
       .app,
-      .app.reading {
+      .app.reading,
+      .app.reading.side-open {
         height: auto;
         min-height: 100vh;
         display: block;
@@ -824,16 +863,17 @@
         border-bottom: 1px solid var(--line);
       }
 
-      .sidebar-resizer {
-        display: none;
+      .sidebar-resizer,
+      .top-hotzone {
+        display: none !important;
       }
 
       .brand-text,
       .sidebar-content,
       .nav-label,
-      .app.reading .brand-text,
-      .app.reading .sidebar-content,
-      .app.reading .nav-label {
+      .app.reading:not(.side-open) .brand-text,
+      .app.reading:not(.side-open) .sidebar-content,
+      .app.reading:not(.side-open) .nav-label {
         display: block;
       }
 
@@ -841,7 +881,7 @@
         justify-content: flex-start;
       }
 
-      .app.reading .logo {
+      .app.reading:not(.side-open) .logo {
         display: grid;
       }
 
@@ -850,7 +890,7 @@
       }
 
       .nav button,
-      .app.reading .nav button {
+      .app.reading:not(.side-open) .nav button {
         justify-content: center;
         font-size: 13px;
       }
@@ -863,14 +903,18 @@
         height: auto;
       }
 
-      .toolbar {
+      .toolbar,
+      .app.reading .toolbar {
+        position: static;
         height: auto;
         min-height: 72px;
         flex-wrap: wrap;
         padding: 8px;
+        box-shadow: none;
       }
 
-      .view {
+      .view,
+      .app.reading .view {
         height: auto;
         min-height: calc(100vh - 160px);
       }
@@ -879,10 +923,15 @@
         min-height: calc(100vh - 160px);
       }
 
+      .reader-inner {
+        min-width: 0;
+        width: 100% !important;
+      }
+
       .page-row {
         display: grid;
         grid-template-columns: 1fr;
-        gap: 12px;
+        gap: 4px;
       }
 
       .pane-resizer {
@@ -927,7 +976,9 @@
     </aside>
 
     <main class="main">
-      <div class="toolbar">
+      <div class="top-hotzone" id="topHotzone"></div>
+
+      <div class="toolbar" id="toolbar">
         <select id="paperSelect" class="paper-select"></select>
 
         <div class="tool-group">
@@ -945,8 +996,8 @@
         </div>
 
         <div class="mode-group">
-          <button class="mode-btn active" id="modePdf">译文 PDF</button>
-          <button class="mode-btn" id="modeJson">JSON 译文</button>
+          <button class="mode-btn" id="modePdf">译文 PDF</button>
+          <button class="mode-btn active" id="modeJson">JSON 译文</button>
         </div>
 
         <div class="spacer"></div>
@@ -960,11 +1011,10 @@
           <div class="panel-head">
             <div>
               <h2>文献库</h2>
-              <p>管理英文 PDF、中文译文 PDF、AI 精读 JSON。阅读器可在“译文 PDF”和“JSON 译文”之间切换。</p>
+              <p>管理英文 PDF、中文译文 PDF、AI 精读 JSON。导入时会按 DOI / 标题自动更新，避免重复文献。</p>
             </div>
             <button class="primary" data-view-btn="upload">⇧ 上传/导入</button>
           </div>
-
           <div id="libraryGrid" class="grid"></div>
         </div>
       </section>
@@ -974,33 +1024,40 @@
           <div class="panel-head">
             <div>
               <h2>上传 / 导入</h2>
-              <p>英文 PDF 负责左侧原文页；中文 PDF 负责右侧译文版式；JSON 负责精读结果和可搜索译文。</p>
+              <p>先选中文献或点击“新增文献”。PDF 绑定到当前文献；JSON 会自动更新标题、标签、IF、CAS、JCR 和精读结果。</p>
             </div>
+          </div>
+
+          <div class="upload-actions">
+            <button id="newDocBtn" class="primary">＋ 新增文献</button>
+            <button id="deleteDocBtn" class="secondary">删除当前文献</button>
+            <span class="current-label">当前文献：<b id="currentDocLabel"></b></span>
           </div>
 
           <div class="upload-grid">
             <div class="drop">
-              <h3>📄 上传英文原文 PDF</h3>
-              <p>用于左侧原文页。PDF.js 渲染，不使用 iframe、embed 或 object。</p>
+              <h3>📄 英文原文 PDF</h3>
+              <p>绑定到当前文献左侧。高分辨率 PDF.js 渲染，不使用 iframe、embed 或 object。</p>
               <input id="sourcePdfInput" type="file" accept="application/pdf" />
               <div id="sourcePdfStatus" class="small-note"></div>
             </div>
 
             <div class="drop">
-              <h3>📘 上传中文翻译 PDF</h3>
-              <p>用于右侧“译文 PDF”模式。适合保留中文翻译页的排版、图表、公式和分页。</p>
+              <h3>📘 中文翻译 PDF</h3>
+              <p>绑定到当前文献右侧“译文 PDF”模式。没有上传时，右栏自动使用 JSON 译文。</p>
               <input id="translationPdfInput" type="file" accept="application/pdf" />
               <div id="translationPdfStatus" class="small-note"></div>
             </div>
 
             <div class="drop">
-              <h3>{ } 导入 AI 精读 JSON</h3>
-              <p>用于“JSON 译文”和精读结果，不强求与 PDF 版式完全一致。</p>
+              <h3>{ } AI 精读 JSON</h3>
+              <p>可上传 JSON 文件，也可粘贴 JSON。导入后自动更新文献信息和精读结果。</p>
+              <input id="jsonFileInput" type="file" accept="application/json,.json" />
               <textarea id="jsonInput">{
   "title": "Extraction and separation of manganese and iron from ferruginous manganese ores: A review",
   "titleCn": "铁质锰矿中锰和铁的提取与分离：综述",
   "journal": "Minerals Engineering",
-  "year": 2019,
+  "year": "2019",
   "doi": "10.1016/j.mineng.2018.11.016",
   "journalRank": {
     "IF": "5.0",
@@ -1009,14 +1066,14 @@
   },
   "tags": ["矿物学诊断", "磁选", "焙烧", "酸浸", "Fe/S/Mn内源还原", "工程放大", "环境约束"],
   "pageTranslations": {
-    "1": ["铁质锰矿资源背景：中国 73% 以上锰矿属于低 Mn/Fe 比铁质锰矿，锰合金生产通常要求 Mn > 30%、Mn/Fe > 5。"],
-    "2": ["资源分布和物理分选局限：重选、磁选、浮选难以单独分离 Mn 和 Fe。"],
-    "3": ["矿物学诊断：Fe-Mn 复合氧化物、5-10 μm 细粒共生是分离困难根源。"]
+    "1": ["锰是钢铁、电池和化工领域的重要战略金属。铁质锰矿由于锰、铁矿物嵌布关系复杂，常表现为低锰品位和低 Mn/Fe 比，直接用于锰合金生产受到限制。"],
+    "2": ["对于复杂铁质锰矿，重选、磁选、浮选难以单独分离 Mn 和 Fe。"],
+    "3": ["Fe-Mn 复合氧化物和 5-10 μm 细粒共生是分离困难的根源。"]
   }
 }</textarea>
 
               <div class="button-row" style="margin-top:10px;">
-                <button id="importJsonBtn" class="primary">导入 JSON</button>
+                <button id="importJsonBtn" class="primary">导入 / 更新 JSON</button>
                 <button id="resetBtn" class="secondary">恢复示例</button>
               </div>
               <div id="jsonStatus" class="small-note"></div>
@@ -1036,11 +1093,10 @@
           <div class="panel-head">
             <div>
               <h2>AI 精读结果</h2>
-              <p>展示已导入 JSON 或内置示例中的结构化结果，不调用实时 AI。</p>
+              <p>展示当前文献 JSON 中的结构化精读结果，不调用实时 AI。</p>
             </div>
             <button class="primary" data-view-btn="reader">◫ 回到对照阅读</button>
           </div>
-
           <div id="aiGrid" class="grid"></div>
         </div>
       </section>
@@ -1053,6 +1109,11 @@
     import * as pdfjsLib from "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs";
     pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.mjs";
 
+    const DB_NAME = "mn-literature-workbench-db-v3";
+    const STORE = "files";
+    const STORAGE_KEY = "mn-literature-docs-v3";
+    const CURRENT_KEY = "mn-literature-current-v3";
+
     const samplePaper = {
       id: "sample-review-2019",
       title: "Extraction and separation of manganese and iron from ferruginous manganese ores: A review",
@@ -1060,13 +1121,10 @@
       journal: "Minerals Engineering",
       year: "2019",
       doi: "10.1016/j.mineng.2018.11.016",
-      journalRank: {
-        IF: "5.0",
-        CAS: "2区",
-        JCR: "Q1"
-      },
+      journalRank: { IF: "5.0", CAS: "2区", JCR: "Q1" },
       tags: ["矿物学诊断", "磁选", "焙烧", "酸浸", "Fe/S/Mn内源还原", "工程放大", "环境约束"],
       pageCount: 3,
+      assets: {},
       pageTranslations: {
         1: [
           "锰是钢铁、电池和化工领域的重要战略金属。铁质锰矿由于锰、铁矿物嵌布关系复杂，常表现为低锰品位和低 Mn/Fe 比，直接用于锰合金生产受到限制。",
@@ -1074,19 +1132,17 @@
         ],
         2: [
           "铁质锰矿常与赤铁矿、针铁矿、褐铁矿等含铁矿物共生。重选、磁选、浮选均可用于预富集，但分选效果受到锰铁矿物嵌布粒度、连生关系和表面性质的限制。",
-          "对于复杂铁质锰矿，重选、磁选、浮选难以单独分离 Mn 和 Fe。单一物理分选工艺往往难以同时实现较高锰回收率、明显 Fe 脱除和稳定的 Mn/Fe 比提升。",
-          "因此，物理富集不应只看锰品位，还应与后续焙烧、酸浸、除杂和浸出液质量耦合评价。"
+          "对于复杂铁质锰矿，重选、磁选、浮选难以单独分离 Mn 和 Fe。单一物理分选工艺往往难以同时实现较高锰回收率、明显 Fe 脱除和稳定的 Mn/Fe 比提升。"
         ],
         3: [
           "工艺选择前必须先进行矿物学诊断。锰和铁可能以独立矿物形式存在，也可能形成 Fe-Mn 复合氧化物；后者会显著降低物理分选和选择性浸出的效率。",
-          "Fe-Mn 复合氧化物和 5-10 μm 细粒共生是分离困难的根源。普通磨矿难以充分解离这类细粒共生体，因此不能简单假设“磨得更细就能分开”。",
-          "这类矿样应优先结合 XRF、XRD、ICP 进行快速判断，并选择关键样品做 AMICS、EPMA 或 MLA，以确定 Mn/Fe 赋存状态、嵌布粒度和后续分选—浸出的可行性。"
+          "Fe-Mn 复合氧化物和 5-10 μm 细粒共生是分离困难的根源。普通磨矿难以充分解离这类细粒共生体，因此不能简单假设“磨得更细就能分开”。"
         ]
       },
       pageFigures: {
-        1: "本页用于说明铁质锰矿资源背景、工业利用门槛和分离富集研究必要性。",
-        2: "表格区域可用于比较重选、磁选、浮选的作用机制和局限。",
-        3: "本页适合展示 Fe-Mn 复合氧化物、细粒共生和矿物嵌布图。"
+        1: "资源背景、工业利用门槛和分离富集研究必要性。",
+        2: "物理分选方法的局限性比较。",
+        3: "Fe-Mn 复合氧化物、细粒共生和矿物嵌布图。"
       },
       pageKeyPoints: {
         1: ["铁质锰矿的核心问题是低 Mn 品位和低 Mn/Fe 比。"],
@@ -1116,14 +1172,14 @@
       }
     };
 
-    let papers = [structuredClone(samplePaper)];
-    let currentPaperId = papers[0].id;
+    let docs = loadDocs();
+    let currentDocId = localStorage.getItem(CURRENT_KEY) || docs[0].id;
     let sourcePdf = null;
     let translationPdf = null;
     let rightMode = "json";
-    let scale = 1;
+    let zoom = 1;
     let rendered = new Set();
-    let sidebarExpandedBeforeReading = true;
+    let topTimer = null;
 
     const els = {
       app: document.getElementById("app"),
@@ -1138,19 +1194,36 @@
       zoomText: document.getElementById("zoomText"),
       searchInput: document.getElementById("searchInput"),
       toast: document.getElementById("toast"),
-      sourcePdfInput: document.getElementById("sourcePdfInput"),
+      currentDocLabel: document.getElementById("currentDocLabel"),
       sourcePdfStatus: document.getElementById("sourcePdfStatus"),
-      translationPdfInput: document.getElementById("translationPdfInput"),
       translationPdfStatus: document.getElementById("translationPdfStatus"),
       jsonInput: document.getElementById("jsonInput"),
       jsonStatus: document.getElementById("jsonStatus"),
       aiGrid: document.getElementById("aiGrid"),
       modePdf: document.getElementById("modePdf"),
-      modeJson: document.getElementById("modeJson")
+      modeJson: document.getElementById("modeJson"),
+      toolbar: document.getElementById("toolbar"),
+      topHotzone: document.getElementById("topHotzone")
     };
 
-    function currentPaper() {
-      return papers.find(p => p.id === currentPaperId) || papers[0];
+    function loadDocs() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return [structuredClone(samplePaper)];
+        const parsed = JSON.parse(raw);
+        return Array.isArray(parsed) && parsed.length ? parsed : [structuredClone(samplePaper)];
+      } catch {
+        return [structuredClone(samplePaper)];
+      }
+    }
+
+    function saveDocs() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(docs));
+      localStorage.setItem(CURRENT_KEY, currentDocId);
+    }
+
+    function currentDoc() {
+      return docs.find(d => d.id === currentDocId) || docs[0];
     }
 
     function escapeHtml(text) {
@@ -1168,10 +1241,109 @@
       return [String(value)];
     }
 
+    function normalizeKey(text) {
+      return String(text || "").trim().toLowerCase().replace(/\s+/g, " ");
+    }
+
+    function pageTranslationCount(doc) {
+      return Object.keys(doc.pageTranslations || {}).length;
+    }
+
     function toast(message) {
       els.toast.textContent = message;
       els.toast.style.display = "block";
       setTimeout(() => els.toast.style.display = "none", 2400);
+    }
+
+    function openDB() {
+      return new Promise((resolve, reject) => {
+        const req = indexedDB.open(DB_NAME, 1);
+        req.onupgradeneeded = () => {
+          req.result.createObjectStore(STORE, { keyPath: "key" });
+        };
+        req.onsuccess = () => resolve(req.result);
+        req.onerror = () => reject(req.error);
+      });
+    }
+
+    async function putFile(docId, type, file) {
+      const db = await openDB();
+      const tx = db.transaction(STORE, "readwrite");
+      const store = tx.objectStore(STORE);
+      const blob = new Blob([await file.arrayBuffer()], { type: file.type || "application/pdf" });
+      store.put({
+        key: `${docId}:${type}`,
+        name: file.name,
+        size: file.size,
+        blob
+      });
+      return new Promise((resolve, reject) => {
+        tx.oncomplete = resolve;
+        tx.onerror = () => reject(tx.error);
+      });
+    }
+
+    async function getFile(docId, type) {
+      const db = await openDB();
+      const tx = db.transaction(STORE, "readonly");
+      const req = tx.objectStore(STORE).get(`${docId}:${type}`);
+      return new Promise(resolve => {
+        req.onsuccess = () => resolve(req.result || null);
+        req.onerror = () => resolve(null);
+      });
+    }
+
+    async function deleteFile(docId, type) {
+      const db = await openDB();
+      const tx = db.transaction(STORE, "readwrite");
+      tx.objectStore(STORE).delete(`${docId}:${type}`);
+      return new Promise(resolve => {
+        tx.oncomplete = resolve;
+        tx.onerror = resolve;
+      });
+    }
+
+    async function loadPdfRecord(record) {
+      if (!record?.blob) return null;
+      const buffer = await record.blob.arrayBuffer();
+      return await pdfjsLib.getDocument({ data: buffer }).promise;
+    }
+
+    async function hydratePdfs() {
+      sourcePdf = null;
+      translationPdf = null;
+
+      const doc = currentDoc();
+
+      const sourceRecord = await getFile(doc.id, "source");
+      if (sourceRecord) {
+        try {
+          sourcePdf = await loadPdfRecord(sourceRecord);
+          doc.assets = doc.assets || {};
+          doc.assets.sourceName = sourceRecord.name;
+          doc.pageCount = Math.max(Number(doc.pageCount || 0), sourcePdf.numPages);
+        } catch {
+          await deleteFile(doc.id, "source");
+        }
+      }
+
+      const transRecord = await getFile(doc.id, "translation");
+      if (transRecord) {
+        try {
+          translationPdf = await loadPdfRecord(transRecord);
+          doc.assets = doc.assets || {};
+          doc.assets.translationName = transRecord.name;
+          doc.pageCount = Math.max(Number(doc.pageCount || 0), translationPdf.numPages);
+        } catch {
+          await deleteFile(doc.id, "translation");
+        }
+      }
+
+      if (!translationPdf && rightMode === "pdf") {
+        rightMode = "json";
+      }
+
+      saveDocs();
     }
 
     function showView(name) {
@@ -1186,12 +1358,12 @@
         els.app.classList.add("reading");
         setTimeout(renderVisiblePdfPages, 120);
       } else {
-        els.app.classList.remove("reading");
+        els.app.classList.remove("reading", "side-open", "top-open");
       }
     }
 
-    function rankBadges(paper) {
-      const rank = paper.journalRank || {};
+    function rankBadges(doc) {
+      const rank = doc.journalRank || {};
       return `
         <div class="rank-row">
           <span class="rank-badge rank-if">IF ${escapeHtml(rank.IF || "-")}</span>
@@ -1201,62 +1373,50 @@
       `;
     }
 
-    function renderPaperCard(paper) {
-      const tags = normalizeList(paper.tags).map(tag => `<span class="tag">${escapeHtml(tag)}</span>`).join("");
-
+    function renderPaperCard(doc) {
+      const tags = normalizeList(doc.tags).map(tag => `<span class="tag">${escapeHtml(tag)}</span>`).join("");
+      const assets = doc.assets || {};
       return `
         <div class="paper-card">
-          <h3>${escapeHtml(paper.title)}</h3>
-          <div class="cn-title">${escapeHtml(paper.titleCn)}</div>
-          ${rankBadges(paper)}
+          <h3>${escapeHtml(doc.title || "未命名文献")}</h3>
+          <div class="cn-title">${escapeHtml(doc.titleCn || "暂无中文标题")}</div>
+          ${rankBadges(doc)}
           <div class="meta">
-            <span><b>期刊</b>${escapeHtml(paper.journal || "-")}</span>
-            <span><b>年份</b>${escapeHtml(paper.year || "-")}</span>
-            <span class="doi"><b>DOI</b>${escapeHtml(paper.doi || "-")}</span>
+            <span><b>期刊</b>${escapeHtml(doc.journal || "-")}</span>
+            <span><b>年份</b>${escapeHtml(doc.year || "-")}</span>
+            <span class="doi"><b>DOI</b>${escapeHtml(doc.doi || "-")}</span>
+            <span class="doi"><b>英文PDF</b>${escapeHtml(assets.sourceName || "未上传")}</span>
+            <span class="doi"><b>译文PDF</b>${escapeHtml(assets.translationName || "未上传")}</span>
           </div>
           <div class="tags">${tags}</div>
-          <button class="primary" data-open-reader="${paper.id}">📖 打开对照阅读</button>
+          <button class="primary" data-open-reader="${doc.id}">📖 打开对照阅读</button>
         </div>
       `;
     }
 
     function renderLibrary() {
-      els.sidebarPapers.innerHTML = papers.map(renderPaperCard).join("");
+      els.currentDocLabel.textContent = currentDoc().titleCn || currentDoc().title || "未命名文献";
+      els.sidebarPapers.innerHTML = docs.map(renderPaperCard).join("");
+      els.libraryGrid.innerHTML = docs.map(doc => `<div class="box wide">${renderPaperCard(doc)}</div>`).join("");
 
-      els.libraryGrid.innerHTML = papers.map(paper => `
-        <div class="box wide">
-          ${renderPaperCard(paper)}
-        </div>
-      `).join("");
-
-      els.paperSelect.innerHTML = papers.map(paper => `
-        <option value="${paper.id}" ${paper.id === currentPaperId ? "selected" : ""}>
-          ${escapeHtml(paper.title)}
+      els.paperSelect.innerHTML = docs.map(doc => `
+        <option value="${doc.id}" ${doc.id === currentDocId ? "selected" : ""}>
+          ${escapeHtml(doc.title || doc.titleCn || "未命名文献")}
         </option>
       `).join("");
 
       document.querySelectorAll("[data-open-reader]").forEach(btn => {
-        btn.onclick = () => {
-          currentPaperId = btn.dataset.openReader;
+        btn.onclick = async () => {
+          currentDocId = btn.dataset.openReader;
+          saveDocs();
+          await hydratePdfs();
           renderAll();
           showView("reader");
         };
       });
     }
 
-    function mockPdfPage(pageNo, type = "source") {
-      if (type === "translation") {
-        return `
-          <div class="empty-pdf">
-            <div>
-              <b>未上传中文翻译 PDF</b><br>
-              当前可切换到“JSON 译文”查看结构化中文页。<br>
-              上传中文 PDF 后这里会逐页显示翻译 PDF。
-            </div>
-          </div>
-        `;
-      }
-
+    function mockPdfPage(pageNo) {
       if (pageNo === 1) {
         return `
           <div class="pdf-placeholder">
@@ -1284,8 +1444,6 @@
               <tr><td>Magnetic</td><td>Magnetic susceptibility</td><td>Fe-Mn composite phases</td></tr>
               <tr><td>Flotation</td><td>Surface chemistry</td><td>Similar surface behavior</td></tr>
             </table>
-            <p>Gravity separation, magnetic separation and flotation have been applied, but their efficiency is strongly limited by dissemination size and mineral intergrowth.</p>
-            <div class="mock-figure">Table 1 · Physical beneficiation methods and limitations</div>
             <p>A single physical beneficiation process usually cannot achieve sufficient Mn enrichment and Fe removal simultaneously.</p>
           </div>
         `;
@@ -1297,21 +1455,24 @@
           <p>Mineralogical diagnosis is essential before process selection. Manganese and iron may occur as independent minerals or as Fe-Mn composite oxides.</p>
           <div class="mock-figure">Figure 2 · Fe-Mn composite oxides<br>5–10 μm fine intergrowth</div>
           <p>Fine intergrowths of 5–10 μm are frequently observed and are difficult to liberate by ordinary grinding.</p>
-          <p>The origin of separation difficulty should be traced to mineral occurrence, dissemination size and phase transformation behavior.</p>
         </div>
       `;
     }
 
-    function renderTranslationJsonPage(paper, pageNo) {
-      const translations = normalizeList(paper.pageTranslations?.[pageNo]);
-      const figure = paper.pageFigures?.[pageNo];
-      const keyPoints = normalizeList(paper.pageKeyPoints?.[pageNo]);
-      const evidence = normalizeList(paper.originalEvidence?.[pageNo]);
+    function renderTranslationJsonPage(doc, pageNo) {
+      const translations = normalizeList(doc.pageTranslations?.[pageNo]);
+      const figure = doc.pageFigures?.[pageNo];
+      const keyPoints = normalizeList(doc.pageKeyPoints?.[pageNo]);
+      const evidence = normalizeList(doc.originalEvidence?.[pageNo]);
 
       return `
         <article class="paper-page translation-page">
           <h2>第 ${pageNo} 页 JSON 译文</h2>
-          ${translations.map(t => `<p data-cn>${escapeHtml(t)}</p>`).join("") || `<p data-cn>暂无本页中文译文。请导入 AI 精读 JSON。</p>`}
+          ${
+            translations.length
+              ? translations.map(t => `<p data-cn>${escapeHtml(t)}</p>`).join("")
+              : `<p data-cn>暂无本页中文译文。请导入 AI 精读 JSON，或上传中文翻译 PDF。</p>`
+          }
           ${figure ? `<div class="figure-note">图表说明：${escapeHtml(figure)}</div>` : ""}
           <details class="evidence" open>
             <summary>关键点与英文依据</summary>
@@ -1326,11 +1487,18 @@
     }
 
     function renderReader() {
-      const paper = currentPaper();
+      const doc = currentDoc();
+
+      if (!translationPdf && rightMode === "pdf") {
+        rightMode = "json";
+      }
+
       const pageCount = Math.max(
         sourcePdf?.numPages || 0,
         translationPdf?.numPages || 0,
-        Number(paper.pageCount || Object.keys(paper.pageTranslations || {}).length || 3)
+        Number(doc.pageCount || 0),
+        pageTranslationCount(doc),
+        1
       );
 
       els.pageTotal.textContent = pageCount;
@@ -1338,65 +1506,81 @@
       const rows = [];
 
       for (let i = 1; i <= pageCount; i++) {
-        let rightHtml;
+        const left = `
+          <article class="paper-page pdf-page ${sourcePdf ? "" : "mock-page"}" data-render-type="source" data-pdf-page="${i}">
+            ${sourcePdf ? `<div class="empty-pdf">英文 PDF 第 ${i} 页等待渲染...</div>` : mockPdfPage(i)}
+            <div class="page-no">${i}</div>
+          </article>
+        `;
 
-        if (rightMode === "pdf") {
-          rightHtml = `
+        const right = rightMode === "pdf" && translationPdf
+          ? `
             <article class="paper-page pdf-page" data-render-type="translation" data-pdf-page="${i}">
-              ${translationPdf ? `<div class="empty-pdf">中文 PDF 第 ${i} 页等待渲染...</div>` : mockPdfPage(i, "translation")}
+              <div class="empty-pdf">中文 PDF 第 ${i} 页等待渲染...</div>
               <div class="page-no">${i}</div>
             </article>
-          `;
-        } else {
-          rightHtml = renderTranslationJsonPage(paper, i);
-        }
+          `
+          : renderTranslationJsonPage(doc, i);
 
         rows.push(`
           <div class="page-row" data-page="${i}">
-            <article class="paper-page pdf-page" data-render-type="source" data-pdf-page="${i}">
-              ${sourcePdf ? `<div class="empty-pdf">英文 PDF 第 ${i} 页等待渲染...</div>` : mockPdfPage(i, "source")}
-              <div class="page-no">${i}</div>
-            </article>
-            <div class="pane-resizer" title="拖动调整左右页面宽度"></div>
-            ${rightHtml}
+            ${left}
+            <div class="pane-resizer" title="拖动调整左右宽度"></div>
+            ${right}
           </div>
         `);
       }
 
       els.readerInner.innerHTML = rows.join("");
+      els.readerInner.style.width = `${zoom * 100}%`;
       rendered.clear();
       bindPaneResizers();
-      renderVisiblePdfPages();
+      updateModeButtons();
       searchChinese(els.searchInput.value);
+      renderVisiblePdfPages();
+    }
+
+    function updateModeButtons() {
+      els.modePdf.classList.toggle("active", rightMode === "pdf");
+      els.modeJson.classList.toggle("active", rightMode === "json");
+      els.modePdf.disabled = !translationPdf;
+      els.modePdf.title = translationPdf ? "显示中文翻译 PDF" : "未上传中文翻译 PDF，暂不可用";
     }
 
     async function renderPdfPage(pdf, holder, key, pageNo) {
       if (!pdf || rendered.has(key) || pageNo > pdf.numPages) return;
-
       rendered.add(key);
 
       try {
+        const cssWidth = Math.max(320, Math.floor(holder.clientWidth));
         const page = await pdf.getPage(pageNo);
-        const viewport = page.getViewport({ scale: 1.45 });
-        const canvas = document.createElement("canvas");
-        const context = canvas.getContext("2d");
-        canvas.width = viewport.width;
-        canvas.height = viewport.height;
+        const base = page.getViewport({ scale: 1 });
+        const cssScale = cssWidth / base.width;
+        const pixelRatio = Math.min(window.devicePixelRatio || 1, 2.5);
+        const quality = 1.8;
+        const renderScale = cssScale * pixelRatio * quality;
+        const viewport = page.getViewport({ scale: renderScale });
 
+        const canvas = document.createElement("canvas");
+        const context = canvas.getContext("2d", { alpha: false });
+
+        canvas.width = Math.floor(viewport.width);
+        canvas.height = Math.floor(viewport.height);
+        canvas.style.width = `${cssWidth}px`;
+        canvas.style.height = `${Math.floor(base.height * cssScale)}px`;
+
+        holder.style.aspectRatio = `${base.width} / ${base.height}`;
         holder.innerHTML = "";
         holder.appendChild(canvas);
 
-        await page.render({
-          canvasContext: context,
-          viewport
-        }).promise;
+        await page.render({ canvasContext: context, viewport }).promise;
 
         const no = document.createElement("div");
         no.className = "page-no";
         no.textContent = pageNo;
         holder.appendChild(no);
       } catch (err) {
-        holder.innerHTML = `<div class="empty-pdf">第 ${pageNo} 页渲染失败。</div><div class="page-no">${pageNo}</div>`;
+        holder.innerHTML = `<div class="empty-pdf">第 ${pageNo} 页渲染失败。<br>${escapeHtml(err.message || "")}</div><div class="page-no">${pageNo}</div>`;
       }
     }
 
@@ -1408,36 +1592,37 @@
         const rect = row.getBoundingClientRect();
         const pageNo = Number(row.dataset.page);
 
-        if (rect.bottom > readerRect.top - 900 && rect.top < readerRect.bottom + 1400) {
+        if (rect.bottom > readerRect.top - 1200 && rect.top < readerRect.bottom + 1600) {
           const sourceHolder = row.querySelector('[data-render-type="source"]');
           if (sourceHolder && sourcePdf) {
-            renderPdfPage(sourcePdf, sourceHolder, `source-${pageNo}`, pageNo);
+            renderPdfPage(sourcePdf, sourceHolder, `source-${currentDocId}-${pageNo}-${zoom}-${sourceHolder.clientWidth}`, pageNo);
           }
 
           const transHolder = row.querySelector('[data-render-type="translation"]');
           if (transHolder && translationPdf && rightMode === "pdf") {
-            renderPdfPage(translationPdf, transHolder, `translation-${pageNo}`, pageNo);
+            renderPdfPage(translationPdf, transHolder, `translation-${currentDocId}-${pageNo}-${zoom}-${transHolder.clientWidth}`, pageNo);
           }
         }
       });
 
       for (let i = 1; i <= Math.min(3, sourcePdf?.numPages || 0); i++) {
         const h = document.querySelector(`[data-render-type="source"][data-pdf-page="${i}"]`);
-        if (h) renderPdfPage(sourcePdf, h, `source-${i}`, i);
+        if (h) renderPdfPage(sourcePdf, h, `source-${currentDocId}-${i}-${zoom}-${h.clientWidth}`, i);
       }
 
       for (let i = 1; i <= Math.min(3, translationPdf?.numPages || 0); i++) {
         const h = document.querySelector(`[data-render-type="translation"][data-pdf-page="${i}"]`);
-        if (h && rightMode === "pdf") renderPdfPage(translationPdf, h, `translation-${i}`, i);
+        if (h && rightMode === "pdf") renderPdfPage(translationPdf, h, `translation-${currentDocId}-${i}-${zoom}-${h.clientWidth}`, i);
       }
     }
 
     function renderAi() {
-      const paper = currentPaper();
-      const ai = paper.aiReading || {};
+      const doc = currentDoc();
+      const ai = doc.aiReading || {};
 
       function list(items) {
-        return `<ul>${normalizeList(items).map(x => `<li>${escapeHtml(x)}</li>`).join("")}</ul>`;
+        const arr = normalizeList(items);
+        return arr.length ? `<ul>${arr.map(x => `<li>${escapeHtml(x)}</li>`).join("")}</ul>` : `<p>暂无。</p>`;
       }
 
       els.aiGrid.innerHTML = `
@@ -1447,7 +1632,7 @@
         </div>
         <div class="box">
           <h3>创新点</h3>
-          ${list(ai.innovation || [])}
+          ${list(ai.innovation)}
         </div>
         <div class="box">
           <h3>实验方法</h3>
@@ -1455,7 +1640,7 @@
         </div>
         <div class="box">
           <h3>关键数据</h3>
-          ${list(ai.keyData || [])}
+          ${list(ai.keyData)}
         </div>
         <div class="box">
           <h3>工艺流程</h3>
@@ -1467,11 +1652,11 @@
         </div>
         <div class="box">
           <h3>适合综述引用的句子</h3>
-          <p>${escapeHtml(ai.quote || "暂无推荐引用句。")}</p>
+          ${Array.isArray(ai.quote) ? list(ai.quote) : `<p>${escapeHtml(ai.quote || "暂无推荐引用句。")}</p>`}
         </div>
         <div class="box wide">
           <h3>英文依据</h3>
-          ${list(Object.values(paper.originalEvidence || {}).flat())}
+          ${list(Object.values(doc.originalEvidence || {}).flat())}
         </div>
       `;
     }
@@ -1480,36 +1665,98 @@
       renderLibrary();
       renderReader();
       renderAi();
-      els.paperSelect.value = currentPaperId;
-      els.modePdf.classList.toggle("active", rightMode === "pdf");
-      els.modeJson.classList.toggle("active", rightMode === "json");
+      els.paperSelect.value = currentDocId;
+      els.currentDocLabel.textContent = currentDoc().titleCn || currentDoc().title || "未命名文献";
     }
 
-    function importJson() {
+    function findExistingDoc(data) {
+      const doi = normalizeKey(data.doi);
+      const title = normalizeKey(data.title);
+      const titleCn = normalizeKey(data.titleCn);
+
+      return docs.find(doc => {
+        const sameDoi = doi && normalizeKey(doc.doi) === doi;
+        const sameTitle = title && normalizeKey(doc.title) === title;
+        const sameTitleCn = titleCn && normalizeKey(doc.titleCn) === titleCn;
+        return sameDoi || sameTitle || sameTitleCn;
+      });
+    }
+
+    function mergeDoc(target, data) {
+      const keepAssets = target.assets || {};
+      const merged = {
+        ...target,
+        ...data,
+        assets: keepAssets,
+        id: target.id,
+        journalRank: data.journalRank || data.rank || target.journalRank || {},
+        tags: normalizeList(data.tags || target.tags),
+        pageCount: data.pageCount || Object.keys(data.pageTranslations || target.pageTranslations || {}).length || target.pageCount || 1
+      };
+
+      if (data.pageTranslations) {
+        merged.pageTranslations = {};
+        Object.keys(data.pageTranslations).forEach(k => {
+          merged.pageTranslations[k] = normalizeList(data.pageTranslations[k]);
+        });
+      }
+
+      Object.assign(target, merged);
+    }
+
+    async function importJson() {
       try {
         const data = JSON.parse(els.jsonInput.value);
-        const imported = {
-          ...structuredClone(samplePaper),
-          ...data,
-          id: `paper-${Date.now()}`,
-          pageCount: data.pageCount || Object.keys(data.pageTranslations || {}).length || 3,
-          journalRank: data.journalRank || data.rank || {}
-        };
+        const current = currentDoc();
+        const existing = findExistingDoc(data);
 
-        if (data.pageTranslations) {
-          Object.keys(data.pageTranslations).forEach(k => {
-            imported.pageTranslations[k] = normalizeList(data.pageTranslations[k]);
-          });
+        let target;
+        if (existing) {
+          target = existing;
+        } else if (!current.title || current.title === "未命名文献") {
+          target = current;
+        } else {
+          target = {
+            id: `doc-${Date.now()}`,
+            title: data.title || "未命名文献",
+            titleCn: data.titleCn || "",
+            journal: "",
+            year: "",
+            doi: "",
+            journalRank: {},
+            tags: [],
+            pageTranslations: {},
+            pageFigures: {},
+            pageKeyPoints: {},
+            originalEvidence: {},
+            aiReading: {},
+            assets: {}
+          };
+          docs.push(target);
         }
 
-        papers.push(imported);
-        currentPaperId = imported.id;
+        mergeDoc(target, data);
+        currentDocId = target.id;
+        saveDocs();
+        await hydratePdfs();
         renderAll();
         showView("reader");
-        els.jsonStatus.textContent = "JSON 导入成功，已生成新文献。";
-        toast("JSON 导入成功。");
+
+        els.jsonStatus.textContent = existing ? "JSON 已更新已有文献。" : "JSON 已导入。";
+        toast(existing ? "已按 DOI / 标题更新已有文献。" : "已新增文献。");
       } catch (err) {
         els.jsonStatus.textContent = `JSON 格式错误：${err.message}`;
+      }
+    }
+
+    async function readJsonFile(file) {
+      if (!file) return;
+      try {
+        const text = await file.text();
+        els.jsonInput.value = text;
+        els.jsonStatus.textContent = `已读取 JSON 文件：${file.name}`;
+      } catch (err) {
+        els.jsonStatus.textContent = `JSON 文件读取失败：${err.message}`;
       }
     }
 
@@ -1517,24 +1764,33 @@
       if (!file) return;
 
       const status = type === "source" ? els.sourcePdfStatus : els.translationPdfStatus;
+      const doc = currentDoc();
 
       try {
         status.textContent = `正在读取：${file.name}`;
+        await putFile(doc.id, type, file);
+
         const buffer = await file.arrayBuffer();
         const pdf = await pdfjsLib.getDocument({ data: buffer }).promise;
 
+        doc.assets = doc.assets || {};
+
         if (type === "source") {
           sourcePdf = pdf;
+          doc.assets.sourceName = file.name;
           status.textContent = `英文 PDF 已载入：${file.name}，共 ${pdf.numPages} 页。`;
         } else {
           translationPdf = pdf;
+          doc.assets.translationName = file.name;
           rightMode = "pdf";
           status.textContent = `中文翻译 PDF 已载入：${file.name}，共 ${pdf.numPages} 页。`;
         }
 
+        doc.pageCount = Math.max(Number(doc.pageCount || 0), pdf.numPages);
+        saveDocs();
         renderAll();
         showView("reader");
-        toast(type === "source" ? "英文 PDF 已载入。" : "中文翻译 PDF 已载入，右侧已切换为译文 PDF。");
+        toast(type === "source" ? "英文 PDF 已绑定到当前文献。" : "中文翻译 PDF 已绑定到当前文献。");
       } catch (err) {
         status.textContent = `PDF 读取失败：${err.message}`;
       }
@@ -1570,9 +1826,11 @@
     }
 
     function setZoom(delta) {
-      scale = Math.max(0.72, Math.min(1.35, scale + delta));
-      els.readerInner.style.transform = `scale(${scale})`;
-      els.zoomText.textContent = `${Math.round(scale * 100)}%`;
+      zoom = Math.max(0.65, Math.min(1.6, zoom + delta));
+      els.readerInner.style.width = `${zoom * 100}%`;
+      els.zoomText.textContent = `${Math.round(zoom * 100)}%`;
+      rendered.clear();
+      setTimeout(renderVisiblePdfPages, 80);
     }
 
     function bindPaneResizers() {
@@ -1584,13 +1842,15 @@
 
           function move(e) {
             const pct = ((e.clientX - rect.left) / rect.width) * 100;
-            const clamped = Math.max(34, Math.min(66, pct));
+            const clamped = Math.max(32, Math.min(68, pct));
             document.documentElement.style.setProperty("--left-col", `${clamped}%`);
+            rendered.clear();
           }
 
           function up() {
             window.removeEventListener("pointermove", move);
             window.removeEventListener("pointerup", up);
+            setTimeout(renderVisiblePdfPages, 100);
           }
 
           window.addEventListener("pointermove", move);
@@ -1604,7 +1864,7 @@
 
       handle.addEventListener("pointerdown", event => {
         event.preventDefault();
-        els.app.classList.remove("reading");
+        els.app.classList.remove("reading", "side-open");
 
         function move(e) {
           const width = Math.max(220, Math.min(430, e.clientX));
@@ -1621,6 +1881,61 @@
       });
     }
 
+    function createNewDoc() {
+      const doc = {
+        id: `doc-${Date.now()}`,
+        title: "未命名文献",
+        titleCn: "新文献",
+        journal: "",
+        year: "",
+        doi: "",
+        journalRank: { IF: "-", CAS: "-", JCR: "-" },
+        tags: [],
+        pageCount: 1,
+        assets: {},
+        pageTranslations: {},
+        pageFigures: {},
+        pageKeyPoints: {},
+        originalEvidence: {},
+        aiReading: {}
+      };
+
+      docs.push(doc);
+      currentDocId = doc.id;
+      sourcePdf = null;
+      translationPdf = null;
+      rightMode = "json";
+      saveDocs();
+      renderAll();
+      showView("upload");
+      toast("已新增空白文献，请上传 PDF 或导入 JSON。");
+    }
+
+    async function deleteCurrentDoc() {
+      if (docs.length <= 1) {
+        toast("至少保留一篇文献。");
+        return;
+      }
+
+      const doc = currentDoc();
+      const ok = confirm(`确定删除当前文献？\n${doc.titleCn || doc.title || "未命名文献"}`);
+      if (!ok) return;
+
+      await deleteFile(doc.id, "source");
+      await deleteFile(doc.id, "translation");
+
+      docs = docs.filter(d => d.id !== doc.id);
+      currentDocId = docs[0].id;
+      sourcePdf = null;
+      translationPdf = null;
+      rightMode = "json";
+      saveDocs();
+      await hydratePdfs();
+      renderAll();
+      showView("library");
+      toast("当前文献已删除。");
+    }
+
     document.querySelectorAll(".nav button").forEach(btn => {
       btn.addEventListener("click", () => showView(btn.dataset.view));
     });
@@ -1630,32 +1945,69 @@
     });
 
     document.getElementById("toggleSidebar").addEventListener("click", () => {
-      els.app.classList.toggle("reading");
+      if (els.app.classList.contains("reading")) {
+        els.app.classList.toggle("side-open");
+      } else {
+        els.app.classList.add("reading");
+      }
     });
 
-    els.paperSelect.addEventListener("change", () => {
-      currentPaperId = els.paperSelect.value;
+    els.sidebar.addEventListener("mouseenter", () => {
+      if (els.app.classList.contains("reading")) els.app.classList.add("side-open");
+    });
+
+    els.sidebar.addEventListener("mouseleave", () => {
+      if (els.app.classList.contains("reading")) els.app.classList.remove("side-open");
+    });
+
+    els.topHotzone.addEventListener("mouseenter", () => {
+      clearTimeout(topTimer);
+      els.app.classList.add("top-open");
+    });
+
+    els.toolbar.addEventListener("mouseenter", () => {
+      clearTimeout(topTimer);
+      els.app.classList.add("top-open");
+    });
+
+    els.toolbar.addEventListener("mouseleave", () => {
+      topTimer = setTimeout(() => els.app.classList.remove("top-open"), 450);
+    });
+
+    els.paperSelect.addEventListener("change", async () => {
+      currentDocId = els.paperSelect.value;
+      saveDocs();
+      await hydratePdfs();
       renderAll();
     });
 
     document.getElementById("jumpBtn").addEventListener("click", jumpToPage);
     document.getElementById("zoomOut").addEventListener("click", () => setZoom(-0.08));
     document.getElementById("zoomIn").addEventListener("click", () => setZoom(0.08));
-
     document.getElementById("importJsonBtn").addEventListener("click", importJson);
+    document.getElementById("newDocBtn").addEventListener("click", createNewDoc);
+    document.getElementById("deleteDocBtn").addEventListener("click", deleteCurrentDoc);
 
-    document.getElementById("resetBtn").addEventListener("click", () => {
-      papers = [structuredClone(samplePaper)];
-      currentPaperId = papers[0].id;
+    document.getElementById("resetBtn").addEventListener("click", async () => {
+      docs = [structuredClone(samplePaper)];
+      currentDocId = docs[0].id;
       sourcePdf = null;
       translationPdf = null;
       rightMode = "json";
+      zoom = 1;
+      localStorage.removeItem(STORAGE_KEY);
+      localStorage.removeItem(CURRENT_KEY);
+      saveDocs();
       renderAll();
       showView("library");
       toast("已恢复示例文献。");
     });
 
     els.modePdf.addEventListener("click", () => {
+      if (!translationPdf) {
+        toast("当前文献还没有上传中文翻译 PDF，已保持 JSON 译文模式。");
+        return;
+      }
       rightMode = "pdf";
       renderAll();
       showView("reader");
@@ -1669,11 +2021,18 @@
 
     els.searchInput.addEventListener("input", () => searchChinese(els.searchInput.value));
     els.reader.addEventListener("scroll", renderVisiblePdfPages);
+    window.addEventListener("resize", () => {
+      rendered.clear();
+      setTimeout(renderVisiblePdfPages, 160);
+    });
 
-    els.sourcePdfInput.addEventListener("change", e => loadPdf(e.target.files?.[0], "source"));
-    els.translationPdfInput.addEventListener("change", e => loadPdf(e.target.files?.[0], "translation"));
+    document.getElementById("sourcePdfInput").addEventListener("change", e => loadPdf(e.target.files?.[0], "source"));
+    document.getElementById("translationPdfInput").addEventListener("change", e => loadPdf(e.target.files?.[0], "translation"));
+    document.getElementById("jsonFileInput").addEventListener("change", e => readJsonFile(e.target.files?.[0]));
 
     bindSidebarResize();
+
+    await hydratePdfs();
     renderAll();
   </script>
 </body>
