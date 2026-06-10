@@ -4,95 +4,2907 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>低品位锰矿文献工作台</title>
+
   <style>
-    :root{
-      --bg:#eef2f0;--panel:#fff;--ink:#17212b;--text:#344054;--muted:#667085;--line:#d8dedb;--soft:#e6ebe8;
-      --green:#2f6f5e;--green-dark:#1f5a4b;--green-soft:#e8f1ed;--amber:#b87916;--amber-soft:#fff3d6;
-      --blue-soft:#edf2f7;--danger:#b42318;--danger-soft:#fee4e2;--sidebar-width:300px;--left-col:50%;
+    :root {
+      --bg: #eef2f0;
+      --panel: #ffffff;
+      --ink: #17212b;
+      --text: #344054;
+      --muted: #667085;
+      --line: #d8dedb;
+      --line-soft: #e6ebe8;
+      --green: #2f6f5e;
+      --green-dark: #1f5a4b;
+      --green-soft: #e8f1ed;
+      --amber: #b87916;
+      --amber-soft: #fff3d6;
+      --blue-soft: #edf2f7;
+      --danger: #b42318;
+      --danger-soft: #fee4e2;
+      --sidebar-width: 300px;
+      --left-width: 50%;
     }
-    *{box-sizing:border-box} body{margin:0;height:100vh;overflow:hidden;background:var(--bg);color:var(--ink);font-family:"Microsoft YaHei","PingFang SC","Noto Sans CJK SC",Arial,sans-serif} button,input,select,textarea{font-family:inherit} button:disabled{opacity:.45;cursor:not-allowed}
-    .app{height:100vh;display:grid;grid-template-columns:var(--sidebar-width) minmax(0,1fr);overflow:hidden}.app.reading{--sidebar-width:48px}.app.reading.side-open{--sidebar-width:300px}
-    .sidebar{position:relative;background:#fff;border-right:1px solid var(--line);display:flex;flex-direction:column;overflow:hidden;z-index:20}.brand{height:56px;display:flex;align-items:center;gap:9px;padding:0 10px;border-bottom:1px solid var(--soft);flex-shrink:0}.logo{width:32px;height:32px;border-radius:7px;background:var(--green);color:#fff;display:grid;place-items:center;font-weight:800}.toggle-side{width:32px;height:32px;border:1px solid var(--line);border-radius:7px;background:#fff;color:var(--green-dark);cursor:pointer;font-size:18px}.brand-title{font-weight:800;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.brand-subtitle{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.app.reading:not(.side-open) .brand-text,.app.reading:not(.side-open) .logo,.app.reading:not(.side-open) .sidebar-content,.app.reading:not(.side-open) .nav-label{display:none}.app.reading:not(.side-open) .brand{justify-content:center;padding:0}
-    .nav{display:grid;gap:6px;padding:9px;border-bottom:1px solid var(--soft);flex-shrink:0}.nav button{height:36px;border:1px solid transparent;border-radius:6px;background:#fff;color:var(--text);text-align:left;padding:0 10px;cursor:pointer;font-size:13px;display:flex;align-items:center;gap:8px}.nav button.active{background:var(--green-soft);border-color:#bdd4ca;color:var(--green-dark);font-weight:700}.app.reading:not(.side-open) .nav button{justify-content:center;padding:0;font-size:16px}.sidebar-content{padding:10px;overflow:auto;min-height:0}.resizer{position:absolute;right:-3px;top:0;width:6px;height:100%;cursor:col-resize;z-index:4}.resizer:hover{background:rgba(47,111,94,.18)}
-    .main{min-width:0;height:100vh;display:flex;flex-direction:column;position:relative}.toolbar{height:54px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:8px;padding:0 10px;flex-shrink:0;z-index:15;min-width:0}.app.reading .toolbar{position:fixed;left:var(--sidebar-width);right:0;top:-54px;transition:top .15s,left .15s;box-shadow:0 8px 18px rgba(15,23,42,.08)}.app.reading.top-open .toolbar{top:0}.top-hotzone{display:none}.app.reading .top-hotzone{display:block;position:fixed;left:var(--sidebar-width);right:0;top:0;height:8px;z-index:14}.toolbar select,.toolbar input{height:32px;border:1px solid var(--line);border-radius:6px;padding:0 9px;background:#fff;color:var(--text);font-size:12px;outline:none}.paper-select{width:360px;max-width:36vw}.page-input{width:62px;text-align:center}.search-input{width:170px}.tool{display:inline-flex;align-items:center;gap:5px;color:var(--muted);font-size:12px;white-space:nowrap}.spacer{flex:1}.btn,.primary,.secondary,.danger{height:32px;border-radius:6px;padding:0 10px;font-size:12px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px;white-space:nowrap}.primary{background:var(--green);color:#fff;border:1px solid var(--green-dark);font-weight:700}.secondary,.btn{background:#fff;color:var(--text);border:1px solid var(--line);font-weight:600}.danger{background:var(--danger-soft);color:var(--danger);border:1px solid #fda29b;font-weight:700}.btn.active{background:var(--green-soft);border-color:#bdd4ca;color:var(--green-dark);font-weight:800}
-    .view{display:none;height:calc(100vh - 54px);min-height:0}.view.active{display:block}.app.reading .view{height:100vh}.panel{height:100%;overflow:auto;padding:18px;background:#f5f7f6}.panel-head{max-width:1180px;margin:0 auto 14px;display:flex;justify-content:space-between;align-items:flex-end;gap:12px}.panel-head h2{margin:0;font-size:21px}.panel-head p{margin:5px 0 0;color:var(--muted);font-size:13px;line-height:1.7}.grid{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.box{background:#fff;border:1px solid var(--line);border-radius:8px;padding:15px}.wide{grid-column:1/-1}.box h3{margin:0 0 10px;font-size:14px;color:#243b35}.box p,.box li{font-size:13px;line-height:1.85;color:var(--text)}
-    .paper-card{background:#fff;border:1px solid var(--line);border-radius:8px;padding:12px;margin-bottom:10px}.paper-card h3{margin:0 0 7px;font-size:14px;line-height:1.45;overflow-wrap:anywhere}.cn-title{font-size:13px;line-height:1.55;color:var(--text);margin-bottom:8px}.rank-row,.tags,.row{display:flex;flex-wrap:wrap;gap:6px}.rank-row{margin:8px 0}.rank-badge{height:25px;border-radius:999px;padding:0 9px;font-size:12px;font-weight:800;border:1px solid transparent;display:inline-flex;align-items:center}.rank-if{color:#6b4b14;background:var(--amber-soft);border-color:#eccb84}.rank-cas{color:var(--green-dark);background:var(--green-soft);border-color:#b8d2c8}.rank-jcr{color:#31435a;background:var(--blue-soft);border-color:#c9d5e3}.meta{display:grid;grid-template-columns:1fr 1fr;gap:5px 8px;color:var(--muted);font-size:12px;line-height:1.45;margin:8px 0}.meta .doi{grid-column:1/-1;overflow-wrap:anywhere}.meta b{color:#475467;margin-right:4px}.tag{border:1px solid #cbd8d2;background:#f7faf8;color:#31594d;font-size:11px;border-radius:999px;padding:4px 7px}.empty-state{max-width:720px;margin:70px auto;background:#fff;border:1px solid var(--line);border-radius:8px;padding:24px;text-align:center}.empty-state p{color:var(--muted);font-size:13px;line-height:1.8}
-    .upload-actions,.sync-actions{max-width:1180px;margin:0 auto 14px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}.upload-grid{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.drop{background:#fff;border:1px dashed #9eb8ae;border-radius:8px;padding:16px;min-height:250px}.drop h3{margin:0 0 8px;font-size:15px;color:#243b35}.drop p,.small-note{color:var(--muted);font-size:13px;line-height:1.75}.small-note{color:var(--green-dark);font-size:12px;margin-top:10px;min-height:18px;white-space:pre-wrap;overflow-wrap:anywhere}.mini-field{display:grid;gap:5px;margin:8px 0}.mini-field label,.field label{font-size:12px;font-weight:700;color:var(--text)}.mini-field input,.field input{height:31px;border:1px solid var(--line);border-radius:6px;padding:0 8px;font-size:12px;width:100%}.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;max-width:1180px;margin:0 auto 14px}.field.full{grid-column:1/-1}.field input{height:36px;font-size:13px}textarea{width:100%;min-height:150px;border:1px solid var(--line);border-radius:6px;padding:10px;resize:vertical;font-size:12px;line-height:1.6;color:var(--text)}.preview-panel{max-width:1180px;margin:14px auto 0;border:1px solid var(--line);background:#fff;border-radius:8px;padding:14px}.sync-log{max-width:1180px;margin:0 auto;background:#101828;color:#e4e7ec;border-radius:8px;padding:12px;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:12px;line-height:1.65;min-height:130px;white-space:pre-wrap;overflow:auto}.status-table{width:100%;border-collapse:collapse;font-size:12px}.status-table th,.status-table td{border:1px solid var(--line);padding:7px 8px;text-align:left;vertical-align:top}.status-table th{background:#f5f7f6}.status-ok{color:#087443;font-weight:700}.status-bad{color:#b42318;font-weight:700}.status-muted{color:#667085}
-    .reader{height:100%;overflow:auto;background:#e9efec;--left-col:50%}.reader-inner{width:100%;min-width:1000px}.page-row{width:100%;display:grid;grid-template-columns:minmax(0,var(--left-col)) 3px minmax(0,1fr);gap:0;align-items:stretch}.pane-resizer{width:3px;background:#cfd8d3;cursor:col-resize}.paper-page{background:#fff;border:1px solid #cfd6d2;position:relative;min-width:0;overflow:auto}.pdf-page{display:flex;align-items:flex-start;justify-content:center;min-height:420px}.translation-page{aspect-ratio:.707/1;padding:34px 38px 44px}.translation-page h2{font-size:17px;margin:0 0 13px}.translation-page p{font-size:13px;line-height:1.95;text-align:justify;color:#263238;margin:0 0 10px;overflow-wrap:anywhere}.figure-note{background:var(--amber-soft);border-left:3px solid var(--amber);color:#6b4b14;font-size:12px;line-height:1.65;padding:8px 10px;margin:12px 0}.evidence{border-top:1px solid var(--soft);margin-top:10px;padding-top:8px}.evidence summary{font-size:12px;color:var(--green-dark);font-weight:700;cursor:pointer}.evidence li{font-size:12px;line-height:1.7;color:#475467}.page-no{position:absolute;bottom:10px;left:0;right:0;text-align:center;color:#98a2b3;font-size:11px;pointer-events:none}.empty-pdf{width:100%;min-height:420px;padding:34px;display:grid;place-items:center;text-align:center;color:var(--muted);font-size:13px;line-height:1.8}.pdf-placeholder{padding:34px 38px 44px;width:100%;height:100%;font-family:Georgia,"Times New Roman",serif}.pdf-placeholder h1{font-size:19px;line-height:1.28;margin:0 0 10px}.mock-figure{height:110px;border:1px solid #cfd6d2;background:repeating-linear-gradient(45deg,#f8fafc,#f8fafc 8px,#eef2f1 8px,#eef2f1 16px);display:grid;place-items:center;color:var(--muted);font-size:12px;margin:12px 0}.highlight{background:#ffe08a;border-radius:3px;padding:0 2px}canvas{display:block;width:100%;height:auto}
-    .view-float{position:fixed;right:18px;bottom:18px;z-index:35}.view-toggle{height:38px;border-radius:999px;background:var(--green);color:#fff;border:1px solid var(--green-dark);font-weight:800;padding:0 14px;cursor:pointer;box-shadow:0 8px 20px rgba(15,23,42,.18)}.view-panel{display:none;width:300px;background:#fff;border:1px solid var(--line);border-radius:8px;box-shadow:0 12px 28px rgba(15,23,42,.18);padding:12px;margin-bottom:10px}.view-panel.open{display:block}.control{display:grid;gap:5px;margin-bottom:10px}.control label{font-size:12px;font-weight:800;color:#344054;display:flex;justify-content:space-between}.control input[type=range]{width:100%;accent-color:var(--green)}.toast{position:fixed;right:18px;bottom:72px;background:#193f35;color:#fff;padding:10px 12px;border-radius:7px;box-shadow:0 8px 22px rgba(15,23,42,.18);font-size:12px;line-height:1.5;max-width:380px;display:none;z-index:60}
-    @media(max-width:1100px){.upload-grid,.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.paper-select{width:220px;max-width:45vw}.search-input{width:145px}.reader-inner{min-width:900px}}
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      height: 100vh;
+      overflow: hidden;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans CJK SC", Arial, sans-serif;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font-family: inherit;
+    }
+
+    button:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    .app {
+      height: 100vh;
+      display: grid;
+      grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+      overflow: hidden;
+    }
+
+    .app.reading {
+      --sidebar-width: 48px;
+    }
+
+    .app.reading.side-open {
+      --sidebar-width: 300px;
+    }
+
+    .sidebar {
+      position: relative;
+      background: var(--panel);
+      border-right: 1px solid var(--line);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      z-index: 30;
+    }
+
+    .sidebar-resizer {
+      position: absolute;
+      top: 0;
+      right: -3px;
+      width: 6px;
+      height: 100%;
+      cursor: col-resize;
+      z-index: 4;
+    }
+
+    .sidebar-resizer:hover {
+      background: rgba(47, 111, 94, 0.18);
+    }
+
+    .brand {
+      height: 56px;
+      padding: 0 10px;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      border-bottom: 1px solid var(--line-soft);
+      flex-shrink: 0;
+      min-width: 0;
+    }
+
+    .toggle-side {
+      width: 32px;
+      height: 32px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: #ffffff;
+      color: var(--green-dark);
+      cursor: pointer;
+      font-size: 18px;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+    }
+
+    .logo {
+      width: 32px;
+      height: 32px;
+      border-radius: 7px;
+      background: var(--green);
+      color: #ffffff;
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+
+    .brand-text {
+      min-width: 0;
+    }
+
+    .brand-title {
+      font-size: 15px;
+      font-weight: 800;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .brand-subtitle {
+      margin-top: 2px;
+      font-size: 12px;
+      color: var(--muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .app.reading:not(.side-open) .brand-text,
+    .app.reading:not(.side-open) .logo,
+    .app.reading:not(.side-open) .sidebar-content,
+    .app.reading:not(.side-open) .nav-label {
+      display: none;
+    }
+
+    .app.reading:not(.side-open) .brand {
+      justify-content: center;
+      padding: 0;
+    }
+
+    .nav {
+      display: grid;
+      gap: 6px;
+      padding: 9px;
+      border-bottom: 1px solid var(--line-soft);
+      flex-shrink: 0;
+    }
+
+    .nav button {
+      height: 36px;
+      border: 1px solid transparent;
+      border-radius: 6px;
+      background: #ffffff;
+      color: var(--text);
+      text-align: left;
+      padding: 0 10px;
+      cursor: pointer;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .nav button:hover {
+      background: #f7faf8;
+      border-color: #dbe6e1;
+    }
+
+    .nav button.active {
+      background: var(--green-soft);
+      border-color: #bdd4ca;
+      color: var(--green-dark);
+      font-weight: 700;
+    }
+
+    .app.reading:not(.side-open) .nav button {
+      justify-content: center;
+      padding: 0;
+      font-size: 16px;
+    }
+
+    .sidebar-content {
+      padding: 10px;
+      overflow: auto;
+      min-height: 0;
+    }
+
+    .main {
+      min-width: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .top-hotzone {
+      display: none;
+    }
+
+    .app.reading .top-hotzone {
+      display: block;
+      position: fixed;
+      top: 0;
+      left: var(--sidebar-width);
+      right: 0;
+      height: 8px;
+      z-index: 20;
+    }
+
+    .toolbar {
+      height: 54px;
+      background: #ffffff;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 10px;
+      flex-shrink: 0;
+      min-width: 0;
+      z-index: 21;
+    }
+
+    .app.reading .toolbar {
+      position: fixed;
+      top: -54px;
+      left: var(--sidebar-width);
+      right: 0;
+      height: 54px;
+      transition: top 0.16s ease, left 0.16s ease;
+      box-shadow: 0 8px 18px rgba(15, 23, 42, 0.08);
+    }
+
+    .app.reading.top-open .toolbar {
+      top: 0;
+    }
+
+    .toolbar select,
+    .toolbar input {
+      height: 32px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 0 9px;
+      background: #ffffff;
+      color: var(--text);
+      font-size: 12px;
+      outline: none;
+    }
+
+    .paper-select {
+      width: 360px;
+      max-width: 36vw;
+    }
+
+    .page-input {
+      width: 62px;
+      text-align: center;
+    }
+
+    .search-input {
+      width: 180px;
+    }
+
+    .tool-group {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      color: var(--muted);
+      font-size: 12px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .spacer {
+      flex: 1;
+    }
+
+    .btn,
+    .primary,
+    .secondary,
+    .danger {
+      height: 32px;
+      border-radius: 6px;
+      padding: 0 10px;
+      font-size: 12px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .primary {
+      background: var(--green);
+      color: #ffffff;
+      border: 1px solid var(--green-dark);
+      font-weight: 700;
+    }
+
+    .primary:hover {
+      background: var(--green-dark);
+    }
+
+    .secondary,
+    .btn {
+      background: #ffffff;
+      color: var(--text);
+      border: 1px solid var(--line);
+      font-weight: 600;
+    }
+
+    .secondary:hover,
+    .btn:hover {
+      background: #f7faf8;
+    }
+
+    .btn.active {
+      background: var(--green-soft);
+      border-color: #bdd4ca;
+      color: var(--green-dark);
+      font-weight: 800;
+    }
+
+    .danger {
+      background: var(--danger-soft);
+      color: var(--danger);
+      border: 1px solid #fda29b;
+      font-weight: 700;
+    }
+
+    .view {
+      display: none;
+      height: calc(100vh - 54px);
+      min-height: 0;
+    }
+
+    .view.active {
+      display: block;
+    }
+
+    .app.reading .view {
+      height: 100vh;
+    }
+
+    .panel {
+      height: 100%;
+      overflow: auto;
+      padding: 18px;
+      background: #f5f7f6;
+    }
+
+    .panel-head {
+      max-width: 1180px;
+      margin: 0 auto 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 12px;
+    }
+
+    .panel-head h2 {
+      margin: 0;
+      font-size: 21px;
+    }
+
+    .panel-head p {
+      margin: 5px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .grid {
+      max-width: 1180px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .wide {
+      grid-column: 1 / -1;
+    }
+
+    .box {
+      background: #ffffff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 15px;
+    }
+
+    .box h3 {
+      margin: 0 0 10px;
+      font-size: 14px;
+      color: #243b35;
+    }
+
+    .box p,
+    .box li {
+      font-size: 13px;
+      line-height: 1.85;
+      color: var(--text);
+    }
+
+    .paper-card {
+      background: #ffffff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 10px;
+    }
+
+    .paper-card h3 {
+      margin: 0 0 7px;
+      font-size: 14px;
+      line-height: 1.45;
+      color: #182230;
+      overflow-wrap: anywhere;
+    }
+
+    .cn-title {
+      font-size: 13px;
+      line-height: 1.55;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .rank-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin: 8px 0 9px;
+    }
+
+    .rank-badge {
+      height: 25px;
+      border-radius: 999px;
+      padding: 0 9px;
+      font-size: 12px;
+      font-weight: 800;
+      border: 1px solid transparent;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .rank-if {
+      color: #6b4b14;
+      background: var(--amber-soft);
+      border-color: #eccb84;
+    }
+
+    .rank-cas {
+      color: var(--green-dark);
+      background: var(--green-soft);
+      border-color: #b8d2c8;
+    }
+
+    .rank-jcr {
+      color: #31435a;
+      background: var(--blue-soft);
+      border-color: #c9d5e3;
+    }
+
+    .meta {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5px 8px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+      margin: 8px 0;
+    }
+
+    .meta b {
+      color: #475467;
+      margin-right: 4px;
+    }
+
+    .meta .doi {
+      grid-column: 1 / -1;
+      overflow-wrap: anywhere;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin: 9px 0 11px;
+    }
+
+    .tag {
+      border: 1px solid #cbd8d2;
+      background: #f7faf8;
+      color: #31594d;
+      font-size: 11px;
+      border-radius: 999px;
+      padding: 4px 7px;
+    }
+
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .empty-state {
+      max-width: 720px;
+      margin: 70px auto;
+      background: #ffffff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .empty-state p {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.8;
+    }
+
+    .upload-actions,
+    .sync-actions {
+      max-width: 1180px;
+      margin: 0 auto 14px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .current-label {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .upload-grid {
+      max-width: 1180px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .drop {
+      background: #ffffff;
+      border: 1px dashed #9eb8ae;
+      border-radius: 8px;
+      padding: 16px;
+      min-height: 250px;
+    }
+
+    .drop h3 {
+      margin: 0 0 8px;
+      font-size: 15px;
+      color: #243b35;
+    }
+
+    .drop p {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.75;
+      margin: 0 0 12px;
+    }
+
+    .mini-field {
+      display: grid;
+      gap: 5px;
+      margin: 8px 0;
+    }
+
+    .mini-field label,
+    .field label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .mini-field input,
+    .field input {
+      height: 31px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 0 8px;
+      font-size: 12px;
+      width: 100%;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      max-width: 1180px;
+      margin: 0 auto 14px;
+    }
+
+    .field.full {
+      grid-column: 1 / -1;
+    }
+
+    .field input {
+      height: 36px;
+      font-size: 13px;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 150px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 10px;
+      resize: vertical;
+      font-size: 12px;
+      line-height: 1.6;
+      color: var(--text);
+      outline: none;
+    }
+
+    .small-note {
+      color: var(--green-dark);
+      font-size: 12px;
+      margin-top: 10px;
+      min-height: 18px;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+
+    .preview-panel {
+      max-width: 1180px;
+      margin: 14px auto 0;
+      border: 1px solid var(--line);
+      background: #ffffff;
+      border-radius: 8px;
+      padding: 14px;
+    }
+
+    .preview-panel h3 {
+      margin: 0 0 8px;
+      font-size: 15px;
+    }
+
+    .sync-log {
+      max-width: 1180px;
+      margin: 0 auto;
+      background: #101828;
+      color: #e4e7ec;
+      border-radius: 8px;
+      padding: 12px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 12px;
+      line-height: 1.65;
+      min-height: 130px;
+      white-space: pre-wrap;
+      overflow: auto;
+    }
+
+    .status-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+
+    .status-table th,
+    .status-table td {
+      border: 1px solid var(--line);
+      padding: 7px 8px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .status-table th {
+      background: #f5f7f6;
+      color: #344054;
+    }
+
+    .status-ok {
+      color: #087443;
+      font-weight: 700;
+    }
+
+    .status-bad {
+      color: #b42318;
+      font-weight: 700;
+    }
+
+    .status-muted {
+      color: #667085;
+    }
+
+    .reader {
+      height: 100%;
+      overflow: auto;
+      background: #e9efec;
+      --left-width: 50%;
+    }
+
+    .reader-inner {
+      width: 100%;
+      min-width: 1000px;
+    }
+
+    .page-row {
+      width: 100%;
+      display: grid;
+      grid-template-columns: minmax(0, var(--left-width)) 3px minmax(0, 1fr);
+      align-items: stretch;
+      gap: 0;
+    }
+
+    .pane-resizer {
+      width: 3px;
+      background: #cfd8d3;
+      cursor: col-resize;
+    }
+
+    .pane-resizer:hover {
+      background: rgba(47, 111, 94, 0.45);
+    }
+
+    .paper-page {
+      background: #ffffff;
+      border: 1px solid #cfd6d2;
+      position: relative;
+      min-width: 0;
+      overflow: auto;
+    }
+
+    .pdf-page {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      min-height: 420px;
+    }
+
+    .translation-page {
+      aspect-ratio: 0.707 / 1;
+      padding: 34px 38px 44px;
+    }
+
+    .translation-page h2 {
+      font-size: 17px;
+      margin: 0 0 13px;
+    }
+
+    .translation-page p {
+      font-size: 13px;
+      line-height: 1.95;
+      text-align: justify;
+      color: #263238;
+      margin: 0 0 10px;
+      overflow-wrap: anywhere;
+    }
+
+    .figure-note {
+      background: var(--amber-soft);
+      border-left: 3px solid var(--amber);
+      color: #6b4b14;
+      font-size: 12px;
+      line-height: 1.65;
+      padding: 8px 10px;
+      margin: 12px 0;
+    }
+
+    .evidence {
+      border-top: 1px solid var(--line-soft);
+      margin-top: 10px;
+      padding-top: 8px;
+    }
+
+    .evidence summary {
+      font-size: 12px;
+      color: var(--green-dark);
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .evidence li {
+      font-size: 12px;
+      line-height: 1.7;
+      color: #475467;
+    }
+
+    .page-no {
+      position: absolute;
+      bottom: 10px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      color: #98a2b3;
+      font-size: 11px;
+      pointer-events: none;
+    }
+
+    .empty-pdf {
+      width: 100%;
+      min-height: 420px;
+      padding: 34px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.8;
+    }
+
+    .pdf-placeholder {
+      padding: 34px 38px 44px;
+      width: 100%;
+      height: 100%;
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+    .pdf-placeholder h1 {
+      font-size: 19px;
+      line-height: 1.28;
+      margin: 0 0 10px;
+    }
+
+    .mock-figure {
+      height: 110px;
+      border: 1px solid #cfd6d2;
+      background: repeating-linear-gradient(
+        45deg,
+        #f8fafc,
+        #f8fafc 8px,
+        #eef2f1 8px,
+        #eef2f1 16px
+      );
+      display: grid;
+      place-items: center;
+      color: var(--muted);
+      font-size: 12px;
+      margin: 12px 0;
+    }
+
+    .highlight {
+      background: #ffe08a;
+      border-radius: 3px;
+      padding: 0 2px;
+    }
+
+    canvas {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .view-float {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 35;
+    }
+
+    .view-toggle {
+      height: 38px;
+      border-radius: 999px;
+      background: var(--green);
+      color: #ffffff;
+      border: 1px solid var(--green-dark);
+      font-weight: 800;
+      padding: 0 14px;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.18);
+    }
+
+    .view-panel {
+      display: none;
+      width: 300px;
+      background: #ffffff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: 0 12px 28px rgba(15, 23, 42, 0.18);
+      padding: 12px;
+      margin-bottom: 10px;
+    }
+
+    .view-panel.open {
+      display: block;
+    }
+
+    .control {
+      display: grid;
+      gap: 5px;
+      margin-bottom: 10px;
+    }
+
+    .control label {
+      font-size: 12px;
+      font-weight: 800;
+      color: #344054;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .control input[type="range"] {
+      width: 100%;
+      accent-color: var(--green);
+    }
+
+    .toast {
+      position: fixed;
+      right: 18px;
+      bottom: 72px;
+      background: #193f35;
+      color: #ffffff;
+      padding: 10px 12px;
+      border-radius: 7px;
+      box-shadow: 0 8px 22px rgba(15, 23, 42, 0.18);
+      font-size: 12px;
+      line-height: 1.5;
+      max-width: 380px;
+      display: none;
+      z-index: 60;
+    }
+
+    @media (max-width: 1100px) {
+      .upload-grid,
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .field.full {
+        grid-column: auto;
+      }
+
+      .paper-select {
+        width: 220px;
+        max-width: 45vw;
+      }
+
+      .search-input {
+        width: 145px;
+      }
+
+      .reader-inner {
+        min-width: 900px;
+      }
+    }
   </style>
 </head>
+
 <body>
   <div class="app" id="app">
     <aside class="sidebar" id="sidebar">
-      <div class="resizer" id="sidebarResizer"></div>
-      <div class="brand"><button class="toggle-side" id="toggleSidebar">☰</button><div class="logo">Mn</div><div class="brand-text"><div class="brand-title">低品位锰矿文献工作台</div><div class="brand-subtitle">中英文对照阅读 · 分离与富集</div></div></div>
-      <nav class="nav"><button class="active" data-view="library">▦ <span class="nav-label">文献库</span></button><button data-view="upload">⇧ <span class="nav-label">上传/导入</span></button><button data-view="reader">◫ <span class="nav-label">对照阅读</span></button><button data-view="ai">◎ <span class="nav-label">精读结果</span></button><button data-view="sync">↻ <span class="nav-label">同步设置</span></button></nav>
-      <div class="sidebar-content"><div id="sidebarCurrentDoc"></div></div>
+      <div class="sidebar-resizer" id="sidebarResizer"></div>
+
+      <div class="brand">
+        <button class="toggle-side" id="toggleSidebar">☰</button>
+        <div class="logo">Mn</div>
+        <div class="brand-text">
+          <div class="brand-title">低品位锰矿文献工作台</div>
+          <div class="brand-subtitle">中英文对照阅读 · 分离与富集</div>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <button class="active" data-view="library">▦ <span class="nav-label">文献库</span></button>
+        <button data-view="upload">⇧ <span class="nav-label">上传/导入</span></button>
+        <button data-view="reader">◫ <span class="nav-label">对照阅读</span></button>
+        <button data-view="ai">◎ <span class="nav-label">精读结果</span></button>
+        <button data-view="sync">↻ <span class="nav-label">同步设置</span></button>
+      </nav>
+
+      <div class="sidebar-content">
+        <div id="sidebarCurrentDoc"></div>
+      </div>
     </aside>
+
     <main class="main">
       <div class="top-hotzone" id="topHotzone"></div>
+
       <div class="toolbar" id="toolbar">
-        <select id="paperSelect" class="paper-select"></select><div class="tool">页码 <input id="pageInput" class="page-input" value="1" inputmode="numeric"/> / <span id="pageTotal">1</span> <button class="btn" id="jumpBtn">跳转</button></div>
-        <button class="btn" id="modePdf">译文 PDF</button><button class="btn active" id="modeJson">JSON 译文</button><div class="spacer"></div><input id="searchInput" class="search-input" placeholder="搜索 JSON 译文"/>
+        <select id="paperSelect" class="paper-select"></select>
+
+        <div class="tool-group">
+          页码
+          <input id="pageInput" class="page-input" value="1" inputmode="numeric" />
+          / <span id="pageTotal">1</span>
+          <button class="btn" id="jumpBtn">跳转</button>
+        </div>
+
+        <button class="btn" id="modePdf">译文 PDF</button>
+        <button class="btn active" id="modeJson">JSON 译文</button>
+
+        <div class="spacer"></div>
+
+        <input id="searchInput" class="search-input" placeholder="搜索 JSON 译文" />
       </div>
-      <section id="view-library" class="view active"><div class="panel"><div class="panel-head"><div><h2>文献库</h2><p>全部文献在这里管理。左侧只显示当前文献。</p></div><button class="primary" data-view-btn="upload">⇧ 新增 / 上传</button></div><div id="libraryGrid" class="grid"></div></div></section>
-      <section id="view-upload" class="view"><div class="panel"><div class="panel-head"><div><h2>上传 / 导入</h2><p>本地上传或从 GitHub 读取当前文献的 JSON / PDF。</p></div></div><div class="upload-actions"><button id="newDocBtn" class="primary">＋ 新增文献</button><button id="saveSyncCurrentBtn" class="primary">↻ 保存并同步当前文献</button><button id="deleteDocBtn" class="danger">删除当前文献</button><button id="clearFilesBtn" class="secondary">清除本地 PDF 缓存</button><span class="current-label">当前文献：<b id="currentDocLabel"></b></span></div>
-        <div class="upload-grid"><div class="drop"><h3>📄 英文原文 PDF</h3><p>绑定到当前文献左侧。</p><input id="sourcePdfInput" type="file" accept="application/pdf"/><div class="mini-field"><label>GitHub 路径</label><input id="sourcePathInput" placeholder="papers/xxx-en.pdf"/></div><button id="loadSourceRemoteBtn" class="secondary">从 GitHub 读取英文 PDF</button><div id="sourcePdfStatus" class="small-note"></div></div>
-        <div class="drop"><h3>📘 中文翻译 PDF</h3><p>绑定到右侧译文 PDF 模式。</p><input id="translationPdfInput" type="file" accept="application/pdf"/><div class="mini-field"><label>GitHub 路径</label><input id="translationPathInput" placeholder="papers/xxx-cn.pdf"/></div><button id="loadTranslationRemoteBtn" class="secondary">从 GitHub 读取中文 PDF</button><div id="translationPdfStatus" class="small-note"></div></div>
-        <div class="drop"><h3>{ } AI 精读 JSON</h3><p>上传、粘贴，或从 GitHub 读取。</p><input id="jsonFileInput" type="file" accept="application/json,.json"/><div class="mini-field"><label>GitHub 路径</label><input id="jsonPathInput" placeholder="data/xxx.json"/></div><button id="loadJsonRemoteBtn" class="secondary">从 GitHub 读取 JSON</button><textarea id="jsonInput"></textarea><div class="row" style="margin-top:10px"><button id="importJsonBtn" class="primary">导入 / 更新 JSON</button><button id="fillJsonBtn" class="secondary">用当前文献填充</button></div><div id="jsonStatus" class="small-note"></div></div></div><div class="preview-panel"><h3>当前文献导入预览</h3><div id="importPreview" class="small-note"></div></div></div></section>
-      <section id="view-reader" class="view"><div id="reader" class="reader"><div id="readerInner" class="reader-inner"></div></div></section>
-      <section id="view-ai" class="view"><div class="panel"><div class="panel-head"><div><h2>AI 精读结果</h2><p>展示当前文献 JSON 中的结构化结果。</p></div><button class="primary" data-view-btn="reader">◫ 回到对照阅读</button></div><div id="aiGrid" class="grid"></div></div></section>
-      <section id="view-sync" class="view"><div class="panel"><div class="panel-head"><div><h2>同步设置</h2><p>维护 GitHub Token、拉取文献库和检查仓库文件状态。</p></div></div><div class="form-grid"><div class="field"><label>GitHub 用户名 / Owner</label><input id="ghOwner" value="syuan7023-ship-it"/></div><div class="field"><label>仓库名 / Repo</label><input id="ghRepo" value="manganese-literature-reader"/></div><div class="field"><label>分支 / Branch</label><input id="ghBranch" value="main"/></div><div class="field"><label>文献库索引路径</label><input id="ghLibraryPath" value="data/library.json"/></div><div class="field full"><label>GitHub Token</label><input id="ghToken" type="password" placeholder="github_pat_xxx，只保存在本机浏览器"/></div></div><div class="sync-actions"><button id="saveSyncBtn" class="primary">保存同步设置</button><button id="testSyncBtn" class="secondary">测试连接</button><button id="pullRemoteBtn" class="secondary">从 GitHub 拉取文献库</button><button id="refreshRemoteStatusBtn" class="secondary">刷新仓库文件状态</button><button id="clearTokenBtn" class="secondary">清除 Token</button></div><div class="box wide" style="max-width:1180px;margin:0 auto 14px"><h3>同步进度</h3><div style="height:10px;background:#e6ebe8;border-radius:999px;overflow:hidden;margin:8px 0 10px"><div id="syncProgressBar" style="height:100%;width:0%;background:#2f6f5e;transition:width .2s"></div></div><div id="syncProgressText" class="small-note">等待同步。</div></div><div class="box wide" style="max-width:1180px;margin:0 auto 14px"><h3>仓库文件状态</h3><div id="syncStatusTable"></div></div><div id="syncLog" class="sync-log">等待操作...</div></div></section>
+
+      <section id="view-library" class="view active">
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <h2>文献库</h2>
+              <p>全部文献在这里管理。左侧只显示当前文献。</p>
+            </div>
+            <button class="primary" data-view-btn="upload">⇧ 新增 / 上传</button>
+          </div>
+
+          <div id="libraryGrid" class="grid"></div>
+        </div>
+      </section>
+
+      <section id="view-upload" class="view">
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <h2>上传 / 导入</h2>
+              <p>本地上传或从 GitHub 读取当前文献的 JSON / PDF。</p>
+            </div>
+          </div>
+
+          <div class="upload-actions">
+            <button id="newDocBtn" class="primary">＋ 新增文献</button>
+            <button id="saveSyncCurrentBtn" class="primary">↻ 保存并同步当前文献</button>
+            <button id="deleteDocBtn" class="danger">删除当前文献</button>
+            <button id="clearFilesBtn" class="secondary">清除本地 PDF 缓存</button>
+            <span class="current-label">当前文献：<b id="currentDocLabel"></b></span>
+          </div>
+
+          <div class="upload-grid">
+            <div class="drop">
+              <h3>📄 英文原文 PDF</h3>
+              <p>绑定到当前文献左侧。</p>
+              <input id="sourcePdfInput" type="file" accept="application/pdf" />
+
+              <div class="mini-field">
+                <label>GitHub 路径</label>
+                <input id="sourcePathInput" placeholder="papers/xxx-en.pdf" />
+              </div>
+
+              <button id="loadSourceRemoteBtn" class="secondary">从 GitHub 读取英文 PDF</button>
+              <div id="sourcePdfStatus" class="small-note"></div>
+            </div>
+
+            <div class="drop">
+              <h3>📘 中文翻译 PDF</h3>
+              <p>绑定到右侧译文 PDF 模式。</p>
+              <input id="translationPdfInput" type="file" accept="application/pdf" />
+
+              <div class="mini-field">
+                <label>GitHub 路径</label>
+                <input id="translationPathInput" placeholder="papers/xxx-cn.pdf" />
+              </div>
+
+              <button id="loadTranslationRemoteBtn" class="secondary">从 GitHub 读取中文 PDF</button>
+              <div id="translationPdfStatus" class="small-note"></div>
+            </div>
+
+            <div class="drop">
+              <h3>{ } AI 精读 JSON</h3>
+              <p>上传、粘贴，或从 GitHub 读取。</p>
+              <input id="jsonFileInput" type="file" accept="application/json,.json" />
+
+              <div class="mini-field">
+                <label>GitHub 路径</label>
+                <input id="jsonPathInput" placeholder="data/xxx.json" />
+              </div>
+
+              <button id="loadJsonRemoteBtn" class="secondary">从 GitHub 读取 JSON</button>
+              <textarea id="jsonInput"></textarea>
+
+              <div class="row" style="margin-top:10px;">
+                <button id="importJsonBtn" class="primary">导入 / 更新 JSON</button>
+                <button id="fillJsonBtn" class="secondary">用当前文献填充</button>
+              </div>
+
+              <div id="jsonStatus" class="small-note"></div>
+            </div>
+          </div>
+
+          <div class="preview-panel">
+            <h3>当前文献导入预览</h3>
+            <div id="importPreview" class="small-note"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="view-reader" class="view">
+        <div id="reader" class="reader">
+          <div id="readerInner" class="reader-inner"></div>
+        </div>
+      </section>
+
+      <section id="view-ai" class="view">
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <h2>AI 精读结果</h2>
+              <p>展示当前文献 JSON 中的结构化结果。</p>
+            </div>
+            <button class="primary" data-view-btn="reader">◫ 回到对照阅读</button>
+          </div>
+
+          <div id="aiGrid" class="grid"></div>
+        </div>
+      </section>
+
+      <section id="view-sync" class="view">
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <h2>同步设置</h2>
+              <p>维护 GitHub Token、拉取文献库和检查仓库文件状态。</p>
+            </div>
+          </div>
+
+          <div class="form-grid">
+            <div class="field">
+              <label>GitHub 用户名 / Owner</label>
+              <input id="ghOwner" value="syuan7023-ship-it" />
+            </div>
+
+            <div class="field">
+              <label>仓库名 / Repo</label>
+              <input id="ghRepo" value="manganese-literature-reader" />
+            </div>
+
+            <div class="field">
+              <label>分支 / Branch</label>
+              <input id="ghBranch" value="main" />
+            </div>
+
+            <div class="field">
+              <label>文献库索引路径</label>
+              <input id="ghLibraryPath" value="data/library.json" />
+            </div>
+
+            <div class="field full">
+              <label>GitHub Token</label>
+              <input id="ghToken" type="password" placeholder="github_pat_xxx，只保存在本机浏览器" />
+            </div>
+          </div>
+
+          <div class="sync-actions">
+            <button id="saveSyncBtn" class="primary">保存同步设置</button>
+            <button id="testSyncBtn" class="secondary">测试连接</button>
+            <button id="pullRemoteBtn" class="secondary">从 GitHub 拉取文献库</button>
+            <button id="refreshRemoteStatusBtn" class="secondary">刷新仓库文件状态</button>
+            <button id="clearTokenBtn" class="secondary">清除 Token</button>
+          </div>
+
+          <div class="box wide" style="max-width:1180px;margin:0 auto 14px;">
+            <h3>同步进度</h3>
+            <div style="height:10px;background:#e6ebe8;border-radius:999px;overflow:hidden;margin:8px 0 10px;">
+              <div id="syncProgressBar" style="height:100%;width:0%;background:#2f6f5e;transition:width .2s;"></div>
+            </div>
+            <div id="syncProgressText" class="small-note">等待同步。</div>
+          </div>
+
+          <div class="box wide" style="max-width:1180px;margin:0 auto 14px;">
+            <h3>仓库文件状态</h3>
+            <div id="syncStatusTable"></div>
+          </div>
+
+          <div id="syncLog" class="sync-log">等待操作...</div>
+        </div>
+      </section>
     </main>
   </div>
-  <div class="view-float" id="viewFloat"><div class="view-panel" id="viewPanel"><div class="control"><label>左右宽度 <span id="widthLabel">50 / 50</span></label><input id="widthSlider" type="range" min="30" max="70" value="50"/></div><div class="control"><label>左页缩放 <span id="leftZoomLabel">100%</span></label><input id="leftZoomSlider" type="range" min="80" max="180" value="100"/></div><div class="control"><label>右页缩放 <span id="rightZoomLabel">100%</span></label><input id="rightZoomSlider" type="range" min="80" max="180" value="100"/></div><div class="row"><button class="secondary" id="rotateLeft">左页⟲</button><button class="secondary" id="rotateRight">左页⟳</button><button class="secondary" id="resetView">重置</button></div><div class="small-note">Alt+滚轮：左右宽度；Ctrl+滚轮：鼠标所在侧局部缩放。</div></div><button class="view-toggle" id="viewToggle">视图</button></div>
+
+  <div class="view-float" id="viewFloat">
+    <div class="view-panel" id="viewPanel">
+      <div class="control">
+        <label>左右宽度 <span id="widthLabel">50 / 50</span></label>
+        <input id="widthSlider" type="range" min="30" max="70" value="50" />
+      </div>
+
+      <div class="control">
+        <label>左页缩放 <span id="leftZoomLabel">100%</span></label>
+        <input id="leftZoomSlider" type="range" min="80" max="180" value="100" />
+      </div>
+
+      <div class="control">
+        <label>右页缩放 <span id="rightZoomLabel">100%</span></label>
+        <input id="rightZoomSlider" type="range" min="80" max="180" value="100" />
+      </div>
+
+      <div class="row">
+        <button class="secondary" id="rotateLeft">左页⟲</button>
+        <button class="secondary" id="rotateRight">左页⟳</button>
+        <button class="secondary" id="resetView">重置</button>
+      </div>
+
+      <div class="small-note">Alt+滚轮：左右宽度；Ctrl+滚轮：鼠标所在侧局部缩放。</div>
+    </div>
+
+    <button class="view-toggle" id="viewToggle">视图</button>
+  </div>
+
   <div id="toast" class="toast"></div>
+
   <script>
-    let pdfjsLib=null;
-    async function ensurePdfJs(){ if(pdfjsLib) return pdfjsLib; pdfjsLib=await import('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs'); pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.mjs'; return pdfjsLib; }
-    const DB_NAME='mn-lit-db-v10', STORE='files', STORAGE_KEY='mn-lit-docs-v10', CURRENT_KEY='mn-lit-current-v10', SYNC_KEY='mn-lit-github-sync-v10';
-    let docs=loadDocs(), currentDocId=localStorage.getItem(CURRENT_KEY)||(docs[0]?.id||''), sourcePdf=null, translationPdf=null, rightMode='json';
-    let width=50,leftZoom=1,rightZoom=1,sourceRotation=0,rendered=new Set(),topTimer=null,remoteStatusCache={};
-    const $=id=>document.getElementById(id);
-    const els={app:$('app'),sidebar:$('sidebar'),sidebarCurrentDoc:$('sidebarCurrentDoc'),libraryGrid:$('libraryGrid'),paperSelect:$('paperSelect'),pageTotal:$('pageTotal'),reader:$('reader'),readerInner:$('readerInner'),pageInput:$('pageInput'),searchInput:$('searchInput'),toast:$('toast'),currentDocLabel:$('currentDocLabel'),sourcePdfStatus:$('sourcePdfStatus'),translationPdfStatus:$('translationPdfStatus'),jsonInput:$('jsonInput'),jsonStatus:$('jsonStatus'),aiGrid:$('aiGrid'),modePdf:$('modePdf'),modeJson:$('modeJson'),toolbar:$('toolbar'),topHotzone:$('topHotzone'),ghOwner:$('ghOwner'),ghRepo:$('ghRepo'),ghBranch:$('ghBranch'),ghLibraryPath:$('ghLibraryPath'),ghToken:$('ghToken'),syncLog:$('syncLog'),sourcePathInput:$('sourcePathInput'),translationPathInput:$('translationPathInput'),jsonPathInput:$('jsonPathInput'),importPreview:$('importPreview')};
-    function loadDocs(){try{const r=localStorage.getItem(STORAGE_KEY);return r?JSON.parse(r):[]}catch{return[]}} function saveDocs(){localStorage.setItem(STORAGE_KEY,JSON.stringify(docs));if(currentDocId)localStorage.setItem(CURRENT_KEY,currentDocId)} function currentDoc(){return docs.find(d=>d.id===currentDocId)||docs[0]||null}
-    function createBlankDoc(){return{id:`doc-${Date.now()}-${Math.random().toString(16).slice(2)}`,remoteId:'',title:'未命名文献',titleCn:'新文献',journal:'',year:'',doi:'',journalRank:{IF:'-',CAS:'-',JCR:'-'},tags:[],pageCount:1,assets:{},pageTranslations:{},pageFigures:{},pageKeyPoints:{},originalEvidence:{},readingAnchors:[],aiReading:{}}} function ensureCurrentDoc(){let d=currentDoc();if(d)return d;d=createBlankDoc();docs.push(d);currentDocId=d.id;saveDocs();return d}
-    function esc(x){return String(x??'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'","&#039;")} function list(v){return !v?[]:Array.isArray(v)?v:[String(v)]} function pageCountJson(d){return Object.keys(d?.pageTranslations||{}).length} function toast(m){els.toast.textContent=m;els.toast.style.display='block';setTimeout(()=>els.toast.style.display='none',2600)}
-    function slugify(t){const b=String(t||'').toLowerCase().replace(/https?:\/\//g,'').replace(/doi\.org\//g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,80);return b||`paper-${Date.now()}`} function ensureRemotePaths(d){const r=d.remoteId||(d.remoteId=slugify(d.doi||d.title||d.titleCn||d.id));d.assets=d.assets||{};d.assets.jsonPath=d.assets.jsonPath||`data/${r}.json`;d.assets.sourcePath=d.assets.sourcePath||`papers/${r}-en.pdf`;d.assets.translationPath=d.assets.translationPath||`papers/${r}-cn.pdf`;return d.assets}
-    function b64Bytes(bytes){let bin='';for(let i=0;i<bytes.length;i+=32768)bin+=String.fromCharCode(...bytes.subarray(i,i+32768));return btoa(bin)} function textB64(t){return b64Bytes(new TextEncoder().encode(t))} function b64Text(b){const bin=atob(String(b||'').replace(/\n/g,''));const bytes=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)bytes[i]=bin.charCodeAt(i);return new TextDecoder().decode(bytes)} function b64ArrayBuffer(b){const bin=atob(String(b||'').replace(/\n/g,''));const bytes=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)bytes[i]=bin.charCodeAt(i);return bytes.buffer} function encPath(p){return String(p).split('/').map(encodeURIComponent).join('/')}
-    function loadSync(){try{return{owner:'syuan7023-ship-it',repo:'manganese-literature-reader',branch:'main',libraryPath:'data/library.json',token:'',...JSON.parse(localStorage.getItem(SYNC_KEY)||'{}')}}catch{return{owner:'syuan7023-ship-it',repo:'manganese-literature-reader',branch:'main',libraryPath:'data/library.json',token:''}}} function saveSync(){const c={owner:els.ghOwner.value.trim(),repo:els.ghRepo.value.trim(),branch:els.ghBranch.value.trim()||'main',libraryPath:els.ghLibraryPath.value.trim()||'data/library.json',token:els.ghToken.value.trim()};localStorage.setItem(SYNC_KEY,JSON.stringify(c));return c} function fillSync(){const c=loadSync();els.ghOwner.value=c.owner;els.ghRepo.value=c.repo;els.ghBranch.value=c.branch;els.ghLibraryPath.value=c.libraryPath;els.ghToken.value=c.token||''} function cfg(){const c=loadSync();if(!c.owner||!c.repo||!c.branch||!c.token)throw new Error('请先在同步设置填写并保存 GitHub Token。');return c}
-    async function ghMaybe(path){const c=cfg();const res=await fetch(`https://api.github.com/repos/${c.owner}/${c.repo}/contents/${encPath(path)}?ref=${encodeURIComponent(c.branch)}&t=${Date.now()}`,{headers:{Accept:'application/vnd.github+json',Authorization:`Bearer ${c.token}`,'X-GitHub-Api-Version':'2022-11-28'}});if(res.status===404)return null;if(!res.ok){let d='';try{d=(await res.json()).message||''}catch{}throw new Error(`GitHub API ${res.status}${d?'：'+d:''}`)}return res.json()} async function ghGetJson(path){const it=await ghMaybe(path);if(!it)return null;return JSON.parse(b64Text(it.content))} async function ghPut(path,content,message){const c=cfg();const ex=await ghMaybe(path);const body={message,content,branch:c.branch};if(ex?.sha)body.sha=ex.sha;const res=await fetch(`https://api.github.com/repos/${c.owner}/${c.repo}/contents/${encPath(path)}`,{method:'PUT',headers:{Accept:'application/vnd.github+json',Authorization:`Bearer ${c.token}`,'X-GitHub-Api-Version':'2022-11-28','Content-Type':'application/json'},body:JSON.stringify(body)});if(!res.ok){let d='';try{d=(await res.json()).message||''}catch{}throw new Error(`GitHub API ${res.status}: ${d}`)}return res.json()}
-    async function openDB(){return new Promise((res,rej)=>{const r=indexedDB.open(DB_NAME,1);r.onupgradeneeded=()=>{if(!r.result.objectStoreNames.contains(STORE))r.result.createObjectStore(STORE,{keyPath:'key'})};r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)})} async function putBuffer(doc,type,name,buffer){const db=await openDB();return new Promise((res,rej)=>{const tx=db.transaction(STORE,'readwrite');tx.objectStore(STORE).put({key:`${doc}:${type}`,name,size:buffer.byteLength,buffer});tx.oncomplete=()=>res();tx.onerror=()=>rej(tx.error)})} async function putFile(doc,type,file){await putBuffer(doc,type,file.name,await file.arrayBuffer())} async function getFile(doc,type){const db=await openDB();return new Promise(res=>{const tx=db.transaction(STORE,'readonly');const r=tx.objectStore(STORE).get(`${doc}:${type}`);r.onsuccess=()=>res(r.result||null);r.onerror=()=>res(null)})} async function delFile(doc,type){const db=await openDB();return new Promise(res=>{const tx=db.transaction(STORE,'readwrite');tx.objectStore(STORE).delete(`${doc}:${type}`);tx.oncomplete=()=>res();tx.onerror=()=>res()})}
-    async function loadPdfBuffer(buf){const pdfjs=await ensurePdfJs();return pdfjs.getDocument({data:buf.slice(0)}).promise} async function hydratePdfs(){sourcePdf=null;translationPdf=null;const d=currentDoc();if(!d)return;const s=await getFile(d.id,'source');if(s){try{sourcePdf=await loadPdfBuffer(s.buffer);d.assets=d.assets||{};d.assets.sourceName=s.name;d.pageCount=Math.max(+d.pageCount||0,sourcePdf.numPages);els.sourcePdfStatus.textContent=`已恢复英文 PDF：${s.name}`}catch{await delFile(d.id,'source')}}const t=await getFile(d.id,'translation');if(t){try{translationPdf=await loadPdfBuffer(t.buffer);d.assets=d.assets||{};d.assets.translationName=t.name;d.pageCount=Math.max(+d.pageCount||0,translationPdf.numPages);els.translationPdfStatus.textContent=`已恢复中文 PDF：${t.name}`}catch{await delFile(d.id,'translation')}}if(!translationPdf&&rightMode==='pdf')rightMode='json';saveDocs()}
-    function card(d,mode='full'){const r=d.journalRank||{},assets=d.assets||{};return `<div class="paper-card"><h3>${esc(d.title||'未命名文献')}</h3><div class="cn-title">${esc(d.titleCn||'暂无中文标题')}</div><div class="rank-row"><span class="rank-badge rank-if">IF ${esc(r.IF||'-')}</span><span class="rank-badge rank-cas">CAS ${esc(r.CAS||'-')}</span><span class="rank-badge rank-jcr">JCR ${esc(r.JCR||'-')}</span></div><div class="meta"><span><b>期刊</b>${esc(d.journal||'-')}</span><span><b>年份</b>${esc(d.year||'-')}</span><span class="doi"><b>DOI</b>${esc(d.doi||'-')}</span><span class="doi"><b>英文PDF</b>${esc(assets.sourceName||assets.sourcePath||'未上传')}</span><span class="doi"><b>译文PDF</b>${esc(assets.translationName||assets.translationPath||'未上传')}</span></div><div class="tags">${list(d.tags).map(x=>`<span class="tag">${esc(x)}</span>`).join('')}</div><div class="row"><button class="primary" data-open="${d.id}">📖 打开对照阅读</button>${mode==='full'?`<button class="secondary" data-edit="${d.id}">编辑/上传</button><button class="danger" data-delete="${d.id}">删除</button>`:''}</div></div>`}
-    function renderAll(){renderLibrary();renderPaths();renderReader();renderAi();renderStatus();renderPreview();if(currentDocId)els.paperSelect.value=currentDocId;const d=currentDoc();els.currentDocLabel.textContent=d?(d.titleCn||d.title||'未命名文献'):'暂无文献'}
-    function renderLibrary(){const d=currentDoc();els.sidebarCurrentDoc.innerHTML=d?card(d,'compact'):`<div class="paper-card"><h3>暂无当前文献</h3><button class="primary" data-view-inline="upload">＋ 新增文献</button></div>`;els.libraryGrid.innerHTML=docs.length?docs.map(x=>`<div class="box wide">${card(x,'full')}</div>`).join(''):`<div class="wide empty-state"><h3>暂无文献</h3><p>从上传/导入新增文献，或从 GitHub 拉取文献库。</p><button class="primary" data-view-inline="upload">＋ 新增文献</button></div>`;els.paperSelect.innerHTML=docs.length?docs.map(x=>`<option value="${x.id}">${esc(x.title||x.titleCn||'未命名文献')}</option>`).join(''):`<option>暂无文献</option>`;document.querySelectorAll('[data-open]').forEach(b=>b.onclick=async()=>{currentDocId=b.dataset.open;saveDocs();await hydratePdfs();renderAll();showView('reader')});document.querySelectorAll('[data-edit]').forEach(b=>b.onclick=async()=>{currentDocId=b.dataset.edit;saveDocs();await hydratePdfs();renderAll();fillJsonTextareaFromCurrent();showView('upload')});document.querySelectorAll('[data-delete]').forEach(b=>b.onclick=async()=>{currentDocId=b.dataset.delete;saveDocs();await deleteCurrentDoc()});document.querySelectorAll('[data-view-inline]').forEach(b=>b.onclick=()=>showView(b.dataset.viewInline))}
-    function renderPaths(){const d=currentDoc();if(!d){els.sourcePathInput.value=els.translationPathInput.value=els.jsonPathInput.value='';return}ensureRemotePaths(d);els.sourcePathInput.value=d.assets.sourcePath||'';els.translationPathInput.value=d.assets.translationPath||'';els.jsonPathInput.value=d.assets.jsonPath||''}
-    function renderPreview(){const d=currentDoc();if(!d){els.importPreview.textContent='暂无当前文献。';return}els.importPreview.innerHTML=`<b>英文题名：</b>${esc(d.title||'-')}<br><b>中文题名：</b>${esc(d.titleCn||'-')}<br><b>期刊/年份：</b>${esc(d.journal||'-')} / ${esc(d.year||'-')}<br><b>DOI：</b>${esc(d.doi||'-')}<br><b>JSON译文页数：</b>${pageCountJson(d)}<br><b>英文PDF：</b>${esc(d.assets?.sourceName||d.assets?.sourcePath||'未绑定')}<br><b>中文PDF：</b>${esc(d.assets?.translationName||d.assets?.translationPath||'未绑定')}`}
-    function renderReader(){const d=currentDoc();if(!d){els.pageTotal.textContent='0';els.readerInner.innerHTML='<div class="empty-state"><h3>暂无可阅读文献</h3></div>';return}const pc=Math.max(sourcePdf?.numPages||0,translationPdf?.numPages||0,+d.pageCount||0,pageCountJson(d),1);els.pageTotal.textContent=pc;const rows=[];for(let i=1;i<=pc;i++){rows.push(`<div class="page-row" data-page="${i}"><article class="paper-page pdf-page" data-side="left" data-type="source" data-page-no="${i}">${sourcePdf?`<div class="empty-pdf">英文 PDF 第 ${i} 页等待渲染...</div>`:mockPdf()}</article><div class="pane-resizer"></div>${rightMode==='pdf'&&translationPdf?`<article class="paper-page pdf-page" data-side="right" data-type="translation" data-page-no="${i}"><div class="empty-pdf">中文 PDF 第 ${i} 页等待渲染...</div></article>`:jsonPage(d,i)}</div>`)}els.readerInner.innerHTML=rows.join('');applyView(false);bindReader();updateMode();setTimeout(renderVisiblePdfPages,80)}
-    function mockPdf(){return `<div class="pdf-placeholder"><h1>未上传英文 PDF</h1><p>请上传英文原文 PDF，或从 GitHub 路径读取。</p><div class="mock-figure">PDF page placeholder</div></div>`} function jsonPage(d,i){const tr=list(d.pageTranslations?.[i]);const fig=d.pageFigures?.[i];const kp=list(d.pageKeyPoints?.[i]);const ev=list(d.originalEvidence?.[i]);return `<article class="paper-page translation-page" data-side="right"><h2>第 ${i} 页 JSON 译文</h2>${tr.length?tr.map(x=>`<p data-cn>${esc(x)}</p>`).join(''):`<p data-cn>暂无本页中文译文。</p>`}${fig?`<div class="figure-note">图表说明：${esc(fig)}</div>`:''}<details class="evidence" ${kp.length||ev.length?'open':''}><summary>关键点与英文依据</summary><ul>${kp.map(x=>`<li><b>关键点：</b>${esc(x)}</li>`).join('')}${ev.map(x=>`<li><b>英文依据：</b>${esc(x)}</li>`).join('')}</ul></details><div class="page-no">${i}</div></article>`}
-    function applyView(rerender=true){width=Math.max(30,Math.min(70,width));els.reader.style.setProperty('--left-col',width+'%');$('widthSlider').value=width;$('widthLabel').textContent=`${Math.round(width)} / ${100-Math.round(width)}`;$('leftZoomSlider').value=Math.round(leftZoom*100);$('rightZoomSlider').value=Math.round(rightZoom*100);$('leftZoomLabel').textContent=Math.round(leftZoom*100)+'%';$('rightZoomLabel').textContent=Math.round(rightZoom*100)+'%';if(rerender){rendered.clear();setTimeout(renderVisiblePdfPages,80)}}
-    function bindReader(){document.querySelectorAll('.pane-resizer').forEach(h=>{h.onpointerdown=e=>{e.preventDefault();const row=h.closest('.page-row'),rect=row.getBoundingClientRect();function move(ev){width=((ev.clientX-rect.left)/rect.width)*100;applyView(false)}function up(){window.removeEventListener('pointermove',move);window.removeEventListener('pointerup',up);applyView(true)}window.addEventListener('pointermove',move);window.addEventListener('pointerup',up)}});document.querySelectorAll('[data-side]').forEach(el=>{el.onwheel=e=>{const side=el.dataset.side;if(e.altKey){e.preventDefault();const dir=e.deltaY<0?2:-2;width+=side==='left'?dir:-dir;applyView(true)}else if(e.ctrlKey||e.metaKey){e.preventDefault();const dir=e.deltaY<0?.06:-.06;if(side==='left')leftZoom=Math.max(.8,Math.min(1.8,leftZoom+dir));else rightZoom=Math.max(.8,Math.min(1.8,rightZoom+dir));applyView(true)}}})}
-    async function renderPdfPage(pdf,holder,key,pageNo,side){if(!pdf||rendered.has(key)||pageNo>pdf.numPages)return;rendered.add(key);try{const z=side==='left'?leftZoom:rightZoom;const page=await pdf.getPage(pageNo);const rot=side==='left'?sourceRotation:0;const base=page.getViewport({scale:1,rotation:rot});const cssWidth=Math.max(260,Math.floor(holder.clientWidth*z));const scale=cssWidth/base.width;const dpr=Math.min(devicePixelRatio||1,2);const viewport=page.getViewport({scale:scale*dpr*1.8,rotation:rot});const canvas=document.createElement('canvas');canvas.width=Math.floor(viewport.width);canvas.height=Math.floor(viewport.height);canvas.style.width=cssWidth+'px';canvas.style.height=Math.floor(base.height*scale)+'px';holder.innerHTML='';holder.appendChild(canvas);await page.render({canvasContext:canvas.getContext('2d',{alpha:false}),viewport}).promise;const no=document.createElement('div');no.className='page-no';no.textContent=pageNo;holder.appendChild(no)}catch(err){holder.innerHTML=`<div class="empty-pdf">第 ${pageNo} 页渲染失败。<br>${esc(err.message||'')}</div>`}}
-    function renderVisiblePdfPages(){const r=els.reader.getBoundingClientRect();document.querySelectorAll('.page-row').forEach(row=>{const rect=row.getBoundingClientRect(),p=+row.dataset.page;if(rect.bottom>r.top-900&&rect.top<r.bottom+1200){const l=row.querySelector('[data-type="source"]');if(l&&sourcePdf)renderPdfPage(sourcePdf,l,`s-${currentDocId}-${p}-${width}-${leftZoom}-${sourceRotation}-${l.clientWidth}`,p,'left');const t=row.querySelector('[data-type="translation"]');if(t&&translationPdf&&rightMode==='pdf')renderPdfPage(translationPdf,t,`t-${currentDocId}-${p}-${width}-${rightZoom}-${t.clientWidth}`,p,'right')}})}
-    function updateMode(){els.modePdf.classList.toggle('active',rightMode==='pdf');els.modeJson.classList.toggle('active',rightMode==='json');els.modePdf.disabled=!translationPdf} function showView(name){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));$(`view-${name}`).classList.add('active');document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.view===name));if(name==='reader'){els.app.classList.add('reading');setTimeout(renderVisiblePdfPages,120)}else els.app.classList.remove('reading','side-open','top-open')}
-    function renderAi(){const d=currentDoc();if(!d){els.aiGrid.innerHTML='<div class="wide empty-state"><h3>暂无精读结果</h3></div>';return}const ai=d.aiReading||{};const li=a=>list(a).length?`<ul>${list(a).map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`:'<p>暂无。</p>';els.aiGrid.innerHTML=`<div class="box wide"><h3>全文摘要</h3><p>${esc(ai.summary||ai.abstractCn||ai.fullSummary||'暂无全文摘要。')}</p></div><div class="box"><h3>创新点</h3>${li(ai.innovation||ai.innovations)}</div><div class="box"><h3>实验方法</h3><p>${esc(ai.methods||ai.method||'暂无。')}</p></div><div class="box"><h3>关键数据</h3>${li(ai.keyData||ai.data)}</div><div class="box"><h3>工艺流程</h3><p>${esc(ai.process||ai.route||'暂无。')}</p></div><div class="box"><h3>课题相关性</h3><p>${esc(ai.relevance||ai.topicRelevance||'暂无。')}</p></div><div class="box wide"><h3>英文依据</h3>${li(Object.values(d.originalEvidence||{}).flat())}</div>`}
-    function renderStatus(){const wrap=$('syncStatusTable');if(!docs.length){wrap.innerHTML='<p class="small-note">暂无文献。</p>';return}wrap.innerHTML=`<table class="status-table"><thead><tr><th>文献</th><th>JSON</th><th>英文 PDF</th><th>中文 PDF</th></tr></thead><tbody>${docs.map(d=>{ensureRemotePaths(d);const s=remoteStatusCache[d.id]||{};return`<tr><td>${esc(d.titleCn||d.title||d.id)}</td><td>${esc(d.assets.jsonPath)}<br>${status(s.json)}</td><td>${esc(d.assets.sourcePath)}<br>${status(s.source)}</td><td>${esc(d.assets.translationPath)}<br>${status(s.translation)}</td></tr>`}).join('')}</tbody></table>`} function status(x){return x==='ok'?'<span class="status-ok">已同步</span>':x==='missing'?'<span class="status-bad">远程缺失</span>':'<span class="status-muted">未知</span>'}
-    function normalizePageMap(v){const o={};if(!v)return o;if(Array.isArray(v)){v.forEach((it,i)=>{o[String(i+1)]=typeof it==='string'?[it]:list(it.translation||it.translationCn||it.cn||it.text||it.paragraphs)});return o}Object.keys(v).forEach(k=>o[String(k)]=list(v[k]));return o} function normJson(d){const n=structuredClone(d);n.journalRank=d.journalRank||d.rank||d.journalMetrics||{};n.tags=list(d.tags||d.keywords);n.pageTranslations=normalizePageMap(d.pageTranslations||d.translations||d.pages);n.pageFigures=d.pageFigures||d.figures||{};n.pageKeyPoints=d.pageKeyPoints||d.keyPointsByPage||d.pageKeypoints||{};n.originalEvidence=d.originalEvidence||d.evidence||{};n.aiReading=d.aiReading||d.reading||d.deepReading||d.analysis||{};return n} function mergeDoc(t,inc){const d=normJson(inc),keep=t.assets||{},incoming=d.assets||{};Object.assign(t,{...t,...d,id:t.id,remoteId:t.remoteId||d.remoteId||slugify(d.doi||d.title||d.titleCn||t.id),assets:{...incoming,...keep},journalRank:d.journalRank||t.journalRank||{},tags:list(d.tags||t.tags),pageCount:d.pageCount||Object.keys(d.pageTranslations||t.pageTranslations||{}).length||t.pageCount||1});ensureRemotePaths(t)}
-    async function importJsonText(text,label='JSON'){const d=JSON.parse(text);let target=currentDoc()||ensureCurrentDoc();mergeDoc(target,d);currentDocId=target.id;saveDocs();await hydratePdfs();renderAll();fillJsonTextareaFromCurrent();els.jsonStatus.textContent=`${label} 已导入并刷新页面。`;toast(`${label} 已导入。`)} async function importJson(){try{await importJsonText(els.jsonInput.value,'JSON')}catch(e){els.jsonStatus.textContent=`JSON 格式错误：${e.message}`}} async function readJsonFile(f){if(!f)return;const text=await f.text();els.jsonInput.value=text;await importJsonText(text,`JSON 文件 ${f.name}`)} function fillJsonTextareaFromCurrent(){const d=currentDoc();els.jsonInput.value=d?JSON.stringify(d,null,2):''}
-    async function loadPdf(file,type){if(!file)return;const d=ensureCurrentDoc(),status=type==='source'?els.sourcePdfStatus:els.translationPdfStatus;try{status.textContent=`正在读取：${file.name}`;await putFile(d.id,type,file);const pdf=await loadPdfBuffer(await file.arrayBuffer());ensureRemotePaths(d);if(type==='source'){sourcePdf=pdf;d.assets.sourceName=file.name}else{translationPdf=pdf;d.assets.translationName=file.name;rightMode='pdf'}d.pageCount=Math.max(+d.pageCount||0,pdf.numPages);saveDocs();renderAll();toast('PDF 已载入并刷新阅读器。')}catch(e){status.textContent=`PDF 读取失败：${e.message}`}}
-    async function loadRemotePdf(type){const d=ensureCurrentDoc();ensureRemotePaths(d);const path=(type==='source'?els.sourcePathInput:els.translationPathInput).value.trim(),status=type==='source'?els.sourcePdfStatus:els.translationPdfStatus;if(!path){toast('请先填写 GitHub PDF 路径。');return}try{const item=await ghMaybe(path);if(!item?.content)throw new Error('没有读取到文件内容');const buf=b64ArrayBuffer(item.content);await putBuffer(d.id,type,path.split('/').pop(),buf);const pdf=await loadPdfBuffer(buf);if(type==='source'){sourcePdf=pdf;d.assets.sourcePath=path;d.assets.sourceName=path.split('/').pop()}else{translationPdf=pdf;d.assets.translationPath=path;d.assets.translationName=path.split('/').pop();rightMode='pdf'}d.pageCount=Math.max(+d.pageCount||0,pdf.numPages);saveDocs();renderAll();status.textContent=`已从 GitHub 读取：${path}`;toast('远程 PDF 已读取。')}catch(e){status.textContent=`远程 PDF 读取失败：${e.message}`}}
-    async function loadRemoteJsonForCurrent(){const d=ensureCurrentDoc();ensureRemotePaths(d);const path=els.jsonPathInput.value.trim();if(!path){toast('请先填写 GitHub JSON 路径。');return}try{const data=await ghGetJson(path);els.jsonInput.value=JSON.stringify(data,null,2);d.assets.jsonPath=path;await importJsonText(els.jsonInput.value,`GitHub JSON ${path}`)}catch(e){els.jsonStatus.textContent=`GitHub JSON 读取失败：${e.message}`}}
-    function searchChinese(q){const term=q.trim();document.querySelectorAll('[data-cn]').forEach(p=>{const raw=p.dataset.raw||p.textContent;p.dataset.raw=raw;if(!term){p.textContent=raw;return}const re=new RegExp(term.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'gi');p.innerHTML=raw.replace(re,m=>`<span class="highlight">${m}</span>`)})} function jumpToPage(){showView('reader');setTimeout(()=>{const row=document.querySelector(`.page-row[data-page="${+els.pageInput.value||1}"]`);if(row)row.scrollIntoView({behavior:'smooth',block:'start'})},80)}
-    async function syncCurrentDocToGitHub(){try{saveSync();const d=currentDoc();if(!d)throw new Error('当前没有文献。');ensureRemotePaths(d);els.syncLog.textContent='开始同步当前文献...';const s=await getFile(d.id,'source'),t=await getFile(d.id,'translation');if(s)await ghPut(d.assets.sourcePath,b64Bytes(new Uint8Array(s.buffer)),`Upload source PDF: ${d.title||d.id}`);if(t)await ghPut(d.assets.translationPath,b64Bytes(new Uint8Array(t.buffer)),`Upload translation PDF: ${d.title||d.id}`);await ghPut(d.assets.jsonPath,textB64(JSON.stringify(d,null,2)),`Update JSON: ${d.title||d.id}`);await ghPut(loadSync().libraryPath,textB64(JSON.stringify({version:1,updatedAt:new Date().toISOString(),docs},null,2)),'Update literature library');els.syncLog.textContent+='\n同步完成。';toast('同步完成。')}catch(e){els.syncLog.textContent+='\n同步失败：'+e.message;toast('同步失败：'+e.message)}}
-    async function pullLibraryFromGitHub(){try{saveSync();const lib=await ghGetJson(loadSync().libraryPath);const arr=Array.isArray(lib)?lib:lib.docs;if(!Array.isArray(arr))throw new Error('library.json 中没有 docs 数组');docs=[];for(const item of arr){let d={assets:{},pageTranslations:{},pageFigures:{},pageKeyPoints:{},originalEvidence:{},aiReading:{},...item,id:item.id||`doc-${Date.now()}-${Math.random().toString(16).slice(2)}`};ensureRemotePaths(d);try{const full=await ghGetJson(d.assets.jsonPath);if(full){d={...d,...normJson(full),assets:{...(full.assets||{}),...(d.assets||{})}}}}catch{}docs.push(d)}currentDocId=docs[0]?.id||'';saveDocs();await hydratePdfs();renderAll();toast('已拉取文献库。')}catch(e){toast('拉取失败：'+e.message);els.syncLog.textContent+='\n拉取失败：'+e.message}}
-    async function refreshRemoteStatus(){try{saveSync();remoteStatusCache={};for(const d of docs){ensureRemotePaths(d);remoteStatusCache[d.id]={json:(await ghMaybe(d.assets.jsonPath))?'ok':'missing',source:(await ghMaybe(d.assets.sourcePath))?'ok':'missing',translation:(await ghMaybe(d.assets.translationPath))?'ok':'missing'};renderStatus()}toast('状态已刷新。')}catch(e){toast('状态检查失败：'+e.message)}} async function testConnection(){try{saveSync();await fetch(`https://api.github.com/repos/${loadSync().owner}/${loadSync().repo}`,{headers:{Authorization:`Bearer ${loadSync().token}`}}).then(r=>{if(!r.ok)throw new Error('GitHub API '+r.status)});els.syncLog.textContent='连接成功。';toast('连接成功。')}catch(e){els.syncLog.textContent='连接失败：'+e.message;toast('连接失败：'+e.message)}} async function deleteCurrentDoc(){const d=currentDoc();if(!d)return;if(!confirm('确定删除当前文献？'))return;await delFile(d.id,'source');await delFile(d.id,'translation');docs=docs.filter(x=>x.id!==d.id);currentDocId=docs[0]?.id||'';saveDocs();await hydratePdfs();renderAll()} async function clearCurrentFiles(){const d=currentDoc();if(!d)return;await delFile(d.id,'source');await delFile(d.id,'translation');sourcePdf=null;translationPdf=null;rightMode='json';renderAll()}
-    function createNewDoc(){const d=createBlankDoc();docs.push(d);currentDocId=d.id;sourcePdf=null;translationPdf=null;rightMode='json';saveDocs();renderAll();fillJsonTextareaFromCurrent();showView('upload')} function bindSidebarResize(){const h=$('sidebarResizer');h.onpointerdown=e=>{e.preventDefault();function move(ev){document.documentElement.style.setProperty('--sidebar-width',Math.max(220,Math.min(430,ev.clientX))+'px')}function up(){removeEventListener('pointermove',move);removeEventListener('pointerup',up)}addEventListener('pointermove',move);addEventListener('pointerup',up)}}
-    function initEvents(){document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>showView(b.dataset.view));document.querySelectorAll('[data-view-btn]').forEach(b=>b.onclick=()=>showView(b.dataset.viewBtn));$('toggleSidebar').onclick=()=>els.app.classList.contains('reading')?els.app.classList.toggle('side-open'):els.app.classList.add('reading');els.sidebar.onmouseenter=()=>{if(els.app.classList.contains('reading'))els.app.classList.add('side-open')};els.sidebar.onmouseleave=()=>{if(els.app.classList.contains('reading'))els.app.classList.remove('side-open')};els.topHotzone.onmouseenter=()=>{clearTimeout(topTimer);els.app.classList.add('top-open')};els.toolbar.onmouseenter=()=>{clearTimeout(topTimer);els.app.classList.add('top-open')};els.toolbar.onmouseleave=()=>{topTimer=setTimeout(()=>els.app.classList.remove('top-open'),450)};els.paperSelect.onchange=async()=>{currentDocId=els.paperSelect.value;saveDocs();await hydratePdfs();renderAll();fillJsonTextareaFromCurrent()};$('jumpBtn').onclick=jumpToPage;els.modePdf.onclick=()=>{if(!translationPdf){toast('当前没有译文 PDF。');return}rightMode='pdf';renderAll();showView('reader')};els.modeJson.onclick=()=>{rightMode='json';renderAll();showView('reader')};els.searchInput.oninput=()=>searchChinese(els.searchInput.value);els.reader.onscroll=renderVisiblePdfPages;$('viewToggle').onclick=()=>$('viewPanel').classList.toggle('open');$('widthSlider').oninput=e=>{width=+e.target.value;applyView(true)};$('leftZoomSlider').oninput=e=>{leftZoom=+e.target.value/100;applyView(true)};$('rightZoomSlider').oninput=e=>{rightZoom=+e.target.value/100;applyView(true)};$('rotateLeft').onclick=()=>{sourceRotation=(sourceRotation+270)%360;applyView(true)};$('rotateRight').onclick=()=>{sourceRotation=(sourceRotation+90)%360;applyView(true)};$('resetView').onclick=()=>{width=50;leftZoom=1;rightZoom=1;sourceRotation=0;applyView(true)};$('newDocBtn').onclick=createNewDoc;$('saveSyncCurrentBtn').onclick=syncCurrentDocToGitHub;$('deleteDocBtn').onclick=deleteCurrentDoc;$('clearFilesBtn').onclick=clearCurrentFiles;$('sourcePdfInput').onchange=e=>loadPdf(e.target.files?.[0],'source');$('translationPdfInput').onchange=e=>loadPdf(e.target.files?.[0],'translation');$('jsonFileInput').onchange=e=>readJsonFile(e.target.files?.[0]);$('importJsonBtn').onclick=importJson;$('fillJsonBtn').onclick=fillJsonTextareaFromCurrent;$('loadSourceRemoteBtn').onclick=()=>loadRemotePdf('source');$('loadTranslationRemoteBtn').onclick=()=>loadRemotePdf('translation');$('loadJsonRemoteBtn').onclick=loadRemoteJsonForCurrent;$('saveSyncBtn').onclick=()=>{saveSync();toast('同步设置已保存。')};$('testSyncBtn').onclick=testConnection;$('pullRemoteBtn').onclick=pullLibraryFromGitHub;$('refreshRemoteStatusBtn').onclick=refreshRemoteStatus;$('clearTokenBtn').onclick=()=>{const c=loadSync();c.token='';localStorage.setItem(SYNC_KEY,JSON.stringify(c));fillSync();toast('Token 已清除。')};bindSidebarResize()}
-    function showFatal(err){document.body.innerHTML=`<div style="padding:24px;font-family:Arial"><h2>页面启动失败</h2><pre style="white-space:pre-wrap;background:#101828;color:#fff;padding:16px;border-radius:8px">${esc(err.stack||err.message||err)}</pre></div>`}
-    try{fillSync();initEvents();hydratePdfs().then(()=>{renderAll();fillJsonTextareaFromCurrent();applyView(false)}).catch(showFatal)}catch(e){showFatal(e)}
+    const DB_NAME = "mn-lit-db-v11";
+    const STORE = "files";
+    const STORAGE_KEY = "mn-lit-docs-v11";
+    const CURRENT_KEY = "mn-lit-current-v11";
+    const SYNC_KEY = "mn-lit-github-sync-v11";
+
+    let pdfjsLib = null;
+    let docs = loadDocs();
+    let currentDocId = localStorage.getItem(CURRENT_KEY) || (docs[0]?.id || "");
+
+    let sourcePdf = null;
+    let translationPdf = null;
+    let rightMode = "json";
+
+    let width = 50;
+    let leftZoom = 1;
+    let rightZoom = 1;
+    let sourceRotation = 0;
+
+    let rendered = new Set();
+    let topTimer = null;
+    let remoteStatusCache = {};
+
+    const $ = (id) => document.getElementById(id);
+
+    const els = {
+      app: $("app"),
+      sidebar: $("sidebar"),
+      sidebarCurrentDoc: $("sidebarCurrentDoc"),
+      libraryGrid: $("libraryGrid"),
+      paperSelect: $("paperSelect"),
+      pageTotal: $("pageTotal"),
+      reader: $("reader"),
+      readerInner: $("readerInner"),
+      pageInput: $("pageInput"),
+      searchInput: $("searchInput"),
+      toast: $("toast"),
+      currentDocLabel: $("currentDocLabel"),
+      sourcePdfStatus: $("sourcePdfStatus"),
+      translationPdfStatus: $("translationPdfStatus"),
+      jsonInput: $("jsonInput"),
+      jsonStatus: $("jsonStatus"),
+      aiGrid: $("aiGrid"),
+      modePdf: $("modePdf"),
+      modeJson: $("modeJson"),
+      toolbar: $("toolbar"),
+      topHotzone: $("topHotzone"),
+      ghOwner: $("ghOwner"),
+      ghRepo: $("ghRepo"),
+      ghBranch: $("ghBranch"),
+      ghLibraryPath: $("ghLibraryPath"),
+      ghToken: $("ghToken"),
+      syncLog: $("syncLog"),
+      sourcePathInput: $("sourcePathInput"),
+      translationPathInput: $("translationPathInput"),
+      jsonPathInput: $("jsonPathInput"),
+      importPreview: $("importPreview")
+    };
+
+    async function ensurePdfJs() {
+      if (pdfjsLib) return pdfjsLib;
+
+      pdfjsLib = await import("https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs");
+      pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.mjs";
+
+      return pdfjsLib;
+    }
+
+    function loadDocs() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        return raw ? JSON.parse(raw) : [];
+      } catch {
+        return [];
+      }
+    }
+
+    function saveDocs() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(docs));
+
+      if (currentDocId) {
+        localStorage.setItem(CURRENT_KEY, currentDocId);
+      }
+    }
+
+    function currentDoc() {
+      return docs.find((doc) => doc.id === currentDocId) || docs[0] || null;
+    }
+
+    function createBlankDoc() {
+      return {
+        id: `doc-${Date.now()}-${Math.random().toString(16).slice(2)}`,
+        remoteId: "",
+        title: "未命名文献",
+        titleCn: "新文献",
+        journal: "",
+        year: "",
+        doi: "",
+        journalRank: {
+          IF: "-",
+          CAS: "-",
+          JCR: "-"
+        },
+        tags: [],
+        pageCount: 1,
+        assets: {},
+        pageTranslations: {},
+        pageFigures: {},
+        pageKeyPoints: {},
+        originalEvidence: {},
+        readingAnchors: [],
+        aiReading: {}
+      };
+    }
+
+    function ensureCurrentDoc() {
+      let doc = currentDoc();
+
+      if (doc) return doc;
+
+      doc = createBlankDoc();
+      docs.push(doc);
+      currentDocId = doc.id;
+      saveDocs();
+
+      return doc;
+    }
+
+    function esc(value) {
+      return String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function asList(value) {
+      if (!value) return [];
+      return Array.isArray(value) ? value : [String(value)];
+    }
+
+    function pageCountFromJson(doc) {
+      return Object.keys(doc?.pageTranslations || {}).length;
+    }
+
+    function toast(message) {
+      els.toast.textContent = message;
+      els.toast.style.display = "block";
+
+      setTimeout(() => {
+        els.toast.style.display = "none";
+      }, 2600);
+    }
+
+    function slugify(text) {
+      const base = String(text || "")
+        .toLowerCase()
+        .replace(/https?:\/\//g, "")
+        .replace(/doi\.org\//g, "")
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "")
+        .slice(0, 80);
+
+      return base || `paper-${Date.now()}`;
+    }
+
+    function ensureRemotePaths(doc) {
+      const remoteId = doc.remoteId || slugify(doc.doi || doc.title || doc.titleCn || doc.id);
+
+      doc.remoteId = remoteId;
+      doc.assets = doc.assets || {};
+      doc.assets.jsonPath = doc.assets.jsonPath || `data/${remoteId}.json`;
+      doc.assets.sourcePath = doc.assets.sourcePath || `papers/${remoteId}-en.pdf`;
+      doc.assets.translationPath = doc.assets.translationPath || `papers/${remoteId}-cn.pdf`;
+
+      return doc.assets;
+    }
+
+    function bytesToBase64(bytes) {
+      let binary = "";
+      const chunk = 32768;
+
+      for (let i = 0; i < bytes.length; i += chunk) {
+        binary += String.fromCharCode(...bytes.subarray(i, i + chunk));
+      }
+
+      return btoa(binary);
+    }
+
+    function textToBase64(text) {
+      return bytesToBase64(new TextEncoder().encode(text));
+    }
+
+    function base64ToText(base64) {
+      const binary = atob(String(base64 || "").replace(/\n/g, ""));
+      const bytes = new Uint8Array(binary.length);
+
+      for (let i = 0; i < binary.length; i += 1) {
+        bytes[i] = binary.charCodeAt(i);
+      }
+
+      return new TextDecoder().decode(bytes);
+    }
+
+    function base64ToArrayBuffer(base64) {
+      const binary = atob(String(base64 || "").replace(/\n/g, ""));
+      const bytes = new Uint8Array(binary.length);
+
+      for (let i = 0; i < binary.length; i += 1) {
+        bytes[i] = binary.charCodeAt(i);
+      }
+
+      return bytes.buffer;
+    }
+
+    function encodePath(path) {
+      return String(path).split("/").map(encodeURIComponent).join("/");
+    }
+
+    function loadSyncConfig() {
+      try {
+        return {
+          owner: "syuan7023-ship-it",
+          repo: "manganese-literature-reader",
+          branch: "main",
+          libraryPath: "data/library.json",
+          token: "",
+          ...JSON.parse(localStorage.getItem(SYNC_KEY) || "{}")
+        };
+      } catch {
+        return {
+          owner: "syuan7023-ship-it",
+          repo: "manganese-literature-reader",
+          branch: "main",
+          libraryPath: "data/library.json",
+          token: ""
+        };
+      }
+    }
+
+    function saveSyncConfig() {
+      const config = {
+        owner: els.ghOwner.value.trim(),
+        repo: els.ghRepo.value.trim(),
+        branch: els.ghBranch.value.trim() || "main",
+        libraryPath: els.ghLibraryPath.value.trim() || "data/library.json",
+        token: els.ghToken.value.trim()
+      };
+
+      localStorage.setItem(SYNC_KEY, JSON.stringify(config));
+
+      return config;
+    }
+
+    function fillSyncForm() {
+      const config = loadSyncConfig();
+
+      els.ghOwner.value = config.owner;
+      els.ghRepo.value = config.repo;
+      els.ghBranch.value = config.branch;
+      els.ghLibraryPath.value = config.libraryPath;
+      els.ghToken.value = config.token || "";
+    }
+
+    function getSyncConfig() {
+      const config = loadSyncConfig();
+
+      if (!config.owner || !config.repo || !config.branch || !config.token) {
+        throw new Error("请先在同步设置填写并保存 GitHub Token。");
+      }
+
+      return config;
+    }
+
+    async function githubGetContent(path) {
+      const config = getSyncConfig();
+
+      const response = await fetch(
+        `https://api.github.com/repos/${config.owner}/${config.repo}/contents/${encodePath(path)}?ref=${encodeURIComponent(config.branch)}&t=${Date.now()}`,
+        {
+          headers: {
+            Accept: "application/vnd.github+json",
+            Authorization: `Bearer ${config.token}`,
+            "X-GitHub-Api-Version": "2022-11-28"
+          }
+        }
+      );
+
+      if (response.status === 404) return null;
+
+      if (!response.ok) {
+        let detail = "";
+
+        try {
+          detail = (await response.json()).message || "";
+        } catch {}
+
+        throw new Error(`GitHub API ${response.status}${detail ? `：${detail}` : ""}`);
+      }
+
+      return response.json();
+    }
+
+    async function githubGetJson(path) {
+      const item = await githubGetContent(path);
+
+      if (!item) return null;
+      if (!item.content) throw new Error(`${path} 没有可读取内容`);
+
+      return JSON.parse(base64ToText(item.content));
+    }
+
+    async function githubPutContent(path, base64Content, message) {
+      const config = getSyncConfig();
+      const existing = await githubGetContent(path);
+
+      const body = {
+        message,
+        content: base64Content,
+        branch: config.branch
+      };
+
+      if (existing?.sha) {
+        body.sha = existing.sha;
+      }
+
+      const response = await fetch(
+        `https://api.github.com/repos/${config.owner}/${config.repo}/contents/${encodePath(path)}`,
+        {
+          method: "PUT",
+          headers: {
+            Accept: "application/vnd.github+json",
+            Authorization: `Bearer ${config.token}`,
+            "X-GitHub-Api-Version": "2022-11-28",
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(body)
+        }
+      );
+
+      if (!response.ok) {
+        let detail = "";
+
+        try {
+          detail = (await response.json()).message || "";
+        } catch {}
+
+        throw new Error(`GitHub API ${response.status}${detail ? `：${detail}` : ""}`);
+      }
+
+      return response.json();
+    }
+
+    async function openDB() {
+      return new Promise((resolve, reject) => {
+        const request = indexedDB.open(DB_NAME, 1);
+
+        request.onupgradeneeded = () => {
+          if (!request.result.objectStoreNames.contains(STORE)) {
+            request.result.createObjectStore(STORE, { keyPath: "key" });
+          }
+        };
+
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+      });
+    }
+
+    async function putBuffer(docId, type, name, buffer) {
+      const db = await openDB();
+
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction(STORE, "readwrite");
+
+        tx.objectStore(STORE).put({
+          key: `${docId}:${type}`,
+          name,
+          size: buffer.byteLength,
+          buffer
+        });
+
+        tx.oncomplete = () => resolve();
+        tx.onerror = () => reject(tx.error);
+      });
+    }
+
+    async function putFile(docId, type, file) {
+      await putBuffer(docId, type, file.name, await file.arrayBuffer());
+    }
+
+    async function getFile(docId, type) {
+      const db = await openDB();
+
+      return new Promise((resolve) => {
+        const tx = db.transaction(STORE, "readonly");
+        const request = tx.objectStore(STORE).get(`${docId}:${type}`);
+
+        request.onsuccess = () => resolve(request.result || null);
+        request.onerror = () => resolve(null);
+      });
+    }
+
+    async function deleteFile(docId, type) {
+      const db = await openDB();
+
+      return new Promise((resolve) => {
+        const tx = db.transaction(STORE, "readwrite");
+
+        tx.objectStore(STORE).delete(`${docId}:${type}`);
+        tx.oncomplete = () => resolve();
+        tx.onerror = () => resolve();
+      });
+    }
+
+    async function loadPdfFromBuffer(buffer) {
+      const pdfjs = await ensurePdfJs();
+      return pdfjs.getDocument({ data: buffer.slice(0) }).promise;
+    }
+
+    async function hydratePdfs() {
+      sourcePdf = null;
+      translationPdf = null;
+
+      const doc = currentDoc();
+      if (!doc) return;
+
+      const sourceRecord = await getFile(doc.id, "source");
+
+      if (sourceRecord) {
+        try {
+          sourcePdf = await loadPdfFromBuffer(sourceRecord.buffer);
+          doc.assets = doc.assets || {};
+          doc.assets.sourceName = sourceRecord.name;
+          doc.pageCount = Math.max(Number(doc.pageCount || 0), sourcePdf.numPages);
+          els.sourcePdfStatus.textContent = `已恢复英文 PDF：${sourceRecord.name}`;
+        } catch {
+          await deleteFile(doc.id, "source");
+          els.sourcePdfStatus.textContent = "英文 PDF 本地缓存损坏，已清除。";
+        }
+      }
+
+      const translationRecord = await getFile(doc.id, "translation");
+
+      if (translationRecord) {
+        try {
+          translationPdf = await loadPdfFromBuffer(translationRecord.buffer);
+          doc.assets = doc.assets || {};
+          doc.assets.translationName = translationRecord.name;
+          doc.pageCount = Math.max(Number(doc.pageCount || 0), translationPdf.numPages);
+          els.translationPdfStatus.textContent = `已恢复中文 PDF：${translationRecord.name}`;
+        } catch {
+          await deleteFile(doc.id, "translation");
+          els.translationPdfStatus.textContent = "中文 PDF 本地缓存损坏，已清除。";
+        }
+      }
+
+      if (!translationPdf && rightMode === "pdf") {
+        rightMode = "json";
+      }
+
+      saveDocs();
+    }
+
+    function showView(name) {
+      document.querySelectorAll(".view").forEach((view) => {
+        view.classList.remove("active");
+      });
+
+      $(`view-${name}`).classList.add("active");
+
+      document.querySelectorAll(".nav button").forEach((button) => {
+        button.classList.toggle("active", button.dataset.view === name);
+      });
+
+      if (name === "reader") {
+        els.app.classList.add("reading");
+        setTimeout(renderVisiblePdfPages, 120);
+      } else {
+        els.app.classList.remove("reading", "side-open", "top-open");
+      }
+    }
+
+    function renderRankBadges(doc) {
+      const rank = doc.journalRank || {};
+
+      return `
+        <div class="rank-row">
+          <span class="rank-badge rank-if">IF ${esc(rank.IF || "-")}</span>
+          <span class="rank-badge rank-cas">CAS ${esc(rank.CAS || "-")}</span>
+          <span class="rank-badge rank-jcr">JCR ${esc(rank.JCR || "-")}</span>
+        </div>
+      `;
+    }
+
+    function renderPaperCard(doc, mode = "full") {
+      const assets = doc.assets || {};
+      const tags = asList(doc.tags)
+        .map((tag) => `<span class="tag">${esc(tag)}</span>`)
+        .join("");
+
+      return `
+        <div class="paper-card">
+          <h3>${esc(doc.title || "未命名文献")}</h3>
+          <div class="cn-title">${esc(doc.titleCn || "暂无中文标题")}</div>
+          ${renderRankBadges(doc)}
+          <div class="meta">
+            <span><b>期刊</b>${esc(doc.journal || "-")}</span>
+            <span><b>年份</b>${esc(doc.year || "-")}</span>
+            <span class="doi"><b>DOI</b>${esc(doc.doi || "-")}</span>
+            <span class="doi"><b>英文PDF</b>${esc(assets.sourceName || assets.sourcePath || "未上传")}</span>
+            <span class="doi"><b>译文PDF</b>${esc(assets.translationName || assets.translationPath || "未上传")}</span>
+          </div>
+          <div class="tags">${tags}</div>
+          <div class="row">
+            <button class="primary" data-open="${doc.id}">📖 打开对照阅读</button>
+            ${
+              mode === "full"
+                ? `
+                  <button class="secondary" data-edit="${doc.id}">编辑/上传</button>
+                  <button class="danger" data-delete="${doc.id}">删除</button>
+                `
+                : ""
+            }
+          </div>
+        </div>
+      `;
+    }
+
+    function renderLibrary() {
+      const doc = currentDoc();
+
+      els.sidebarCurrentDoc.innerHTML = doc
+        ? renderPaperCard(doc, "compact")
+        : `
+          <div class="paper-card">
+            <h3>暂无当前文献</h3>
+            <button class="primary" data-view-inline="upload">＋ 新增文献</button>
+          </div>
+        `;
+
+      if (docs.length) {
+        els.libraryGrid.innerHTML = docs
+          .map((item) => `<div class="box wide">${renderPaperCard(item, "full")}</div>`)
+          .join("");
+      } else {
+        els.libraryGrid.innerHTML = `
+          <div class="wide empty-state">
+            <h3>暂无文献</h3>
+            <p>从上传/导入新增文献，或从 GitHub 拉取文献库。</p>
+            <button class="primary" data-view-inline="upload">＋ 新增文献</button>
+          </div>
+        `;
+      }
+
+      els.paperSelect.innerHTML = docs.length
+        ? docs
+            .map((item) => `<option value="${item.id}">${esc(item.title || item.titleCn || "未命名文献")}</option>`)
+            .join("")
+        : `<option value="">暂无文献</option>`;
+
+      document.querySelectorAll("[data-open]").forEach((button) => {
+        button.onclick = async () => {
+          currentDocId = button.dataset.open;
+          saveDocs();
+          await hydratePdfs();
+          renderAll();
+          showView("reader");
+        };
+      });
+
+      document.querySelectorAll("[data-edit]").forEach((button) => {
+        button.onclick = async () => {
+          currentDocId = button.dataset.edit;
+          saveDocs();
+          await hydratePdfs();
+          renderAll();
+          fillJsonTextareaFromCurrent();
+          showView("upload");
+        };
+      });
+
+      document.querySelectorAll("[data-delete]").forEach((button) => {
+        button.onclick = async () => {
+          currentDocId = button.dataset.delete;
+          saveDocs();
+          await deleteCurrentDoc();
+        };
+      });
+
+      document.querySelectorAll("[data-view-inline]").forEach((button) => {
+        button.onclick = () => showView(button.dataset.viewInline);
+      });
+    }
+
+    function renderPaths() {
+      const doc = currentDoc();
+
+      if (!doc) {
+        els.sourcePathInput.value = "";
+        els.translationPathInput.value = "";
+        els.jsonPathInput.value = "";
+        return;
+      }
+
+      ensureRemotePaths(doc);
+
+      els.sourcePathInput.value = doc.assets.sourcePath || "";
+      els.translationPathInput.value = doc.assets.translationPath || "";
+      els.jsonPathInput.value = doc.assets.jsonPath || "";
+    }
+
+    function renderImportPreview() {
+      const doc = currentDoc();
+
+      if (!doc) {
+        els.importPreview.textContent = "暂无当前文献。";
+        return;
+      }
+
+      els.importPreview.innerHTML = `
+        <b>英文题名：</b>${esc(doc.title || "-")}<br>
+        <b>中文题名：</b>${esc(doc.titleCn || "-")}<br>
+        <b>期刊/年份：</b>${esc(doc.journal || "-")} / ${esc(doc.year || "-")}<br>
+        <b>DOI：</b>${esc(doc.doi || "-")}<br>
+        <b>JSON译文页数：</b>${pageCountFromJson(doc)}<br>
+        <b>英文PDF：</b>${esc(doc.assets?.sourceName || doc.assets?.sourcePath || "未绑定")}<br>
+        <b>中文PDF：</b>${esc(doc.assets?.translationName || doc.assets?.translationPath || "未绑定")}
+      `;
+    }
+
+    function renderMockPdf() {
+      return `
+        <div class="pdf-placeholder">
+          <h1>未上传英文 PDF</h1>
+          <p>请上传英文原文 PDF，或从 GitHub 路径读取。</p>
+          <div class="mock-figure">PDF page placeholder</div>
+        </div>
+      `;
+    }
+
+    function renderJsonPage(doc, pageNo) {
+      const translations = asList(doc.pageTranslations?.[pageNo]);
+      const figure = doc.pageFigures?.[pageNo];
+      const keyPoints = asList(doc.pageKeyPoints?.[pageNo]);
+      const evidence = asList(doc.originalEvidence?.[pageNo]);
+
+      return `
+        <article class="paper-page translation-page" data-side="right">
+          <h2>第 ${pageNo} 页 JSON 译文</h2>
+
+          ${
+            translations.length
+              ? translations.map((text) => `<p data-cn>${esc(text)}</p>`).join("")
+              : `<p data-cn>暂无本页中文译文。</p>`
+          }
+
+          ${figure ? `<div class="figure-note">图表说明：${esc(figure)}</div>` : ""}
+
+          <details class="evidence" ${keyPoints.length || evidence.length ? "open" : ""}>
+            <summary>关键点与英文依据</summary>
+            <ul>
+              ${keyPoints.map((item) => `<li><b>关键点：</b>${esc(item)}</li>`).join("")}
+              ${evidence.map((item) => `<li><b>英文依据：</b>${esc(item)}</li>`).join("")}
+            </ul>
+          </details>
+
+          <div class="page-no">${pageNo}</div>
+        </article>
+      `;
+    }
+
+    function renderReader() {
+      const doc = currentDoc();
+
+      if (!doc) {
+        els.pageTotal.textContent = "0";
+        els.readerInner.innerHTML = `
+          <div class="empty-state">
+            <h3>暂无可阅读文献</h3>
+          </div>
+        `;
+        return;
+      }
+
+      const totalPages = Math.max(
+        sourcePdf?.numPages || 0,
+        translationPdf?.numPages || 0,
+        Number(doc.pageCount || 0),
+        pageCountFromJson(doc),
+        1
+      );
+
+      els.pageTotal.textContent = totalPages;
+
+      const rows = [];
+
+      for (let pageNo = 1; pageNo <= totalPages; pageNo += 1) {
+        const left = `
+          <article class="paper-page pdf-page" data-side="left" data-type="source" data-page-no="${pageNo}">
+            ${sourcePdf ? `<div class="empty-pdf">英文 PDF 第 ${pageNo} 页等待渲染...</div>` : renderMockPdf()}
+          </article>
+        `;
+
+        const right =
+          rightMode === "pdf" && translationPdf
+            ? `
+              <article class="paper-page pdf-page" data-side="right" data-type="translation" data-page-no="${pageNo}">
+                <div class="empty-pdf">中文 PDF 第 ${pageNo} 页等待渲染...</div>
+              </article>
+            `
+            : renderJsonPage(doc, pageNo);
+
+        rows.push(`
+          <div class="page-row" data-page="${pageNo}">
+            ${left}
+            <div class="pane-resizer"></div>
+            ${right}
+          </div>
+        `);
+      }
+
+      els.readerInner.innerHTML = rows.join("");
+
+      applyView(false);
+      bindReaderControls();
+
+      rendered.clear();
+      setTimeout(renderVisiblePdfPages, 80);
+    }
+
+    function applyView(shouldRender = true) {
+      width = Math.max(30, Math.min(70, width));
+
+      els.reader.style.setProperty("--left-width", `${width}%`);
+
+      $("widthSlider").value = width;
+      $("widthLabel").textContent = `${Math.round(width)} / ${100 - Math.round(width)}`;
+
+      $("leftZoomSlider").value = Math.round(leftZoom * 100);
+      $("rightZoomSlider").value = Math.round(rightZoom * 100);
+      $("leftZoomLabel").textContent = `${Math.round(leftZoom * 100)}%`;
+      $("rightZoomLabel").textContent = `${Math.round(rightZoom * 100)}%`;
+
+      if (shouldRender) {
+        rendered.clear();
+        setTimeout(renderVisiblePdfPages, 80);
+      }
+    }
+
+    function bindReaderControls() {
+      document.querySelectorAll(".pane-resizer").forEach((handle) => {
+        handle.onpointerdown = (event) => {
+          event.preventDefault();
+
+          const row = handle.closest(".page-row");
+          const rect = row.getBoundingClientRect();
+
+          function move(moveEvent) {
+            width = ((moveEvent.clientX - rect.left) / rect.width) * 100;
+            applyView(false);
+          }
+
+          function up() {
+            window.removeEventListener("pointermove", move);
+            window.removeEventListener("pointerup", up);
+            applyView(true);
+          }
+
+          window.addEventListener("pointermove", move);
+          window.addEventListener("pointerup", up);
+        };
+      });
+
+      document.querySelectorAll("[data-side]").forEach((pane) => {
+        pane.onwheel = (event) => {
+          const side = pane.dataset.side;
+
+          if (event.altKey) {
+            event.preventDefault();
+
+            const direction = event.deltaY < 0 ? 2 : -2;
+
+            if (side === "left") {
+              width += direction;
+            } else {
+              width -= direction;
+            }
+
+            applyView(true);
+          } else if (event.ctrlKey || event.metaKey) {
+            event.preventDefault();
+
+            const direction = event.deltaY < 0 ? 0.06 : -0.06;
+
+            if (side === "left") {
+              leftZoom = Math.max(0.8, Math.min(1.8, leftZoom + direction));
+            } else {
+              rightZoom = Math.max(0.8, Math.min(1.8, rightZoom + direction));
+            }
+
+            applyView(true);
+          }
+        };
+      });
+    }
+
+    async function renderPdfPage(pdf, holder, key, pageNo, side) {
+      if (!pdf || rendered.has(key) || pageNo > pdf.numPages) return;
+
+      rendered.add(key);
+
+      try {
+        const zoom = side === "left" ? leftZoom : rightZoom;
+        const rotation = side === "left" ? sourceRotation : 0;
+
+        const page = await pdf.getPage(pageNo);
+        const baseViewport = page.getViewport({ scale: 1, rotation });
+
+        const cssWidth = Math.max(260, Math.floor(holder.clientWidth * zoom));
+        const cssScale = cssWidth / baseViewport.width;
+        const deviceScale = Math.min(window.devicePixelRatio || 1, 2);
+        const renderScale = cssScale * deviceScale * 1.7;
+
+        const viewport = page.getViewport({
+          scale: renderScale,
+          rotation
+        });
+
+        const canvas = document.createElement("canvas");
+        const context = canvas.getContext("2d", { alpha: false });
+
+        canvas.width = Math.floor(viewport.width);
+        canvas.height = Math.floor(viewport.height);
+        canvas.style.width = `${cssWidth}px`;
+        canvas.style.height = `${Math.floor(baseViewport.height * cssScale)}px`;
+
+        holder.innerHTML = "";
+        holder.appendChild(canvas);
+
+        await page.render({
+          canvasContext: context,
+          viewport
+        }).promise;
+
+        const pageLabel = document.createElement("div");
+        pageLabel.className = "page-no";
+        pageLabel.textContent = pageNo;
+        holder.appendChild(pageLabel);
+      } catch (error) {
+        holder.innerHTML = `
+          <div class="empty-pdf">
+            第 ${pageNo} 页渲染失败。<br>
+            ${esc(error.message || "")}
+          </div>
+        `;
+      }
+    }
+
+    function renderVisiblePdfPages() {
+      const readerRect = els.reader.getBoundingClientRect();
+
+      document.querySelectorAll(".page-row").forEach((row) => {
+        const rowRect = row.getBoundingClientRect();
+        const pageNo = Number(row.dataset.page);
+
+        const nearViewport = rowRect.bottom > readerRect.top - 900 && rowRect.top < readerRect.bottom + 1200;
+
+        if (!nearViewport) return;
+
+        const sourceHolder = row.querySelector('[data-type="source"]');
+
+        if (sourceHolder && sourcePdf) {
+          renderPdfPage(
+            sourcePdf,
+            sourceHolder,
+            `source-${currentDocId}-${pageNo}-${width}-${leftZoom}-${sourceRotation}-${sourceHolder.clientWidth}`,
+            pageNo,
+            "left"
+          );
+        }
+
+        const translationHolder = row.querySelector('[data-type="translation"]');
+
+        if (translationHolder && translationPdf && rightMode === "pdf") {
+          renderPdfPage(
+            translationPdf,
+            translationHolder,
+            `translation-${currentDocId}-${pageNo}-${width}-${rightZoom}-${translationHolder.clientWidth}`,
+            pageNo,
+            "right"
+          );
+        }
+      });
+    }
+
+    function renderAi() {
+      const doc = currentDoc();
+
+      if (!doc) {
+        els.aiGrid.innerHTML = `
+          <div class="wide empty-state">
+            <h3>暂无精读结果</h3>
+          </div>
+        `;
+        return;
+      }
+
+      const ai = doc.aiReading || {};
+
+      function renderList(value) {
+        const items = asList(value);
+
+        if (!items.length) return "<p>暂无。</p>";
+
+        return `<ul>${items.map((item) => `<li>${esc(item)}</li>`).join("")}</ul>`;
+      }
+
+      els.aiGrid.innerHTML = `
+        <div class="box wide">
+          <h3>全文摘要</h3>
+          <p>${esc(ai.summary || ai.abstractCn || ai.fullSummary || "暂无全文摘要。")}</p>
+        </div>
+
+        <div class="box">
+          <h3>创新点</h3>
+          ${renderList(ai.innovation || ai.innovations)}
+        </div>
+
+        <div class="box">
+          <h3>实验方法</h3>
+          <p>${esc(ai.methods || ai.method || "暂无。")}</p>
+        </div>
+
+        <div class="box">
+          <h3>关键数据</h3>
+          ${renderList(ai.keyData || ai.data)}
+        </div>
+
+        <div class="box">
+          <h3>工艺流程</h3>
+          <p>${esc(ai.process || ai.route || "暂无。")}</p>
+        </div>
+
+        <div class="box">
+          <h3>课题相关性</h3>
+          <p>${esc(ai.relevance || ai.topicRelevance || "暂无。")}</p>
+        </div>
+
+        <div class="box wide">
+          <h3>英文依据</h3>
+          ${renderList(Object.values(doc.originalEvidence || {}).flat())}
+        </div>
+      `;
+    }
+
+    function renderStatus() {
+      const container = $("syncStatusTable");
+
+      if (!docs.length) {
+        container.innerHTML = `<p class="small-note">暂无文献。</p>`;
+        return;
+      }
+
+      const rows = docs
+        .map((doc) => {
+          ensureRemotePaths(doc);
+
+          const status = remoteStatusCache[doc.id] || {};
+
+          return `
+            <tr>
+              <td>${esc(doc.titleCn || doc.title || doc.id)}</td>
+              <td>${esc(doc.assets.jsonPath)}<br>${renderFileStatus(status.json)}</td>
+              <td>${esc(doc.assets.sourcePath)}<br>${renderFileStatus(status.source)}</td>
+              <td>${esc(doc.assets.translationPath)}<br>${renderFileStatus(status.translation)}</td>
+            </tr>
+          `;
+        })
+        .join("");
+
+      container.innerHTML = `
+        <table class="status-table">
+          <thead>
+            <tr>
+              <th>文献</th>
+              <th>JSON</th>
+              <th>英文 PDF</th>
+              <th>中文 PDF</th>
+            </tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>
+      `;
+    }
+
+    function renderFileStatus(status) {
+      if (status === "ok") return `<span class="status-ok">已同步</span>`;
+      if (status === "missing") return `<span class="status-bad">远程缺失</span>`;
+      return `<span class="status-muted">未知</span>`;
+    }
+
+    function renderAll() {
+      renderLibrary();
+      renderPaths();
+      renderReader();
+      renderAi();
+      renderStatus();
+      renderImportPreview();
+
+      if (currentDocId) {
+        els.paperSelect.value = currentDocId;
+      }
+
+      const doc = currentDoc();
+      els.currentDocLabel.textContent = doc ? doc.titleCn || doc.title || "未命名文献" : "暂无文献";
+    }
+
+    function normalizePageMap(value) {
+      const output = {};
+
+      if (!value) return output;
+
+      if (Array.isArray(value)) {
+        value.forEach((item, index) => {
+          const pageNo = String(index + 1);
+
+          if (typeof item === "string") {
+            output[pageNo] = [item];
+          } else if (item && typeof item === "object") {
+            output[pageNo] = asList(
+              item.translation ||
+              item.translationCn ||
+              item.cn ||
+              item.text ||
+              item.paragraphs
+            );
+          }
+        });
+
+        return output;
+      }
+
+      Object.keys(value).forEach((key) => {
+        output[String(key)] = asList(value[key]);
+      });
+
+      return output;
+    }
+
+    function normalizeImportedJson(data) {
+      const normalized = structuredClone(data);
+
+      normalized.journalRank = data.journalRank || data.rank || data.journalMetrics || {};
+      normalized.tags = asList(data.tags || data.keywords);
+      normalized.pageTranslations = normalizePageMap(data.pageTranslations || data.translations || data.pages);
+      normalized.pageFigures = data.pageFigures || data.figures || {};
+      normalized.pageKeyPoints = data.pageKeyPoints || data.keyPointsByPage || data.pageKeypoints || {};
+      normalized.originalEvidence = data.originalEvidence || data.evidence || {};
+      normalized.aiReading = data.aiReading || data.reading || data.deepReading || data.analysis || {};
+
+      return normalized;
+    }
+
+    function mergeDoc(target, incoming) {
+      const data = normalizeImportedJson(incoming);
+      const oldAssets = target.assets || {};
+      const newAssets = data.assets || {};
+
+      Object.assign(target, {
+        ...target,
+        ...data,
+        id: target.id,
+        remoteId: target.remoteId || data.remoteId || slugify(data.doi || data.title || data.titleCn || target.id),
+        assets: {
+          ...newAssets,
+          ...oldAssets
+        },
+        journalRank: data.journalRank || target.journalRank || {},
+        tags: asList(data.tags || target.tags),
+        pageCount:
+          data.pageCount ||
+          Object.keys(data.pageTranslations || target.pageTranslations || {}).length ||
+          target.pageCount ||
+          1
+      });
+
+      ensureRemotePaths(target);
+    }
+
+    async function importJsonText(text, label = "JSON") {
+      const data = JSON.parse(text);
+      const doc = currentDoc() || ensureCurrentDoc();
+
+      mergeDoc(doc, data);
+
+      currentDocId = doc.id;
+      saveDocs();
+
+      await hydratePdfs();
+
+      renderAll();
+      fillJsonTextareaFromCurrent();
+
+      els.jsonStatus.textContent = `${label} 已导入并刷新页面。`;
+      toast(`${label} 已导入。`);
+    }
+
+    async function importJson() {
+      try {
+        await importJsonText(els.jsonInput.value, "JSON");
+      } catch (error) {
+        els.jsonStatus.textContent = `JSON 格式错误：${error.message}`;
+      }
+    }
+
+    async function readJsonFile(file) {
+      if (!file) return;
+
+      try {
+        const text = await file.text();
+        els.jsonInput.value = text;
+        await importJsonText(text, `JSON 文件 ${file.name}`);
+      } catch (error) {
+        els.jsonStatus.textContent = `JSON 文件读取失败：${error.message}`;
+      }
+    }
+
+    function fillJsonTextareaFromCurrent() {
+      const doc = currentDoc();
+      els.jsonInput.value = doc ? JSON.stringify(doc, null, 2) : "";
+    }
+
+    async function loadPdf(file, type) {
+      if (!file) return;
+
+      const doc = ensureCurrentDoc();
+      const status = type === "source" ? els.sourcePdfStatus : els.translationPdfStatus;
+
+      try {
+        status.textContent = `正在读取：${file.name}`;
+
+        await putFile(doc.id, type, file);
+
+        const buffer = await file.arrayBuffer();
+        const pdf = await loadPdfFromBuffer(buffer);
+
+        ensureRemotePaths(doc);
+
+        if (type === "source") {
+          sourcePdf = pdf;
+          doc.assets.sourceName = file.name;
+        } else {
+          translationPdf = pdf;
+          doc.assets.translationName = file.name;
+          rightMode = "pdf";
+        }
+
+        doc.pageCount = Math.max(Number(doc.pageCount || 0), pdf.numPages);
+
+        saveDocs();
+        renderAll();
+        toast("PDF 已载入并刷新阅读器。");
+      } catch (error) {
+        status.textContent = `PDF 读取失败：${error.message}`;
+      }
+    }
+
+    async function loadRemotePdf(type) {
+      const doc = ensureCurrentDoc();
+      ensureRemotePaths(doc);
+
+      const path = type === "source"
+        ? els.sourcePathInput.value.trim()
+        : els.translationPathInput.value.trim();
+
+      const status = type === "source" ? els.sourcePdfStatus : els.translationPdfStatus;
+
+      if (!path) {
+        toast("请先填写 GitHub PDF 路径。");
+        return;
+      }
+
+      try {
+        const item = await githubGetContent(path);
+
+        if (!item?.content) {
+          throw new Error("没有读取到文件内容。文件过大时 GitHub Contents API 可能不返回 base64 内容。");
+        }
+
+        const buffer = base64ToArrayBuffer(item.content);
+
+        await putBuffer(doc.id, type, path.split("/").pop(), buffer);
+
+        const pdf = await loadPdfFromBuffer(buffer);
+
+        if (type === "source") {
+          sourcePdf = pdf;
+          doc.assets.sourcePath = path;
+          doc.assets.sourceName = path.split("/").pop();
+        } else {
+          translationPdf = pdf;
+          doc.assets.translationPath = path;
+          doc.assets.translationName = path.split("/").pop();
+          rightMode = "pdf";
+        }
+
+        doc.pageCount = Math.max(Number(doc.pageCount || 0), pdf.numPages);
+
+        saveDocs();
+        renderAll();
+
+        status.textContent = `已从 GitHub 读取：${path}`;
+        toast("远程 PDF 已读取。");
+      } catch (error) {
+        status.textContent = `远程 PDF 读取失败：${error.message}`;
+      }
+    }
+
+    async function loadRemoteJsonForCurrent() {
+      const doc = ensureCurrentDoc();
+      ensureRemotePaths(doc);
+
+      const path = els.jsonPathInput.value.trim();
+
+      if (!path) {
+        toast("请先填写 GitHub JSON 路径。");
+        return;
+      }
+
+      try {
+        const data = await githubGetJson(path);
+
+        doc.assets.jsonPath = path;
+        els.jsonInput.value = JSON.stringify(data, null, 2);
+
+        await importJsonText(els.jsonInput.value, `GitHub JSON ${path}`);
+      } catch (error) {
+        els.jsonStatus.textContent = `GitHub JSON 读取失败：${error.message}`;
+      }
+    }
+
+    function searchChinese(query) {
+      const term = query.trim();
+
+      document.querySelectorAll("[data-cn]").forEach((paragraph) => {
+        const raw = paragraph.dataset.raw || paragraph.textContent;
+        paragraph.dataset.raw = raw;
+
+        if (!term) {
+          paragraph.textContent = raw;
+          return;
+        }
+
+        const safe = term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+        const regex = new RegExp(safe, "gi");
+
+        paragraph.innerHTML = raw.replace(regex, (match) => `<span class="highlight">${match}</span>`);
+      });
+    }
+
+    function jumpToPage() {
+      showView("reader");
+
+      setTimeout(() => {
+        const pageNo = Number(els.pageInput.value) || 1;
+        const row = document.querySelector(`.page-row[data-page="${pageNo}"]`);
+
+        if (row) {
+          row.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }, 80);
+    }
+
+    async function syncCurrentDocToGitHub() {
+      try {
+        saveSyncConfig();
+
+        const doc = currentDoc();
+
+        if (!doc) {
+          throw new Error("当前没有文献。");
+        }
+
+        ensureRemotePaths(doc);
+
+        els.syncLog.textContent = "开始同步当前文献...";
+
+        const sourceRecord = await getFile(doc.id, "source");
+        const translationRecord = await getFile(doc.id, "translation");
+
+        if (sourceRecord) {
+          await githubPutContent(
+            doc.assets.sourcePath,
+            bytesToBase64(new Uint8Array(sourceRecord.buffer)),
+            `Upload source PDF: ${doc.title || doc.id}`
+          );
+
+          els.syncLog.textContent += `\n已上传英文 PDF：${doc.assets.sourcePath}`;
+        }
+
+        if (translationRecord) {
+          await githubPutContent(
+            doc.assets.translationPath,
+            bytesToBase64(new Uint8Array(translationRecord.buffer)),
+            `Upload translation PDF: ${doc.title || doc.id}`
+          );
+
+          els.syncLog.textContent += `\n已上传中文 PDF：${doc.assets.translationPath}`;
+        }
+
+        await githubPutContent(
+          doc.assets.jsonPath,
+          textToBase64(JSON.stringify(doc, null, 2)),
+          `Update JSON: ${doc.title || doc.id}`
+        );
+
+        els.syncLog.textContent += `\n已上传 JSON：${doc.assets.jsonPath}`;
+
+        await githubPutContent(
+          loadSyncConfig().libraryPath,
+          textToBase64(JSON.stringify({
+            version: 1,
+            updatedAt: new Date().toISOString(),
+            docs
+          }, null, 2)),
+          "Update literature library"
+        );
+
+        els.syncLog.textContent += "\n已更新 library.json\n同步完成。";
+        toast("同步完成。");
+      } catch (error) {
+        els.syncLog.textContent += `\n同步失败：${error.message}`;
+        toast(`同步失败：${error.message}`);
+      }
+    }
+
+    async function pullLibraryFromGitHub() {
+      try {
+        saveSyncConfig();
+
+        const library = await githubGetJson(loadSyncConfig().libraryPath);
+        const remoteDocs = Array.isArray(library) ? library : library.docs;
+
+        if (!Array.isArray(remoteDocs)) {
+          throw new Error("library.json 中没有 docs 数组。");
+        }
+
+        const pulledDocs = [];
+
+        for (const item of remoteDocs) {
+          let doc = {
+            assets: {},
+            pageTranslations: {},
+            pageFigures: {},
+            pageKeyPoints: {},
+            originalEvidence: {},
+            aiReading: {},
+            ...item,
+            id: item.id || `doc-${Date.now()}-${Math.random().toString(16).slice(2)}`
+          };
+
+          ensureRemotePaths(doc);
+
+          try {
+            const fullJson = await githubGetJson(doc.assets.jsonPath);
+
+            if (fullJson) {
+              doc = {
+                ...doc,
+                ...normalizeImportedJson(fullJson),
+                assets: {
+                  ...(fullJson.assets || {}),
+                  ...(doc.assets || {})
+                }
+              };
+            }
+          } catch {}
+
+          pulledDocs.push(doc);
+        }
+
+        docs = pulledDocs;
+        currentDocId = docs[0]?.id || "";
+
+        saveDocs();
+        await hydratePdfs();
+
+        renderAll();
+        fillJsonTextareaFromCurrent();
+
+        toast("已拉取文献库。");
+      } catch (error) {
+        els.syncLog.textContent += `\n拉取失败：${error.message}`;
+        toast(`拉取失败：${error.message}`);
+      }
+    }
+
+    async function refreshRemoteStatus() {
+      try {
+        saveSyncConfig();
+
+        remoteStatusCache = {};
+
+        for (const doc of docs) {
+          ensureRemotePaths(doc);
+
+          remoteStatusCache[doc.id] = {
+            json: (await githubGetContent(doc.assets.jsonPath)) ? "ok" : "missing",
+            source: (await githubGetContent(doc.assets.sourcePath)) ? "ok" : "missing",
+            translation: (await githubGetContent(doc.assets.translationPath)) ? "ok" : "missing"
+          };
+
+          renderStatus();
+        }
+
+        toast("状态已刷新。");
+      } catch (error) {
+        toast(`状态检查失败：${error.message}`);
+      }
+    }
+
+    async function testConnection() {
+      try {
+        saveSyncConfig();
+
+        const config = loadSyncConfig();
+
+        const response = await fetch(`https://api.github.com/repos/${config.owner}/${config.repo}`, {
+          headers: {
+            Authorization: `Bearer ${config.token}`
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error(`GitHub API ${response.status}`);
+        }
+
+        els.syncLog.textContent = "连接成功。";
+        toast("连接成功。");
+      } catch (error) {
+        els.syncLog.textContent = `连接失败：${error.message}`;
+        toast(`连接失败：${error.message}`);
+      }
+    }
+
+    async function deleteCurrentDoc() {
+      const doc = currentDoc();
+
+      if (!doc) return;
+      if (!confirm("确定删除当前文献？")) return;
+
+      await deleteFile(doc.id, "source");
+      await deleteFile(doc.id, "translation");
+
+      docs = docs.filter((item) => item.id !== doc.id);
+      currentDocId = docs[0]?.id || "";
+
+      sourcePdf = null;
+      translationPdf = null;
+      rightMode = "json";
+
+      saveDocs();
+      await hydratePdfs();
+      renderAll();
+    }
+
+    async function clearCurrentFiles() {
+      const doc = currentDoc();
+
+      if (!doc) return;
+
+      await deleteFile(doc.id, "source");
+      await deleteFile(doc.id, "translation");
+
+      sourcePdf = null;
+      translationPdf = null;
+      rightMode = "json";
+
+      renderAll();
+    }
+
+    function createNewDoc() {
+      const doc = createBlankDoc();
+
+      docs.push(doc);
+      currentDocId = doc.id;
+
+      sourcePdf = null;
+      translationPdf = null;
+      rightMode = "json";
+
+      saveDocs();
+      renderAll();
+      fillJsonTextareaFromCurrent();
+      showView("upload");
+    }
+
+    function bindSidebarResize() {
+      const handle = $("sidebarResizer");
+
+      handle.onpointerdown = (event) => {
+        event.preventDefault();
+
+        function move(moveEvent) {
+          const newWidth = Math.max(220, Math.min(430, moveEvent.clientX));
+          document.documentElement.style.setProperty("--sidebar-width", `${newWidth}px`);
+        }
+
+        function up() {
+          window.removeEventListener("pointermove", move);
+          window.removeEventListener("pointerup", up);
+        }
+
+        window.addEventListener("pointermove", move);
+        window.addEventListener("pointerup", up);
+      };
+    }
+
+    function bindEvents() {
+      document.querySelectorAll(".nav button").forEach((button) => {
+        button.onclick = () => showView(button.dataset.view);
+      });
+
+      document.querySelectorAll("[data-view-btn]").forEach((button) => {
+        button.onclick = () => showView(button.dataset.viewBtn);
+      });
+
+      $("toggleSidebar").onclick = () => {
+        if (els.app.classList.contains("reading")) {
+          els.app.classList.toggle("side-open");
+        } else {
+          els.app.classList.add("reading");
+        }
+      };
+
+      els.sidebar.onmouseenter = () => {
+        if (els.app.classList.contains("reading")) {
+          els.app.classList.add("side-open");
+        }
+      };
+
+      els.sidebar.onmouseleave = () => {
+        if (els.app.classList.contains("reading")) {
+          els.app.classList.remove("side-open");
+        }
+      };
+
+      els.topHotzone.onmouseenter = () => {
+        clearTimeout(topTimer);
+        els.app.classList.add("top-open");
+      };
+
+      els.toolbar.onmouseenter = () => {
+        clearTimeout(topTimer);
+        els.app.classList.add("top-open");
+      };
+
+      els.toolbar.onmouseleave = () => {
+        topTimer = setTimeout(() => {
+          els.app.classList.remove("top-open");
+        }, 450);
+      };
+
+      els.paperSelect.onchange = async () => {
+        currentDocId = els.paperSelect.value;
+        saveDocs();
+        await hydratePdfs();
+        renderAll();
+        fillJsonTextareaFromCurrent();
+      };
+
+      $("jumpBtn").onclick = jumpToPage;
+
+      els.modePdf.onclick = () => {
+        if (!translationPdf) {
+          toast("当前没有译文 PDF。");
+          return;
+        }
+
+        rightMode = "pdf";
+        renderAll();
+        showView("reader");
+      };
+
+      els.modeJson.onclick = () => {
+        rightMode = "json";
+        renderAll();
+        showView("reader");
+      };
+
+      els.searchInput.oninput = () => searchChinese(els.searchInput.value);
+      els.reader.onscroll = renderVisiblePdfPages;
+
+      $("viewToggle").onclick = () => {
+        $("viewPanel").classList.toggle("open");
+      };
+
+      $("widthSlider").oninput = (event) => {
+        width = Number(event.target.value);
+        applyView(true);
+      };
+
+      $("leftZoomSlider").oninput = (event) => {
+        leftZoom = Number(event.target.value) / 100;
+        applyView(true);
+      };
+
+      $("rightZoomSlider").oninput = (event) => {
+        rightZoom = Number(event.target.value) / 100;
+        applyView(true);
+      };
+
+      $("rotateLeft").onclick = () => {
+        sourceRotation = (sourceRotation + 270) % 360;
+        applyView(true);
+      };
+
+      $("rotateRight").onclick = () => {
+        sourceRotation = (sourceRotation + 90) % 360;
+        applyView(true);
+      };
+
+      $("resetView").onclick = () => {
+        width = 50;
+        leftZoom = 1;
+        rightZoom = 1;
+        sourceRotation = 0;
+        applyView(true);
+      };
+
+      $("newDocBtn").onclick = createNewDoc;
+      $("saveSyncCurrentBtn").onclick = syncCurrentDocToGitHub;
+      $("deleteDocBtn").onclick = deleteCurrentDoc;
+      $("clearFilesBtn").onclick = clearCurrentFiles;
+
+      $("sourcePdfInput").onchange = (event) => loadPdf(event.target.files?.[0], "source");
+      $("translationPdfInput").onchange = (event) => loadPdf(event.target.files?.[0], "translation");
+      $("jsonFileInput").onchange = (event) => readJsonFile(event.target.files?.[0]);
+
+      $("importJsonBtn").onclick = importJson;
+      $("fillJsonBtn").onclick = fillJsonTextareaFromCurrent;
+
+      $("loadSourceRemoteBtn").onclick = () => loadRemotePdf("source");
+      $("loadTranslationRemoteBtn").onclick = () => loadRemotePdf("translation");
+      $("loadJsonRemoteBtn").onclick = loadRemoteJsonForCurrent;
+
+      $("saveSyncBtn").onclick = () => {
+        saveSyncConfig();
+        toast("同步设置已保存。");
+      };
+
+      $("testSyncBtn").onclick = testConnection;
+      $("pullRemoteBtn").onclick = pullLibraryFromGitHub;
+      $("refreshRemoteStatusBtn").onclick = refreshRemoteStatus;
+
+      $("clearTokenBtn").onclick = () => {
+        const config = loadSyncConfig();
+        config.token = "";
+        localStorage.setItem(SYNC_KEY, JSON.stringify(config));
+        fillSyncForm();
+        toast("Token 已清除。");
+      };
+
+      bindSidebarResize();
+    }
+
+    function showFatal(error) {
+      document.body.innerHTML = `
+        <div style="padding:24px;font-family:Arial, sans-serif;">
+          <h2>页面启动失败</h2>
+          <p>下面是错误信息，复制给我即可定位。</p>
+          <pre style="white-space:pre-wrap;background:#101828;color:#fff;padding:16px;border-radius:8px;">${esc(error.stack || error.message || error)}</pre>
+        </div>
+      `;
+    }
+
+    async function start() {
+      fillSyncForm();
+      bindEvents();
+
+      await hydratePdfs();
+
+      renderAll();
+      fillJsonTextareaFromCurrent();
+      applyView(false);
+    }
+
+    start().catch(showFatal);
   </script>
 </body>
 </html>
