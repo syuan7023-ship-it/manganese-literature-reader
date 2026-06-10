@@ -1,0 +1,86 @@
+{
+  "id": "sample-review-2019",
+  "title": "Extraction and separation of manganese and iron from ferruginous manganese ores: A review",
+  "titleCn": "铁质锰矿中锰和铁的提取与分离：综述",
+  "journal": "Minerals Engineering",
+  "year": "2019",
+  "doi": "10.1016/j.mineng.2018.11.016",
+  "journalRank": {
+    "IF": "5.0",
+    "CAS": "2区",
+    "JCR": "Q1"
+  },
+  "tags": [
+    "矿物学诊断",
+    "磁选",
+    "焙烧",
+    "酸浸",
+    "Fe/S/Mn内源还原",
+    "工程放大",
+    "环境约束"
+  ],
+  "pageCount": 18,
+  "assets": {
+    "sourceName": "Extraction and separation of manganese and iron from ferruginous manganese ores A review.pdf",
+    "jsonPath": "data/sample-review-2019.json",
+    "sourcePath": "papers/sample-review-2019-en.pdf",
+    "translationPath": "papers/sample-review-2019-cn.pdf"
+  },
+  "pageTranslations": {
+    "1": [
+      "锰是钢铁、电池和化工领域的重要战略金属。铁质锰矿由于锰、铁矿物嵌布关系复杂，常表现为低锰品位和低 Mn/Fe 比，直接用于锰合金生产受到限制。",
+      "中国 73% 以上锰矿属于低 Mn/Fe 比铁质锰矿，而锰合金生产通常要求 Mn > 30%、Mn/Fe > 5。因此，单纯提高锰品位并不足够，还需要实现锰铁分离和杂质控制。"
+    ],
+    "2": [
+      "铁质锰矿常与赤铁矿、针铁矿、褐铁矿等含铁矿物共生。重选、磁选、浮选均可用于预富集，但分选效果受到锰铁矿物嵌布粒度、连生关系和表面性质的限制。",
+      "对于复杂铁质锰矿，重选、磁选、浮选难以单独分离 Mn 和 Fe。单一物理分选工艺往往难以同时实现较高锰回收率、明显 Fe 脱除和稳定的 Mn/Fe 比提升。"
+    ],
+    "3": [
+      "工艺选择前必须先进行矿物学诊断。锰和铁可能以独立矿物形式存在，也可能形成 Fe-Mn 复合氧化物；后者会显著降低物理分选和选择性浸出的效率。",
+      "Fe-Mn 复合氧化物和 5-10 μm 细粒共生是分离困难的根源。普通磨矿难以充分解离这类细粒共生体，因此不能简单假设“磨得更细就能分开”。"
+    ]
+  },
+  "pageFigures": {
+    "1": "资源背景、工业利用门槛和分离富集研究必要性。",
+    "2": "物理分选方法的局限性比较。",
+    "3": "Fe-Mn 复合氧化物、细粒共生和矿物嵌布图。"
+  },
+  "pageKeyPoints": {
+    "1": [
+      "铁质锰矿的核心问题是低 Mn 品位和低 Mn/Fe 比。"
+    ],
+    "2": [
+      "重选、磁选、浮选难以单独完成 Mn 和 Fe 的有效分离。"
+    ],
+    "3": [
+      "Fe-Mn 复合氧化物和 5-10 μm 细粒共生决定了分离难度。"
+    ]
+  },
+  "originalEvidence": {
+    "1": [
+      "direct utilization is restricted by low Mn grade and low Mn/Fe ratio."
+    ],
+    "2": [
+      "A single physical beneficiation process usually cannot achieve sufficient Mn enrichment and Fe removal simultaneously."
+    ],
+    "3": [
+      "Fine intergrowths of 5–10 μm are frequently observed and are difficult to liberate by ordinary grinding."
+    ]
+  },
+  "aiReading": {
+    "summary": "该综述围绕铁质锰矿中锰和铁的提取与分离展开，强调矿物学诊断、物理分选、焙烧转化、酸浸和环境约束之间的耦合关系。",
+    "innovation": [
+      "将 Mn/Fe 比、矿物嵌布、相变行为和环境约束放在同一工艺框架中讨论。",
+      "强调单一分选方法难以处理复杂铁质锰矿。"
+    ],
+    "methods": "矿物学表征 → 物理分选 → 还原焙烧或酸浸 → 锰铁分离 → 工程放大与环境评价。",
+    "keyData": [
+      "中国 73% 以上锰矿属于低 Mn/Fe 比铁质锰矿。",
+      "锰合金生产通常要求 Mn > 30%、Mn/Fe > 5。",
+      "5-10 μm 细粒共生会显著增加解离难度。"
+    ],
+    "process": "矿物学诊断 → 判断 Mn/Fe 赋存关系 → 选择重选/磁选/浮选或联合预富集 → 必要时焙烧相变 → 酸浸或还原浸出 → 除铁除杂 → 评价 Mn 回收率与溶液质量。",
+    "relevance": "适合用于“低品位锰矿分离与富集”课题的研究背景、分选局限、矿物学诊断必要性和工艺路线选择依据。",
+    "quote": "铁质锰矿的分离富集不能仅以锰品位提升为目标，还应同时评价 Mn 回收率、Fe 脱除效果、Mn/Fe 比变化、酸耗和后续浸出液杂质负荷。"
+  }
+}
