@@ -23,7 +23,6 @@
       --danger: #b42318;
       --danger-soft: #fee4e2;
       --sidebar-width: 300px;
-      --reader-left-col: 50%;
     }
 
     * { box-sizing: border-box; }
@@ -391,9 +390,7 @@
       text-align: center;
     }
 
-    .search-input {
-      width: 165px;
-    }
+    .search-input { width: 165px; }
 
     .tool-group {
       display: inline-flex;
@@ -516,7 +513,7 @@
       border: 1px dashed #9eb8ae;
       border-radius: 8px;
       padding: 16px;
-      min-height: 230px;
+      min-height: 250px;
     }
 
     .drop h3 {
@@ -530,6 +527,27 @@
       font-size: 13px;
       line-height: 1.75;
       margin: 0 0 12px;
+    }
+
+    .mini-field {
+      display: grid;
+      gap: 5px;
+      margin: 8px 0;
+    }
+
+    .mini-field label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .mini-field input {
+      height: 31px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 0 8px;
+      font-size: 12px;
+      width: 100%;
     }
 
     .form-grid {
@@ -584,6 +602,20 @@
       white-space: pre-wrap;
     }
 
+    .preview-panel {
+      max-width: 1180px;
+      margin: 14px auto 0;
+      border: 1px solid var(--line);
+      background: white;
+      border-radius: 8px;
+      padding: 14px;
+    }
+
+    .preview-panel h3 {
+      margin: 0 0 8px;
+      font-size: 15px;
+    }
+
     .sync-log {
       max-width: 1180px;
       margin: 0 auto;
@@ -629,9 +661,6 @@
       padding: 0;
       --reader-left-col: 50%;
     }
-
-    .reader.mode-focus.focus-left { --reader-left-col: 62%; }
-    .reader.mode-focus.focus-right { --reader-left-col: 38%; }
 
     .reader-inner {
       width: 100%;
@@ -705,24 +734,12 @@
       margin: 0 0 10px;
     }
 
-    .pdf-placeholder h2 {
-      font-size: 14px;
-      margin: 16px 0 8px;
-    }
-
     .pdf-placeholder p {
       font-size: 12px;
       line-height: 1.65;
       text-align: justify;
       color: #27323a;
       margin: 0 0 8px;
-    }
-
-    .abstract {
-      border-top: 1px solid #e2e8e5;
-      border-bottom: 1px solid #e2e8e5;
-      padding: 8px 0;
-      margin: 10px 0;
     }
 
     .mock-figure {
@@ -984,7 +1001,7 @@
         <div class="tool-group">
           宽度模式
           <button class="mode-btn active" id="widthModeWheel">Ctrl滚轮调宽</button>
-          <button class="mode-btn" id="widthModeFocus">手动拖拽+聚焦</button>
+          <button class="mode-btn" id="widthModeFocus">拖拽+聚焦</button>
         </div>
 
         <div class="tool-group">
@@ -1023,7 +1040,7 @@
           <div class="panel-head">
             <div>
               <h2>上传 / 导入</h2>
-              <p>上传 PDF 和 JSON 后，点“保存并同步当前文献”。同步设置只在“同步设置”页面维护。</p>
+              <p>可从本地上传，也可从 GitHub 仓库读取当前文献的 JSON / PDF。导入后会立即刷新阅读器、文献库和精读结果。</p>
             </div>
           </div>
 
@@ -1038,22 +1055,43 @@
           <div class="upload-grid">
             <div class="drop">
               <h3>📄 英文原文 PDF</h3>
-              <p>绑定到当前文献左侧。同步时会上传到仓库 <b>papers/</b> 目录。</p>
+              <p>绑定到当前文献左侧。可本地上传，也可从 GitHub 仓库路径读取。</p>
               <input id="sourcePdfInput" type="file" accept="application/pdf" />
+              <div class="mini-field">
+                <label>GitHub 路径</label>
+                <input id="sourcePathInput" placeholder="papers/xxx-en.pdf" />
+              </div>
+              <div class="button-row">
+                <button id="loadSourceRemoteBtn" class="secondary">从 GitHub 读取英文 PDF</button>
+              </div>
               <div id="sourcePdfStatus" class="small-note"></div>
             </div>
 
             <div class="drop">
               <h3>📘 中文翻译 PDF</h3>
-              <p>绑定到当前文献右侧“译文 PDF”模式。没有上传时，右栏自动使用 JSON 译文。</p>
+              <p>绑定到右侧“译文 PDF”模式。没有译文 PDF 时，右侧使用 JSON 译文。</p>
               <input id="translationPdfInput" type="file" accept="application/pdf" />
+              <div class="mini-field">
+                <label>GitHub 路径</label>
+                <input id="translationPathInput" placeholder="papers/xxx-cn.pdf" />
+              </div>
+              <div class="button-row">
+                <button id="loadTranslationRemoteBtn" class="secondary">从 GitHub 读取中文 PDF</button>
+              </div>
               <div id="translationPdfStatus" class="small-note"></div>
             </div>
 
             <div class="drop">
               <h3>{ } AI 精读 JSON</h3>
-              <p>可上传 JSON 文件，也可粘贴 JSON。导入后自动更新文献信息和精读结果。</p>
+              <p>可上传 JSON 文件、粘贴 JSON，或从 GitHub 仓库读取单篇 JSON。</p>
               <input id="jsonFileInput" type="file" accept="application/json,.json" />
+              <div class="mini-field">
+                <label>GitHub 路径</label>
+                <input id="jsonPathInput" placeholder="data/xxx.json" />
+              </div>
+              <div class="button-row" style="margin-bottom:8px;">
+                <button id="loadJsonRemoteBtn" class="secondary">从 GitHub 读取 JSON</button>
+              </div>
               <textarea id="jsonInput"></textarea>
               <div class="button-row" style="margin-top:10px;">
                 <button id="importJsonBtn" class="primary">导入 / 更新 JSON</button>
@@ -1061,6 +1099,11 @@
               </div>
               <div id="jsonStatus" class="small-note"></div>
             </div>
+          </div>
+
+          <div class="preview-panel">
+            <h3>当前文献导入预览</h3>
+            <div id="importPreview" class="small-note">暂无当前文献。</div>
           </div>
         </div>
       </section>
@@ -1089,7 +1132,7 @@
           <div class="panel-head">
             <div>
               <h2>同步设置</h2>
-              <p>这里只负责 GitHub Token、连接测试、从 GitHub 拉取文献库。新增和同步当前文献在“上传/导入”页完成。</p>
+              <p>这里维护 GitHub Token、连接测试、拉取文献库和检查仓库文件状态。</p>
             </div>
           </div>
 
@@ -1138,15 +1181,6 @@
           </div>
 
           <div id="syncLog" class="sync-log">等待操作...</div>
-
-          <div class="box wide" style="max-width:1180px;margin:14px auto 0;">
-            <h3>阅读器操作</h3>
-            <ul>
-              <li>Ctrl滚轮调宽：按住 Ctrl 或 ⌘，滚轮调整左右栏宽度。</li>
-              <li>手动拖拽+聚焦：拖动中线可调宽；鼠标放左页/右页时对应侧临时聚焦变宽。</li>
-              <li>顶部工具栏在阅读模式默认隐藏，鼠标移到顶部出现。</li>
-            </ul>
-          </div>
         </div>
       </section>
     </main>
@@ -1158,23 +1192,22 @@
     import * as pdfjsLib from "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs";
     pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.mjs";
 
-    const DB_NAME = "mn-lit-db-v7";
+    const DB_NAME = "mn-lit-db-v8";
     const STORE = "files";
-    const STORAGE_KEY = "mn-lit-docs-v7";
-    const CURRENT_KEY = "mn-lit-current-v7";
-    const SYNC_KEY = "mn-lit-github-sync-v7";
+    const STORAGE_KEY = "mn-lit-docs-v8";
+    const CURRENT_KEY = "mn-lit-current-v8";
+    const SYNC_KEY = "mn-lit-github-sync-v8";
 
     let docs = loadDocs();
     let currentDocId = localStorage.getItem(CURRENT_KEY) || (docs[0]?.id || "");
     let sourcePdf = null;
     let translationPdf = null;
     let rightMode = "json";
-    let readerLeftPercent = 50;
+    let readerBaseLeftPercent = 50;
+    let readerCurrentLeftPercent = 50;
     let widthMode = "wheel";
-    let lastFocusSide = "left";
     let rendered = new Set();
     let topTimer = null;
-    let focusTimer = null;
     let syncProgressTotal = 0;
     let syncProgressDone = 0;
     let remoteStatusCache = {};
@@ -1207,7 +1240,11 @@
       ghBranch: document.getElementById("ghBranch"),
       ghLibraryPath: document.getElementById("ghLibraryPath"),
       ghToken: document.getElementById("ghToken"),
-      syncLog: document.getElementById("syncLog")
+      syncLog: document.getElementById("syncLog"),
+      sourcePathInput: document.getElementById("sourcePathInput"),
+      translationPathInput: document.getElementById("translationPathInput"),
+      jsonPathInput: document.getElementById("jsonPathInput"),
+      importPreview: document.getElementById("importPreview")
     };
 
     function loadDocs() {
@@ -1228,17 +1265,6 @@
 
     function currentDoc() {
       return docs.find(d => d.id === currentDocId) || docs[0] || null;
-    }
-
-    function ensureCurrentDoc() {
-      let doc = currentDoc();
-      if (doc) return doc;
-
-      doc = createBlankDoc();
-      docs.push(doc);
-      currentDocId = doc.id;
-      saveDocs();
-      return doc;
     }
 
     function createBlankDoc() {
@@ -1263,6 +1289,16 @@
       };
     }
 
+    function ensureCurrentDoc() {
+      let doc = currentDoc();
+      if (doc) return doc;
+      doc = createBlankDoc();
+      docs.push(doc);
+      currentDocId = doc.id;
+      saveDocs();
+      return doc;
+    }
+
     function escapeHtml(text) {
       return String(text ?? "")
         .replaceAll("&", "&amp;")
@@ -1280,10 +1316,6 @@
 
     function normalizeKey(text) {
       return String(text || "").trim().toLowerCase().replace(/\s+/g, " ");
-    }
-
-    function pageTranslationCount(doc) {
-      return Object.keys(doc?.pageTranslations || {}).length;
     }
 
     function toast(message) {
@@ -1332,9 +1364,7 @@
     }
 
     function remoteIdFor(doc) {
-      if (!doc.remoteId) {
-        doc.remoteId = slugify(doc.doi || doc.title || doc.titleCn || doc.id);
-      }
+      if (!doc.remoteId) doc.remoteId = slugify(doc.doi || doc.title || doc.titleCn || doc.id);
       return doc.remoteId;
     }
 
@@ -1347,15 +1377,6 @@
       return doc.assets;
     }
 
-    function expectedPathsForDoc(doc) {
-      ensureRemotePaths(doc);
-      return {
-        json: doc.assets?.jsonPath || "",
-        source: doc.assets?.sourcePath || "",
-        translation: doc.assets?.translationPath || ""
-      };
-    }
-
     function publicDoc(doc) {
       return structuredClone(doc);
     }
@@ -1366,6 +1387,10 @@
         updatedAt: new Date().toISOString(),
         docs: docs.map(publicDoc)
       };
+    }
+
+    function pageTranslationCount(doc) {
+      return Object.keys(doc?.pageTranslations || {}).length;
     }
 
     function bytesToBase64(bytes) {
@@ -1630,24 +1655,10 @@
 
     async function putFile(docId, type, file) {
       const buffer = await file.arrayBuffer();
-      const db = await openDB();
-
-      return new Promise((resolve, reject) => {
-        const tx = db.transaction(STORE, "readwrite");
-        tx.objectStore(STORE).put({
-          key: `${docId}:${type}`,
-          name: file.name,
-          size: file.size,
-          mime: file.type || "application/pdf",
-          buffer
-        });
-        tx.oncomplete = () => resolve();
-        tx.onerror = () => reject(tx.error);
-        tx.onabort = () => reject(tx.error || new Error("IndexedDB transaction aborted"));
-      });
+      await putBuffer(docId, type, file.name, buffer);
     }
 
-    async function putRemoteBufferToLocal(docId, type, name, buffer) {
+    async function putBuffer(docId, type, name, buffer) {
       const db = await openDB();
 
       return new Promise((resolve, reject) => {
@@ -1697,16 +1708,12 @@
     }
 
     async function fetchRemotePdfToLocal(doc, type, path) {
-      try {
-        const res = await fetch(`${relativeUrl(path)}?v=${Date.now()}`);
-        if (!res.ok) return null;
-        const buffer = await res.arrayBuffer();
-        const name = path.split("/").pop();
-        await putRemoteBufferToLocal(doc.id, type, name, buffer);
-        return await loadPdfFromBuffer(buffer);
-      } catch {
-        return null;
-      }
+      const res = await fetch(`${relativeUrl(path)}?v=${Date.now()}`);
+      if (!res.ok) throw new Error(`远程 PDF 读取失败：${res.status}`);
+      const buffer = await res.arrayBuffer();
+      const name = path.split("/").pop();
+      await putBuffer(doc.id, type, name, buffer);
+      return await loadPdfFromBuffer(buffer);
     }
 
     async function hydratePdfs() {
@@ -1729,9 +1736,6 @@
           await deleteFile(doc.id, "source");
           els.sourcePdfStatus.textContent = "英文 PDF 本地缓存损坏，已清除。";
         }
-      } else if (doc.assets.sourcePath) {
-        sourcePdf = await fetchRemotePdfToLocal(doc, "source", doc.assets.sourcePath);
-        els.sourcePdfStatus.textContent = sourcePdf ? `已从远程读取英文 PDF：${doc.assets.sourcePath}` : "";
       } else {
         els.sourcePdfStatus.textContent = "";
       }
@@ -1747,9 +1751,6 @@
           await deleteFile(doc.id, "translation");
           els.translationPdfStatus.textContent = "中文 PDF 本地缓存损坏，已清除。";
         }
-      } else if (doc.assets.translationPath) {
-        translationPdf = await fetchRemotePdfToLocal(doc, "translation", doc.assets.translationPath);
-        els.translationPdfStatus.textContent = translationPdf ? `已从远程读取中文 PDF：${doc.assets.translationPath}` : "";
       } else {
         els.translationPdfStatus.textContent = "";
       }
@@ -1867,6 +1868,7 @@
           saveDocs();
           await hydratePdfs();
           renderAll();
+          fillJsonTextareaFromCurrent();
           showView("upload");
         };
       });
@@ -1885,11 +1887,47 @@
       });
     }
 
-    function mockPdfPage(pageNo) {
+    function renderPathInputs() {
+      const doc = currentDoc();
+      if (!doc) {
+        els.sourcePathInput.value = "";
+        els.translationPathInput.value = "";
+        els.jsonPathInput.value = "";
+        return;
+      }
+      ensureRemotePaths(doc);
+      els.sourcePathInput.value = doc.assets.sourcePath || "";
+      els.translationPathInput.value = doc.assets.translationPath || "";
+      els.jsonPathInput.value = doc.assets.jsonPath || "";
+    }
+
+    function renderImportPreview() {
+      const doc = currentDoc();
+      if (!doc) {
+        els.importPreview.textContent = "暂无当前文献。";
+        return;
+      }
+      const pages = pageTranslationCount(doc);
+      const tags = normalizeList(doc.tags).join("、") || "无";
+      const aiKeys = Object.keys(doc.aiReading || {}).length;
+      els.importPreview.innerHTML = `
+        <b>英文题名：</b>${escapeHtml(doc.title || "-")}<br>
+        <b>中文题名：</b>${escapeHtml(doc.titleCn || "-")}<br>
+        <b>期刊/年份：</b>${escapeHtml(doc.journal || "-")} / ${escapeHtml(doc.year || "-")}<br>
+        <b>DOI：</b>${escapeHtml(doc.doi || "-")}<br>
+        <b>标签：</b>${escapeHtml(tags)}<br>
+        <b>JSON 译文页数：</b>${pages}<br>
+        <b>精读字段数：</b>${aiKeys}<br>
+        <b>英文 PDF：</b>${escapeHtml(doc.assets?.sourceName || doc.assets?.sourcePath || "未绑定")}<br>
+        <b>中文 PDF：</b>${escapeHtml(doc.assets?.translationName || doc.assets?.translationPath || "未绑定")}
+      `;
+    }
+
+    function mockPdfPage() {
       return `
         <div class="pdf-placeholder">
           <h1>未上传英文 PDF</h1>
-          <p>请在“上传/导入”页面上传英文原文 PDF，或从 GitHub 拉取已同步的文献库。</p>
+          <p>请在“上传/导入”页面上传英文原文 PDF，或从 GitHub 路径读取 PDF。</p>
           <div class="mock-figure">PDF page placeholder</div>
         </div>
       `;
@@ -1953,7 +1991,7 @@
       for (let i = 1; i <= pageCount; i++) {
         const left = `
           <article class="paper-page pdf-page pane-left ${sourcePdf ? "" : "mock-page"}" data-side="left" data-render-type="source" data-pdf-page="${i}">
-            ${sourcePdf ? `<div class="empty-pdf">英文 PDF 第 ${i} 页等待渲染...</div>` : mockPdfPage(i)}
+            ${sourcePdf ? `<div class="empty-pdf">英文 PDF 第 ${i} 页等待渲染...</div>` : mockPdfPage()}
             <div class="page-no">${i}</div>
           </article>
         `;
@@ -1978,9 +2016,9 @@
 
       els.readerInner.innerHTML = rows.join("");
       rendered.clear();
-      bindReaderFocus();
+      bindReaderInteraction();
       updateModeButtons();
-      updateWidthText();
+      applyReaderWidth(readerCurrentLeftPercent, false);
       searchChinese(els.searchInput.value);
       setTimeout(() => {
         syncRowHeights();
@@ -1988,83 +2026,66 @@
       }, 80);
     }
 
-    function applyReaderWidth() {
-      readerLeftPercent = Math.max(30, Math.min(70, readerLeftPercent));
-      els.reader.style.setProperty("--reader-left-col", `${readerLeftPercent}%`);
+    function applyReaderWidth(percent, commit = true) {
+      readerCurrentLeftPercent = Math.max(30, Math.min(70, percent));
+      if (commit) readerBaseLeftPercent = readerCurrentLeftPercent;
+      els.reader.style.setProperty("--reader-left-col", `${readerCurrentLeftPercent}%`);
       updateWidthText();
       rendered.clear();
       setTimeout(() => {
         syncRowHeights();
         renderVisiblePdfPages();
-      }, 120);
+      }, 100);
     }
 
     function updateWidthText() {
-      const left = Math.round(readerLeftPercent);
+      const left = Math.round(readerCurrentLeftPercent);
       els.widthText.textContent = `${left} / ${100 - left}`;
     }
 
     function setWidthMode(mode) {
       widthMode = mode;
-
       els.reader.classList.toggle("mode-wheel", mode === "wheel");
       els.reader.classList.toggle("mode-focus", mode === "focus");
-
       document.getElementById("widthModeWheel").classList.toggle("active", mode === "wheel");
       document.getElementById("widthModeFocus").classList.toggle("active", mode === "focus");
-
-      if (mode !== "focus") {
-        els.reader.classList.remove("focus-left", "focus-right");
-      }
-
-      applyReaderWidth();
+      applyReaderWidth(readerBaseLeftPercent, false);
     }
 
     function changeReaderWidth(delta) {
-      readerLeftPercent += delta;
-      applyReaderWidth();
+      applyReaderWidth(readerBaseLeftPercent + delta, true);
     }
 
-    function bindReaderFocus() {
+    function bindReaderInteraction() {
       document.querySelectorAll("[data-side]").forEach(el => {
-        el.addEventListener("mouseenter", () => {
-          lastFocusSide = el.dataset.side;
+        el.onmouseenter = () => {
+          if (widthMode !== "focus") return;
+          const side = el.dataset.side;
+          const focusWidth = side === "left" ? Math.min(70, readerBaseLeftPercent + 12) : Math.max(30, readerBaseLeftPercent - 12);
+          applyReaderWidth(focusWidth, false);
+        };
 
-          if (widthMode === "focus") {
-            els.reader.classList.toggle("focus-left", lastFocusSide === "left");
-            els.reader.classList.toggle("focus-right", lastFocusSide === "right");
+        el.onmouseleave = () => {
+          if (widthMode !== "focus") return;
+          applyReaderWidth(readerBaseLeftPercent, false);
+        };
 
-            clearTimeout(focusTimer);
-            focusTimer = setTimeout(() => {
-              rendered.clear();
-              syncRowHeights();
-              renderVisiblePdfPages();
-            }, 180);
-          }
-        });
-
-        el.addEventListener("wheel", event => {
+        el.onwheel = event => {
           if (widthMode !== "wheel") return;
           if (!(event.ctrlKey || event.metaKey)) return;
 
           event.preventDefault();
-
           const side = el.dataset.side;
-          lastFocusSide = side;
-
           const direction = event.deltaY < 0 ? 1 : -1;
           const step = 3;
 
-          if (side === "left") {
-            changeReaderWidth(direction * step);
-          } else {
-            changeReaderWidth(-direction * step);
-          }
-        }, { passive: false });
+          if (side === "left") changeReaderWidth(direction * step);
+          else changeReaderWidth(-direction * step);
+        };
       });
 
       document.querySelectorAll(".pane-resizer").forEach(handle => {
-        handle.addEventListener("pointerdown", event => {
+        handle.onpointerdown = event => {
           if (widthMode !== "focus") return;
 
           event.preventDefault();
@@ -2073,37 +2094,18 @@
 
           function move(e) {
             const pct = ((e.clientX - rect.left) / rect.width) * 100;
-            readerLeftPercent = Math.max(30, Math.min(70, pct));
-            els.reader.style.setProperty("--reader-left-col", `${readerLeftPercent}%`);
-            updateWidthText();
+            applyReaderWidth(pct, true);
           }
 
           function up() {
             window.removeEventListener("pointermove", move);
             window.removeEventListener("pointerup", up);
-            rendered.clear();
-            setTimeout(() => {
-              syncRowHeights();
-              renderVisiblePdfPages();
-            }, 120);
           }
 
           window.addEventListener("pointermove", move);
           window.addEventListener("pointerup", up);
-        });
+        };
       });
-
-      els.reader.onmouseleave = () => {
-        if (widthMode === "focus") {
-          els.reader.classList.remove("focus-left", "focus-right");
-          clearTimeout(focusTimer);
-          focusTimer = setTimeout(() => {
-            rendered.clear();
-            syncRowHeights();
-            renderVisiblePdfPages();
-          }, 180);
-        }
-      };
     }
 
     function syncRowHeights() {
@@ -2173,12 +2175,12 @@
         if (rect.bottom > readerRect.top - 1200 && rect.top < readerRect.bottom + 1600) {
           const sourceHolder = row.querySelector('[data-render-type="source"]');
           if (sourceHolder && sourcePdf) {
-            renderPdfPage(sourcePdf, sourceHolder, `source-${currentDocId}-${pageNo}-${readerLeftPercent}-${sourceHolder.clientWidth}`, pageNo);
+            renderPdfPage(sourcePdf, sourceHolder, `source-${currentDocId}-${pageNo}-${readerCurrentLeftPercent}-${sourceHolder.clientWidth}`, pageNo);
           }
 
           const transHolder = row.querySelector('[data-render-type="translation"]');
           if (transHolder && translationPdf && rightMode === "pdf") {
-            renderPdfPage(translationPdf, transHolder, `translation-${currentDocId}-${pageNo}-${readerLeftPercent}-${transHolder.clientWidth}`, pageNo);
+            renderPdfPage(translationPdf, transHolder, `translation-${currentDocId}-${pageNo}-${readerCurrentLeftPercent}-${transHolder.clientWidth}`, pageNo);
           }
         }
       });
@@ -2207,27 +2209,27 @@
       els.aiGrid.innerHTML = `
         <div class="box wide">
           <h3>全文摘要</h3>
-          <p>${escapeHtml(ai.summary || "暂无全文摘要。")}</p>
+          <p>${escapeHtml(ai.summary || ai.abstractCn || ai.fullSummary || "暂无全文摘要。")}</p>
         </div>
         <div class="box">
           <h3>创新点</h3>
-          ${list(ai.innovation)}
+          ${list(ai.innovation || ai.innovations)}
         </div>
         <div class="box">
           <h3>实验方法</h3>
-          <p>${escapeHtml(ai.methods || "暂无实验方法整理。")}</p>
+          <p>${escapeHtml(ai.methods || ai.method || "暂无实验方法整理。")}</p>
         </div>
         <div class="box">
           <h3>关键数据</h3>
-          ${list(ai.keyData)}
+          ${list(ai.keyData || ai.data)}
         </div>
         <div class="box">
           <h3>工艺流程</h3>
-          <p>${escapeHtml(ai.process || "暂无工艺流程整理。")}</p>
+          <p>${escapeHtml(ai.process || ai.route || "暂无工艺流程整理。")}</p>
         </div>
         <div class="box">
           <h3>课题相关性</h3>
-          <p>${escapeHtml(ai.relevance || "暂无课题相关性分析。")}</p>
+          <p>${escapeHtml(ai.relevance || ai.topicRelevance || "暂无课题相关性分析。")}</p>
         </div>
         <div class="box">
           <h3>适合综述引用的句子</h3>
@@ -2250,14 +2252,14 @@
       }
 
       const rows = docs.map(doc => {
-        const paths = expectedPathsForDoc(doc);
+        ensureRemotePaths(doc);
         const status = remoteStatusCache[doc.id] || {};
         return `
           <tr>
             <td style="min-width:220px;">${escapeHtml(doc.titleCn || doc.title || doc.id)}</td>
-            <td>${escapeHtml(paths.json)}<br>${fileStatusLabel(status.json || "unknown")}</td>
-            <td>${escapeHtml(paths.source)}<br>${fileStatusLabel(status.source || "unknown")}</td>
-            <td>${escapeHtml(paths.translation)}<br>${fileStatusLabel(status.translation || "unknown")}</td>
+            <td>${escapeHtml(doc.assets.jsonPath || "")}<br>${fileStatusLabel(status.json || "unknown")}</td>
+            <td>${escapeHtml(doc.assets.sourcePath || "")}<br>${fileStatusLabel(status.source || "unknown")}</td>
+            <td>${escapeHtml(doc.assets.translationPath || "")}<br>${fileStatusLabel(status.translation || "unknown")}</td>
           </tr>
         `;
       }).join("");
@@ -2279,9 +2281,11 @@
 
     function renderAll() {
       renderLibrary();
+      renderPathInputs();
       renderReader();
       renderAi();
       renderSyncStatusTable();
+      renderImportPreview();
 
       if (currentDocId) els.paperSelect.value = currentDocId;
       const doc = currentDoc();
@@ -2293,73 +2297,89 @@
       els.jsonInput.value = doc ? JSON.stringify(publicDoc(doc), null, 2) : "";
     }
 
-    function findExistingDoc(data) {
-      const doi = normalizeKey(data.doi);
-      const title = normalizeKey(data.title);
-      const titleCn = normalizeKey(data.titleCn);
+    function normalizePageMap(value) {
+      const out = {};
+      if (!value) return out;
 
-      return docs.find(doc => {
-        const sameDoi = doi && normalizeKey(doc.doi) === doi;
-        const sameTitle = title && normalizeKey(doc.title) === title;
-        const sameTitleCn = titleCn && normalizeKey(doc.titleCn) === titleCn;
-        return sameDoi || sameTitle || sameTitleCn;
-      });
+      if (Array.isArray(value)) {
+        value.forEach((item, idx) => {
+          const pageNo = String(idx + 1);
+          if (typeof item === "string") out[pageNo] = [item];
+          else if (item && typeof item === "object") {
+            out[pageNo] = normalizeList(item.translation || item.translationCn || item.cn || item.text || item.paragraphs);
+          }
+        });
+        return out;
+      }
+
+      if (typeof value === "object") {
+        Object.keys(value).forEach(k => {
+          out[String(k)] = normalizeList(value[k]);
+        });
+      }
+
+      return out;
     }
 
-    function mergeDoc(target, data) {
-      const keepAssets = target.assets || {};
-      const keepId = target.id;
-      const keepRemoteId = target.remoteId;
+    function normalizeImportedJson(data) {
+      const normalized = structuredClone(data);
 
+      normalized.journalRank = data.journalRank || data.rank || data.journalMetrics || {};
+      normalized.tags = normalizeList(data.tags || data.keywords || []);
+
+      normalized.pageTranslations = normalizePageMap(
+        data.pageTranslations || data.translations || data.pages
+      );
+
+      normalized.pageFigures = data.pageFigures || data.figures || {};
+      normalized.pageKeyPoints = data.pageKeyPoints || data.keyPointsByPage || data.pageKeypoints || {};
+      normalized.originalEvidence = data.originalEvidence || data.evidence || {};
+      normalized.aiReading = data.aiReading || data.reading || data.deepReading || data.analysis || {};
+
+      return normalized;
+    }
+
+    function mergeDoc(target, incoming) {
+      const data = normalizeImportedJson(incoming);
+      const keepAssets = target.assets || {};
       const incomingAssets = data.assets || {};
 
       const merged = {
         ...target,
         ...data,
+        id: target.id,
+        remoteId: target.remoteId || data.remoteId || slugify(data.doi || data.title || data.titleCn || target.id),
         assets: { ...incomingAssets, ...keepAssets },
-        id: keepId,
-        remoteId: keepRemoteId || data.remoteId || slugify(data.doi || data.title || data.titleCn || keepId),
-        journalRank: data.journalRank || data.rank || target.journalRank || {},
+        journalRank: data.journalRank || target.journalRank || {},
         tags: normalizeList(data.tags || target.tags),
         pageCount: data.pageCount || Object.keys(data.pageTranslations || target.pageTranslations || {}).length || target.pageCount || 1
       };
-
-      if (data.pageTranslations) {
-        merged.pageTranslations = {};
-        Object.keys(data.pageTranslations).forEach(k => {
-          merged.pageTranslations[k] = normalizeList(data.pageTranslations[k]);
-        });
-      }
 
       Object.assign(target, merged);
       ensureRemotePaths(target);
     }
 
+    async function importJsonText(text, sourceLabel = "JSON") {
+      const data = JSON.parse(text);
+      let target = currentDoc();
+
+      if (!target) {
+        target = ensureCurrentDoc();
+      }
+
+      mergeDoc(target, data);
+      currentDocId = target.id;
+      saveDocs();
+      await hydratePdfs();
+      renderAll();
+      fillJsonTextareaFromCurrent();
+      els.jsonStatus.textContent = `${sourceLabel} 已导入并刷新页面。`;
+      toast(`${sourceLabel} 已导入。`);
+    }
+
     async function importJson() {
       try {
-        const data = JSON.parse(els.jsonInput.value);
-        const current = currentDoc();
-        const existing = findExistingDoc(data);
-
-        let target;
-        if (existing) {
-          target = existing;
-        } else if (!current || !current.title || current.title === "未命名文献") {
-          target = current || ensureCurrentDoc();
-        } else {
-          target = createBlankDoc();
-          target.remoteId = slugify(data.doi || data.title || data.titleCn);
-          docs.push(target);
-        }
-
-        mergeDoc(target, data);
-        currentDocId = target.id;
-        saveDocs();
-        await hydratePdfs();
-        renderAll();
-        showView("upload");
-        els.jsonStatus.textContent = existing ? "JSON 已更新已有文献。" : "JSON 已导入。";
-        toast(existing ? "已按 DOI / 标题更新已有文献。" : "已新增或更新文献。");
+        await importJsonText(els.jsonInput.value, "JSON");
       } catch (err) {
         els.jsonStatus.textContent = `JSON 格式错误：${err.message}`;
       }
@@ -2370,7 +2390,7 @@
       try {
         const text = await file.text();
         els.jsonInput.value = text;
-        els.jsonStatus.textContent = `已读取 JSON 文件：${file.name}`;
+        await importJsonText(text, `JSON 文件 ${file.name}`);
       } catch (err) {
         els.jsonStatus.textContent = `JSON 文件读取失败：${err.message}`;
       }
@@ -2406,10 +2426,69 @@
         doc.pageCount = Math.max(Number(doc.pageCount || 0), pdf.numPages);
         saveDocs();
         renderAll();
-        showView("upload");
-        toast(type === "source" ? "英文 PDF 已绑定到当前文献。" : "中文翻译 PDF 已绑定到当前文献。");
+        toast(type === "source" ? "英文 PDF 已载入并刷新阅读器。" : "中文 PDF 已载入并刷新阅读器。");
       } catch (err) {
         status.textContent = `PDF 读取失败：${err.message}`;
+      }
+    }
+
+    async function loadRemotePdf(type) {
+      const doc = ensureCurrentDoc();
+      ensureRemotePaths(doc);
+
+      const path = type === "source" ? els.sourcePathInput.value.trim() : els.translationPathInput.value.trim();
+      const status = type === "source" ? els.sourcePdfStatus : els.translationPdfStatus;
+
+      if (!path) {
+        toast("请先填写 GitHub PDF 路径。");
+        return;
+      }
+
+      try {
+        status.textContent = `正在从 GitHub 读取：${path}`;
+        if (type === "source") doc.assets.sourcePath = path;
+        else doc.assets.translationPath = path;
+
+        const pdf = await fetchRemotePdfToLocal(doc, type, path);
+
+        if (type === "source") {
+          sourcePdf = pdf;
+          doc.assets.sourceName = path.split("/").pop();
+          status.textContent = `已从 GitHub 读取英文 PDF：${path}，共 ${pdf.numPages} 页。`;
+        } else {
+          translationPdf = pdf;
+          doc.assets.translationName = path.split("/").pop();
+          rightMode = "pdf";
+          status.textContent = `已从 GitHub 读取中文 PDF：${path}，共 ${pdf.numPages} 页。`;
+        }
+
+        doc.pageCount = Math.max(Number(doc.pageCount || 0), pdf.numPages);
+        saveDocs();
+        renderAll();
+        toast("远程 PDF 已读取并刷新阅读器。");
+      } catch (err) {
+        status.textContent = `远程 PDF 读取失败：${err.message}`;
+      }
+    }
+
+    async function loadRemoteJsonForCurrent() {
+      const doc = ensureCurrentDoc();
+      ensureRemotePaths(doc);
+      const path = els.jsonPathInput.value.trim();
+
+      if (!path) {
+        toast("请先填写 GitHub JSON 路径。");
+        return;
+      }
+
+      try {
+        els.jsonStatus.textContent = `正在从 GitHub 读取 JSON：${path}`;
+        doc.assets.jsonPath = path;
+        const data = await ghGetJson(path);
+        els.jsonInput.value = JSON.stringify(data, null, 2);
+        await importJsonText(els.jsonInput.value, `GitHub JSON ${path}`);
+      } catch (err) {
+        els.jsonStatus.textContent = `GitHub JSON 读取失败：${err.message}`;
       }
     }
 
@@ -2594,9 +2673,7 @@
 
           let full = null;
           try {
-            if (base.assets?.jsonPath) {
-              full = await ghGetJson(base.assets.jsonPath);
-            }
+            if (base.assets?.jsonPath) full = await ghGetJson(base.assets.jsonPath);
           } catch (err) {
             logSync(`单篇 JSON 拉取失败，保留 library 信息：${base.assets?.jsonPath || ""}｜${err.message}`);
           }
@@ -2604,7 +2681,7 @@
           const merged = full
             ? {
                 ...base,
-                ...full,
+                ...normalizeImportedJson(full),
                 id: base.id || full.id,
                 remoteId: base.remoteId || full.remoteId,
                 assets: { ...(full.assets || {}), ...(base.assets || {}) }
@@ -2650,7 +2727,13 @@
         remoteStatusCache = {};
 
         for (const doc of docs) {
-          const paths = expectedPathsForDoc(doc);
+          ensureRemotePaths(doc);
+          const paths = {
+            json: doc.assets.jsonPath,
+            source: doc.assets.sourcePath,
+            translation: doc.assets.translationPath
+          };
+
           remoteStatusCache[doc.id] = {
             json: "checking",
             source: "checking",
@@ -2659,9 +2742,8 @@
           renderSyncStatusTable();
 
           for (const [key, path] of Object.entries(paths)) {
-            if (!path) {
-              remoteStatusCache[doc.id][key] = "none";
-            } else {
+            if (!path) remoteStatusCache[doc.id][key] = "none";
+            else {
               const item = await ghMaybeGetContent(path);
               remoteStatusCache[doc.id][key] = item ? "ok" : "missing";
             }
@@ -2724,9 +2806,7 @@
         rightMode = "json";
         saveDocs();
 
-        if (tokenExists) {
-          await pushLibraryToGitHub("Update library after deleting document");
-        }
+        if (tokenExists) await pushLibraryToGitHub("Update library after deleting document");
 
         await hydratePdfs();
         renderAll();
@@ -2822,11 +2902,8 @@
     });
 
     document.getElementById("toggleSidebar").addEventListener("click", () => {
-      if (els.app.classList.contains("reading")) {
-        els.app.classList.toggle("side-open");
-      } else {
-        els.app.classList.add("reading");
-      }
+      if (els.app.classList.contains("reading")) els.app.classList.toggle("side-open");
+      else els.app.classList.add("reading");
     });
 
     els.sidebar.addEventListener("mouseenter", () => {
@@ -2867,8 +2944,8 @@
     document.getElementById("leftWider").addEventListener("click", () => changeReaderWidth(3));
     document.getElementById("rightWider").addEventListener("click", () => changeReaderWidth(-3));
     document.getElementById("resetWidth").addEventListener("click", () => {
-      readerLeftPercent = 50;
-      applyReaderWidth();
+      readerBaseLeftPercent = 50;
+      applyReaderWidth(50, true);
     });
 
     document.getElementById("importJsonBtn").addEventListener("click", importJson);
@@ -2877,6 +2954,10 @@
     document.getElementById("deleteDocBtn").addEventListener("click", deleteCurrentDoc);
     document.getElementById("clearFilesBtn").addEventListener("click", clearCurrentFiles);
     document.getElementById("saveSyncCurrentBtn").addEventListener("click", syncCurrentDocToGitHub);
+
+    document.getElementById("loadSourceRemoteBtn").addEventListener("click", () => loadRemotePdf("source"));
+    document.getElementById("loadTranslationRemoteBtn").addEventListener("click", () => loadRemotePdf("translation"));
+    document.getElementById("loadJsonRemoteBtn").addEventListener("click", loadRemoteJsonForCurrent);
 
     document.getElementById("saveSyncBtn").addEventListener("click", () => {
       saveSyncConfig();
@@ -2935,7 +3016,7 @@
     renderAll();
     fillJsonTextareaFromCurrent();
     setWidthMode("wheel");
-    applyReaderWidth();
+    applyReaderWidth(50, true);
   </script>
 </body>
 </html>
