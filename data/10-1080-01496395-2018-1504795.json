@@ -1,33 +1,10 @@
 {
-  "id": "10-1080-01496395-2018-1504795",
-  "title": "Upgrading of low-grade manganese ore based on reduction roasting and magnetic separation technique",
-  "titleCn": "基于还原焙烧与磁选技术的低品位锰矿提质研究",
-  "journal": "Separation Science and Technology",
-  "year": "2018",
-  "doi": "10.1080/01496395.2018.1504795",
-  "journalRank": {
-    "IF": "2.3",
-    "CAS": "4区",
-    "JCR": "Q3"
-  },
-  "tags": [
-    "低品位锰矿",
-    "还原焙烧",
-    "磁选",
-    "选择性还原",
-    "Mn/Fe分离",
-    "煤还原剂",
-    "热力学",
-    "金属铁",
-    "MnO",
-    "富锰矿"
-  ],
-  "pageCount": 13,
   "assets": {
     "sourceName": "Upgrading of low-grade manganese ore based on reduction roasting and magnetic separation technique.pdf",
     "jsonPath": "data/10-1080-01496395-2018-1504795.json",
     "sourcePath": "papers/10-1080-01496395-2018-1504795-en.pdf",
-    "translationPath": "papers/10-1080-01496395-2018-1504795-cn.pdf"
+    "translationPath": "papers/10-1080-01496395-2018-1504795-cn.pdf",
+    "translationName": ""
   },
   "pageTranslations": {
     "1": [
@@ -254,6 +231,30 @@
       ]
     }
   },
+  "id": "10-1080-01496395-2018-1504795",
+  "title": "Upgrading of low-grade manganese ore based on reduction roasting and magnetic separation technique",
+  "titleCn": "基于还原焙烧与磁选技术的低品位锰矿提质研究",
+  "journal": "Separation Science and Technology",
+  "year": "2018",
+  "doi": "10.1080/01496395.2018.1504795",
+  "journalRank": {
+    "IF": "2.3",
+    "CAS": "4区",
+    "JCR": "Q3"
+  },
+  "tags": [
+    "低品位锰矿",
+    "还原焙烧",
+    "磁选",
+    "选择性还原",
+    "Mn/Fe分离",
+    "煤还原剂",
+    "热力学",
+    "金属铁",
+    "MnO",
+    "富锰矿"
+  ],
+  "pageCount": 13,
   "authors": [
     "Lihua Gao",
     "Zhenggen Liu",
@@ -334,5 +335,6 @@
     "CAS_note": "公开中文期刊分区查询显示中科院升级版大类工程技术4区，小类化学综合/工程化工4区。",
     "JCR_note": "公开JCR查询页显示JIF Quartile Q3。",
     "checkedDate": "2026-06-10"
-  }
+  },
+  "remoteId": "10-1080-01496395-2018-1504795"
 }
