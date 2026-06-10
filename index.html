@@ -26,9 +26,7 @@
       --reader-left-col: 50%;
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -39,33 +37,19 @@
       font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans CJK SC", Arial, sans-serif;
     }
 
-    button,
-    input,
-    select,
-    textarea {
-      font-family: inherit;
-    }
-
-    button:disabled {
-      opacity: 0.45;
-      cursor: not-allowed;
-    }
+    button, input, select, textarea { font-family: inherit; }
+    button:disabled { opacity: .45; cursor: not-allowed; }
 
     .app {
       height: 100vh;
       display: grid;
       grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
       overflow: hidden;
-      transition: grid-template-columns 0.16s ease;
+      transition: grid-template-columns .16s ease;
     }
 
-    .app.reading {
-      --sidebar-width: 48px;
-    }
-
-    .app.reading.side-open {
-      --sidebar-width: 300px;
-    }
+    .app.reading { --sidebar-width: 48px; }
+    .app.reading.side-open { --sidebar-width: 300px; }
 
     .sidebar {
       position: relative;
@@ -88,9 +72,7 @@
       z-index: 10;
     }
 
-    .sidebar-resizer:hover {
-      background: rgba(47, 111, 94, 0.18);
-    }
+    .sidebar-resizer:hover { background: rgba(47,111,94,.18); }
 
     .brand {
       height: 58px;
@@ -129,9 +111,7 @@
       flex-shrink: 0;
     }
 
-    .brand-text {
-      min-width: 0;
-    }
+    .brand-text { min-width: 0; }
 
     .brand-title {
       font-weight: 800;
@@ -193,10 +173,7 @@
       font-size: 16px;
     }
 
-    .nav button:hover {
-      background: #f7faf8;
-      border-color: #dbe6e1;
-    }
+    .nav button:hover { background: #f7faf8; border-color: #dbe6e1; }
 
     .nav button.active {
       background: var(--green-soft);
@@ -219,9 +196,7 @@
       margin-bottom: 10px;
     }
 
-    .paper-card.compact {
-      padding: 10px;
-    }
+    .paper-card.compact { padding: 10px; }
 
     .paper-card h3 {
       margin: 0 0 7px;
@@ -231,9 +206,7 @@
       overflow-wrap: anywhere;
     }
 
-    .paper-card.compact h3 {
-      font-size: 13px;
-    }
+    .paper-card.compact h3 { font-size: 13px; }
 
     .cn-title {
       font-size: 13px;
@@ -260,23 +233,9 @@
       border: 1px solid transparent;
     }
 
-    .rank-if {
-      color: #6b4b14;
-      background: var(--amber-soft);
-      border-color: #eccb84;
-    }
-
-    .rank-cas {
-      color: var(--green-dark);
-      background: var(--green-soft);
-      border-color: #b8d2c8;
-    }
-
-    .rank-jcr {
-      color: #31435a;
-      background: var(--blue-soft);
-      border-color: #c9d5e3;
-    }
+    .rank-if { color: #6b4b14; background: var(--amber-soft); border-color: #eccb84; }
+    .rank-cas { color: var(--green-dark); background: var(--green-soft); border-color: #b8d2c8; }
+    .rank-jcr { color: #31435a; background: var(--blue-soft); border-color: #c9d5e3; }
 
     .meta {
       display: grid;
@@ -288,10 +247,7 @@
       margin: 8px 0;
     }
 
-    .meta b {
-      color: #475467;
-      margin-right: 4px;
-    }
+    .meta b { color: #475467; margin-right: 4px; }
 
     .meta .doi {
       grid-column: 1 / -1;
@@ -323,11 +279,7 @@
       gap: 8px;
     }
 
-    .primary,
-    .secondary,
-    .danger,
-    .tool-btn,
-    .mode-btn {
+    .primary, .secondary, .danger, .tool-btn, .mode-btn {
       border-radius: 6px;
       height: 32px;
       padding: 0 10px;
@@ -347,13 +299,9 @@
       font-weight: 700;
     }
 
-    .primary:hover {
-      background: var(--green-dark);
-    }
+    .primary:hover { background: var(--green-dark); }
 
-    .secondary,
-    .tool-btn,
-    .mode-btn {
+    .secondary, .tool-btn, .mode-btn {
       background: white;
       color: var(--text);
       border: 1px solid var(--line);
@@ -367,11 +315,7 @@
       font-weight: 700;
     }
 
-    .secondary:hover,
-    .tool-btn:hover,
-    .mode-btn:hover {
-      background: #f7faf8;
-    }
+    .secondary:hover, .tool-btn:hover, .mode-btn:hover { background: #f7faf8; }
 
     .mode-btn.active {
       background: var(--green-soft);
@@ -388,9 +332,7 @@
       position: relative;
     }
 
-    .top-hotzone {
-      display: none;
-    }
+    .top-hotzone { display: none; }
 
     .toolbar {
       height: 54px;
@@ -411,13 +353,11 @@
       right: 0;
       top: -54px;
       height: 54px;
-      transition: top 0.16s ease, left 0.14s ease;
-      box-shadow: 0 8px 18px rgba(15, 23, 42, 0.08);
+      transition: top .16s ease, left .14s ease;
+      box-shadow: 0 8px 18px rgba(15,23,42,.08);
     }
 
-    .app.reading.top-open .toolbar {
-      top: 0;
-    }
+    .app.reading.top-open .toolbar { top: 0; }
 
     .app.reading .top-hotzone {
       display: block;
@@ -429,8 +369,7 @@
       z-index: 24;
     }
 
-    .toolbar select,
-    .toolbar input {
+    .toolbar select, .toolbar input {
       height: 32px;
       border: 1px solid var(--line);
       border-radius: 6px;
@@ -477,9 +416,7 @@
       flex-shrink: 0;
     }
 
-    .spacer {
-      flex: 1;
-    }
+    .spacer { flex: 1; }
 
     .view {
       display: none;
@@ -487,13 +424,8 @@
       min-height: 0;
     }
 
-    .view.active {
-      display: block;
-    }
-
-    .app.reading .view {
-      height: 100vh;
-    }
+    .view.active { display: block; }
+    .app.reading .view { height: 100vh; }
 
     .panel {
       height: 100%;
@@ -544,8 +476,7 @@
       color: #243b35;
     }
 
-    .box p,
-    .box li {
+    .box p, .box li {
       font-size: 13px;
       line-height: 1.85;
       color: var(--text);
@@ -556,12 +487,9 @@
       padding: 0;
     }
 
-    .wide {
-      grid-column: 1 / -1;
-    }
+    .wide { grid-column: 1 / -1; }
 
-    .upload-actions,
-    .sync-actions {
+    .upload-actions, .sync-actions {
       max-width: 1180px;
       margin: 0 auto 14px;
       display: flex;
@@ -632,9 +560,7 @@
       outline: none;
     }
 
-    .field.full {
-      grid-column: 1 / -1;
-    }
+    .field.full { grid-column: 1 / -1; }
 
     textarea {
       width: 100%;
@@ -679,8 +605,7 @@
       font-size: 12px;
     }
 
-    .status-table th,
-    .status-table td {
+    .status-table th, .status-table td {
       border: 1px solid var(--line);
       padding: 7px 8px;
       text-align: left;
@@ -692,24 +617,10 @@
       color: #344054;
     }
 
-    .status-ok {
-      color: #087443;
-      font-weight: 700;
-    }
-
-    .status-warn {
-      color: #b54708;
-      font-weight: 700;
-    }
-
-    .status-bad {
-      color: #b42318;
-      font-weight: 700;
-    }
-
-    .status-muted {
-      color: #667085;
-    }
+    .status-ok { color: #087443; font-weight: 700; }
+    .status-warn { color: #b54708; font-weight: 700; }
+    .status-bad { color: #b42318; font-weight: 700; }
+    .status-muted { color: #667085; }
 
     .reader {
       height: 100%;
@@ -719,13 +630,8 @@
       --reader-left-col: 50%;
     }
 
-    .reader.mode-hover.focus-left {
-      --reader-left-col: 62%;
-    }
-
-    .reader.mode-hover.focus-right {
-      --reader-left-col: 38%;
-    }
+    .reader.mode-focus.focus-left { --reader-left-col: 62%; }
+    .reader.mode-focus.focus-right { --reader-left-col: 38%; }
 
     .reader-inner {
       width: 100%;
@@ -743,7 +649,7 @@
       gap: 0;
       align-items: stretch;
       background: #e9efec;
-      transition: grid-template-columns 0.14s ease;
+      transition: grid-template-columns .14s ease;
     }
 
     .pane-resizer {
@@ -754,13 +660,10 @@
       cursor: col-resize;
     }
 
-    .reader.mode-wheel .pane-resizer {
-      cursor: default;
-    }
+    .reader.mode-wheel .pane-resizer { cursor: default; }
 
-    .reader.mode-manual .pane-resizer:hover,
-    .reader.mode-hover .pane-resizer:hover {
-      background: rgba(47, 111, 94, 0.55);
+    .reader.mode-focus .pane-resizer:hover {
+      background: rgba(47,111,94,.55);
     }
 
     .paper-page {
@@ -772,13 +675,9 @@
       box-shadow: none;
     }
 
-    .pane-left,
-    .pane-right {
-      min-width: 0;
-    }
+    .pane-left, .pane-right { min-width: 0; }
 
-    .mock-page,
-    .translation-page {
+    .mock-page, .translation-page {
       aspect-ratio: 0.707 / 1;
     }
 
@@ -840,21 +739,6 @@
       line-height: 1.5;
       margin: 12px 0;
       padding: 8px;
-    }
-
-    .mock-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 10px 0;
-      font-size: 10.8px;
-      color: var(--text);
-    }
-
-    .mock-table th,
-    .mock-table td {
-      border: 1px solid #d6ddd9;
-      padding: 5px;
-      text-align: left;
     }
 
     .translation-page {
@@ -959,32 +843,38 @@
       line-height: 1.8;
     }
 
+    .empty-state {
+      max-width: 720px;
+      margin: 70px auto;
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .empty-state h3 {
+      margin: 0 0 10px;
+      font-size: 20px;
+    }
+
+    .empty-state p {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.8;
+    }
+
     @media (max-width: 1100px) {
-      .upload-grid,
-      .form-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .field.full {
-        grid-column: auto;
-      }
-
-      .paper-select {
-        width: 220px;
-        max-width: 45vw;
-      }
-
-      .search-input {
-        width: 145px;
-      }
+      .upload-grid, .form-grid { grid-template-columns: 1fr; }
+      .field.full { grid-column: auto; }
+      .paper-select { width: 220px; max-width: 45vw; }
+      .search-input { width: 145px; }
     }
 
     @media (max-width: 840px) {
       body { overflow: auto; }
 
-      .app,
-      .app.reading,
-      .app.reading.side-open {
+      .app, .app.reading, .app.reading.side-open {
         height: auto;
         min-height: 100vh;
         display: block;
@@ -996,10 +886,7 @@
         border-bottom: 1px solid var(--line);
       }
 
-      .sidebar-resizer,
-      .top-hotzone {
-        display: none !important;
-      }
+      .sidebar-resizer, .top-hotzone { display: none !important; }
 
       .brand-text,
       .sidebar-content,
@@ -1010,17 +897,10 @@
         display: block;
       }
 
-      .brand {
-        justify-content: flex-start;
-      }
+      .brand { justify-content: flex-start; }
+      .app.reading:not(.side-open) .logo { display: grid; }
 
-      .app.reading:not(.side-open) .logo {
-        display: grid;
-      }
-
-      .nav {
-        grid-template-columns: repeat(5, 1fr);
-      }
+      .nav { grid-template-columns: repeat(5, 1fr); }
 
       .nav button,
       .app.reading:not(.side-open) .nav button {
@@ -1028,13 +908,8 @@
         font-size: 13px;
       }
 
-      .sidebar-content {
-        display: none !important;
-      }
-
-      .main {
-        height: auto;
-      }
+      .sidebar-content { display: none !important; }
+      .main { height: auto; }
 
       .toolbar,
       .app.reading .toolbar {
@@ -1046,15 +921,12 @@
         box-shadow: none;
       }
 
-      .view,
-      .app.reading .view {
+      .view, .app.reading .view {
         height: auto;
         min-height: calc(100vh - 160px);
       }
 
-      .reader {
-        min-height: calc(100vh - 160px);
-      }
+      .reader { min-height: calc(100vh - 160px); }
 
       .page-row {
         display: grid;
@@ -1062,17 +934,9 @@
         gap: 0;
       }
 
-      .pane-resizer {
-        display: none;
-      }
-
-      .grid {
-        grid-template-columns: 1fr;
-      }
-
-      .wide {
-        grid-column: auto;
-      }
+      .pane-resizer { display: none; }
+      .grid { grid-template-columns: 1fr; }
+      .wide { grid-column: auto; }
     }
   </style>
 </head>
@@ -1120,8 +984,7 @@
         <div class="tool-group">
           宽度模式
           <button class="mode-btn active" id="widthModeWheel">Ctrl滚轮调宽</button>
-          <button class="mode-btn" id="widthModeManual">手动拖拽</button>
-          <button class="mode-btn" id="widthModeHover">悬停聚焦</button>
+          <button class="mode-btn" id="widthModeFocus">手动拖拽+聚焦</button>
         </div>
 
         <div class="tool-group">
@@ -1279,9 +1142,8 @@
           <div class="box wide" style="max-width:1180px;margin:14px auto 0;">
             <h3>阅读器操作</h3>
             <ul>
-              <li>默认模式：Ctrl/⌘ + 鼠标滚轮调左右栏宽度。</li>
-              <li>手动拖拽模式：拖动中间竖线调左右栏宽度。</li>
-              <li>悬停聚焦模式：鼠标放在哪边，哪边自动变宽。</li>
+              <li>Ctrl滚轮调宽：按住 Ctrl 或 ⌘，滚轮调整左右栏宽度。</li>
+              <li>手动拖拽+聚焦：拖动中线可调宽；鼠标放左页/右页时对应侧临时聚焦变宽。</li>
               <li>顶部工具栏在阅读模式默认隐藏，鼠标移到顶部出现。</li>
             </ul>
           </div>
@@ -1296,64 +1158,14 @@
     import * as pdfjsLib from "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs";
     pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.mjs";
 
-    const DB_NAME = "mn-lit-db-v6";
+    const DB_NAME = "mn-lit-db-v7";
     const STORE = "files";
-    const STORAGE_KEY = "mn-lit-docs-v6";
-    const CURRENT_KEY = "mn-lit-current-v6";
-    const SYNC_KEY = "mn-lit-github-sync-v6";
-
-    const samplePaper = {
-      id: "sample-review-2019",
-      remoteId: "sample-review-2019",
-      title: "Extraction and separation of manganese and iron from ferruginous manganese ores: A review",
-      titleCn: "铁质锰矿中锰和铁的提取与分离：综述",
-      journal: "Minerals Engineering",
-      year: "2019",
-      doi: "10.1016/j.mineng.2018.11.016",
-      journalRank: { IF: "5.0", CAS: "2区", JCR: "Q1" },
-      tags: ["铁质锰矿", "锰铁分离", "物理分选", "还原浸出", "富锰渣", "还原焙烧"],
-      pageCount: 3,
-      assets: {},
-      pageTranslations: {
-        1: [
-          "题名：铁质锰矿中锰和铁的提取与分离：综述。作者来自中南大学矿物加工与生物工程学院。关键词包括铁质锰矿、分离、提取、湿法冶金、火法冶金和锰铁氧体。",
-          "摘要：世界许多地区都富集有铁质锰矿。印度几乎一半锰资源属于铁质类型；中国超过 73% 的锰矿属于低 Mn/Fe 质量比（<3）的铁质锰矿。随着高品位锰资源逐步枯竭，铁质锰矿正在成为提取锰的重要替代资源。"
-        ],
-        2: [
-          "铁质锰矿的物理分选通常包括重选、磁选和浮选，但由于锰铁矿物嵌布细、赋存复杂，单一分选方法往往难以同时获得高锰回收率和高 Mn/Fe 比。"
-        ],
-        3: [
-          "工艺选择需要围绕矿物学诊断展开，包括锰铁赋存状态、嵌布粒度、矿物相变以及后续浸出和除杂的可行性。"
-        ]
-      },
-      pageFigures: {
-        1: "首页主要包括期刊信息、标题、作者、关键词、摘要和引言开头。",
-        2: "本页适合整理铁质锰矿资源背景和物理分选局限。",
-        3: "本页适合整理矿物学诊断、锰铁赋存关系和工艺选择。"
-      },
-      pageKeyPoints: {
-        1: ["中国超过 73% 的锰矿属于低 Mn/Fe 比铁质锰矿。", "锰合金生产通常要求 Mn 品位大于 30%、Mn/Fe 大于 5。"],
-        2: ["重选、磁选、浮选难以单独解决复杂铁质锰矿的锰铁分离。"],
-        3: ["矿物学诊断是工艺选择前提。"]
-      },
-      originalEvidence: {
-        1: ["more than 73% of the manganese ores in China belong to Fe-Mn ores with a low Mn/Fe mass ratio (< 3)."],
-        2: ["physical beneficiation is limited by mineral intergrowth and dissemination size."],
-        3: ["mineralogical characteristics determine the separation and extraction route."]
-      },
-      aiReading: {
-        summary: "该综述围绕铁质锰矿中锰和铁的选择性提取与分离展开，系统比较物理选矿、湿法冶金、火法冶金和物理-化学联合流程。",
-        innovation: ["从技术原理、工艺参数和回收效率角度综合评价多种锰铁分离路线。", "强调从铁质锰矿和其他含 Fe、Mn 氧化物资源中选择合适工艺。"],
-        methods: "矿物学诊断 → 分选或焙烧预处理 → 浸出或相变 → 锰铁分离 → 产品化利用。",
-        keyData: ["中国超过 73% 的锰矿属于低 Mn/Fe 比铁质锰矿。", "锰合金生产一般要求 Mn > 30%、Mn/Fe > 5。"],
-        process: "物理分选、选择性浸出、还原焙烧—磁选、火法富锰渣及联合流程。",
-        relevance: "适合作为低品位锰矿分离富集、锰铁分离、还原焙烧和湿法浸出的综述依据。",
-        quote: "铁质锰矿的开发不应只追求锰品位提升，还应同时考虑 Mn/Fe 比、锰回收率、铁分离效果和后续浸出液净化压力。"
-      }
-    };
+    const STORAGE_KEY = "mn-lit-docs-v7";
+    const CURRENT_KEY = "mn-lit-current-v7";
+    const SYNC_KEY = "mn-lit-github-sync-v7";
 
     let docs = loadDocs();
-    let currentDocId = localStorage.getItem(CURRENT_KEY) || docs[0].id;
+    let currentDocId = localStorage.getItem(CURRENT_KEY) || (docs[0]?.id || "");
     let sourcePdf = null;
     let translationPdf = null;
     let rightMode = "json";
@@ -1401,21 +1213,54 @@
     function loadDocs() {
       try {
         const raw = localStorage.getItem(STORAGE_KEY);
-        if (!raw) return [structuredClone(samplePaper)];
+        if (!raw) return [];
         const parsed = JSON.parse(raw);
-        return Array.isArray(parsed) && parsed.length ? parsed : [structuredClone(samplePaper)];
+        return Array.isArray(parsed) ? parsed : [];
       } catch {
-        return [structuredClone(samplePaper)];
+        return [];
       }
     }
 
     function saveDocs() {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(docs));
-      localStorage.setItem(CURRENT_KEY, currentDocId);
+      if (currentDocId) localStorage.setItem(CURRENT_KEY, currentDocId);
     }
 
     function currentDoc() {
-      return docs.find(d => d.id === currentDocId) || docs[0];
+      return docs.find(d => d.id === currentDocId) || docs[0] || null;
+    }
+
+    function ensureCurrentDoc() {
+      let doc = currentDoc();
+      if (doc) return doc;
+
+      doc = createBlankDoc();
+      docs.push(doc);
+      currentDocId = doc.id;
+      saveDocs();
+      return doc;
+    }
+
+    function createBlankDoc() {
+      return {
+        id: `doc-${Date.now()}-${Math.random().toString(16).slice(2)}`,
+        remoteId: "",
+        title: "未命名文献",
+        titleCn: "新文献",
+        journal: "",
+        year: "",
+        doi: "",
+        journalRank: { IF: "-", CAS: "-", JCR: "-" },
+        tags: [],
+        pageCount: 1,
+        assets: {},
+        pageTranslations: {},
+        pageFigures: {},
+        pageKeyPoints: {},
+        originalEvidence: {},
+        readingAnchors: [],
+        aiReading: {}
+      };
     }
 
     function escapeHtml(text) {
@@ -1438,7 +1283,7 @@
     }
 
     function pageTranslationCount(doc) {
-      return Object.keys(doc.pageTranslations || {}).length;
+      return Object.keys(doc?.pageTranslations || {}).length;
     }
 
     function toast(message) {
@@ -1676,12 +1521,7 @@
 
     async function ghPutContent(path, base64, message, sha = null) {
       const cfg = getSyncConfig();
-      const body = {
-        message,
-        content: base64,
-        branch: cfg.branch
-      };
-
+      const body = { message, content: base64, branch: cfg.branch };
       if (sha) body.sha = sha;
 
       const res = await fetch(
@@ -1729,9 +1569,7 @@
         await new Promise(resolve => setTimeout(resolve, 800));
 
         const latest = await ghMaybeGetContent(path);
-        if (!latest?.sha) {
-          throw new Error(`远程文件已存在，但无法获取 sha：${path}`);
-        }
+        if (!latest?.sha) throw new Error(`远程文件已存在，但无法获取 sha：${path}`);
 
         return await ghPutContent(path, base64, message, latest.sha);
       }
@@ -1760,11 +1598,7 @@
             "X-GitHub-Api-Version": "2022-11-28",
             "Content-Type": "application/json"
           },
-          body: JSON.stringify({
-            message,
-            sha: existing.sha,
-            branch: cfg.branch
-          })
+          body: JSON.stringify({ message, sha: existing.sha, branch: cfg.branch })
         }
       );
 
@@ -1880,6 +1714,8 @@
       translationPdf = null;
 
       const doc = currentDoc();
+      if (!doc) return;
+
       doc.assets = doc.assets || {};
 
       const sourceRecord = await getFile(doc.id, "source");
@@ -1977,16 +1813,43 @@
 
     function renderLibrary() {
       const doc = currentDoc();
-      els.currentDocLabel.textContent = doc.titleCn || doc.title || "未命名文献";
-      els.sidebarCurrentDoc.innerHTML = renderPaperCard(doc, "compact");
 
-      els.libraryGrid.innerHTML = docs.map(d => `<div class="box wide">${renderPaperCard(d, "full")}</div>`).join("");
+      els.currentDocLabel.textContent = doc ? (doc.titleCn || doc.title || "未命名文献") : "暂无文献";
 
-      els.paperSelect.innerHTML = docs.map(d => `
-        <option value="${d.id}" ${d.id === currentDocId ? "selected" : ""}>
-          ${escapeHtml(d.title || d.titleCn || "未命名文献")}
-        </option>
-      `).join("");
+      if (doc) {
+        els.sidebarCurrentDoc.innerHTML = renderPaperCard(doc, "compact");
+      } else {
+        els.sidebarCurrentDoc.innerHTML = `
+          <div class="paper-card compact">
+            <h3>暂无当前文献</h3>
+            <div class="cn-title">请先新增文献，或从 GitHub 拉取文献库。</div>
+            <button class="primary" data-view-btn-inline="upload">＋ 新增文献</button>
+          </div>
+        `;
+      }
+
+      if (!docs.length) {
+        els.libraryGrid.innerHTML = `
+          <div class="wide empty-state">
+            <h3>暂无文献</h3>
+            <p>可以从“上传/导入”新增文献，也可以在“同步设置”中从 GitHub 拉取文献库。</p>
+            <div class="button-row" style="justify-content:center;">
+              <button class="primary" data-view-btn-inline="upload">＋ 新增文献</button>
+              <button class="secondary" data-view-btn-inline="sync">↻ 同步设置</button>
+            </div>
+          </div>
+        `;
+      } else {
+        els.libraryGrid.innerHTML = docs.map(d => `<div class="box wide">${renderPaperCard(d, "full")}</div>`).join("");
+      }
+
+      els.paperSelect.innerHTML = docs.length
+        ? docs.map(d => `
+          <option value="${d.id}" ${d.id === currentDocId ? "selected" : ""}>
+            ${escapeHtml(d.title || d.titleCn || "未命名文献")}
+          </option>
+        `).join("")
+        : `<option value="">暂无文献</option>`;
 
       document.querySelectorAll("[data-open-reader]").forEach(btn => {
         btn.onclick = async () => {
@@ -2016,56 +1879,27 @@
           await deleteCurrentDoc();
         };
       });
+
+      document.querySelectorAll("[data-view-btn-inline]").forEach(btn => {
+        btn.onclick = () => showView(btn.dataset.viewBtnInline);
+      });
     }
 
     function mockPdfPage(pageNo) {
-      if (pageNo === 1) {
-        return `
-          <div class="pdf-placeholder">
-            <h1>Extraction and separation of manganese and iron from ferruginous manganese ores: A review</h1>
-            <p style="color:#667085;font-size:11px;">Minerals Engineering · 2019 · DOI: 10.1016/j.mineng.2018.11.016</p>
-            <div class="abstract">
-              <p><b>Abstract.</b> Manganese is an important strategic metal. Ferruginous manganese ores are difficult to upgrade because manganese and iron often occur in fine-grained composite oxides.</p>
-            </div>
-            <h2>1. Introduction</h2>
-            <p>Low-grade manganese resources are widely distributed, but direct utilization is restricted by low Mn grade and low Mn/Fe ratio.</p>
-            <p>Beneficiation and separation strategies must be designed according to mineralogical characteristics and industrial requirements.</p>
-            <div class="mock-figure">Original PDF page mock<br>Title · Abstract · Introduction</div>
-          </div>
-        `;
-      }
-
-      if (pageNo === 2) {
-        return `
-          <div class="pdf-placeholder">
-            <h2>2. Resource distribution and physical beneficiation</h2>
-            <p>Ferruginous manganese ores are associated with hematite, goethite, limonite and other iron-bearing minerals.</p>
-            <table class="mock-table">
-              <tr><th>Method</th><th>Function</th><th>Limitation</th></tr>
-              <tr><td>Gravity</td><td>Density difference</td><td>Fine intergrowth</td></tr>
-              <tr><td>Magnetic</td><td>Magnetic susceptibility</td><td>Fe-Mn composite phases</td></tr>
-              <tr><td>Flotation</td><td>Surface chemistry</td><td>Similar surface behavior</td></tr>
-            </table>
-            <p>A single physical beneficiation process usually cannot achieve sufficient Mn enrichment and Fe removal simultaneously.</p>
-          </div>
-        `;
-      }
-
       return `
         <div class="pdf-placeholder">
-          <h2>3. Mineralogical diagnosis</h2>
-          <p>Mineralogical diagnosis is essential before process selection. Manganese and iron may occur as independent minerals or as Fe-Mn composite oxides.</p>
-          <div class="mock-figure">Figure 2 · Fe-Mn composite oxides<br>5–10 μm fine intergrowth</div>
-          <p>Fine intergrowths of 5–10 μm are frequently observed and are difficult to liberate by ordinary grinding.</p>
+          <h1>未上传英文 PDF</h1>
+          <p>请在“上传/导入”页面上传英文原文 PDF，或从 GitHub 拉取已同步的文献库。</p>
+          <div class="mock-figure">PDF page placeholder</div>
         </div>
       `;
     }
 
     function renderTranslationJsonPage(doc, pageNo) {
-      const translations = normalizeList(doc.pageTranslations?.[pageNo]);
-      const figure = doc.pageFigures?.[pageNo];
-      const keyPoints = normalizeList(doc.pageKeyPoints?.[pageNo]);
-      const evidence = normalizeList(doc.originalEvidence?.[pageNo]);
+      const translations = normalizeList(doc?.pageTranslations?.[pageNo]);
+      const figure = doc?.pageFigures?.[pageNo];
+      const keyPoints = normalizeList(doc?.pageKeyPoints?.[pageNo]);
+      const evidence = normalizeList(doc?.originalEvidence?.[pageNo]);
 
       return `
         <article class="paper-page translation-page pane-right" data-side="right">
@@ -2076,7 +1910,7 @@
               : `<p data-cn>暂无本页中文译文。请导入 AI 精读 JSON，或上传中文翻译 PDF。</p>`
           }
           ${figure ? `<div class="figure-note">图表说明：${escapeHtml(figure)}</div>` : ""}
-          <details class="evidence" open>
+          <details class="evidence" ${keyPoints.length || evidence.length ? "open" : ""}>
             <summary>关键点与英文依据</summary>
             <ul>
               ${keyPoints.map(k => `<li><b>关键点：</b>${escapeHtml(k)}</li>`).join("")}
@@ -2090,6 +1924,17 @@
 
     function renderReader() {
       const doc = currentDoc();
+
+      if (!doc) {
+        els.pageTotal.textContent = "0";
+        els.readerInner.innerHTML = `
+          <div class="empty-state">
+            <h3>暂无可阅读文献</h3>
+            <p>请先新增文献，或从 GitHub 拉取文献库。</p>
+          </div>
+        `;
+        return;
+      }
 
       if (!translationPdf && rightMode === "pdf") rightMode = "json";
 
@@ -2163,14 +2008,12 @@
       widthMode = mode;
 
       els.reader.classList.toggle("mode-wheel", mode === "wheel");
-      els.reader.classList.toggle("mode-manual", mode === "manual");
-      els.reader.classList.toggle("mode-hover", mode === "hover");
+      els.reader.classList.toggle("mode-focus", mode === "focus");
 
       document.getElementById("widthModeWheel").classList.toggle("active", mode === "wheel");
-      document.getElementById("widthModeManual").classList.toggle("active", mode === "manual");
-      document.getElementById("widthModeHover").classList.toggle("active", mode === "hover");
+      document.getElementById("widthModeFocus").classList.toggle("active", mode === "focus");
 
-      if (mode !== "hover") {
+      if (mode !== "focus") {
         els.reader.classList.remove("focus-left", "focus-right");
       }
 
@@ -2187,7 +2030,7 @@
         el.addEventListener("mouseenter", () => {
           lastFocusSide = el.dataset.side;
 
-          if (widthMode === "hover") {
+          if (widthMode === "focus") {
             els.reader.classList.toggle("focus-left", lastFocusSide === "left");
             els.reader.classList.toggle("focus-right", lastFocusSide === "right");
 
@@ -2222,7 +2065,7 @@
 
       document.querySelectorAll(".pane-resizer").forEach(handle => {
         handle.addEventListener("pointerdown", event => {
-          if (widthMode === "wheel") return;
+          if (widthMode !== "focus") return;
 
           event.preventDefault();
           const row = handle.closest(".page-row");
@@ -2251,7 +2094,7 @@
       });
 
       els.reader.onmouseleave = () => {
-        if (widthMode === "hover") {
+        if (widthMode === "focus") {
           els.reader.classList.remove("focus-left", "focus-right");
           clearTimeout(focusTimer);
           focusTimer = setTimeout(() => {
@@ -2343,6 +2186,17 @@
 
     function renderAi() {
       const doc = currentDoc();
+
+      if (!doc) {
+        els.aiGrid.innerHTML = `
+          <div class="wide empty-state">
+            <h3>暂无精读结果</h3>
+            <p>请先导入文献 JSON，或从 GitHub 拉取文献库。</p>
+          </div>
+        `;
+        return;
+      }
+
       const ai = doc.aiReading || {};
 
       function list(items) {
@@ -2390,6 +2244,11 @@
       const wrap = document.getElementById("syncStatusTable");
       if (!wrap) return;
 
+      if (!docs.length) {
+        wrap.innerHTML = `<p class="small-note">暂无文献。</p>`;
+        return;
+      }
+
       const rows = docs.map(doc => {
         const paths = expectedPathsForDoc(doc);
         const status = remoteStatusCache[doc.id] || {};
@@ -2413,7 +2272,7 @@
               <th>中文 PDF</th>
             </tr>
           </thead>
-          <tbody>${rows || `<tr><td colspan="4">暂无文献。</td></tr>`}</tbody>
+          <tbody>${rows}</tbody>
         </table>
       `;
     }
@@ -2423,13 +2282,15 @@
       renderReader();
       renderAi();
       renderSyncStatusTable();
-      els.paperSelect.value = currentDocId;
-      els.currentDocLabel.textContent = currentDoc().titleCn || currentDoc().title || "未命名文献";
+
+      if (currentDocId) els.paperSelect.value = currentDocId;
+      const doc = currentDoc();
+      els.currentDocLabel.textContent = doc ? (doc.titleCn || doc.title || "未命名文献") : "暂无文献";
     }
 
     function fillJsonTextareaFromCurrent() {
-      const doc = publicDoc(currentDoc());
-      els.jsonInput.value = JSON.stringify(doc, null, 2);
+      const doc = currentDoc();
+      els.jsonInput.value = doc ? JSON.stringify(publicDoc(doc), null, 2) : "";
     }
 
     function findExistingDoc(data) {
@@ -2450,10 +2311,12 @@
       const keepId = target.id;
       const keepRemoteId = target.remoteId;
 
+      const incomingAssets = data.assets || {};
+
       const merged = {
         ...target,
         ...data,
-        assets: keepAssets,
+        assets: { ...incomingAssets, ...keepAssets },
         id: keepId,
         remoteId: keepRemoteId || data.remoteId || slugify(data.doi || data.title || data.titleCn || keepId),
         journalRank: data.journalRank || data.rank || target.journalRank || {},
@@ -2481,26 +2344,11 @@
         let target;
         if (existing) {
           target = existing;
-        } else if (!current.title || current.title === "未命名文献") {
-          target = current;
+        } else if (!current || !current.title || current.title === "未命名文献") {
+          target = current || ensureCurrentDoc();
         } else {
-          target = {
-            id: `doc-${Date.now()}`,
-            remoteId: slugify(data.doi || data.title || data.titleCn),
-            title: data.title || "未命名文献",
-            titleCn: data.titleCn || "",
-            journal: "",
-            year: "",
-            doi: "",
-            journalRank: {},
-            tags: [],
-            pageTranslations: {},
-            pageFigures: {},
-            pageKeyPoints: {},
-            originalEvidence: {},
-            aiReading: {},
-            assets: {}
-          };
+          target = createBlankDoc();
+          target.remoteId = slugify(data.doi || data.title || data.titleCn);
           docs.push(target);
         }
 
@@ -2511,7 +2359,7 @@
         renderAll();
         showView("upload");
         els.jsonStatus.textContent = existing ? "JSON 已更新已有文献。" : "JSON 已导入。";
-        toast(existing ? "已按 DOI / 标题更新已有文献。" : "已新增文献。");
+        toast(existing ? "已按 DOI / 标题更新已有文献。" : "已新增或更新文献。");
       } catch (err) {
         els.jsonStatus.textContent = `JSON 格式错误：${err.message}`;
       }
@@ -2532,7 +2380,7 @@
       if (!file) return;
 
       const status = type === "source" ? els.sourcePdfStatus : els.translationPdfStatus;
-      const doc = currentDoc();
+      const doc = ensureCurrentDoc();
 
       try {
         status.textContent = `正在读取：${file.name}`;
@@ -2596,10 +2444,7 @@
 
     async function pushLibraryToGitHub(message = "Update literature library") {
       const cfg = getSyncConfig();
-
-      docs.forEach(doc => {
-        ensureRemotePaths(doc);
-      });
+      docs.forEach(doc => ensureRemotePaths(doc));
 
       await ghUpsertText(
         cfg.libraryPath || "data/library.json",
@@ -2611,6 +2456,8 @@
     }
 
     async function syncOneDocToGitHub(doc) {
+      if (!doc) throw new Error("当前没有文献可同步。");
+
       ensureRemotePaths(doc);
 
       const tasks = [];
@@ -2685,7 +2532,10 @@
       try {
         saveSyncConfig();
         setSyncLog("开始同步当前文献...");
-        await syncOneDocToGitHub(currentDoc());
+        const doc = currentDoc();
+        if (!doc) throw new Error("当前没有文献可同步。");
+
+        await syncOneDocToGitHub(doc);
         await pushLibraryToGitHub("Update library after syncing current document");
         setSyncProgress(syncProgressDone + 1, syncProgressTotal, "已更新 library.json");
         saveDocs();
@@ -2713,30 +2563,70 @@
 
         const remoteDocs = Array.isArray(data) ? data : data.docs;
         if (!Array.isArray(remoteDocs) || !remoteDocs.length) {
-          throw new Error("远程 library.json 中没有 docs 数组。");
+          docs = [];
+          currentDocId = "";
+          saveDocs();
+          await hydratePdfs();
+          renderAll();
+          showView("library");
+          toast("远程文献库为空。");
+          return;
         }
 
-        docs = remoteDocs.map(doc => ({
-          assets: {},
-          pageTranslations: {},
-          pageFigures: {},
-          pageKeyPoints: {},
-          originalEvidence: {},
-          aiReading: {},
-          ...doc,
-          id: doc.id || `doc-${Date.now()}-${Math.random().toString(16).slice(2)}`
-        }));
+        const hydrated = [];
+        setSyncProgress(0, remoteDocs.length, "开始拉取单篇 JSON...");
 
-        docs.forEach(doc => ensureRemotePaths(doc));
-        currentDocId = docs[0].id;
+        for (let i = 0; i < remoteDocs.length; i++) {
+          const item = remoteDocs[i];
+          const base = {
+            assets: {},
+            pageTranslations: {},
+            pageFigures: {},
+            pageKeyPoints: {},
+            originalEvidence: {},
+            readingAnchors: [],
+            aiReading: {},
+            ...item,
+            id: item.id || `doc-${Date.now()}-${Math.random().toString(16).slice(2)}`
+          };
+
+          ensureRemotePaths(base);
+
+          let full = null;
+          try {
+            if (base.assets?.jsonPath) {
+              full = await ghGetJson(base.assets.jsonPath);
+            }
+          } catch (err) {
+            logSync(`单篇 JSON 拉取失败，保留 library 信息：${base.assets?.jsonPath || ""}｜${err.message}`);
+          }
+
+          const merged = full
+            ? {
+                ...base,
+                ...full,
+                id: base.id || full.id,
+                remoteId: base.remoteId || full.remoteId,
+                assets: { ...(full.assets || {}), ...(base.assets || {}) }
+              }
+            : base;
+
+          ensureRemotePaths(merged);
+          hydrated.push(merged);
+          setSyncProgress(i + 1, remoteDocs.length, `已拉取 ${i + 1}/${remoteDocs.length}`);
+        }
+
+        docs = hydrated;
+        currentDocId = docs[0]?.id || "";
         saveDocs();
 
         await hydratePdfs();
         renderAll();
+        fillJsonTextareaFromCurrent();
         showView("library");
 
-        logSync(`已拉取 ${docs.length} 篇文献。PDF 会在打开文献时从远程读取并缓存到本机。`);
-        toast("已从 GitHub 拉取文献库。");
+        logSync(`已拉取 ${docs.length} 篇文献。`);
+        toast("已从 GitHub 拉取文献库，并补全单篇 JSON。");
       } catch (err) {
         toast(`拉取失败：${err.message}`);
         logSync(`拉取失败：${err.message}`);
@@ -2746,6 +2636,13 @@
     async function refreshRemoteStatus() {
       try {
         saveSyncConfig();
+
+        if (!docs.length) {
+          renderSyncStatusTable();
+          toast("当前没有文献。");
+          return;
+        }
+
         setSyncProgress(0, docs.length * 3 || 1, "开始检查仓库文件状态...");
         setSyncLog("开始检查仓库文件状态...");
 
@@ -2798,6 +2695,11 @@
 
     async function deleteCurrentDoc() {
       const doc = currentDoc();
+      if (!doc) {
+        toast("当前没有文献可删除。");
+        return;
+      }
+
       const tokenExists = !!loadSyncConfig().token;
 
       const message = tokenExists
@@ -2816,12 +2718,7 @@
         await deleteFile(doc.id, "translation");
 
         docs = docs.filter(d => d.id !== doc.id);
-
-        if (!docs.length) {
-          docs = [structuredClone(samplePaper)];
-        }
-
-        currentDocId = docs[0].id;
+        currentDocId = docs[0]?.id || "";
         sourcePdf = null;
         translationPdf = null;
         rightMode = "json";
@@ -2843,6 +2740,11 @@
 
     async function clearCurrentFiles() {
       const doc = currentDoc();
+      if (!doc) {
+        toast("当前没有文献。");
+        return;
+      }
+
       await deleteFile(doc.id, "source");
       await deleteFile(doc.id, "translation");
       doc.assets = {
@@ -2876,25 +2778,7 @@
     }
 
     function createNewDoc() {
-      const doc = {
-        id: `doc-${Date.now()}`,
-        remoteId: "",
-        title: "未命名文献",
-        titleCn: "新文献",
-        journal: "",
-        year: "",
-        doi: "",
-        journalRank: { IF: "-", CAS: "-", JCR: "-" },
-        tags: [],
-        pageCount: 1,
-        assets: {},
-        pageTranslations: {},
-        pageFigures: {},
-        pageKeyPoints: {},
-        originalEvidence: {},
-        aiReading: {}
-      };
-
+      const doc = createBlankDoc();
       docs.push(doc);
       currentDocId = doc.id;
       sourcePdf = null;
@@ -2972,13 +2856,13 @@
       saveDocs();
       await hydratePdfs();
       renderAll();
+      fillJsonTextareaFromCurrent();
     });
 
     document.getElementById("jumpBtn").addEventListener("click", jumpToPage);
 
     document.getElementById("widthModeWheel").addEventListener("click", () => setWidthMode("wheel"));
-    document.getElementById("widthModeManual").addEventListener("click", () => setWidthMode("manual"));
-    document.getElementById("widthModeHover").addEventListener("click", () => setWidthMode("hover"));
+    document.getElementById("widthModeFocus").addEventListener("click", () => setWidthMode("focus"));
 
     document.getElementById("leftWider").addEventListener("click", () => changeReaderWidth(3));
     document.getElementById("rightWider").addEventListener("click", () => changeReaderWidth(-3));
