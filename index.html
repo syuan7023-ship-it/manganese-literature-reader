@@ -22,8 +22,10 @@
       --blue-soft: #edf2f7;
       --danger: #b42318;
       --danger-soft: #fee4e2;
-      --sidebar-width: 310px;
-      --left-col: 50%;
+      --sidebar-width: 300px;
+      --reader-left-col: 50%;
+      --left-zoom: 1;
+      --right-zoom: 1;
     }
 
     * { box-sizing: border-box; }
@@ -42,7 +44,7 @@
     }
 
     button:disabled {
-      opacity: .45;
+      opacity: 0.45;
       cursor: not-allowed;
     }
 
@@ -51,11 +53,16 @@
       display: grid;
       grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
       overflow: hidden;
-      transition: grid-template-columns .14s ease;
+      transition: grid-template-columns .16s ease;
     }
 
-    .app.reading { --sidebar-width: 48px; }
-    .app.reading.side-open { --sidebar-width: 300px; }
+    .app.reading {
+      --sidebar-width: 48px;
+    }
+
+    .app.reading.side-open {
+      --sidebar-width: 300px;
+    }
 
     .sidebar {
       position: relative;
@@ -79,7 +86,7 @@
     }
 
     .sidebar-resizer:hover {
-      background: rgba(47,111,94,.18);
+      background: rgba(47, 111, 94, 0.18);
     }
 
     .brand {
@@ -209,12 +216,20 @@
       margin-bottom: 10px;
     }
 
+    .paper-card.compact {
+      padding: 10px;
+    }
+
     .paper-card h3 {
       margin: 0 0 7px;
       font-size: 14px;
       line-height: 1.45;
       color: #182230;
       overflow-wrap: anywhere;
+    }
+
+    .paper-card.compact h3 {
+      font-size: 13px;
     }
 
     .cn-title {
@@ -425,7 +440,8 @@
     }
 
     .paper-select {
-      width: 300px;
+      width: 320px;
+      max-width: 32vw;
     }
 
     .page-input {
@@ -649,7 +665,7 @@
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
       font-size: 12px;
       line-height: 1.65;
-      min-height: 120px;
+      min-height: 130px;
       white-space: pre-wrap;
       overflow: auto;
     }
@@ -659,35 +675,41 @@
       overflow: auto;
       background: #e9efec;
       padding: 0;
+      --reader-left-col: 50%;
+    }
+
+    .reader.focus-left {
+      --reader-left-col: 62%;
+    }
+
+    .reader.focus-right {
+      --reader-left-col: 38%;
     }
 
     .reader-inner {
       width: 100%;
-      min-width: 760px;
-      margin: 0 auto;
+      max-width: 100%;
+      min-width: 0;
+      margin: 0;
     }
 
     .page-row {
       width: 100%;
-      max-width: none;
+      max-width: 100%;
       margin: 0;
       display: grid;
-      grid-template-columns: minmax(280px, var(--left-col)) 2px minmax(280px, 1fr);
+      grid-template-columns: minmax(0, var(--reader-left-col)) 2px minmax(0, 1fr);
       gap: 0;
       align-items: stretch;
       background: #e9efec;
+      transition: grid-template-columns .16s ease;
     }
 
     .pane-resizer {
       width: 2px;
       min-height: 80px;
-      cursor: col-resize;
       background: #cfd8d3;
       z-index: 2;
-    }
-
-    .pane-resizer:hover {
-      background: rgba(47,111,94,.55);
     }
 
     .paper-page {
@@ -697,6 +719,11 @@
       overflow: hidden;
       min-width: 0;
       box-shadow: none;
+    }
+
+    .pane-left,
+    .pane-right {
+      min-width: 0;
     }
 
     .mock-page,
@@ -711,6 +738,11 @@
       padding: 0;
       background: white;
       min-height: 400px;
+      overflow: hidden;
+    }
+
+    .pdf-page.zoomed {
+      overflow: auto;
     }
 
     .pdf-placeholder {
@@ -780,6 +812,7 @@
 
     .translation-page {
       padding: 34px 38px 44px;
+      overflow: auto;
     }
 
     .translation-page h2 {
@@ -796,6 +829,10 @@
       color: #263238;
       margin: 0 0 10px;
       overflow-wrap: anywhere;
+    }
+
+    .translation-page.zoomed-content {
+      transform-origin: top left;
     }
 
     .figure-note {
@@ -856,7 +893,7 @@
       box-shadow: 0 8px 22px rgba(15, 23, 42, 0.18);
       font-size: 12px;
       line-height: 1.5;
-      max-width: 360px;
+      max-width: 380px;
       display: none;
       z-index: 60;
     }
@@ -879,6 +916,14 @@
       line-height: 1.8;
     }
 
+    .hint-line {
+      max-width: 1180px;
+      margin: 0 auto 14px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
     @media (max-width: 1100px) {
       .upload-grid,
       .form-grid {
@@ -891,6 +936,7 @@
 
       .paper-select {
         width: 220px;
+        max-width: 45vw;
       }
 
       .search-input {
@@ -975,11 +1021,6 @@
         min-height: calc(100vh - 160px);
       }
 
-      .reader-inner {
-        min-width: 0;
-        width: 100% !important;
-      }
-
       .page-row {
         display: grid;
         grid-template-columns: 1fr;
@@ -1020,11 +1061,11 @@
         <button data-view="upload">⇧ <span class="nav-label">上传/导入</span></button>
         <button data-view="reader">◫ <span class="nav-label">对照阅读</span></button>
         <button data-view="ai">◎ <span class="nav-label">精读结果</span></button>
-        <button data-view="sync">↻ <span class="nav-label">同步</span></button>
+        <button data-view="sync">↻ <span class="nav-label">同步设置</span></button>
       </nav>
 
       <div class="sidebar-content">
-        <div id="sidebarPapers"></div>
+        <div id="sidebarCurrentDoc"></div>
       </div>
     </aside>
 
@@ -1037,14 +1078,14 @@
         <div class="tool-group">
           页码
           <input id="pageInput" class="page-input" value="1" inputmode="numeric" />
-          / <span id="pageTotal">3</span>
+          / <span id="pageTotal">1</span>
           <button class="tool-btn" id="jumpBtn">跳转</button>
         </div>
 
         <div class="tool-group">
-          缩放
+          当前侧缩放
           <button class="tool-btn" id="zoomOut">−</button>
-          <span id="zoomText" style="min-width:42px;text-align:center;">100%</span>
+          <span id="zoomText" style="min-width:72px;text-align:center;">左100% / 右100%</span>
           <button class="tool-btn" id="zoomIn">＋</button>
         </div>
 
@@ -1056,7 +1097,6 @@
         <div class="spacer"></div>
 
         <input id="searchInput" class="search-input" placeholder="搜索 JSON 译文" />
-        <button class="secondary" data-view-btn="sync">↻ 同步</button>
       </div>
 
       <section id="view-library" class="view active">
@@ -1064,9 +1104,9 @@
           <div class="panel-head">
             <div>
               <h2>文献库</h2>
-              <p>文献可保存到本机，也可同步到 GitHub 仓库。远程删除会同时删除仓库中的 PDF、JSON 和 library 记录。</p>
+              <p>全部文献都在这里管理。左侧栏只显示当前文献，切换文献用本页或顶部下拉框。</p>
             </div>
-            <button class="primary" data-view-btn="upload">⇧ 上传/导入</button>
+            <button class="primary" data-view-btn="upload">⇧ 新增 / 上传</button>
           </div>
           <div id="libraryGrid" class="grid"></div>
         </div>
@@ -1077,15 +1117,15 @@
           <div class="panel-head">
             <div>
               <h2>上传 / 导入</h2>
-              <p>PDF 绑定到当前文献；JSON 会自动更新标题、标签、IF、CAS、JCR 和精读结果。点“同步当前文献”即可自动写入 GitHub。</p>
+              <p>上传 PDF 和 JSON 后，点“保存并同步当前文献”。同步设置只在“同步设置”页面维护。</p>
             </div>
           </div>
 
           <div class="upload-actions">
             <button id="newDocBtn" class="primary">＋ 新增文献</button>
+            <button id="saveSyncCurrentBtn" class="primary">↻ 保存并同步当前文献</button>
             <button id="deleteDocBtn" class="danger">删除当前文献</button>
             <button id="clearFilesBtn" class="secondary">清除本地 PDF 缓存</button>
-            <button id="syncCurrentBtnA" class="primary">↻ 同步当前文献到 GitHub</button>
             <span class="current-label">当前文献：<b id="currentDocLabel"></b></span>
           </div>
 
@@ -1106,30 +1146,12 @@
 
             <div class="drop">
               <h3>{ } AI 精读 JSON</h3>
-              <p>可上传 JSON 文件，也可粘贴 JSON。同步时会写入仓库 <b>data/</b> 目录。</p>
+              <p>可上传 JSON 文件，也可粘贴 JSON。导入后自动更新文献信息和精读结果。</p>
               <input id="jsonFileInput" type="file" accept="application/json,.json" />
-              <textarea id="jsonInput">{
-  "title": "Extraction and separation of manganese and iron from ferruginous manganese ores: A review",
-  "titleCn": "铁质锰矿中锰和铁的提取与分离：综述",
-  "journal": "Minerals Engineering",
-  "year": "2019",
-  "doi": "10.1016/j.mineng.2018.11.016",
-  "journalRank": {
-    "IF": "5.0",
-    "CAS": "2区",
-    "JCR": "Q1"
-  },
-  "tags": ["矿物学诊断", "磁选", "焙烧", "酸浸", "Fe/S/Mn内源还原", "工程放大", "环境约束"],
-  "pageTranslations": {
-    "1": ["锰是钢铁、电池和化工领域的重要战略金属。铁质锰矿由于锰、铁矿物嵌布关系复杂，常表现为低锰品位和低 Mn/Fe 比，直接用于锰合金生产受到限制。"],
-    "2": ["对于复杂铁质锰矿，重选、磁选、浮选难以单独分离 Mn 和 Fe。"],
-    "3": ["Fe-Mn 复合氧化物和 5-10 μm 细粒共生是分离困难的根源。"]
-  }
-}</textarea>
-
+              <textarea id="jsonInput"></textarea>
               <div class="button-row" style="margin-top:10px;">
                 <button id="importJsonBtn" class="primary">导入 / 更新 JSON</button>
-                <button id="resetBtn" class="secondary">恢复示例</button>
+                <button id="fillJsonBtn" class="secondary">用当前文献填充</button>
               </div>
               <div id="jsonStatus" class="small-note"></div>
             </div>
@@ -1148,7 +1170,7 @@
           <div class="panel-head">
             <div>
               <h2>AI 精读结果</h2>
-              <p>展示当前文献 JSON 中的结构化精读结果，不调用实时 AI。</p>
+              <p>展示当前文献 JSON 中的结构化精读结果。</p>
             </div>
             <button class="primary" data-view-btn="reader">◫ 回到对照阅读</button>
           </div>
@@ -1160,8 +1182,8 @@
         <div class="panel">
           <div class="panel-head">
             <div>
-              <h2>GitHub 同步</h2>
-              <p>第一次填入 GitHub Token 后，网站可自动上传、更新、删除仓库中的 PDF、JSON 和文献库索引。</p>
+              <h2>同步设置</h2>
+              <p>这里只负责 GitHub Token、连接测试、从 GitHub 拉取文献库。新增和同步当前文献在“上传/导入”页完成。</p>
             </div>
           </div>
 
@@ -1184,7 +1206,7 @@
             </div>
             <div class="field full">
               <label>GitHub Token</label>
-              <input id="ghToken" type="password" placeholder="github_pat_xxx 或 ghp_xxx，只保存在本机浏览器" />
+              <input id="ghToken" type="password" placeholder="github_pat_xxx，只保存在本机浏览器" />
             </div>
           </div>
 
@@ -1192,22 +1214,18 @@
             <button id="saveSyncBtn" class="primary">保存同步设置</button>
             <button id="testSyncBtn" class="secondary">测试连接</button>
             <button id="pullRemoteBtn" class="secondary">从 GitHub 拉取文献库</button>
-            <button id="syncCurrentBtnB" class="primary">同步当前文献</button>
-            <button id="syncAllBtn" class="primary">同步全部文献</button>
-            <button id="deleteRemoteBtn" class="danger">删除当前文献及仓库文件</button>
             <button id="clearTokenBtn" class="secondary">清除 Token</button>
           </div>
 
           <div id="syncLog" class="sync-log">等待操作...</div>
 
           <div class="box wide" style="max-width:1180px;margin:14px auto 0;">
-            <h3>仓库数据结构</h3>
-            <p>同步后会自动生成：</p>
+            <h3>阅读器操作</h3>
             <ul>
-              <li><b>data/library.json</b>：文献库索引，跨设备读取。</li>
-              <li><b>data/文献ID.json</b>：单篇文献 JSON 精读文件。</li>
-              <li><b>papers/文献ID-en.pdf</b>：英文原文 PDF。</li>
-              <li><b>papers/文献ID-cn.pdf</b>：中文译文 PDF。</li>
+              <li>鼠标移到左页，左页自动变宽；鼠标移到右页，右页自动变宽。</li>
+              <li>普通滚轮：上下阅读。</li>
+              <li>Ctrl/⌘ + 滚轮：缩放鼠标所在侧页面。</li>
+              <li>顶部工具栏在阅读模式默认隐藏，鼠标移到顶部出现。</li>
             </ul>
           </div>
         </div>
@@ -1221,67 +1239,59 @@
     import * as pdfjsLib from "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs";
     pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.mjs";
 
-    const DB_NAME = "mn-lit-db-v5";
+    const DB_NAME = "mn-lit-db-v6";
     const STORE = "files";
-    const STORAGE_KEY = "mn-lit-docs-v5";
-    const CURRENT_KEY = "mn-lit-current-v5";
-    const SYNC_KEY = "mn-lit-github-sync-v5";
+    const STORAGE_KEY = "mn-lit-docs-v6";
+    const CURRENT_KEY = "mn-lit-current-v6";
+    const SYNC_KEY = "mn-lit-github-sync-v6";
 
     const samplePaper = {
       id: "sample-review-2019",
+      remoteId: "sample-review-2019",
       title: "Extraction and separation of manganese and iron from ferruginous manganese ores: A review",
       titleCn: "铁质锰矿中锰和铁的提取与分离：综述",
       journal: "Minerals Engineering",
       year: "2019",
       doi: "10.1016/j.mineng.2018.11.016",
       journalRank: { IF: "5.0", CAS: "2区", JCR: "Q1" },
-      tags: ["矿物学诊断", "磁选", "焙烧", "酸浸", "Fe/S/Mn内源还原", "工程放大", "环境约束"],
+      tags: ["铁质锰矿", "锰铁分离", "物理分选", "还原浸出", "富锰渣", "还原焙烧"],
       pageCount: 3,
       assets: {},
       pageTranslations: {
         1: [
-          "锰是钢铁、电池和化工领域的重要战略金属。铁质锰矿由于锰、铁矿物嵌布关系复杂，常表现为低锰品位和低 Mn/Fe 比，直接用于锰合金生产受到限制。",
-          "中国 73% 以上锰矿属于低 Mn/Fe 比铁质锰矿，而锰合金生产通常要求 Mn > 30%、Mn/Fe > 5。因此，单纯提高锰品位并不足够，还需要实现锰铁分离和杂质控制。"
+          "题名：铁质锰矿中锰和铁的提取与分离：综述。作者来自中南大学矿物加工与生物工程学院。关键词包括铁质锰矿、分离、提取、湿法冶金、火法冶金和锰铁氧体。",
+          "摘要：世界许多地区都富集有铁质锰矿。印度几乎一半锰资源属于铁质类型；中国超过 73% 的锰矿属于低 Mn/Fe 质量比（<3）的铁质锰矿。随着高品位锰资源逐步枯竭，铁质锰矿正在成为提取锰的重要替代资源。"
         ],
         2: [
-          "铁质锰矿常与赤铁矿、针铁矿、褐铁矿等含铁矿物共生。重选、磁选、浮选均可用于预富集，但分选效果受到锰铁矿物嵌布粒度、连生关系和表面性质的限制。",
-          "对于复杂铁质锰矿，重选、磁选、浮选难以单独分离 Mn 和 Fe。单一物理分选工艺往往难以同时实现较高锰回收率、明显 Fe 脱除和稳定的 Mn/Fe 比提升。"
+          "铁质锰矿的物理分选通常包括重选、磁选和浮选，但由于锰铁矿物嵌布细、赋存复杂，单一分选方法往往难以同时获得高锰回收率和高 Mn/Fe 比。"
         ],
         3: [
-          "工艺选择前必须先进行矿物学诊断。锰和铁可能以独立矿物形式存在，也可能形成 Fe-Mn 复合氧化物；后者会显著降低物理分选和选择性浸出的效率。",
-          "Fe-Mn 复合氧化物和 5-10 μm 细粒共生是分离困难的根源。普通磨矿难以充分解离这类细粒共生体，因此不能简单假设“磨得更细就能分开”。"
+          "工艺选择需要围绕矿物学诊断展开，包括锰铁赋存状态、嵌布粒度、矿物相变以及后续浸出和除杂的可行性。"
         ]
       },
       pageFigures: {
-        1: "资源背景、工业利用门槛和分离富集研究必要性。",
-        2: "物理分选方法的局限性比较。",
-        3: "Fe-Mn 复合氧化物、细粒共生和矿物嵌布图。"
+        1: "首页主要包括期刊信息、标题、作者、关键词、摘要和引言开头。",
+        2: "本页适合整理铁质锰矿资源背景和物理分选局限。",
+        3: "本页适合整理矿物学诊断、锰铁赋存关系和工艺选择。"
       },
       pageKeyPoints: {
-        1: ["铁质锰矿的核心问题是低 Mn 品位和低 Mn/Fe 比。"],
-        2: ["重选、磁选、浮选难以单独完成 Mn 和 Fe 的有效分离。"],
-        3: ["Fe-Mn 复合氧化物和 5-10 μm 细粒共生决定了分离难度。"]
+        1: ["中国超过 73% 的锰矿属于低 Mn/Fe 比铁质锰矿。", "锰合金生产通常要求 Mn 品位大于 30%、Mn/Fe 大于 5。"],
+        2: ["重选、磁选、浮选难以单独解决复杂铁质锰矿的锰铁分离。"],
+        3: ["矿物学诊断是工艺选择前提。"]
       },
       originalEvidence: {
-        1: ["direct utilization is restricted by low Mn grade and low Mn/Fe ratio."],
-        2: ["A single physical beneficiation process usually cannot achieve sufficient Mn enrichment and Fe removal simultaneously."],
-        3: ["Fine intergrowths of 5–10 μm are frequently observed and are difficult to liberate by ordinary grinding."]
+        1: ["more than 73% of the manganese ores in China belong to Fe-Mn ores with a low Mn/Fe mass ratio (< 3)."],
+        2: ["physical beneficiation is limited by mineral intergrowth and dissemination size."],
+        3: ["mineralogical characteristics determine the separation and extraction route."]
       },
       aiReading: {
-        summary: "该综述围绕铁质锰矿中锰和铁的提取与分离展开，强调矿物学诊断、物理分选、焙烧转化、酸浸和环境约束之间的耦合关系。",
-        innovation: [
-          "将 Mn/Fe 比、矿物嵌布、相变行为和环境约束放在同一工艺框架中讨论。",
-          "强调单一分选方法难以处理复杂铁质锰矿。"
-        ],
-        methods: "矿物学表征 → 物理分选 → 还原焙烧或酸浸 → 锰铁分离 → 工程放大与环境评价。",
-        keyData: [
-          "中国 73% 以上锰矿属于低 Mn/Fe 比铁质锰矿。",
-          "锰合金生产通常要求 Mn > 30%、Mn/Fe > 5。",
-          "5-10 μm 细粒共生会显著增加解离难度。"
-        ],
-        process: "矿物学诊断 → 判断 Mn/Fe 赋存关系 → 选择重选/磁选/浮选或联合预富集 → 必要时焙烧相变 → 酸浸或还原浸出 → 除铁除杂 → 评价 Mn 回收率与溶液质量。",
-        relevance: "适合用于“低品位锰矿分离与富集”课题的研究背景、分选局限、矿物学诊断必要性和工艺路线选择依据。",
-        quote: "铁质锰矿的分离富集不能仅以锰品位提升为目标，还应同时评价 Mn 回收率、Fe 脱除效果、Mn/Fe 比变化、酸耗和后续浸出液杂质负荷。"
+        summary: "该综述围绕铁质锰矿中锰和铁的选择性提取与分离展开，系统比较物理选矿、湿法冶金、火法冶金和物理-化学联合流程。",
+        innovation: ["从技术原理、工艺参数和回收效率角度综合评价多种锰铁分离路线。", "强调从铁质锰矿和其他含 Fe、Mn 氧化物资源中选择合适工艺。"],
+        methods: "矿物学诊断 → 分选或焙烧预处理 → 浸出或相变 → 锰铁分离 → 产品化利用。",
+        keyData: ["中国超过 73% 的锰矿属于低 Mn/Fe 比铁质锰矿。", "锰合金生产一般要求 Mn > 30%、Mn/Fe > 5。"],
+        process: "物理分选、选择性浸出、还原焙烧—磁选、火法富锰渣及联合流程。",
+        relevance: "适合作为低品位锰矿分离富集、锰铁分离、还原焙烧和湿法浸出的综述依据。",
+        quote: "铁质锰矿的开发不应只追求锰品位提升，还应同时考虑 Mn/Fe 比、锰回收率、铁分离效果和后续浸出液净化压力。"
       }
     };
 
@@ -1290,14 +1300,17 @@
     let sourcePdf = null;
     let translationPdf = null;
     let rightMode = "json";
-    let zoom = 1;
+    let leftZoom = 1;
+    let rightZoom = 1;
+    let lastFocusSide = "left";
     let rendered = new Set();
     let topTimer = null;
+    let focusTimer = null;
 
     const els = {
       app: document.getElementById("app"),
       sidebar: document.getElementById("sidebar"),
-      sidebarPapers: document.getElementById("sidebarPapers"),
+      sidebarCurrentDoc: document.getElementById("sidebarCurrentDoc"),
       libraryGrid: document.getElementById("libraryGrid"),
       paperSelect: document.getElementById("paperSelect"),
       pageTotal: document.getElementById("pageTotal"),
@@ -1395,26 +1408,24 @@
       return base || `paper-${Date.now()}`;
     }
 
-    function ensureDocId(doc) {
-      if (!doc.id || doc.id.startsWith("doc-")) {
-        doc.id = slugify(doc.doi || doc.title || doc.titleCn || doc.id);
+    function remoteIdFor(doc) {
+      if (!doc.remoteId) {
+        doc.remoteId = slugify(doc.doi || doc.title || doc.titleCn || doc.id);
       }
-      return doc.id;
+      return doc.remoteId;
     }
 
     function ensureRemotePaths(doc) {
-      const id = ensureDocId(doc);
+      const rid = remoteIdFor(doc);
       doc.assets = doc.assets || {};
-      doc.assets.jsonPath = doc.assets.jsonPath || `data/${id}.json`;
-      doc.assets.sourcePath = doc.assets.sourcePath || `papers/${id}-en.pdf`;
-      doc.assets.translationPath = doc.assets.translationPath || `papers/${id}-cn.pdf`;
+      doc.assets.jsonPath = doc.assets.jsonPath || `data/${rid}.json`;
+      doc.assets.sourcePath = doc.assets.sourcePath || `papers/${rid}-en.pdf`;
+      doc.assets.translationPath = doc.assets.translationPath || `papers/${rid}-cn.pdf`;
       return doc.assets;
     }
 
     function publicDoc(doc) {
-      const copy = structuredClone(doc);
-      copy.assets = copy.assets || {};
-      return copy;
+      return structuredClone(doc);
     }
 
     function libraryPayload() {
@@ -1497,7 +1508,6 @@
         libraryPath: els.ghLibraryPath.value.trim() || "data/library.json",
         token: els.ghToken.value.trim()
       };
-
       localStorage.setItem(SYNC_KEY, JSON.stringify(cfg));
       return cfg;
     }
@@ -1514,14 +1524,13 @@
     function getSyncConfig() {
       const cfg = loadSyncConfig();
       if (!cfg.owner || !cfg.repo || !cfg.branch || !cfg.token) {
-        throw new Error("请先在“同步”页面填写并保存 GitHub Token、owner、repo、branch。");
+        throw new Error("请先在“同步设置”页面填写并保存 GitHub Token。");
       }
       return cfg;
     }
 
     async function ghFetch(path, options = {}) {
       const cfg = getSyncConfig();
-
       const res = await fetch(`https://api.github.com/repos/${cfg.owner}/${cfg.repo}${path}`, {
         ...options,
         headers: {
@@ -1546,14 +1555,16 @@
 
     async function ghMaybeGetContent(path) {
       const cfg = getSyncConfig();
-      const url = `/contents/${encodePath(path)}?ref=${encodeURIComponent(cfg.branch)}`;
-      const res = await fetch(`https://api.github.com/repos/${cfg.owner}/${cfg.repo}${url}`, {
-        headers: {
-          "Accept": "application/vnd.github+json",
-          "Authorization": `Bearer ${cfg.token}`,
-          "X-GitHub-Api-Version": "2022-11-28"
+      const res = await fetch(
+        `https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${encodePath(path)}?ref=${encodeURIComponent(cfg.branch)}&t=${Date.now()}`,
+        {
+          headers: {
+            "Accept": "application/vnd.github+json",
+            "Authorization": `Bearer ${cfg.token}`,
+            "X-GitHub-Api-Version": "2022-11-28"
+          }
         }
-      });
+      );
 
       if (res.status === 404) return null;
 
@@ -1576,22 +1587,67 @@
       return JSON.parse(base64ToText(item.content));
     }
 
-    async function ghUpsertBase64(path, base64, message) {
+    async function ghPutContent(path, base64, message, sha = null) {
       const cfg = getSyncConfig();
-      const existing = await ghMaybeGetContent(path);
-
       const body = {
         message,
         content: base64,
         branch: cfg.branch
       };
 
-      if (existing?.sha) body.sha = existing.sha;
+      if (sha) body.sha = sha;
 
-      await ghFetch(`/contents/${encodePath(path)}`, {
-        method: "PUT",
-        body: JSON.stringify(body)
-      });
+      const res = await fetch(
+        `https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${encodePath(path)}`,
+        {
+          method: "PUT",
+          headers: {
+            "Accept": "application/vnd.github+json",
+            "Authorization": `Bearer ${cfg.token}`,
+            "X-GitHub-Api-Version": "2022-11-28",
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(body)
+        }
+      );
+
+      if (!res.ok) {
+        let detail = "";
+        try {
+          const json = await res.json();
+          detail = json.message || "";
+        } catch {}
+        const err = new Error(`GitHub API ${res.status}: ${detail}`);
+        err.status = res.status;
+        err.detail = detail;
+        throw err;
+      }
+
+      return await res.json();
+    }
+
+    async function ghUpsertBase64(path, base64, message) {
+      const existing = await ghMaybeGetContent(path);
+
+      try {
+        return await ghPutContent(path, base64, message, existing?.sha || null);
+      } catch (err) {
+        const detail = String(err.detail || "").toLowerCase();
+        const needSha = err.status === 422 && detail.includes("sha");
+        const conflict = err.status === 409;
+
+        if (!needSha && !conflict) throw err;
+
+        logSync(`远程文件需要刷新 sha，重新获取后重试：${path}`);
+        await new Promise(resolve => setTimeout(resolve, 800));
+
+        const latest = await ghMaybeGetContent(path);
+        if (!latest?.sha) {
+          throw new Error(`远程文件已存在，但无法获取 sha：${path}`);
+        }
+
+        return await ghPutContent(path, base64, message, latest.sha);
+      }
     }
 
     async function ghUpsertText(path, text, message) {
@@ -1601,19 +1657,38 @@
     async function ghDeletePath(path, message) {
       const cfg = getSyncConfig();
       const existing = await ghMaybeGetContent(path);
+
       if (!existing?.sha) {
         logSync(`远程不存在，跳过删除：${path}`);
         return false;
       }
 
-      await ghFetch(`/contents/${encodePath(path)}`, {
-        method: "DELETE",
-        body: JSON.stringify({
-          message,
-          sha: existing.sha,
-          branch: cfg.branch
-        })
-      });
+      const res = await fetch(
+        `https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${encodePath(path)}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Accept": "application/vnd.github+json",
+            "Authorization": `Bearer ${cfg.token}`,
+            "X-GitHub-Api-Version": "2022-11-28",
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            message,
+            sha: existing.sha,
+            branch: cfg.branch
+          })
+        }
+      );
+
+      if (!res.ok) {
+        let detail = "";
+        try {
+          const json = await res.json();
+          detail = json.message ? `：${json.message}` : "";
+        } catch {}
+        throw new Error(`GitHub API ${res.status}${detail}`);
+      }
 
       logSync(`已删除远程文件：${path}`);
       return true;
@@ -1733,7 +1808,7 @@
         }
       } else if (doc.assets.sourcePath) {
         sourcePdf = await fetchRemotePdfToLocal(doc, "source", doc.assets.sourcePath);
-        els.sourcePdfStatus.textContent = sourcePdf ? `已从 GitHub Pages 读取英文 PDF：${doc.assets.sourcePath}` : "";
+        els.sourcePdfStatus.textContent = sourcePdf ? `已从远程读取英文 PDF：${doc.assets.sourcePath}` : "";
       } else {
         els.sourcePdfStatus.textContent = "";
       }
@@ -1751,7 +1826,7 @@
         }
       } else if (doc.assets.translationPath) {
         translationPdf = await fetchRemotePdfToLocal(doc, "translation", doc.assets.translationPath);
-        els.translationPdfStatus.textContent = translationPdf ? `已从 GitHub Pages 读取中文 PDF：${doc.assets.translationPath}` : "";
+        els.translationPdfStatus.textContent = translationPdf ? `已从远程读取中文 PDF：${doc.assets.translationPath}` : "";
       } else {
         els.translationPdfStatus.textContent = "";
       }
@@ -1787,11 +1862,13 @@
       `;
     }
 
-    function renderPaperCard(doc) {
+    function renderPaperCard(doc, mode = "full") {
       const tags = normalizeList(doc.tags).map(tag => `<span class="tag">${escapeHtml(tag)}</span>`).join("");
       const assets = doc.assets || {};
+      const compact = mode === "compact" ? "compact" : "";
+
       return `
-        <div class="paper-card">
+        <div class="paper-card ${compact}">
           <h3>${escapeHtml(doc.title || "未命名文献")}</h3>
           <div class="cn-title">${escapeHtml(doc.titleCn || "暂无中文标题")}</div>
           ${rankBadges(doc)}
@@ -1805,20 +1882,22 @@
           <div class="tags">${tags}</div>
           <div class="button-row">
             <button class="primary" data-open-reader="${doc.id}">📖 打开对照阅读</button>
-            <button class="secondary" data-select-doc="${doc.id}">设为当前</button>
+            ${mode === "full" ? `<button class="secondary" data-edit-doc="${doc.id}">编辑/上传</button><button class="danger" data-delete-doc="${doc.id}">删除</button>` : ""}
           </div>
         </div>
       `;
     }
 
     function renderLibrary() {
-      els.currentDocLabel.textContent = currentDoc().titleCn || currentDoc().title || "未命名文献";
-      els.sidebarPapers.innerHTML = docs.map(renderPaperCard).join("");
-      els.libraryGrid.innerHTML = docs.map(doc => `<div class="box wide">${renderPaperCard(doc)}</div>`).join("");
+      const doc = currentDoc();
+      els.currentDocLabel.textContent = doc.titleCn || doc.title || "未命名文献";
+      els.sidebarCurrentDoc.innerHTML = renderPaperCard(doc, "compact");
 
-      els.paperSelect.innerHTML = docs.map(doc => `
-        <option value="${doc.id}" ${doc.id === currentDocId ? "selected" : ""}>
-          ${escapeHtml(doc.title || doc.titleCn || "未命名文献")}
+      els.libraryGrid.innerHTML = docs.map(d => `<div class="box wide">${renderPaperCard(d, "full")}</div>`).join("");
+
+      els.paperSelect.innerHTML = docs.map(d => `
+        <option value="${d.id}" ${d.id === currentDocId ? "selected" : ""}>
+          ${escapeHtml(d.title || d.titleCn || "未命名文献")}
         </option>
       `).join("");
 
@@ -1832,13 +1911,22 @@
         };
       });
 
-      document.querySelectorAll("[data-select-doc]").forEach(btn => {
+      document.querySelectorAll("[data-edit-doc]").forEach(btn => {
         btn.onclick = async () => {
-          currentDocId = btn.dataset.selectDoc;
+          currentDocId = btn.dataset.editDoc;
           saveDocs();
           await hydratePdfs();
           renderAll();
-          toast("已切换当前文献。");
+          showView("upload");
+        };
+      });
+
+      document.querySelectorAll("[data-delete-doc]").forEach(btn => {
+        btn.onclick = async () => {
+          currentDocId = btn.dataset.deleteDoc;
+          saveDocs();
+          await hydratePdfs();
+          await deleteCurrentDoc();
         };
       });
     }
@@ -1893,7 +1981,7 @@
       const evidence = normalizeList(doc.originalEvidence?.[pageNo]);
 
       return `
-        <article class="paper-page translation-page">
+        <article class="paper-page translation-page pane-right" data-side="right">
           <h2>第 ${pageNo} 页 JSON 译文</h2>
           ${
             translations.length
@@ -1932,7 +2020,7 @@
 
       for (let i = 1; i <= pageCount; i++) {
         const left = `
-          <article class="paper-page pdf-page ${sourcePdf ? "" : "mock-page"}" data-render-type="source" data-pdf-page="${i}">
+          <article class="paper-page pdf-page pane-left ${sourcePdf ? "" : "mock-page"}" data-side="left" data-render-type="source" data-pdf-page="${i}">
             ${sourcePdf ? `<div class="empty-pdf">英文 PDF 第 ${i} 页等待渲染...</div>` : mockPdfPage(i)}
             <div class="page-no">${i}</div>
           </article>
@@ -1940,7 +2028,7 @@
 
         const right = rightMode === "pdf" && translationPdf
           ? `
-            <article class="paper-page pdf-page" data-render-type="translation" data-pdf-page="${i}">
+            <article class="paper-page pdf-page pane-right" data-side="right" data-render-type="translation" data-pdf-page="${i}">
               <div class="empty-pdf">中文 PDF 第 ${i} 页等待渲染...</div>
               <div class="page-no">${i}</div>
             </article>
@@ -1950,22 +2038,57 @@
         rows.push(`
           <div class="page-row" data-page="${i}">
             ${left}
-            <div class="pane-resizer" title="拖动调整左右宽度"></div>
+            <div class="pane-resizer"></div>
             ${right}
           </div>
         `);
       }
 
       els.readerInner.innerHTML = rows.join("");
-      els.readerInner.style.width = `${zoom * 100}%`;
       rendered.clear();
-      bindPaneResizers();
+      bindReaderFocus();
       updateModeButtons();
+      updateZoomText();
       searchChinese(els.searchInput.value);
       setTimeout(() => {
         syncRowHeights();
         renderVisiblePdfPages();
-      }, 60);
+      }, 80);
+    }
+
+    function bindReaderFocus() {
+      document.querySelectorAll("[data-side]").forEach(el => {
+        el.addEventListener("mouseenter", () => {
+          const side = el.dataset.side;
+          lastFocusSide = side;
+          els.reader.classList.toggle("focus-left", side === "left");
+          els.reader.classList.toggle("focus-right", side === "right");
+          clearTimeout(focusTimer);
+          focusTimer = setTimeout(() => {
+            rendered.clear();
+            syncRowHeights();
+            renderVisiblePdfPages();
+          }, 190);
+        });
+
+        el.addEventListener("wheel", event => {
+          if (!(event.ctrlKey || event.metaKey)) return;
+          event.preventDefault();
+          lastFocusSide = el.dataset.side;
+          const delta = event.deltaY > 0 ? -0.08 : 0.08;
+          setSideZoom(lastFocusSide, delta);
+        }, { passive: false });
+      });
+
+      els.reader.addEventListener("mouseleave", () => {
+        els.reader.classList.remove("focus-left", "focus-right");
+        clearTimeout(focusTimer);
+        focusTimer = setTimeout(() => {
+          rendered.clear();
+          syncRowHeights();
+          renderVisiblePdfPages();
+        }, 190);
+      }, { once: true });
     }
 
     function syncRowHeights() {
@@ -1985,12 +2108,17 @@
       els.modePdf.title = translationPdf ? "显示中文翻译 PDF" : "未上传中文翻译 PDF，暂不可用";
     }
 
-    async function renderPdfPage(pdf, holder, key, pageNo) {
+    function updateZoomText() {
+      els.zoomText.textContent = `左${Math.round(leftZoom * 100)}% / 右${Math.round(rightZoom * 100)}%`;
+    }
+
+    async function renderPdfPage(pdf, holder, key, pageNo, side) {
       if (!pdf || rendered.has(key) || pageNo > pdf.numPages) return;
       rendered.add(key);
 
       try {
-        const cssWidth = Math.max(320, Math.floor(holder.clientWidth));
+        const sideZoom = side === "right" ? rightZoom : leftZoom;
+        const cssWidth = Math.max(260, Math.floor(holder.clientWidth * sideZoom));
         const page = await pdf.getPage(pageNo);
         const base = page.getViewport({ scale: 1 });
         const cssScale = cssWidth / base.width;
@@ -2008,6 +2136,7 @@
         canvas.style.height = `${Math.floor(base.height * cssScale)}px`;
 
         holder.style.aspectRatio = `${base.width} / ${base.height}`;
+        holder.classList.toggle("zoomed", sideZoom > 1.02);
         holder.innerHTML = "";
         holder.appendChild(canvas);
 
@@ -2035,12 +2164,12 @@
         if (rect.bottom > readerRect.top - 1200 && rect.top < readerRect.bottom + 1600) {
           const sourceHolder = row.querySelector('[data-render-type="source"]');
           if (sourceHolder && sourcePdf) {
-            renderPdfPage(sourcePdf, sourceHolder, `source-${currentDocId}-${pageNo}-${zoom}-${sourceHolder.clientWidth}`, pageNo);
+            renderPdfPage(sourcePdf, sourceHolder, `source-${currentDocId}-${pageNo}-${leftZoom}-${sourceHolder.clientWidth}`, pageNo, "left");
           }
 
           const transHolder = row.querySelector('[data-render-type="translation"]');
           if (transHolder && translationPdf && rightMode === "pdf") {
-            renderPdfPage(translationPdf, transHolder, `translation-${currentDocId}-${pageNo}-${zoom}-${transHolder.clientWidth}`, pageNo);
+            renderPdfPage(translationPdf, transHolder, `translation-${currentDocId}-${pageNo}-${rightZoom}-${transHolder.clientWidth}`, pageNo, "right");
           }
         }
       });
@@ -2099,6 +2228,11 @@
       els.currentDocLabel.textContent = currentDoc().titleCn || currentDoc().title || "未命名文献";
     }
 
+    function fillJsonTextareaFromCurrent() {
+      const doc = publicDoc(currentDoc());
+      els.jsonInput.value = JSON.stringify(doc, null, 2);
+    }
+
     function findExistingDoc(data) {
       const doi = normalizeKey(data.doi);
       const title = normalizeKey(data.title);
@@ -2115,12 +2249,14 @@
     function mergeDoc(target, data) {
       const keepAssets = target.assets || {};
       const keepId = target.id;
+      const keepRemoteId = target.remoteId;
 
       const merged = {
         ...target,
         ...data,
         assets: keepAssets,
         id: keepId,
+        remoteId: keepRemoteId || data.remoteId || slugify(data.doi || data.title || data.titleCn || keepId),
         journalRank: data.journalRank || data.rank || target.journalRank || {},
         tags: normalizeList(data.tags || target.tags),
         pageCount: data.pageCount || Object.keys(data.pageTranslations || target.pageTranslations || {}).length || target.pageCount || 1
@@ -2134,7 +2270,7 @@
       }
 
       Object.assign(target, merged);
-      ensureDocId(target);
+      ensureRemotePaths(target);
     }
 
     async function importJson() {
@@ -2150,7 +2286,8 @@
           target = current;
         } else {
           target = {
-            id: slugify(data.doi || data.title || data.titleCn),
+            id: `doc-${Date.now()}`,
+            remoteId: slugify(data.doi || data.title || data.titleCn),
             title: data.title || "未命名文献",
             titleCn: data.titleCn || "",
             journal: "",
@@ -2173,8 +2310,7 @@
         saveDocs();
         await hydratePdfs();
         renderAll();
-        showView("reader");
-
+        showView("upload");
         els.jsonStatus.textContent = existing ? "JSON 已更新已有文献。" : "JSON 已导入。";
         toast(existing ? "已按 DOI / 标题更新已有文献。" : "已新增文献。");
       } catch (err) {
@@ -2198,7 +2334,6 @@
 
       const status = type === "source" ? els.sourcePdfStatus : els.translationPdfStatus;
       const doc = currentDoc();
-      ensureDocId(doc);
 
       try {
         status.textContent = `正在读取：${file.name}`;
@@ -2208,6 +2343,7 @@
         const pdf = await loadPdfFromBuffer(buffer);
 
         doc.assets = doc.assets || {};
+        ensureRemotePaths(doc);
 
         if (type === "source") {
           sourcePdf = pdf;
@@ -2223,7 +2359,7 @@
         doc.pageCount = Math.max(Number(doc.pageCount || 0), pdf.numPages);
         saveDocs();
         renderAll();
-        showView("reader");
+        showView("upload");
         toast(type === "source" ? "英文 PDF 已绑定到当前文献。" : "中文翻译 PDF 已绑定到当前文献。");
       } catch (err) {
         status.textContent = `PDF 读取失败：${err.message}`;
@@ -2259,162 +2395,29 @@
       }, 80);
     }
 
-    function setZoom(delta) {
-      zoom = Math.max(0.65, Math.min(1.6, zoom + delta));
-      els.readerInner.style.width = `${zoom * 100}%`;
-      els.zoomText.textContent = `${Math.round(zoom * 100)}%`;
+    function setSideZoom(side, delta) {
+      if (side === "right") {
+        rightZoom = Math.max(0.7, Math.min(1.8, rightZoom + delta));
+      } else {
+        leftZoom = Math.max(0.7, Math.min(1.8, leftZoom + delta));
+      }
+
       rendered.clear();
+      updateZoomText();
       setTimeout(() => {
         syncRowHeights();
         renderVisiblePdfPages();
-      }, 80);
+      }, 70);
     }
 
-    function bindPaneResizers() {
-      document.querySelectorAll(".pane-resizer").forEach(handle => {
-        handle.addEventListener("pointerdown", event => {
-          event.preventDefault();
-          const row = handle.closest(".page-row");
-          const rect = row.getBoundingClientRect();
-
-          function move(e) {
-            const pct = ((e.clientX - rect.left) / rect.width) * 100;
-            const clamped = Math.max(32, Math.min(68, pct));
-            document.documentElement.style.setProperty("--left-col", `${clamped}%`);
-            rendered.clear();
-            syncRowHeights();
-          }
-
-          function up() {
-            window.removeEventListener("pointermove", move);
-            window.removeEventListener("pointerup", up);
-            setTimeout(renderVisiblePdfPages, 100);
-          }
-
-          window.addEventListener("pointermove", move);
-          window.addEventListener("pointerup", up);
-        });
-      });
-    }
-
-    function bindSidebarResize() {
-      const handle = document.getElementById("sidebarResizer");
-
-      handle.addEventListener("pointerdown", event => {
-        event.preventDefault();
-        els.app.classList.remove("reading", "side-open");
-
-        function move(e) {
-          const width = Math.max(220, Math.min(430, e.clientX));
-          document.documentElement.style.setProperty("--sidebar-width", `${width}px`);
-        }
-
-        function up() {
-          window.removeEventListener("pointermove", move);
-          window.removeEventListener("pointerup", up);
-        }
-
-        window.addEventListener("pointermove", move);
-        window.addEventListener("pointerup", up);
-      });
-    }
-
-    function createNewDoc() {
-      const doc = {
-        id: `doc-${Date.now()}`,
-        title: "未命名文献",
-        titleCn: "新文献",
-        journal: "",
-        year: "",
-        doi: "",
-        journalRank: { IF: "-", CAS: "-", JCR: "-" },
-        tags: [],
-        pageCount: 1,
-        assets: {},
-        pageTranslations: {},
-        pageFigures: {},
-        pageKeyPoints: {},
-        originalEvidence: {},
-        aiReading: {}
-      };
-
-      docs.push(doc);
-      currentDocId = doc.id;
-      sourcePdf = null;
-      translationPdf = null;
-      rightMode = "json";
-      saveDocs();
-      renderAll();
-      showView("upload");
-      toast("已新增空白文献，请上传 PDF 或导入 JSON。");
-    }
-
-    async function deleteCurrentDoc() {
-      if (docs.length <= 1) {
-        toast("至少保留一篇文献。");
-        return;
-      }
-
-      const doc = currentDoc();
-      const hasCfg = !!loadSyncConfig().token;
-      const message = hasCfg
-        ? `确定删除当前文献并同步删除 GitHub 仓库文件？\n\n${doc.titleCn || doc.title || "未命名文献"}`
-        : `确定删除当前文献？\n\n${doc.titleCn || doc.title || "未命名文献"}`;
-
-      if (!confirm(message)) return;
-
-      try {
-        if (hasCfg) {
-          setSyncLog("开始删除远程文献...");
-          await deleteRemoteFilesForDoc(doc);
-        }
-
-        await deleteFile(doc.id, "source");
-        await deleteFile(doc.id, "translation");
-
-        docs = docs.filter(d => d.id !== doc.id);
-        currentDocId = docs[0].id;
-        sourcePdf = null;
-        translationPdf = null;
-        rightMode = "json";
-        saveDocs();
-
-        if (hasCfg) {
-          await pushLibraryToGitHub("Update library after deleting document");
-        }
-
-        await hydratePdfs();
-        renderAll();
-        showView("library");
-        toast(hasCfg ? "当前文献和仓库文件已删除。" : "当前文献已删除。");
-      } catch (err) {
-        toast(`删除失败：${err.message}`);
-        logSync(`删除失败：${err.message}`);
-      }
-    }
-
-    async function clearCurrentFiles() {
-      const doc = currentDoc();
-      await deleteFile(doc.id, "source");
-      await deleteFile(doc.id, "translation");
-      doc.assets = {
-        ...(doc.assets || {}),
-        sourceName: "",
-        translationName: ""
-      };
-      sourcePdf = null;
-      translationPdf = null;
-      rightMode = "json";
-      saveDocs();
-      renderAll();
-      toast("当前文献的本地 PDF 缓存已清除，远程仓库文件未删除。");
+    function resetZoomIfNeeded() {
+      updateZoomText();
     }
 
     async function pushLibraryToGitHub(message = "Update literature library") {
       const cfg = getSyncConfig();
 
       docs.forEach(doc => {
-        ensureDocId(doc);
         ensureRemotePaths(doc);
       });
 
@@ -2428,10 +2431,10 @@
     }
 
     async function syncOneDocToGitHub(doc) {
-      ensureDocId(doc);
-      const assets = ensureRemotePaths(doc);
-
+      ensureRemotePaths(doc);
       logSync(`开始同步：${doc.titleCn || doc.title || doc.id}`);
+
+      const assets = doc.assets || {};
 
       const sourceRecord = await getFile(doc.id, "source");
       if (sourceRecord?.buffer) {
@@ -2442,7 +2445,7 @@
         );
         assets.sourceName = sourceRecord.name;
         logSync(`已上传英文 PDF：${assets.sourcePath}`);
-      } else if (assets.sourcePath) {
+      } else if (assets.sourcePath && assets.sourceName) {
         logSync(`未找到本地英文 PDF，保留远程路径：${assets.sourcePath}`);
       }
 
@@ -2466,7 +2469,6 @@
       );
 
       logSync(`已上传文献 JSON：${assets.jsonPath}`);
-
       saveDocs();
     }
 
@@ -2480,24 +2482,6 @@
         renderAll();
         toast("当前文献已同步到 GitHub。GitHub Pages 可能需要几十秒更新。");
         logSync("同步完成。");
-      } catch (err) {
-        toast(`同步失败：${err.message}`);
-        logSync(`同步失败：${err.message}`);
-      }
-    }
-
-    async function syncAllDocsToGitHub() {
-      try {
-        saveSyncConfig();
-        setSyncLog("开始同步全部文献...");
-        for (const doc of docs) {
-          await syncOneDocToGitHub(doc);
-        }
-        await pushLibraryToGitHub("Update full literature library");
-        saveDocs();
-        renderAll();
-        toast("全部文献已同步到 GitHub。");
-        logSync("全部同步完成。");
       } catch (err) {
         toast(`同步失败：${err.message}`);
         logSync(`同步失败：${err.message}`);
@@ -2522,12 +2506,18 @@
           throw new Error("远程 library.json 中没有 docs 数组。");
         }
 
-        docs = remoteDocs;
-        docs.forEach(doc => {
-          doc.assets = doc.assets || {};
-          ensureDocId(doc);
-        });
+        docs = remoteDocs.map(doc => ({
+          assets: {},
+          pageTranslations: {},
+          pageFigures: {},
+          pageKeyPoints: {},
+          originalEvidence: {},
+          aiReading: {},
+          ...doc,
+          id: doc.id || `doc-${Date.now()}-${Math.random().toString(16).slice(2)}`
+        }));
 
+        docs.forEach(doc => ensureRemotePaths(doc));
         currentDocId = docs[0].id;
         saveDocs();
 
@@ -2535,7 +2525,7 @@
         renderAll();
         showView("library");
 
-        logSync(`已拉取 ${docs.length} 篇文献。PDF 会在打开对应文献时从 GitHub Pages 读取并缓存到本机。`);
+        logSync(`已拉取 ${docs.length} 篇文献。PDF 会在打开文献时从远程读取并缓存到本机。`);
         toast("已从 GitHub 拉取文献库。");
       } catch (err) {
         toast(`拉取失败：${err.message}`);
@@ -2544,12 +2534,11 @@
     }
 
     async function deleteRemoteFilesForDoc(doc) {
-      ensureDocId(doc);
-      const assets = ensureRemotePaths(doc);
+      ensureRemotePaths(doc);
       const paths = [
-        assets.sourcePath,
-        assets.translationPath,
-        assets.jsonPath
+        doc.assets?.sourcePath,
+        doc.assets?.translationPath,
+        doc.assets?.jsonPath
       ].filter(Boolean);
 
       for (const path of paths) {
@@ -2557,8 +2546,66 @@
       }
     }
 
-    async function deleteCurrentRemoteAndLocal() {
-      await deleteCurrentDoc();
+    async function deleteCurrentDoc() {
+      const doc = currentDoc();
+      const tokenExists = !!loadSyncConfig().token;
+
+      const message = tokenExists
+        ? `确定删除当前文献？\n\n将同时删除本地记录和 GitHub 仓库中的 PDF / JSON，并更新 library.json。\n\n${doc.titleCn || doc.title || "未命名文献"}`
+        : `确定删除当前文献？\n\n当前没有 Token，只删除本地记录。\n\n${doc.titleCn || doc.title || "未命名文献"}`;
+
+      if (!confirm(message)) return;
+
+      try {
+        if (tokenExists) {
+          setSyncLog("开始删除远程文献文件...");
+          await deleteRemoteFilesForDoc(doc);
+        }
+
+        await deleteFile(doc.id, "source");
+        await deleteFile(doc.id, "translation");
+
+        docs = docs.filter(d => d.id !== doc.id);
+
+        if (!docs.length) {
+          docs = [structuredClone(samplePaper)];
+        }
+
+        currentDocId = docs[0].id;
+        sourcePdf = null;
+        translationPdf = null;
+        rightMode = "json";
+        saveDocs();
+
+        if (tokenExists) {
+          await pushLibraryToGitHub("Update library after deleting document");
+        }
+
+        await hydratePdfs();
+        renderAll();
+        showView("library");
+        toast(tokenExists ? "文献和仓库文件已删除。" : "本地文献已删除。");
+      } catch (err) {
+        toast(`删除失败：${err.message}`);
+        logSync(`删除失败：${err.message}`);
+      }
+    }
+
+    async function clearCurrentFiles() {
+      const doc = currentDoc();
+      await deleteFile(doc.id, "source");
+      await deleteFile(doc.id, "translation");
+      doc.assets = {
+        ...(doc.assets || {}),
+        sourceName: "",
+        translationName: ""
+      };
+      sourcePdf = null;
+      translationPdf = null;
+      rightMode = "json";
+      saveDocs();
+      renderAll();
+      toast("当前文献的本地 PDF 缓存已清除，远程仓库文件未删除。");
     }
 
     async function testGitHubConnection() {
@@ -2566,10 +2613,8 @@
         saveSyncConfig();
         const cfg = getSyncConfig();
         setSyncLog("正在测试 GitHub 连接...");
-
         const res = await ghFetch("");
         const repo = await res.json();
-
         logSync(`连接成功：${repo.full_name}`);
         logSync(`默认分支：${repo.default_branch}`);
         logSync(`当前配置分支：${cfg.branch}`);
@@ -2626,13 +2671,14 @@
     });
 
     document.getElementById("jumpBtn").addEventListener("click", jumpToPage);
-    document.getElementById("zoomOut").addEventListener("click", () => setZoom(-0.08));
-    document.getElementById("zoomIn").addEventListener("click", () => setZoom(0.08));
+    document.getElementById("zoomOut").addEventListener("click", () => setSideZoom(lastFocusSide, -0.08));
+    document.getElementById("zoomIn").addEventListener("click", () => setSideZoom(lastFocusSide, 0.08));
     document.getElementById("importJsonBtn").addEventListener("click", importJson);
+    document.getElementById("fillJsonBtn").addEventListener("click", fillJsonTextareaFromCurrent);
     document.getElementById("newDocBtn").addEventListener("click", createNewDoc);
     document.getElementById("deleteDocBtn").addEventListener("click", deleteCurrentDoc);
     document.getElementById("clearFilesBtn").addEventListener("click", clearCurrentFiles);
-    document.getElementById("syncCurrentBtnA").addEventListener("click", syncCurrentDocToGitHub);
+    document.getElementById("saveSyncCurrentBtn").addEventListener("click", syncCurrentDocToGitHub);
 
     document.getElementById("saveSyncBtn").addEventListener("click", () => {
       saveSyncConfig();
@@ -2642,9 +2688,6 @@
 
     document.getElementById("testSyncBtn").addEventListener("click", testGitHubConnection);
     document.getElementById("pullRemoteBtn").addEventListener("click", pullLibraryFromGitHub);
-    document.getElementById("syncCurrentBtnB").addEventListener("click", syncCurrentDocToGitHub);
-    document.getElementById("syncAllBtn").addEventListener("click", syncAllDocsToGitHub);
-    document.getElementById("deleteRemoteBtn").addEventListener("click", deleteCurrentRemoteAndLocal);
 
     document.getElementById("clearTokenBtn").addEventListener("click", () => {
       const cfg = loadSyncConfig();
@@ -2653,21 +2696,6 @@
       fillSyncForm();
       setSyncLog("Token 已从本机浏览器清除。");
       toast("Token 已清除。");
-    });
-
-    document.getElementById("resetBtn").addEventListener("click", async () => {
-      docs = [structuredClone(samplePaper)];
-      currentDocId = docs[0].id;
-      sourcePdf = null;
-      translationPdf = null;
-      rightMode = "json";
-      zoom = 1;
-      localStorage.removeItem(STORAGE_KEY);
-      localStorage.removeItem(CURRENT_KEY);
-      saveDocs();
-      renderAll();
-      showView("library");
-      toast("已恢复示例文献。本操作不删除 GitHub 仓库文件。");
     });
 
     els.modePdf.addEventListener("click", () => {
@@ -2701,11 +2729,69 @@
     document.getElementById("translationPdfInput").addEventListener("change", e => loadPdf(e.target.files?.[0], "translation"));
     document.getElementById("jsonFileInput").addEventListener("change", e => readJsonFile(e.target.files?.[0]));
 
+    function createNewDoc() {
+      const doc = {
+        id: `doc-${Date.now()}`,
+        remoteId: "",
+        title: "未命名文献",
+        titleCn: "新文献",
+        journal: "",
+        year: "",
+        doi: "",
+        journalRank: { IF: "-", CAS: "-", JCR: "-" },
+        tags: [],
+        pageCount: 1,
+        assets: {},
+        pageTranslations: {},
+        pageFigures: {},
+        pageKeyPoints: {},
+        originalEvidence: {},
+        aiReading: {}
+      };
+
+      docs.push(doc);
+      currentDocId = doc.id;
+      sourcePdf = null;
+      translationPdf = null;
+      rightMode = "json";
+      leftZoom = 1;
+      rightZoom = 1;
+      saveDocs();
+      renderAll();
+      fillJsonTextareaFromCurrent();
+      showView("upload");
+      toast("已新增空白文献，请上传 PDF 或导入 JSON。");
+    }
+
+    function bindSidebarResize() {
+      const handle = document.getElementById("sidebarResizer");
+
+      handle.addEventListener("pointerdown", event => {
+        event.preventDefault();
+        els.app.classList.remove("reading", "side-open");
+
+        function move(e) {
+          const width = Math.max(220, Math.min(430, e.clientX));
+          document.documentElement.style.setProperty("--sidebar-width", `${width}px`);
+        }
+
+        function up() {
+          window.removeEventListener("pointermove", move);
+          window.removeEventListener("pointerup", up);
+        }
+
+        window.addEventListener("pointermove", move);
+        window.addEventListener("pointerup", up);
+      });
+    }
+
     bindSidebarResize();
     fillSyncForm();
 
     await hydratePdfs();
     renderAll();
+    fillJsonTextareaFromCurrent();
+    resetZoomIfNeeded();
   </script>
 </body>
 </html>
