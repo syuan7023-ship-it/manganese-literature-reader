@@ -1216,11 +1216,11 @@
   <div id="toast" class="toast"></div>
 
   <script>
-    const DB_NAME = "mn-lit-db-v11";
+    const DB_NAME = "mn-lit-db-v12";
     const STORE = "files";
-    const STORAGE_KEY = "mn-lit-docs-v11";
-    const CURRENT_KEY = "mn-lit-current-v11";
-    const SYNC_KEY = "mn-lit-github-sync-v11";
+    const STORAGE_KEY = "mn-lit-docs-v12";
+    const CURRENT_KEY = "mn-lit-current-v12";
+    const SYNC_KEY = "mn-lit-github-sync-v12";
 
     let pdfjsLib = null;
     let docs = loadDocs();
@@ -1520,6 +1520,33 @@
       return response.json();
     }
 
+    async function githubGetRawArrayBuffer(path) {
+      const config = getSyncConfig();
+
+      const response = await fetch(
+        `https://api.github.com/repos/${config.owner}/${config.repo}/contents/${encodePath(path)}?ref=${encodeURIComponent(config.branch)}&t=${Date.now()}`,
+        {
+          headers: {
+            Accept: "application/vnd.github.raw",
+            Authorization: `Bearer ${config.token}`,
+            "X-GitHub-Api-Version": "2022-11-28"
+          }
+        }
+      );
+
+      if (!response.ok) {
+        let detail = "";
+
+        try {
+          detail = (await response.text()).slice(0, 300);
+        } catch {}
+
+        throw new Error(`GitHub raw 读取失败：HTTP ${response.status}${detail ? `｜${detail}` : ""}`);
+      }
+
+      return response.arrayBuffer();
+    }
+
     async function githubGetJson(path) {
       const item = await githubGetContent(path);
 
@@ -1568,6 +1595,45 @@
       }
 
       return response.json();
+    }
+
+    async function githubDeleteContent(path, message) {
+      const config = getSyncConfig();
+      const existing = await githubGetContent(path);
+
+      if (!existing?.sha) {
+        return false;
+      }
+
+      const response = await fetch(
+        `https://api.github.com/repos/${config.owner}/${config.repo}/contents/${encodePath(path)}`,
+        {
+          method: "DELETE",
+          headers: {
+            Accept: "application/vnd.github+json",
+            Authorization: `Bearer ${config.token}`,
+            "X-GitHub-Api-Version": "2022-11-28",
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            message,
+            sha: existing.sha,
+            branch: config.branch
+          })
+        }
+      );
+
+      if (!response.ok) {
+        let detail = "";
+
+        try {
+          detail = (await response.json()).message || "";
+        } catch {}
+
+        throw new Error(`GitHub 删除失败 ${response.status}${detail ? `：${detail}` : ""}`);
+      }
+
+      return true;
     }
 
     async function openDB() {
@@ -2232,6 +2298,10 @@
 
       const doc = currentDoc();
       els.currentDocLabel.textContent = doc ? doc.titleCn || doc.title || "未命名文献" : "暂无文献";
+
+      els.modePdf.classList.toggle("active", rightMode === "pdf");
+      els.modeJson.classList.toggle("active", rightMode === "json");
+      els.modePdf.disabled = !translationPdf;
     }
 
     function normalizePageMap(value) {
@@ -2400,13 +2470,9 @@
       }
 
       try {
-        const item = await githubGetContent(path);
+        status.textContent = `正在从 GitHub 读取：${path}`;
 
-        if (!item?.content) {
-          throw new Error("没有读取到文件内容。文件过大时 GitHub Contents API 可能不返回 base64 内容。");
-        }
-
-        const buffer = base64ToArrayBuffer(item.content);
+        const buffer = await githubGetRawArrayBuffer(path);
 
         await putBuffer(doc.id, type, path.split("/").pop(), buffer);
 
@@ -2428,7 +2494,7 @@
         saveDocs();
         renderAll();
 
-        status.textContent = `已从 GitHub 读取：${path}`;
+        status.textContent = `已从 GitHub 读取：${path}，共 ${pdf.numPages} 页。`;
         toast("远程 PDF 已读取。");
       } catch (error) {
         status.textContent = `远程 PDF 读取失败：${error.message}`;
@@ -2666,21 +2732,64 @@
       const doc = currentDoc();
 
       if (!doc) return;
-      if (!confirm("确定删除当前文献？")) return;
 
-      await deleteFile(doc.id, "source");
-      await deleteFile(doc.id, "translation");
+      const hasToken = Boolean(loadSyncConfig().token);
+      const message = hasToken
+        ? "确定删除当前文献？这会删除本地记录，并尝试删除 GitHub 仓库中的 PDF / JSON，然后更新 library.json。"
+        : "确定删除当前文献？当前没有 Token，只删除本地记录。";
 
-      docs = docs.filter((item) => item.id !== doc.id);
-      currentDocId = docs[0]?.id || "";
+      if (!confirm(message)) return;
 
-      sourcePdf = null;
-      translationPdf = null;
-      rightMode = "json";
+      try {
+        ensureRemotePaths(doc);
 
-      saveDocs();
-      await hydratePdfs();
-      renderAll();
+        if (hasToken) {
+          els.syncLog.textContent = "开始删除远程文件...";
+
+          await githubDeleteContent(doc.assets.sourcePath, `Delete source PDF: ${doc.title || doc.id}`);
+          els.syncLog.textContent += `\n已处理英文 PDF：${doc.assets.sourcePath}`;
+
+          await githubDeleteContent(doc.assets.translationPath, `Delete translation PDF: ${doc.title || doc.id}`);
+          els.syncLog.textContent += `\n已处理中文 PDF：${doc.assets.translationPath}`;
+
+          await githubDeleteContent(doc.assets.jsonPath, `Delete JSON: ${doc.title || doc.id}`);
+          els.syncLog.textContent += `\n已处理 JSON：${doc.assets.jsonPath}`;
+        }
+
+        await deleteFile(doc.id, "source");
+        await deleteFile(doc.id, "translation");
+
+        docs = docs.filter((item) => item.id !== doc.id);
+        currentDocId = docs[0]?.id || "";
+
+        sourcePdf = null;
+        translationPdf = null;
+        rightMode = "json";
+
+        saveDocs();
+
+        if (hasToken) {
+          await githubPutContent(
+            loadSyncConfig().libraryPath,
+            textToBase64(JSON.stringify({
+              version: 1,
+              updatedAt: new Date().toISOString(),
+              docs
+            }, null, 2)),
+            "Update literature library after deletion"
+          );
+
+          els.syncLog.textContent += "\n已更新 library.json";
+        }
+
+        await hydratePdfs();
+        renderAll();
+        showView("library");
+        toast("文献已删除。");
+      } catch (error) {
+        toast(`删除失败：${error.message}`);
+        els.syncLog.textContent += `\n删除失败：${error.message}`;
+      }
     }
 
     async function clearCurrentFiles() {
@@ -2896,8 +3005,6 @@
     async function start() {
       fillSyncForm();
       bindEvents();
-
-      await hydratePdfs();
 
       renderAll();
       fillJsonTextareaFromCurrent();
