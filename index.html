@@ -7,9 +7,8 @@
 
   <style>
     :root {
-      --bg: #f4f6f5;
+      --bg: #eef2f0;
       --panel: #ffffff;
-      --paper: #ffffff;
       --ink: #17212b;
       --text: #344054;
       --muted: #667085;
@@ -21,7 +20,7 @@
       --amber: #b87916;
       --amber-soft: #fff3d6;
       --blue-soft: #edf2f7;
-      --shadow: 0 4px 14px rgba(15, 23, 42, 0.08);
+      --shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
       --sidebar-width: 310px;
       --left-col: 50%;
     }
@@ -37,30 +36,19 @@
       font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans CJK SC", Arial, sans-serif;
     }
 
-    button, input, select, textarea {
-      font-family: inherit;
-    }
-
-    button:disabled {
-      opacity: 0.45;
-      cursor: not-allowed;
-    }
+    button, input, select, textarea { font-family: inherit; }
+    button:disabled { opacity: .45; cursor: not-allowed; }
 
     .app {
       height: 100vh;
       display: grid;
       grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
       overflow: hidden;
-      transition: grid-template-columns 0.14s ease;
+      transition: grid-template-columns .14s ease;
     }
 
-    .app.reading {
-      --sidebar-width: 48px;
-    }
-
-    .app.reading.side-open {
-      --sidebar-width: 300px;
-    }
+    .app.reading { --sidebar-width: 48px; }
+    .app.reading.side-open { --sidebar-width: 300px; }
 
     .sidebar {
       position: relative;
@@ -83,9 +71,7 @@
       z-index: 10;
     }
 
-    .sidebar-resizer:hover {
-      background: rgba(47,111,94,.18);
-    }
+    .sidebar-resizer:hover { background: rgba(47,111,94,.18); }
 
     .brand {
       height: 58px;
@@ -112,10 +98,6 @@
       flex-shrink: 0;
     }
 
-    .toggle-side:hover {
-      background: var(--green-soft);
-    }
-
     .logo {
       width: 32px;
       height: 32px;
@@ -128,10 +110,7 @@
       flex-shrink: 0;
     }
 
-    .brand-text {
-      min-width: 0;
-    }
-
+    .brand-text { min-width: 0; }
     .brand-title {
       font-weight: 800;
       font-size: 15px;
@@ -192,11 +171,7 @@
       font-size: 16px;
     }
 
-    .nav button:hover {
-      background: #f7faf8;
-      border-color: #dbe6e1;
-    }
-
+    .nav button:hover { background: #f7faf8; border-color: #dbe6e1; }
     .nav button.active {
       background: var(--green-soft);
       border-color: #bdd4ca;
@@ -251,23 +226,9 @@
       border: 1px solid transparent;
     }
 
-    .rank-if {
-      color: #6b4b14;
-      background: var(--amber-soft);
-      border-color: #eccb84;
-    }
-
-    .rank-cas {
-      color: var(--green-dark);
-      background: var(--green-soft);
-      border-color: #b8d2c8;
-    }
-
-    .rank-jcr {
-      color: #31435a;
-      background: var(--blue-soft);
-      border-color: #c9d5e3;
-    }
+    .rank-if { color: #6b4b14; background: var(--amber-soft); border-color: #eccb84; }
+    .rank-cas { color: var(--green-dark); background: var(--green-soft); border-color: #b8d2c8; }
+    .rank-jcr { color: #31435a; background: var(--blue-soft); border-color: #c9d5e3; }
 
     .meta {
       display: grid;
@@ -279,11 +240,7 @@
       margin: 8px 0;
     }
 
-    .meta b {
-      color: #475467;
-      margin-right: 4px;
-    }
-
+    .meta b { color: #475467; margin-right: 4px; }
     .meta .doi {
       grid-column: 1 / -1;
       overflow-wrap: anywhere;
@@ -308,16 +265,9 @@
       text-overflow: ellipsis;
     }
 
-    .button-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
+    .button-row { display: flex; flex-wrap: wrap; gap: 8px; }
 
-    .primary,
-    .secondary,
-    .tool-btn,
-    .mode-btn {
+    .primary, .secondary, .tool-btn, .mode-btn {
       border-radius: 6px;
       height: 32px;
       padding: 0 10px;
@@ -337,24 +287,16 @@
       font-weight: 700;
     }
 
-    .primary:hover {
-      background: var(--green-dark);
-    }
+    .primary:hover { background: var(--green-dark); }
 
-    .secondary,
-    .tool-btn,
-    .mode-btn {
+    .secondary, .tool-btn, .mode-btn {
       background: white;
       color: var(--text);
       border: 1px solid var(--line);
       font-weight: 600;
     }
 
-    .secondary:hover,
-    .tool-btn:hover,
-    .mode-btn:hover {
-      background: #f7faf8;
-    }
+    .secondary:hover, .tool-btn:hover, .mode-btn:hover { background: #f7faf8; }
 
     .mode-btn.active {
       background: var(--green-soft);
@@ -371,9 +313,7 @@
       position: relative;
     }
 
-    .top-hotzone {
-      display: none;
-    }
+    .top-hotzone { display: none; }
 
     .toolbar {
       height: 54px;
@@ -398,9 +338,7 @@
       box-shadow: 0 8px 18px rgba(15,23,42,.08);
     }
 
-    .app.reading.top-open .toolbar {
-      top: 0;
-    }
+    .app.reading.top-open .toolbar { top: 0; }
 
     .app.reading .top-hotzone {
       display: block;
@@ -412,8 +350,7 @@
       z-index: 24;
     }
 
-    .toolbar select,
-    .toolbar input {
+    .toolbar select, .toolbar input {
       height: 32px;
       border: 1px solid var(--line);
       border-radius: 6px;
@@ -425,18 +362,9 @@
       min-width: 0;
     }
 
-    .paper-select {
-      width: 300px;
-    }
-
-    .page-input {
-      width: 62px;
-      text-align: center;
-    }
-
-    .search-input {
-      width: 165px;
-    }
+    .paper-select { width: 300px; }
+    .page-input { width: 62px; text-align: center; }
+    .search-input { width: 165px; }
 
     .tool-group {
       display: inline-flex;
@@ -447,21 +375,9 @@
       flex-shrink: 0;
     }
 
-    .tool-btn {
-      min-width: 30px;
-      padding: 0 8px;
-    }
-
-    .mode-group {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      flex-shrink: 0;
-    }
-
-    .spacer {
-      flex: 1;
-    }
+    .tool-btn { min-width: 30px; padding: 0 8px; }
+    .mode-group { display: inline-flex; align-items: center; gap: 4px; flex-shrink: 0; }
+    .spacer { flex: 1; }
 
     .view {
       display: none;
@@ -469,13 +385,8 @@
       min-height: 0;
     }
 
-    .view.active {
-      display: block;
-    }
-
-    .app.reading .view {
-      height: 100vh;
-    }
+    .view.active { display: block; }
+    .app.reading .view { height: 100vh; }
 
     .panel {
       height: 100%;
@@ -493,11 +404,7 @@
       gap: 12px;
     }
 
-    .panel-head h2 {
-      margin: 0;
-      font-size: 21px;
-    }
-
+    .panel-head h2 { margin: 0; font-size: 21px; }
     .panel-head p {
       margin: 5px 0 0;
       color: var(--muted);
@@ -526,21 +433,14 @@
       color: #243b35;
     }
 
-    .box p,
-    .box li {
+    .box p, .box li {
       font-size: 13px;
       line-height: 1.85;
       color: var(--text);
     }
 
-    .box ul {
-      margin: 0 0 0 18px;
-      padding: 0;
-    }
-
-    .wide {
-      grid-column: 1 / -1;
-    }
+    .box ul { margin: 0 0 0 18px; padding: 0; }
+    .wide { grid-column: 1 / -1; }
 
     .upload-actions {
       max-width: 1180px;
@@ -609,8 +509,8 @@
     .reader {
       height: 100%;
       overflow: auto;
-      background: #eef2f0;
-      padding: 2px;
+      background: #e9efec;
+      padding: 0;
     }
 
     .reader-inner {
@@ -622,38 +522,34 @@
     .page-row {
       width: 100%;
       max-width: none;
-      margin: 0 auto 4px;
+      margin: 0;
       display: grid;
-      grid-template-columns: minmax(280px, var(--left-col)) 4px minmax(280px, 1fr);
-      gap: 2px;
-      align-items: start;
+      grid-template-columns: minmax(280px, var(--left-col)) 2px minmax(280px, 1fr);
+      gap: 0;
+      align-items: stretch;
+      background: #e9efec;
     }
 
     .pane-resizer {
-      width: 4px;
-      min-height: 120px;
-      align-self: stretch;
+      width: 2px;
+      min-height: 80px;
       cursor: col-resize;
-      background: transparent;
+      background: #cfd8d3;
+      z-index: 2;
     }
 
-    .pane-resizer:hover {
-      background: rgba(47,111,94,.35);
-    }
+    .pane-resizer:hover { background: rgba(47,111,94,.55); }
 
     .paper-page {
-      background: var(--paper);
+      background: white;
       border: 1px solid #cfd6d2;
-      box-shadow: var(--shadow);
       position: relative;
       overflow: hidden;
       min-width: 0;
+      box-shadow: none;
     }
 
-    .mock-page,
-    .translation-page {
-      aspect-ratio: 0.707 / 1;
-    }
+    .mock-page, .translation-page { aspect-ratio: 0.707 / 1; }
 
     .pdf-page {
       display: flex;
@@ -678,11 +574,7 @@
       margin: 0 0 10px;
     }
 
-    .pdf-placeholder h2 {
-      font-size: 14px;
-      margin: 16px 0 8px;
-    }
-
+    .pdf-placeholder h2 { font-size: 14px; margin: 16px 0 8px; }
     .pdf-placeholder p {
       font-size: 12px;
       line-height: 1.65;
@@ -722,8 +614,7 @@
       color: var(--text);
     }
 
-    .mock-table th,
-    .mock-table td {
+    .mock-table th, .mock-table td {
       border: 1px solid #d6ddd9;
       padding: 5px;
       text-align: left;
@@ -831,27 +722,15 @@
     }
 
     @media (max-width: 1100px) {
-      .upload-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .paper-select {
-        width: 220px;
-      }
-
-      .search-input {
-        width: 145px;
-      }
+      .upload-grid { grid-template-columns: 1fr; }
+      .paper-select { width: 220px; }
+      .search-input { width: 145px; }
     }
 
     @media (max-width: 840px) {
-      body {
-        overflow: auto;
-      }
+      body { overflow: auto; }
 
-      .app,
-      .app.reading,
-      .app.reading.side-open {
+      .app, .app.reading, .app.reading.side-open {
         height: auto;
         min-height: 100vh;
         display: block;
@@ -863,10 +742,7 @@
         border-bottom: 1px solid var(--line);
       }
 
-      .sidebar-resizer,
-      .top-hotzone {
-        display: none !important;
-      }
+      .sidebar-resizer, .top-hotzone { display: none !important; }
 
       .brand-text,
       .sidebar-content,
@@ -877,17 +753,10 @@
         display: block;
       }
 
-      .brand {
-        justify-content: flex-start;
-      }
+      .brand { justify-content: flex-start; }
+      .app.reading:not(.side-open) .logo { display: grid; }
 
-      .app.reading:not(.side-open) .logo {
-        display: grid;
-      }
-
-      .nav {
-        grid-template-columns: repeat(4, 1fr);
-      }
+      .nav { grid-template-columns: repeat(4, 1fr); }
 
       .nav button,
       .app.reading:not(.side-open) .nav button {
@@ -895,13 +764,8 @@
         font-size: 13px;
       }
 
-      .sidebar-content {
-        display: none !important;
-      }
-
-      .main {
-        height: auto;
-      }
+      .sidebar-content { display: none !important; }
+      .main { height: auto; }
 
       .toolbar,
       .app.reading .toolbar {
@@ -913,15 +777,12 @@
         box-shadow: none;
       }
 
-      .view,
-      .app.reading .view {
+      .view, .app.reading .view {
         height: auto;
         min-height: calc(100vh - 160px);
       }
 
-      .reader {
-        min-height: calc(100vh - 160px);
-      }
+      .reader { min-height: calc(100vh - 160px); }
 
       .reader-inner {
         min-width: 0;
@@ -931,20 +792,12 @@
       .page-row {
         display: grid;
         grid-template-columns: 1fr;
-        gap: 4px;
+        gap: 0;
       }
 
-      .pane-resizer {
-        display: none;
-      }
-
-      .grid {
-        grid-template-columns: 1fr;
-      }
-
-      .wide {
-        grid-column: auto;
-      }
+      .pane-resizer { display: none; }
+      .grid { grid-template-columns: 1fr; }
+      .wide { grid-column: auto; }
     }
   </style>
 </head>
@@ -1031,6 +884,7 @@
           <div class="upload-actions">
             <button id="newDocBtn" class="primary">＋ 新增文献</button>
             <button id="deleteDocBtn" class="secondary">删除当前文献</button>
+            <button id="clearFilesBtn" class="secondary">清除当前 PDF 缓存</button>
             <span class="current-label">当前文献：<b id="currentDocLabel"></b></span>
           </div>
 
@@ -1109,10 +963,10 @@
     import * as pdfjsLib from "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs";
     pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.mjs";
 
-    const DB_NAME = "mn-literature-workbench-db-v3";
+    const DB_NAME = "mn-lit-db-v4";
     const STORE = "files";
-    const STORAGE_KEY = "mn-literature-docs-v3";
-    const CURRENT_KEY = "mn-literature-current-v3";
+    const STORAGE_KEY = "mn-lit-docs-v4";
+    const CURRENT_KEY = "mn-lit-current-v4";
 
     const samplePaper = {
       id: "sample-review-2019",
@@ -1259,7 +1113,9 @@
       return new Promise((resolve, reject) => {
         const req = indexedDB.open(DB_NAME, 1);
         req.onupgradeneeded = () => {
-          req.result.createObjectStore(STORE, { keyPath: "key" });
+          if (!req.result.objectStoreNames.contains(STORE)) {
+            req.result.createObjectStore(STORE, { keyPath: "key" });
+          }
         };
         req.onsuccess = () => resolve(req.result);
         req.onerror = () => reject(req.error);
@@ -1267,27 +1123,34 @@
     }
 
     async function putFile(docId, type, file) {
+      const buffer = await file.arrayBuffer();
+
       const db = await openDB();
-      const tx = db.transaction(STORE, "readwrite");
-      const store = tx.objectStore(STORE);
-      const blob = new Blob([await file.arrayBuffer()], { type: file.type || "application/pdf" });
-      store.put({
-        key: `${docId}:${type}`,
-        name: file.name,
-        size: file.size,
-        blob
-      });
       return new Promise((resolve, reject) => {
-        tx.oncomplete = resolve;
+        const tx = db.transaction(STORE, "readwrite");
+        const store = tx.objectStore(STORE);
+
+        store.put({
+          key: `${docId}:${type}`,
+          name: file.name,
+          size: file.size,
+          mime: file.type || "application/pdf",
+          buffer
+        });
+
+        tx.oncomplete = () => resolve();
         tx.onerror = () => reject(tx.error);
+        tx.onabort = () => reject(tx.error || new Error("IndexedDB transaction aborted"));
       });
     }
 
     async function getFile(docId, type) {
       const db = await openDB();
-      const tx = db.transaction(STORE, "readonly");
-      const req = tx.objectStore(STORE).get(`${docId}:${type}`);
+
       return new Promise(resolve => {
+        const tx = db.transaction(STORE, "readonly");
+        const req = tx.objectStore(STORE).get(`${docId}:${type}`);
+
         req.onsuccess = () => resolve(req.result || null);
         req.onerror = () => resolve(null);
       });
@@ -1295,18 +1158,18 @@
 
     async function deleteFile(docId, type) {
       const db = await openDB();
-      const tx = db.transaction(STORE, "readwrite");
-      tx.objectStore(STORE).delete(`${docId}:${type}`);
+
       return new Promise(resolve => {
-        tx.oncomplete = resolve;
-        tx.onerror = resolve;
+        const tx = db.transaction(STORE, "readwrite");
+        tx.objectStore(STORE).delete(`${docId}:${type}`);
+        tx.oncomplete = () => resolve();
+        tx.onerror = () => resolve();
       });
     }
 
     async function loadPdfRecord(record) {
-      if (!record?.blob) return null;
-      const buffer = await record.blob.arrayBuffer();
-      return await pdfjsLib.getDocument({ data: buffer }).promise;
+      if (!record?.buffer) return null;
+      return await pdfjsLib.getDocument({ data: record.buffer.slice(0) }).promise;
     }
 
     async function hydratePdfs() {
@@ -1322,9 +1185,13 @@
           doc.assets = doc.assets || {};
           doc.assets.sourceName = sourceRecord.name;
           doc.pageCount = Math.max(Number(doc.pageCount || 0), sourcePdf.numPages);
+          els.sourcePdfStatus.textContent = `已恢复英文 PDF：${sourceRecord.name}`;
         } catch {
           await deleteFile(doc.id, "source");
+          els.sourcePdfStatus.textContent = "英文 PDF 缓存损坏，已清除。";
         }
+      } else {
+        els.sourcePdfStatus.textContent = "";
       }
 
       const transRecord = await getFile(doc.id, "translation");
@@ -1334,15 +1201,16 @@
           doc.assets = doc.assets || {};
           doc.assets.translationName = transRecord.name;
           doc.pageCount = Math.max(Number(doc.pageCount || 0), translationPdf.numPages);
+          els.translationPdfStatus.textContent = `已恢复中文 PDF：${transRecord.name}`;
         } catch {
           await deleteFile(doc.id, "translation");
+          els.translationPdfStatus.textContent = "中文 PDF 缓存损坏，已清除。";
         }
+      } else {
+        els.translationPdfStatus.textContent = "";
       }
 
-      if (!translationPdf && rightMode === "pdf") {
-        rightMode = "json";
-      }
-
+      if (!translationPdf && rightMode === "pdf") rightMode = "json";
       saveDocs();
     }
 
@@ -1376,6 +1244,7 @@
     function renderPaperCard(doc) {
       const tags = normalizeList(doc.tags).map(tag => `<span class="tag">${escapeHtml(tag)}</span>`).join("");
       const assets = doc.assets || {};
+
       return `
         <div class="paper-card">
           <h3>${escapeHtml(doc.title || "未命名文献")}</h3>
@@ -1489,9 +1358,7 @@
     function renderReader() {
       const doc = currentDoc();
 
-      if (!translationPdf && rightMode === "pdf") {
-        rightMode = "json";
-      }
+      if (!translationPdf && rightMode === "pdf") rightMode = "json";
 
       const pageCount = Math.max(
         sourcePdf?.numPages || 0,
@@ -1537,7 +1404,20 @@
       bindPaneResizers();
       updateModeButtons();
       searchChinese(els.searchInput.value);
-      renderVisiblePdfPages();
+      setTimeout(() => {
+        syncRowHeights();
+        renderVisiblePdfPages();
+      }, 60);
+    }
+
+    function syncRowHeights() {
+      document.querySelectorAll(".page-row").forEach(row => {
+        const pages = row.querySelectorAll(".paper-page");
+        if (pages.length < 2) return;
+        pages.forEach(p => p.style.minHeight = "");
+        const maxH = Math.max(...Array.from(pages).map(p => p.getBoundingClientRect().height));
+        pages.forEach(p => p.style.minHeight = `${Math.ceil(maxH)}px`);
+      });
     }
 
     function updateModeButtons() {
@@ -1556,9 +1436,9 @@
         const page = await pdf.getPage(pageNo);
         const base = page.getViewport({ scale: 1 });
         const cssScale = cssWidth / base.width;
-        const pixelRatio = Math.min(window.devicePixelRatio || 1, 2.5);
-        const quality = 1.8;
-        const renderScale = cssScale * pixelRatio * quality;
+        const dpr = Math.min(window.devicePixelRatio || 1, 2.5);
+        const quality = 2.2;
+        const renderScale = cssScale * dpr * quality;
         const viewport = page.getViewport({ scale: renderScale });
 
         const canvas = document.createElement("canvas");
@@ -1579,6 +1459,8 @@
         no.className = "page-no";
         no.textContent = pageNo;
         holder.appendChild(no);
+
+        syncRowHeights();
       } catch (err) {
         holder.innerHTML = `<div class="empty-pdf">第 ${pageNo} 页渲染失败。<br>${escapeHtml(err.message || "")}</div><div class="page-no">${pageNo}</div>`;
       }
@@ -1604,16 +1486,6 @@
           }
         }
       });
-
-      for (let i = 1; i <= Math.min(3, sourcePdf?.numPages || 0); i++) {
-        const h = document.querySelector(`[data-render-type="source"][data-pdf-page="${i}"]`);
-        if (h) renderPdfPage(sourcePdf, h, `source-${currentDocId}-${i}-${zoom}-${h.clientWidth}`, i);
-      }
-
-      for (let i = 1; i <= Math.min(3, translationPdf?.numPages || 0); i++) {
-        const h = document.querySelector(`[data-render-type="translation"][data-pdf-page="${i}"]`);
-        if (h && rightMode === "pdf") renderPdfPage(translationPdf, h, `translation-${currentDocId}-${i}-${zoom}-${h.clientWidth}`, i);
-      }
     }
 
     function renderAi() {
@@ -1771,7 +1643,7 @@
         await putFile(doc.id, type, file);
 
         const buffer = await file.arrayBuffer();
-        const pdf = await pdfjsLib.getDocument({ data: buffer }).promise;
+        const pdf = await pdfjsLib.getDocument({ data: buffer.slice(0) }).promise;
 
         doc.assets = doc.assets || {};
 
@@ -1830,7 +1702,10 @@
       els.readerInner.style.width = `${zoom * 100}%`;
       els.zoomText.textContent = `${Math.round(zoom * 100)}%`;
       rendered.clear();
-      setTimeout(renderVisiblePdfPages, 80);
+      setTimeout(() => {
+        syncRowHeights();
+        renderVisiblePdfPages();
+      }, 80);
     }
 
     function bindPaneResizers() {
@@ -1845,6 +1720,7 @@
             const clamped = Math.max(32, Math.min(68, pct));
             document.documentElement.style.setProperty("--left-col", `${clamped}%`);
             rendered.clear();
+            syncRowHeights();
           }
 
           function up() {
@@ -1936,6 +1812,19 @@
       toast("当前文献已删除。");
     }
 
+    async function clearCurrentFiles() {
+      const doc = currentDoc();
+      await deleteFile(doc.id, "source");
+      await deleteFile(doc.id, "translation");
+      doc.assets = {};
+      sourcePdf = null;
+      translationPdf = null;
+      rightMode = "json";
+      saveDocs();
+      renderAll();
+      toast("当前文献的 PDF 缓存已清除。");
+    }
+
     document.querySelectorAll(".nav button").forEach(btn => {
       btn.addEventListener("click", () => showView(btn.dataset.view));
     });
@@ -1987,6 +1876,7 @@
     document.getElementById("importJsonBtn").addEventListener("click", importJson);
     document.getElementById("newDocBtn").addEventListener("click", createNewDoc);
     document.getElementById("deleteDocBtn").addEventListener("click", deleteCurrentDoc);
+    document.getElementById("clearFilesBtn").addEventListener("click", clearCurrentFiles);
 
     document.getElementById("resetBtn").addEventListener("click", async () => {
       docs = [structuredClone(samplePaper)];
@@ -2023,7 +1913,10 @@
     els.reader.addEventListener("scroll", renderVisiblePdfPages);
     window.addEventListener("resize", () => {
       rendered.clear();
-      setTimeout(renderVisiblePdfPages, 160);
+      setTimeout(() => {
+        syncRowHeights();
+        renderVisiblePdfPages();
+      }, 160);
     });
 
     document.getElementById("sourcePdfInput").addEventListener("change", e => loadPdf(e.target.files?.[0], "source"));
