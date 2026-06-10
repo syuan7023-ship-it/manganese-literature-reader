@@ -23,7 +23,7 @@
       --danger: #b42318;
       --danger-soft: #fee4e2;
       --sidebar-width: 300px;
-      --left-width: 50%;
+      --effective-left-width: 50%;
     }
 
     * {
@@ -56,6 +56,7 @@
       display: grid;
       grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
       overflow: hidden;
+      transition: grid-template-columns 0.16s ease;
     }
 
     .app.reading {
@@ -270,8 +271,8 @@
     }
 
     .paper-select {
-      width: 330px;
-      max-width: 28vw;
+      width: 320px;
+      max-width: 26vw;
     }
 
     .page-input {
@@ -779,49 +780,32 @@
 
     .reader {
       height: 100%;
-      overflow: auto;
+      overflow-y: auto;
+      overflow-x: hidden;
       background: #e9efec;
-      --left-width: 50%;
       scrollbar-gutter: stable;
+      --effective-left-width: 50%;
     }
 
     .reader-inner {
       width: 100%;
-      min-width: 1000px;
       min-height: 100%;
     }
 
-    .reader-inner.linked .page-row {
+    .page-row {
       width: 100%;
       min-height: 100vh;
       display: grid;
-      grid-template-columns: minmax(0, var(--left-width)) 2px minmax(0, 1fr);
+      grid-template-columns: minmax(0, var(--effective-left-width)) 2px minmax(0, 1fr);
       align-items: start;
       gap: 0;
       border-bottom: 2px solid #cbd6d1;
-    }
-
-    .reader-inner.split {
-      height: 100%;
-      display: grid;
-      grid-template-columns: minmax(0, var(--left-width)) 2px minmax(0, 1fr);
-      gap: 0;
-      overflow: hidden;
-    }
-
-    .split-pane {
-      height: 100%;
-      overflow: auto;
-      background: #e9efec;
-      scrollbar-gutter: stable;
-    }
-
-    .split-pane-inner {
-      min-height: 100%;
+      transition: grid-template-columns 0.14s ease;
     }
 
     .pane-divider {
       width: 2px;
+      align-self: stretch;
       background: #cbd6d1;
     }
 
@@ -831,37 +815,49 @@
       position: relative;
       min-width: 0;
       min-height: 100vh;
-      overflow: visible;
+      overflow: hidden;
     }
 
-    .split-pane .paper-page {
-      border-bottom: 2px solid #cbd6d1;
+    .page-scroll {
+      width: 100%;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scrollbar-gutter: stable;
     }
 
-    .pdf-page {
-      display: block;
-      padding: 0;
+    .page-scroll::-webkit-scrollbar {
+      height: 12px;
+    }
+
+    .page-scroll::-webkit-scrollbar-track {
+      background: #eef2f0;
+    }
+
+    .page-scroll::-webkit-scrollbar-thumb {
+      background: #9eaaa5;
+      border-radius: 999px;
+      border: 2px solid #eef2f0;
     }
 
     .pdf-page canvas {
+      display: block;
+      max-width: none;
       margin: 0 auto;
     }
 
-    .translation-page {
+    .translation-content {
       padding: 34px 38px 44px;
-    }
-
-    .translation-inner {
+      min-height: 100vh;
       transform-origin: top left;
     }
 
-    .translation-page h2 {
-      font-size: 17px;
+    .translation-content h2 {
+      font-size: 1.35em;
       margin: 0 0 13px;
     }
 
-    .translation-page p {
-      font-size: 13px;
+    .translation-content p {
+      font-size: 1em;
       line-height: 1.95;
       text-align: justify;
       color: #263238;
@@ -873,7 +869,7 @@
       background: var(--amber-soft);
       border-left: 3px solid var(--amber);
       color: #6b4b14;
-      font-size: 12px;
+      font-size: 0.95em;
       line-height: 1.65;
       padding: 8px 10px;
       margin: 12px 0;
@@ -886,21 +882,21 @@
     }
 
     .evidence summary {
-      font-size: 12px;
+      font-size: 0.95em;
       color: var(--green-dark);
       font-weight: 700;
       cursor: pointer;
     }
 
     .evidence li {
-      font-size: 12px;
+      font-size: 0.95em;
       line-height: 1.7;
       color: #475467;
     }
 
     .page-no {
       position: absolute;
-      bottom: 10px;
+      bottom: 24px;
       left: 0;
       right: 0;
       text-align: center;
@@ -957,12 +953,6 @@
       padding: 0 2px;
     }
 
-    canvas {
-      display: block;
-      width: 100%;
-      height: auto;
-    }
-
     .view-float {
       position: fixed;
       right: 18px;
@@ -999,7 +989,7 @@
       position: absolute;
       right: 0;
       bottom: 48px;
-      width: 300px;
+      width: 310px;
       background: #ffffff;
       border: 1px solid var(--line);
       border-radius: 8px;
@@ -1065,10 +1055,6 @@
       .search-input {
         width: 145px;
       }
-
-      .reader-inner {
-        min-width: 900px;
-      }
     }
   </style>
 </head>
@@ -1113,11 +1099,17 @@
           <button class="btn" id="jumpBtn">跳转</button>
         </div>
 
-        <button class="btn active" id="scrollLinkedBtn">整体滚动</button>
-        <button class="btn" id="scrollSplitBtn">左右分别</button>
-
+        <button class="btn active" id="hoverFocusBtn">悬停聚焦</button>
         <button class="btn" id="modePdf">译文 PDF</button>
         <button class="btn active" id="modeJson">JSON 译文</button>
+
+        <div class="tool-group">
+          宽度 <span id="toolbarWidthLabel">50 / 50</span>
+        </div>
+
+        <div class="tool-group">
+          缩放 L<span id="toolbarLeftZoom">100%</span> / R<span id="toolbarRightZoom">100%</span>
+        </div>
 
         <div class="spacer"></div>
 
@@ -1316,18 +1308,18 @@
   <div class="view-float" id="viewFloat">
     <div class="view-panel" id="viewPanel">
       <div class="control">
-        <label>左右宽度 <span id="widthLabel">50 / 50</span></label>
-        <input id="widthSlider" type="range" min="30" max="70" value="50" />
+        <label>基础左右宽度 <span id="widthLabel">50 / 50</span></label>
+        <input id="widthSlider" type="range" min="20" max="80" value="50" />
       </div>
 
       <div class="control">
         <label>左页缩放 <span id="leftZoomLabel">100%</span></label>
-        <input id="leftZoomSlider" type="range" min="80" max="180" value="100" />
+        <input id="leftZoomSlider" type="range" min="80" max="240" value="100" />
       </div>
 
       <div class="control">
         <label>右页缩放 <span id="rightZoomLabel">100%</span></label>
-        <input id="rightZoomSlider" type="range" min="80" max="180" value="100" />
+        <input id="rightZoomSlider" type="range" min="80" max="240" value="100" />
       </div>
 
       <div class="row">
@@ -1335,7 +1327,7 @@
         <button class="secondary" id="rotateRight">左页⟳</button>
       </div>
 
-      <div class="small-note">整体滚动：一个主滚动条。左右分别：左右两栏各自滚动。</div>
+      <div class="small-note">Alt+滚轮调左右宽度；Ctrl+滚轮放大鼠标所在侧内容。放大后用每页底部横向滚动条查看。</div>
     </div>
 
     <button class="reset-toggle" id="resetView">重置</button>
@@ -1358,21 +1350,26 @@
     let sourcePdf = null;
     let translationPdf = null;
     let rightMode = "json";
-    let scrollMode = localStorage.getItem("mn-lit-scroll-mode-v1") || "linked";
 
-    let width = 50;
-    let leftZoom = 1;
-    let rightZoom = 1;
-    let sourceRotation = 0;
+    let baseLeftWidth = Number(localStorage.getItem("mn-lit-base-left-width-v2") || 50);
+    let effectiveLeftWidth = baseLeftWidth;
+    let hoverFocus = localStorage.getItem("mn-lit-hover-focus-v2") !== "off";
+    let hoverSide = null;
+
+    let leftZoom = Number(localStorage.getItem("mn-lit-left-zoom-v2") || 1);
+    let rightZoom = Number(localStorage.getItem("mn-lit-right-zoom-v2") || 1);
+    let sourceRotation = Number(localStorage.getItem("mn-lit-source-rotation-v2") || 0);
 
     let rendered = new Set();
     let topTimer = null;
+    let sideTimer = null;
     let remoteStatusCache = {};
 
     const $ = (id) => document.getElementById(id);
 
     const els = {
       app: $("app"),
+      sidebar: $("sidebar"),
       sidebarCurrentDoc: $("sidebarCurrentDoc"),
       libraryGrid: $("libraryGrid"),
       paperSelect: $("paperSelect"),
@@ -2055,10 +2052,12 @@
 
     function renderMockPdf() {
       return `
-        <div class="pdf-placeholder">
-          <h1>未上传英文 PDF</h1>
-          <p>请上传英文原文 PDF，或从 GitHub 路径读取。</p>
-          <div class="mock-figure">PDF page placeholder</div>
+        <div class="page-scroll">
+          <div class="pdf-placeholder">
+            <h1>未上传英文 PDF</h1>
+            <p>请上传英文原文 PDF，或从 GitHub 路径读取。</p>
+            <div class="mock-figure">PDF page placeholder</div>
+          </div>
         </div>
       `;
     }
@@ -2068,27 +2067,31 @@
       const figure = doc.pageFigures?.[pageNo];
       const keyPoints = asList(doc.pageKeyPoints?.[pageNo]);
       const evidence = asList(doc.originalEvidence?.[pageNo]);
+      const scaledWidth = Math.max(100, Math.round(rightZoom * 100));
+      const fontSize = Math.max(11, Math.round(13 * rightZoom));
 
       return `
         <article class="paper-page translation-page reader-pane" data-side="right" data-page-no="${pageNo}">
-          <div class="translation-inner" style="transform:scale(${rightZoom});width:${100 / rightZoom}%;">
-            <h2>第 ${pageNo} 页 JSON 译文</h2>
+          <div class="page-scroll">
+            <div class="translation-content" style="width:${scaledWidth}%;font-size:${fontSize}px;">
+              <h2>第 ${pageNo} 页 JSON 译文</h2>
 
-            ${
-              translations.length
-                ? translations.map((text) => `<p data-cn>${esc(text)}</p>`).join("")
-                : `<p data-cn>暂无本页中文译文。</p>`
-            }
+              ${
+                translations.length
+                  ? translations.map((text) => `<p data-cn>${esc(text)}</p>`).join("")
+                  : `<p data-cn>暂无本页中文译文。</p>`
+              }
 
-            ${figure ? `<div class="figure-note">图表说明：${esc(figure)}</div>` : ""}
+              ${figure ? `<div class="figure-note">图表说明：${esc(figure)}</div>` : ""}
 
-            <details class="evidence" ${keyPoints.length || evidence.length ? "open" : ""}>
-              <summary>关键点与英文依据</summary>
-              <ul>
-                ${keyPoints.map((item) => `<li><b>关键点：</b>${esc(item)}</li>`).join("")}
-                ${evidence.map((item) => `<li><b>英文依据：</b>${esc(item)}</li>`).join("")}
-              </ul>
-            </details>
+              <details class="evidence" ${keyPoints.length || evidence.length ? "open" : ""}>
+                <summary>关键点与英文依据</summary>
+                <ul>
+                  ${keyPoints.map((item) => `<li><b>关键点：</b>${esc(item)}</li>`).join("")}
+                  ${evidence.map((item) => `<li><b>英文依据：</b>${esc(item)}</li>`).join("")}
+                </ul>
+              </details>
+            </div>
           </div>
           <div class="page-no">${pageNo}</div>
         </article>
@@ -2098,7 +2101,11 @@
     function renderLeftPage(pageNo) {
       return `
         <article class="paper-page pdf-page reader-pane" data-side="left" data-type="source" data-page-no="${pageNo}">
-          ${sourcePdf ? `<div class="empty-pdf">英文 PDF 第 ${pageNo} 页等待渲染...</div>` : renderMockPdf()}
+          ${
+            sourcePdf
+              ? `<div class="page-scroll"><div class="empty-pdf">英文 PDF 第 ${pageNo} 页等待渲染...</div></div>`
+              : renderMockPdf()
+          }
         </article>
       `;
     }
@@ -2107,7 +2114,7 @@
       if (rightMode === "pdf" && translationPdf) {
         return `
           <article class="paper-page pdf-page reader-pane" data-side="right" data-type="translation" data-page-no="${pageNo}">
-            <div class="empty-pdf">中文 PDF 第 ${pageNo} 页等待渲染...</div>
+            <div class="page-scroll"><div class="empty-pdf">中文 PDF 第 ${pageNo} 页等待渲染...</div></div>
           </article>
         `;
       }
@@ -2138,94 +2145,79 @@
 
       els.pageTotal.textContent = totalPages;
 
-      if (scrollMode === "split") {
-        const leftPages = [];
-        const rightPages = [];
+      const rows = [];
 
-        for (let pageNo = 1; pageNo <= totalPages; pageNo += 1) {
-          leftPages.push(renderLeftPage(pageNo));
-          rightPages.push(renderRightPage(doc, pageNo));
-        }
-
-        els.readerInner.className = "reader-inner split";
-        els.readerInner.innerHTML = `
-          <div class="split-pane" id="leftSplitPane">
-            <div class="split-pane-inner">${leftPages.join("")}</div>
+      for (let pageNo = 1; pageNo <= totalPages; pageNo += 1) {
+        rows.push(`
+          <div class="page-row" data-page="${pageNo}">
+            ${renderLeftPage(pageNo)}
+            <div class="pane-divider"></div>
+            ${renderRightPage(doc, pageNo)}
           </div>
-          <div class="pane-divider"></div>
-          <div class="split-pane" id="rightSplitPane">
-            <div class="split-pane-inner">${rightPages.join("")}</div>
-          </div>
-        `;
-      } else {
-        const rows = [];
-
-        for (let pageNo = 1; pageNo <= totalPages; pageNo += 1) {
-          rows.push(`
-            <div class="page-row" data-page="${pageNo}">
-              ${renderLeftPage(pageNo)}
-              <div class="pane-divider"></div>
-              ${renderRightPage(doc, pageNo)}
-            </div>
-          `);
-        }
-
-        els.readerInner.className = "reader-inner linked";
-        els.readerInner.innerHTML = rows.join("");
+        `);
       }
 
+      els.readerInner.innerHTML = rows.join("");
+      bindReaderBehavior();
       applyView(false);
-      bindReaderScroll();
 
       rendered.clear();
       setTimeout(renderVisiblePdfPages, 80);
     }
 
-    function bindReaderScroll() {
-      els.reader.onscroll = renderVisiblePdfPages;
-
-      const leftPane = $("leftSplitPane");
-      const rightPane = $("rightSplitPane");
-
-      if (leftPane) {
-        leftPane.onscroll = renderVisiblePdfPages;
+    function calculateEffectiveWidth() {
+      if (!hoverFocus || !hoverSide) {
+        return baseLeftWidth;
       }
 
-      if (rightPane) {
-        rightPane.onscroll = renderVisiblePdfPages;
+      if (hoverSide === "left") {
+        return Math.max(baseLeftWidth, 80);
       }
+
+      if (hoverSide === "right") {
+        return Math.min(baseLeftWidth, 20);
+      }
+
+      return baseLeftWidth;
     }
 
-    function setScrollMode(mode) {
-      scrollMode = mode;
-      localStorage.setItem("mn-lit-scroll-mode-v1", scrollMode);
+    function updateEffectiveWidth() {
+      effectiveLeftWidth = calculateEffectiveWidth();
+      els.reader.style.setProperty("--effective-left-width", `${effectiveLeftWidth}%`);
+      $("toolbarWidthLabel").textContent = `${Math.round(baseLeftWidth)} / ${100 - Math.round(baseLeftWidth)}`;
+      $("widthLabel").textContent = `${Math.round(baseLeftWidth)} / ${100 - Math.round(baseLeftWidth)}`;
+      $("widthSlider").value = baseLeftWidth;
+    }
 
-      $("scrollLinkedBtn").classList.toggle("active", scrollMode === "linked");
-      $("scrollSplitBtn").classList.toggle("active", scrollMode === "split");
-
-      renderReader();
-      setTimeout(renderVisiblePdfPages, 120);
+    function persistViewState() {
+      localStorage.setItem("mn-lit-base-left-width-v2", String(baseLeftWidth));
+      localStorage.setItem("mn-lit-left-zoom-v2", String(leftZoom));
+      localStorage.setItem("mn-lit-right-zoom-v2", String(rightZoom));
+      localStorage.setItem("mn-lit-source-rotation-v2", String(sourceRotation));
+      localStorage.setItem("mn-lit-hover-focus-v2", hoverFocus ? "on" : "off");
     }
 
     function applyView(shouldRender = true) {
-      width = Math.max(30, Math.min(70, width));
+      baseLeftWidth = Math.max(20, Math.min(80, baseLeftWidth));
+      leftZoom = Math.max(0.8, Math.min(2.4, leftZoom));
+      rightZoom = Math.max(0.8, Math.min(2.4, rightZoom));
 
-      els.reader.style.setProperty("--left-width", `${width}%`);
-
-      $("widthSlider").value = width;
-      $("widthLabel").textContent = `${Math.round(width)} / ${100 - Math.round(width)}`;
+      updateEffectiveWidth();
 
       $("leftZoomSlider").value = Math.round(leftZoom * 100);
       $("rightZoomSlider").value = Math.round(rightZoom * 100);
       $("leftZoomLabel").textContent = `${Math.round(leftZoom * 100)}%`;
       $("rightZoomLabel").textContent = `${Math.round(rightZoom * 100)}%`;
+      $("toolbarLeftZoom").textContent = `${Math.round(leftZoom * 100)}%`;
+      $("toolbarRightZoom").textContent = `${Math.round(rightZoom * 100)}%`;
 
-      $("scrollLinkedBtn").classList.toggle("active", scrollMode === "linked");
-      $("scrollSplitBtn").classList.toggle("active", scrollMode === "split");
+      $("hoverFocusBtn").classList.toggle("active", hoverFocus);
 
-      document.querySelectorAll(".translation-inner").forEach((el) => {
-        el.style.transform = `scale(${rightZoom})`;
-        el.style.width = `${100 / rightZoom}%`;
+      persistViewState();
+
+      document.querySelectorAll(".translation-content").forEach((el) => {
+        el.style.width = `${Math.max(100, Math.round(rightZoom * 100))}%`;
+        el.style.fontSize = `${Math.max(11, Math.round(13 * rightZoom))}px`;
       });
 
       if (shouldRender) {
@@ -2235,11 +2227,80 @@
     }
 
     function resetViewSettings() {
-      width = 50;
+      baseLeftWidth = 50;
       leftZoom = 1;
       rightZoom = 1;
       sourceRotation = 0;
+      hoverSide = null;
       applyView(true);
+    }
+
+    function getSideFromEvent(event) {
+      const pane = event.target.closest("[data-side]");
+      return pane?.dataset?.side || hoverSide || "left";
+    }
+
+    function handleReaderWheel(event) {
+      if (!els.app.classList.contains("reading")) return;
+
+      if (event.altKey) {
+        event.preventDefault();
+
+        const side = getSideFromEvent(event);
+        const direction = event.deltaY < 0 ? 2 : -2;
+
+        if (side === "right") {
+          baseLeftWidth -= direction;
+        } else {
+          baseLeftWidth += direction;
+        }
+
+        baseLeftWidth = Math.max(20, Math.min(80, baseLeftWidth));
+        applyView(false);
+        return;
+      }
+
+      if (event.ctrlKey || event.metaKey) {
+        event.preventDefault();
+
+        const side = getSideFromEvent(event);
+        const direction = event.deltaY < 0 ? 0.08 : -0.08;
+
+        if (side === "right") {
+          rightZoom = Math.max(0.8, Math.min(2.4, rightZoom + direction));
+        } else {
+          leftZoom = Math.max(0.8, Math.min(2.4, leftZoom + direction));
+        }
+
+        applyView(true);
+      }
+    }
+
+    function bindReaderBehavior() {
+      els.reader.onmousemove = (event) => {
+        const pane = event.target.closest("[data-side]");
+
+        if (pane) {
+          const nextSide = pane.dataset.side;
+
+          if (nextSide !== hoverSide) {
+            hoverSide = nextSide;
+            updateEffectiveWidth();
+            rendered.clear();
+            setTimeout(renderVisiblePdfPages, 100);
+          }
+        }
+      };
+
+      els.reader.onmouseleave = () => {
+        hoverSide = null;
+        updateEffectiveWidth();
+        rendered.clear();
+        setTimeout(renderVisiblePdfPages, 100);
+      };
+
+      els.reader.onwheel = handleReaderWheel;
+      els.reader.onscroll = renderVisiblePdfPages;
     }
 
     async function renderPdfPage(pdf, holder, key, pageNo, side) {
@@ -2250,11 +2311,15 @@
       try {
         const zoom = side === "left" ? leftZoom : rightZoom;
         const rotation = side === "left" ? sourceRotation : 0;
+        const scrollBox = holder.querySelector(".page-scroll");
+
+        if (!scrollBox) return;
 
         const page = await pdf.getPage(pageNo);
         const baseViewport = page.getViewport({ scale: 1, rotation });
 
-        const cssWidth = Math.max(260, Math.floor(holder.clientWidth * zoom));
+        const holderWidth = Math.max(260, holder.clientWidth);
+        const cssWidth = Math.max(260, Math.floor(holderWidth * zoom));
         const cssScale = cssWidth / baseViewport.width;
         const deviceScale = Math.min(window.devicePixelRatio || 1, 2);
         const renderScale = cssScale * deviceScale * 1.7;
@@ -2272,8 +2337,8 @@
         canvas.style.width = `${cssWidth}px`;
         canvas.style.height = `${Math.floor(baseViewport.height * cssScale)}px`;
 
-        holder.innerHTML = "";
-        holder.appendChild(canvas);
+        scrollBox.innerHTML = "";
+        scrollBox.appendChild(canvas);
 
         await page.render({
           canvasContext: context,
@@ -2285,7 +2350,8 @@
         pageLabel.textContent = pageNo;
         holder.appendChild(pageLabel);
       } catch (error) {
-        holder.innerHTML = `
+        const scrollBox = holder.querySelector(".page-scroll") || holder;
+        scrollBox.innerHTML = `
           <div class="empty-pdf">
             第 ${pageNo} 页渲染失败。<br>
             ${esc(error.message || "")}
@@ -2309,7 +2375,7 @@
           renderPdfPage(
             sourcePdf,
             holder,
-            `source-${currentDocId}-${scrollMode}-${pageNo}-${width}-${leftZoom}-${sourceRotation}-${holder.clientWidth}`,
+            `source-${currentDocId}-${pageNo}-${effectiveLeftWidth}-${leftZoom}-${sourceRotation}-${holder.clientWidth}`,
             pageNo,
             "left"
           );
@@ -2319,7 +2385,7 @@
           renderPdfPage(
             translationPdf,
             holder,
-            `translation-${currentDocId}-${scrollMode}-${pageNo}-${width}-${rightZoom}-${holder.clientWidth}`,
+            `translation-${currentDocId}-${pageNo}-${effectiveLeftWidth}-${rightZoom}-${holder.clientWidth}`,
             pageNo,
             "right"
           );
@@ -2467,8 +2533,7 @@
       els.modePdf.classList.toggle("active", rightMode === "pdf");
       els.modeJson.classList.toggle("active", rightMode === "json");
       els.modePdf.disabled = !translationPdf;
-      $("scrollLinkedBtn").classList.toggle("active", scrollMode === "linked");
-      $("scrollSplitBtn").classList.toggle("active", scrollMode === "split");
+      $("hoverFocusBtn").classList.toggle("active", hoverFocus);
     }
 
     function normalizePageMap(value) {
@@ -2715,17 +2780,8 @@
 
       setTimeout(() => {
         const pageNo = Number(els.pageInput.value) || 1;
-
-        if (scrollMode === "split") {
-          const leftPage = document.querySelector(`#leftSplitPane [data-page-no="${pageNo}"]`);
-          const rightPage = document.querySelector(`#rightSplitPane [data-page-no="${pageNo}"]`);
-
-          if (leftPage) leftPage.scrollIntoView({ behavior: "smooth", block: "start" });
-          if (rightPage) rightPage.scrollIntoView({ behavior: "smooth", block: "start" });
-        } else {
-          const row = document.querySelector(`.page-row[data-page="${pageNo}"]`);
-          if (row) row.scrollIntoView({ behavior: "smooth", block: "start" });
-        }
+        const row = document.querySelector(`.page-row[data-page="${pageNo}"]`);
+        if (row) row.scrollIntoView({ behavior: "smooth", block: "start" });
       }, 80);
     }
 
@@ -3090,10 +3146,21 @@
       });
 
       $("toggleSidebar").onclick = () => {
+        els.app.classList.toggle("side-open");
+      };
+
+      els.sidebar.onmouseenter = () => {
         if (els.app.classList.contains("reading")) {
-          els.app.classList.toggle("side-open");
-        } else {
-          els.app.classList.add("reading");
+          clearTimeout(sideTimer);
+          els.app.classList.add("side-open");
+        }
+      };
+
+      els.sidebar.onmouseleave = () => {
+        if (els.app.classList.contains("reading")) {
+          sideTimer = setTimeout(() => {
+            els.app.classList.remove("side-open");
+          }, 220);
         }
       };
 
@@ -3122,8 +3189,12 @@
       };
 
       $("jumpBtn").onclick = jumpToPage;
-      $("scrollLinkedBtn").onclick = () => setScrollMode("linked");
-      $("scrollSplitBtn").onclick = () => setScrollMode("split");
+
+      $("hoverFocusBtn").onclick = () => {
+        hoverFocus = !hoverFocus;
+        hoverSide = null;
+        applyView(true);
+      };
 
       els.modePdf.onclick = () => {
         if (!translationPdf) {
@@ -3151,7 +3222,7 @@
       $("resetView").onclick = resetViewSettings;
 
       $("widthSlider").oninput = (event) => {
-        width = Number(event.target.value);
+        baseLeftWidth = Number(event.target.value);
         applyView(true);
       };
 
@@ -3209,6 +3280,25 @@
       };
 
       bindSidebarResize();
+    }
+
+    function searchChinese(query) {
+      const term = query.trim();
+
+      document.querySelectorAll("[data-cn]").forEach((paragraph) => {
+        const raw = paragraph.dataset.raw || paragraph.textContent;
+        paragraph.dataset.raw = raw;
+
+        if (!term) {
+          paragraph.textContent = raw;
+          return;
+        }
+
+        const safe = term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+        const regex = new RegExp(safe, "gi");
+
+        paragraph.innerHTML = raw.replace(regex, (match) => `<span class="highlight">${match}</span>`);
+      });
     }
 
     function showFatal(error) {
