@@ -270,8 +270,8 @@
     }
 
     .paper-select {
-      width: 360px;
-      max-width: 36vw;
+      width: 330px;
+      max-width: 28vw;
     }
 
     .page-input {
@@ -782,29 +782,47 @@
       overflow: auto;
       background: #e9efec;
       --left-width: 50%;
-      padding-right: 16px;
       scrollbar-gutter: stable;
     }
 
     .reader-inner {
       width: 100%;
       min-width: 1000px;
+      min-height: 100%;
     }
 
-    .page-row {
+    .reader-inner.linked .page-row {
       width: 100%;
-      height: 100vh;
+      min-height: 100vh;
       display: grid;
       grid-template-columns: minmax(0, var(--left-width)) 2px minmax(0, 1fr);
-      align-items: stretch;
+      align-items: start;
       gap: 0;
-      scroll-snap-align: start;
+      border-bottom: 2px solid #cbd6d1;
+    }
+
+    .reader-inner.split {
+      height: 100%;
+      display: grid;
+      grid-template-columns: minmax(0, var(--left-width)) 2px minmax(0, 1fr);
+      gap: 0;
+      overflow: hidden;
+    }
+
+    .split-pane {
+      height: 100%;
+      overflow: auto;
+      background: #e9efec;
+      scrollbar-gutter: stable;
+    }
+
+    .split-pane-inner {
+      min-height: 100%;
     }
 
     .pane-divider {
       width: 2px;
       background: #cbd6d1;
-      position: relative;
     }
 
     .paper-page {
@@ -812,15 +830,16 @@
       border: 1px solid #cfd6d2;
       position: relative;
       min-width: 0;
-      height: 100vh;
-      overflow: auto;
-      scroll-behavior: auto;
-      overscroll-behavior: contain;
+      min-height: 100vh;
+      overflow: visible;
+    }
+
+    .split-pane .paper-page {
+      border-bottom: 2px solid #cbd6d1;
     }
 
     .pdf-page {
       display: block;
-      min-height: 100vh;
       padding: 0;
     }
 
@@ -829,8 +848,11 @@
     }
 
     .translation-page {
-      aspect-ratio: auto;
       padding: 34px 38px 44px;
+    }
+
+    .translation-inner {
+      transform-origin: top left;
     }
 
     .translation-page h2 {
@@ -877,7 +899,7 @@
     }
 
     .page-no {
-      position: sticky;
+      position: absolute;
       bottom: 10px;
       left: 0;
       right: 0;
@@ -885,9 +907,6 @@
       color: #98a2b3;
       font-size: 11px;
       pointer-events: none;
-      display: block;
-      width: 100%;
-      padding-bottom: 4px;
     }
 
     .empty-pdf {
@@ -942,25 +961,6 @@
       display: block;
       width: 100%;
       height: auto;
-    }
-
-    .scroll-zone-hint {
-      position: fixed;
-      pointer-events: none;
-      z-index: 34;
-      padding: 4px 8px;
-      border-radius: 999px;
-      background: rgba(25, 63, 53, 0.88);
-      color: #ffffff;
-      font-size: 11px;
-      line-height: 1.2;
-      opacity: 0;
-      transition: opacity 0.12s ease;
-      white-space: nowrap;
-    }
-
-    .scroll-zone-hint.show {
-      opacity: 1;
     }
 
     .view-float {
@@ -1112,6 +1112,9 @@
           / <span id="pageTotal">1</span>
           <button class="btn" id="jumpBtn">跳转</button>
         </div>
+
+        <button class="btn active" id="scrollLinkedBtn">整体滚动</button>
+        <button class="btn" id="scrollSplitBtn">左右分别</button>
 
         <button class="btn" id="modePdf">译文 PDF</button>
         <button class="btn active" id="modeJson">JSON 译文</button>
@@ -1310,8 +1313,6 @@
     </main>
   </div>
 
-  <div id="scrollZoneHint" class="scroll-zone-hint">⇅ 全局滚动</div>
-
   <div class="view-float" id="viewFloat">
     <div class="view-panel" id="viewPanel">
       <div class="control">
@@ -1334,7 +1335,7 @@
         <button class="secondary" id="rotateRight">左页⟳</button>
       </div>
 
-      <div class="small-note">普通滚轮：按鼠标区域滚动；Alt+滚轮：调左右宽度；Ctrl+滚轮：局部缩放。</div>
+      <div class="small-note">整体滚动：一个主滚动条。左右分别：左右两栏各自滚动。</div>
     </div>
 
     <button class="reset-toggle" id="resetView">重置</button>
@@ -1357,6 +1358,7 @@
     let sourcePdf = null;
     let translationPdf = null;
     let rightMode = "json";
+    let scrollMode = localStorage.getItem("mn-lit-scroll-mode-v1") || "linked";
 
     let width = 50;
     let leftZoom = 1;
@@ -1367,15 +1369,10 @@
     let topTimer = null;
     let remoteStatusCache = {};
 
-    let lastMouseX = 0;
-    let lastMouseRegion = "global";
-    let middleApproachSide = "left";
-
     const $ = (id) => document.getElementById(id);
 
     const els = {
       app: $("app"),
-      sidebar: $("sidebar"),
       sidebarCurrentDoc: $("sidebarCurrentDoc"),
       libraryGrid: $("libraryGrid"),
       paperSelect: $("paperSelect"),
@@ -1405,7 +1402,6 @@
       translationPathInput: $("translationPathInput"),
       jsonPathInput: $("jsonPathInput"),
       importPreview: $("importPreview"),
-      scrollZoneHint: $("scrollZoneHint"),
       syncProgressBar: $("syncProgressBar"),
       syncProgressText: $("syncProgressText"),
       syncProgressPercent: $("syncProgressPercent"),
@@ -2074,28 +2070,49 @@
       const evidence = asList(doc.originalEvidence?.[pageNo]);
 
       return `
-        <article class="paper-page translation-page reader-pane" data-side="right">
-          <h2>第 ${pageNo} 页 JSON 译文</h2>
+        <article class="paper-page translation-page reader-pane" data-side="right" data-page-no="${pageNo}">
+          <div class="translation-inner" style="transform:scale(${rightZoom});width:${100 / rightZoom}%;">
+            <h2>第 ${pageNo} 页 JSON 译文</h2>
 
-          ${
-            translations.length
-              ? translations.map((text) => `<p data-cn>${esc(text)}</p>`).join("")
-              : `<p data-cn>暂无本页中文译文。</p>`
-          }
+            ${
+              translations.length
+                ? translations.map((text) => `<p data-cn>${esc(text)}</p>`).join("")
+                : `<p data-cn>暂无本页中文译文。</p>`
+            }
 
-          ${figure ? `<div class="figure-note">图表说明：${esc(figure)}</div>` : ""}
+            ${figure ? `<div class="figure-note">图表说明：${esc(figure)}</div>` : ""}
 
-          <details class="evidence" ${keyPoints.length || evidence.length ? "open" : ""}>
-            <summary>关键点与英文依据</summary>
-            <ul>
-              ${keyPoints.map((item) => `<li><b>关键点：</b>${esc(item)}</li>`).join("")}
-              ${evidence.map((item) => `<li><b>英文依据：</b>${esc(item)}</li>`).join("")}
-            </ul>
-          </details>
-
+            <details class="evidence" ${keyPoints.length || evidence.length ? "open" : ""}>
+              <summary>关键点与英文依据</summary>
+              <ul>
+                ${keyPoints.map((item) => `<li><b>关键点：</b>${esc(item)}</li>`).join("")}
+                ${evidence.map((item) => `<li><b>英文依据：</b>${esc(item)}</li>`).join("")}
+              </ul>
+            </details>
+          </div>
           <div class="page-no">${pageNo}</div>
         </article>
       `;
+    }
+
+    function renderLeftPage(pageNo) {
+      return `
+        <article class="paper-page pdf-page reader-pane" data-side="left" data-type="source" data-page-no="${pageNo}">
+          ${sourcePdf ? `<div class="empty-pdf">英文 PDF 第 ${pageNo} 页等待渲染...</div>` : renderMockPdf()}
+        </article>
+      `;
+    }
+
+    function renderRightPage(doc, pageNo) {
+      if (rightMode === "pdf" && translationPdf) {
+        return `
+          <article class="paper-page pdf-page reader-pane" data-side="right" data-type="translation" data-page-no="${pageNo}">
+            <div class="empty-pdf">中文 PDF 第 ${pageNo} 页等待渲染...</div>
+          </article>
+        `;
+      }
+
+      return renderJsonPage(doc, pageNo);
     }
 
     function renderReader() {
@@ -2121,40 +2138,73 @@
 
       els.pageTotal.textContent = totalPages;
 
-      const rows = [];
+      if (scrollMode === "split") {
+        const leftPages = [];
+        const rightPages = [];
 
-      for (let pageNo = 1; pageNo <= totalPages; pageNo += 1) {
-        const left = `
-          <article class="paper-page pdf-page reader-pane" data-side="left" data-type="source" data-page-no="${pageNo}">
-            ${sourcePdf ? `<div class="empty-pdf">英文 PDF 第 ${pageNo} 页等待渲染...</div>` : renderMockPdf()}
-          </article>
-        `;
+        for (let pageNo = 1; pageNo <= totalPages; pageNo += 1) {
+          leftPages.push(renderLeftPage(pageNo));
+          rightPages.push(renderRightPage(doc, pageNo));
+        }
 
-        const right =
-          rightMode === "pdf" && translationPdf
-            ? `
-              <article class="paper-page pdf-page reader-pane" data-side="right" data-type="translation" data-page-no="${pageNo}">
-                <div class="empty-pdf">中文 PDF 第 ${pageNo} 页等待渲染...</div>
-              </article>
-            `
-            : renderJsonPage(doc, pageNo);
-
-        rows.push(`
-          <div class="page-row" data-page="${pageNo}">
-            ${left}
-            <div class="pane-divider"></div>
-            ${right}
+        els.readerInner.className = "reader-inner split";
+        els.readerInner.innerHTML = `
+          <div class="split-pane" id="leftSplitPane">
+            <div class="split-pane-inner">${leftPages.join("")}</div>
           </div>
-        `);
+          <div class="pane-divider"></div>
+          <div class="split-pane" id="rightSplitPane">
+            <div class="split-pane-inner">${rightPages.join("")}</div>
+          </div>
+        `;
+      } else {
+        const rows = [];
+
+        for (let pageNo = 1; pageNo <= totalPages; pageNo += 1) {
+          rows.push(`
+            <div class="page-row" data-page="${pageNo}">
+              ${renderLeftPage(pageNo)}
+              <div class="pane-divider"></div>
+              ${renderRightPage(doc, pageNo)}
+            </div>
+          `);
+        }
+
+        els.readerInner.className = "reader-inner linked";
+        els.readerInner.innerHTML = rows.join("");
       }
 
-      els.readerInner.innerHTML = rows.join("");
-
       applyView(false);
-      bindReaderControls();
+      bindReaderScroll();
 
       rendered.clear();
       setTimeout(renderVisiblePdfPages, 80);
+    }
+
+    function bindReaderScroll() {
+      els.reader.onscroll = renderVisiblePdfPages;
+
+      const leftPane = $("leftSplitPane");
+      const rightPane = $("rightSplitPane");
+
+      if (leftPane) {
+        leftPane.onscroll = renderVisiblePdfPages;
+      }
+
+      if (rightPane) {
+        rightPane.onscroll = renderVisiblePdfPages;
+      }
+    }
+
+    function setScrollMode(mode) {
+      scrollMode = mode;
+      localStorage.setItem("mn-lit-scroll-mode-v1", scrollMode);
+
+      $("scrollLinkedBtn").classList.toggle("active", scrollMode === "linked");
+      $("scrollSplitBtn").classList.toggle("active", scrollMode === "split");
+
+      renderReader();
+      setTimeout(renderVisiblePdfPages, 120);
     }
 
     function applyView(shouldRender = true) {
@@ -2170,6 +2220,14 @@
       $("leftZoomLabel").textContent = `${Math.round(leftZoom * 100)}%`;
       $("rightZoomLabel").textContent = `${Math.round(rightZoom * 100)}%`;
 
+      $("scrollLinkedBtn").classList.toggle("active", scrollMode === "linked");
+      $("scrollSplitBtn").classList.toggle("active", scrollMode === "split");
+
+      document.querySelectorAll(".translation-inner").forEach((el) => {
+        el.style.transform = `scale(${rightZoom})`;
+        el.style.width = `${100 / rightZoom}%`;
+      });
+
       if (shouldRender) {
         rendered.clear();
         setTimeout(renderVisiblePdfPages, 80);
@@ -2182,285 +2240,6 @@
       rightZoom = 1;
       sourceRotation = 0;
       applyView(true);
-    }
-
-    function canScrollVertically(el, deltaY) {
-      if (!el) return false;
-
-      if (deltaY > 0) {
-        return el.scrollTop + el.clientHeight < el.scrollHeight - 2;
-      }
-
-      if (deltaY < 0) {
-        return el.scrollTop > 2;
-      }
-
-      return false;
-    }
-
-    function canScrollHorizontally(el, deltaX) {
-      if (!el) return false;
-
-      if (deltaX > 0) {
-        return el.scrollLeft + el.clientWidth < el.scrollWidth - 2;
-      }
-
-      if (deltaX < 0) {
-        return el.scrollLeft > 2;
-      }
-
-      return false;
-    }
-
-    function classifyScrollTarget(event) {
-      const row = event.target.closest(".page-row");
-
-      if (!row) {
-        return {
-          mode: "global",
-          pane: null,
-          label: "⇅ 全局滚动"
-        };
-      }
-
-      const leftPane = row.querySelector('[data-side="left"]');
-      const rightPane = row.querySelector('[data-side="right"]');
-      const divider = row.querySelector(".pane-divider");
-
-      const rowRect = row.getBoundingClientRect();
-      const leftRect = leftPane.getBoundingClientRect();
-      const rightRect = rightPane.getBoundingClientRect();
-      const dividerRect = divider.getBoundingClientRect();
-
-      const x = event.clientX;
-      const nearMiddle = Math.abs(x - (dividerRect.left + dividerRect.width / 2)) <= 34;
-
-      if (nearMiddle) {
-        if (lastMouseRegion === "left" || x < lastMouseX) {
-          middleApproachSide = "left";
-        } else if (lastMouseRegion === "right" || x > lastMouseX) {
-          middleApproachSide = "right";
-        }
-
-        return {
-          mode: middleApproachSide === "left" ? "left-middle" : "right-middle",
-          pane: middleApproachSide === "left" ? leftPane : rightPane,
-          label: middleApproachSide === "left" ? "↔ 左页横向" : "↔ 右页横向"
-        };
-      }
-
-      const rowEdge = Math.max(54, rowRect.width * 0.055);
-      const globalLeft = x < rowRect.left + rowEdge;
-      const globalRight = x > rowRect.right - rowEdge;
-
-      if (globalLeft || globalRight) {
-        return {
-          mode: "global",
-          pane: null,
-          label: "⇅ 全局滚动"
-        };
-      }
-
-      if (x >= leftRect.left && x <= leftRect.right) {
-        const localX = x - leftRect.left;
-        const edge = Math.max(38, leftRect.width * 0.08);
-
-        if (localX < edge || localX > leftRect.width - edge) {
-          return {
-            mode: "global",
-            pane: null,
-            label: "⇅ 全局滚动"
-          };
-        }
-
-        return {
-          mode: "left",
-          pane: leftPane,
-          label: "↕ 左页滚动"
-        };
-      }
-
-      if (x >= rightRect.left && x <= rightRect.right) {
-        const localX = x - rightRect.left;
-        const edge = Math.max(38, rightRect.width * 0.08);
-
-        if (localX < edge || localX > rightRect.width - edge) {
-          return {
-            mode: "global",
-            pane: null,
-            label: "⇅ 全局滚动"
-          };
-        }
-
-        return {
-          mode: "right",
-          pane: rightPane,
-          label: "↕ 右页滚动"
-        };
-      }
-
-      return {
-        mode: "global",
-        pane: null,
-        label: "⇅ 全局滚动"
-      };
-    }
-
-    function updateMouseRegion(event) {
-      const row = event.target.closest(".page-row");
-
-      if (!row) {
-        lastMouseRegion = "global";
-        lastMouseX = event.clientX;
-        hideScrollHint();
-        return;
-      }
-
-      const leftPane = row.querySelector('[data-side="left"]');
-      const rightPane = row.querySelector('[data-side="right"]');
-
-      const leftRect = leftPane.getBoundingClientRect();
-      const rightRect = rightPane.getBoundingClientRect();
-
-      if (event.clientX >= leftRect.left && event.clientX <= leftRect.right) {
-        lastMouseRegion = "left";
-      } else if (event.clientX >= rightRect.left && event.clientX <= rightRect.right) {
-        lastMouseRegion = "right";
-      } else {
-        lastMouseRegion = "global";
-      }
-
-      lastMouseX = event.clientX;
-
-      const target = classifyScrollTarget(event);
-      showScrollHint(event, target.label);
-    }
-
-    function showScrollHint(event, label) {
-      els.scrollZoneHint.textContent = label;
-      els.scrollZoneHint.style.left = `${event.clientX + 14}px`;
-      els.scrollZoneHint.style.top = `${event.clientY + 14}px`;
-      els.scrollZoneHint.classList.add("show");
-    }
-
-    function hideScrollHint() {
-      els.scrollZoneHint.classList.remove("show");
-    }
-
-    function scrollGlobal(deltaY) {
-      els.reader.scrollTop += deltaY;
-      renderVisiblePdfPages();
-    }
-
-    function handlePaneWheel(event) {
-      if (!els.app.classList.contains("reading")) return;
-
-      const target = classifyScrollTarget(event);
-
-      if (event.altKey) {
-        event.preventDefault();
-
-        const direction = event.deltaY < 0 ? 2 : -2;
-
-        if (target.mode.includes("right")) {
-          width -= direction;
-        } else {
-          width += direction;
-        }
-
-        applyView(true);
-        return;
-      }
-
-      if (event.ctrlKey || event.metaKey) {
-        event.preventDefault();
-
-        const direction = event.deltaY < 0 ? 0.06 : -0.06;
-
-        if (target.mode.includes("right")) {
-          rightZoom = Math.max(0.8, Math.min(1.8, rightZoom + direction));
-        } else {
-          leftZoom = Math.max(0.8, Math.min(1.8, leftZoom + direction));
-        }
-
-        applyView(true);
-        return;
-      }
-
-      if (target.mode === "global") {
-        return;
-      }
-
-      if (!target.pane) {
-        return;
-      }
-
-      if (target.mode === "left-middle") {
-        event.preventDefault();
-
-        const amount = Math.abs(event.deltaY) + event.deltaX;
-        const next = target.pane.scrollLeft + amount;
-
-        if (next <= target.pane.scrollWidth - target.pane.clientWidth + 2) {
-          target.pane.scrollLeft = next;
-        } else {
-          scrollGlobal(event.deltaY);
-        }
-
-        return;
-      }
-
-      if (target.mode === "right-middle") {
-        event.preventDefault();
-
-        const amount = Math.abs(event.deltaY) + event.deltaX;
-        const next = target.pane.scrollLeft - amount;
-
-        if (next >= -2) {
-          target.pane.scrollLeft = next;
-        } else {
-          scrollGlobal(event.deltaY);
-        }
-
-        return;
-      }
-
-      if (target.mode === "left" || target.mode === "right") {
-        event.preventDefault();
-
-        if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) {
-          if (canScrollHorizontally(target.pane, event.deltaX)) {
-            target.pane.scrollLeft += event.deltaX;
-          } else {
-            els.reader.scrollLeft += event.deltaX;
-          }
-          return;
-        }
-
-        if (event.shiftKey) {
-          if (canScrollHorizontally(target.pane, event.deltaY)) {
-            target.pane.scrollLeft += event.deltaY;
-          } else {
-            els.reader.scrollLeft += event.deltaY;
-          }
-          return;
-        }
-
-        if (canScrollVertically(target.pane, event.deltaY)) {
-          target.pane.scrollTop += event.deltaY;
-        } else {
-          scrollGlobal(event.deltaY);
-        }
-      }
-    }
-
-    function bindReaderControls() {
-      els.reader.onmousemove = updateMouseRegion;
-      els.reader.onmouseleave = hideScrollHint;
-      els.reader.addEventListener("wheel", handlePaneWheel, {
-        passive: false,
-        capture: true
-      });
     }
 
     async function renderPdfPage(pdf, holder, key, pageNo, side) {
@@ -2515,36 +2294,32 @@
       }
     }
 
+    function elementNearViewport(el) {
+      const rect = el.getBoundingClientRect();
+      return rect.bottom > -900 && rect.top < window.innerHeight + 1200;
+    }
+
     function renderVisiblePdfPages() {
-      const readerRect = els.reader.getBoundingClientRect();
+      document.querySelectorAll("[data-type='source'], [data-type='translation']").forEach((holder) => {
+        if (!elementNearViewport(holder)) return;
 
-      document.querySelectorAll(".page-row").forEach((row) => {
-        const rowRect = row.getBoundingClientRect();
-        const pageNo = Number(row.dataset.page);
+        const pageNo = Number(holder.dataset.pageNo);
 
-        const nearViewport = rowRect.bottom > readerRect.top - 400 && rowRect.top < readerRect.bottom + 500;
-
-        if (!nearViewport) return;
-
-        const sourceHolder = row.querySelector('[data-type="source"]');
-
-        if (sourceHolder && sourcePdf) {
+        if (holder.dataset.type === "source" && sourcePdf) {
           renderPdfPage(
             sourcePdf,
-            sourceHolder,
-            `source-${currentDocId}-${pageNo}-${width}-${leftZoom}-${sourceRotation}-${sourceHolder.clientWidth}`,
+            holder,
+            `source-${currentDocId}-${scrollMode}-${pageNo}-${width}-${leftZoom}-${sourceRotation}-${holder.clientWidth}`,
             pageNo,
             "left"
           );
         }
 
-        const translationHolder = row.querySelector('[data-type="translation"]');
-
-        if (translationHolder && translationPdf && rightMode === "pdf") {
+        if (holder.dataset.type === "translation" && translationPdf && rightMode === "pdf") {
           renderPdfPage(
             translationPdf,
-            translationHolder,
-            `translation-${currentDocId}-${pageNo}-${width}-${rightZoom}-${translationHolder.clientWidth}`,
+            holder,
+            `translation-${currentDocId}-${scrollMode}-${pageNo}-${width}-${rightZoom}-${holder.clientWidth}`,
             pageNo,
             "right"
           );
@@ -2692,6 +2467,8 @@
       els.modePdf.classList.toggle("active", rightMode === "pdf");
       els.modeJson.classList.toggle("active", rightMode === "json");
       els.modePdf.disabled = !translationPdf;
+      $("scrollLinkedBtn").classList.toggle("active", scrollMode === "linked");
+      $("scrollSplitBtn").classList.toggle("active", scrollMode === "split");
     }
 
     function normalizePageMap(value) {
@@ -2938,10 +2715,16 @@
 
       setTimeout(() => {
         const pageNo = Number(els.pageInput.value) || 1;
-        const row = document.querySelector(`.page-row[data-page="${pageNo}"]`);
 
-        if (row) {
-          row.scrollIntoView({ behavior: "smooth", block: "start" });
+        if (scrollMode === "split") {
+          const leftPage = document.querySelector(`#leftSplitPane [data-page-no="${pageNo}"]`);
+          const rightPage = document.querySelector(`#rightSplitPane [data-page-no="${pageNo}"]`);
+
+          if (leftPage) leftPage.scrollIntoView({ behavior: "smooth", block: "start" });
+          if (rightPage) rightPage.scrollIntoView({ behavior: "smooth", block: "start" });
+        } else {
+          const row = document.querySelector(`.page-row[data-page="${pageNo}"]`);
+          if (row) row.scrollIntoView({ behavior: "smooth", block: "start" });
         }
       }, 80);
     }
@@ -3339,6 +3122,8 @@
       };
 
       $("jumpBtn").onclick = jumpToPage;
+      $("scrollLinkedBtn").onclick = () => setScrollMode("linked");
+      $("scrollSplitBtn").onclick = () => setScrollMode("split");
 
       els.modePdf.onclick = () => {
         if (!translationPdf) {
@@ -3358,7 +3143,6 @@
       };
 
       els.searchInput.oninput = () => searchChinese(els.searchInput.value);
-      els.reader.onscroll = renderVisiblePdfPages;
 
       $("viewToggle").onclick = () => {
         $("viewPanel").classList.toggle("open");
