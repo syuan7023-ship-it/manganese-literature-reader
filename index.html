@@ -782,6 +782,8 @@
       overflow: auto;
       background: #e9efec;
       --left-width: 50%;
+      padding-right: 16px;
+      scrollbar-gutter: stable;
     }
 
     .reader-inner {
@@ -813,6 +815,7 @@
       height: 100vh;
       overflow: auto;
       scroll-behavior: auto;
+      overscroll-behavior: contain;
     }
 
     .pdf-page {
@@ -1331,7 +1334,7 @@
         <button class="secondary" id="rotateRight">左页⟳</button>
       </div>
 
-      <div class="small-note">Alt+滚轮：左右宽度；Ctrl+滚轮：鼠标所在侧局部缩放。左/右页内部滚动现在会真正生效。</div>
+      <div class="small-note">普通滚轮：按鼠标区域滚动；Alt+滚轮：调左右宽度；Ctrl+滚轮：局部缩放。</div>
     </div>
 
     <button class="reset-toggle" id="resetView">重置</button>
@@ -1341,11 +1344,11 @@
   <div id="toast" class="toast"></div>
 
   <script>
-    const DB_NAME = "mn-lit-db-v14";
+    const DB_NAME = "mn-lit-db-v15";
     const STORE = "files";
-    const STORAGE_KEY = "mn-lit-docs-v14";
-    const CURRENT_KEY = "mn-lit-current-v14";
-    const SYNC_KEY = "mn-lit-github-sync-v14";
+    const STORAGE_KEY = "mn-lit-docs-v15";
+    const CURRENT_KEY = "mn-lit-current-v15";
+    const SYNC_KEY = "mn-lit-github-sync-v15";
 
     let pdfjsLib = null;
     let docs = loadDocs();
@@ -2181,6 +2184,34 @@
       applyView(true);
     }
 
+    function canScrollVertically(el, deltaY) {
+      if (!el) return false;
+
+      if (deltaY > 0) {
+        return el.scrollTop + el.clientHeight < el.scrollHeight - 2;
+      }
+
+      if (deltaY < 0) {
+        return el.scrollTop > 2;
+      }
+
+      return false;
+    }
+
+    function canScrollHorizontally(el, deltaX) {
+      if (!el) return false;
+
+      if (deltaX > 0) {
+        return el.scrollLeft + el.clientWidth < el.scrollWidth - 2;
+      }
+
+      if (deltaX < 0) {
+        return el.scrollLeft > 2;
+      }
+
+      return false;
+    }
+
     function classifyScrollTarget(event) {
       const row = event.target.closest(".page-row");
 
@@ -2202,7 +2233,7 @@
       const dividerRect = divider.getBoundingClientRect();
 
       const x = event.clientX;
-      const nearMiddle = Math.abs(x - (dividerRect.left + dividerRect.width / 2)) <= 32;
+      const nearMiddle = Math.abs(x - (dividerRect.left + dividerRect.width / 2)) <= 34;
 
       if (nearMiddle) {
         if (lastMouseRegion === "left" || x < lastMouseX) {
@@ -2316,7 +2347,14 @@
       els.scrollZoneHint.classList.remove("show");
     }
 
-    function handleReaderWheel(event) {
+    function scrollGlobal(deltaY) {
+      els.reader.scrollTop += deltaY;
+      renderVisiblePdfPages();
+    }
+
+    function handlePaneWheel(event) {
+      if (!els.app.classList.contains("reading")) return;
+
       const target = classifyScrollTarget(event);
 
       if (event.altKey) {
@@ -2349,39 +2387,80 @@
         return;
       }
 
+      if (target.mode === "global") {
+        return;
+      }
+
+      if (!target.pane) {
+        return;
+      }
+
       if (target.mode === "left-middle") {
         event.preventDefault();
-        target.pane.scrollLeft += Math.abs(event.deltaY) + event.deltaX;
+
+        const amount = Math.abs(event.deltaY) + event.deltaX;
+        const next = target.pane.scrollLeft + amount;
+
+        if (next <= target.pane.scrollWidth - target.pane.clientWidth + 2) {
+          target.pane.scrollLeft = next;
+        } else {
+          scrollGlobal(event.deltaY);
+        }
+
         return;
       }
 
       if (target.mode === "right-middle") {
         event.preventDefault();
-        target.pane.scrollLeft -= Math.abs(event.deltaY) + event.deltaX;
+
+        const amount = Math.abs(event.deltaY) + event.deltaX;
+        const next = target.pane.scrollLeft - amount;
+
+        if (next >= -2) {
+          target.pane.scrollLeft = next;
+        } else {
+          scrollGlobal(event.deltaY);
+        }
+
         return;
       }
 
       if (target.mode === "left" || target.mode === "right") {
-        if (!target.pane) return;
-
         event.preventDefault();
 
         if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) {
-          target.pane.scrollLeft += event.deltaX;
-        } else if (event.shiftKey) {
-          target.pane.scrollLeft += event.deltaY;
-        } else {
-          target.pane.scrollTop += event.deltaY;
+          if (canScrollHorizontally(target.pane, event.deltaX)) {
+            target.pane.scrollLeft += event.deltaX;
+          } else {
+            els.reader.scrollLeft += event.deltaX;
+          }
+          return;
         }
 
-        return;
+        if (event.shiftKey) {
+          if (canScrollHorizontally(target.pane, event.deltaY)) {
+            target.pane.scrollLeft += event.deltaY;
+          } else {
+            els.reader.scrollLeft += event.deltaY;
+          }
+          return;
+        }
+
+        if (canScrollVertically(target.pane, event.deltaY)) {
+          target.pane.scrollTop += event.deltaY;
+        } else {
+          scrollGlobal(event.deltaY);
+        }
       }
     }
 
     function bindReaderControls() {
       els.reader.onmousemove = updateMouseRegion;
       els.reader.onmouseleave = hideScrollHint;
-      els.reader.onwheel = handleReaderWheel;
+      els.reader.addEventListener("wheel", handlePaneWheel, {
+        passive: false,
+        capture: true
+      });
     }
 
     async function renderPdfPage(pdf, holder, key, pageNo, side) {
