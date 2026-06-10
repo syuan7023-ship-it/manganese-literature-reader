@@ -24,11 +24,11 @@
       --danger-soft: #fee4e2;
       --sidebar-width: 300px;
       --reader-left-col: 50%;
-      --left-zoom: 1;
-      --right-zoom: 1;
     }
 
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
     body {
       margin: 0;
@@ -39,7 +39,10 @@
       font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans CJK SC", Arial, sans-serif;
     }
 
-    button, input, select, textarea {
+    button,
+    input,
+    select,
+    textarea {
       font-family: inherit;
     }
 
@@ -53,7 +56,7 @@
       display: grid;
       grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
       overflow: hidden;
-      transition: grid-template-columns .16s ease;
+      transition: grid-template-columns 0.16s ease;
     }
 
     .app.reading {
@@ -408,8 +411,8 @@
       right: 0;
       top: -54px;
       height: 54px;
-      transition: top .16s ease, left .14s ease;
-      box-shadow: 0 8px 18px rgba(15,23,42,.08);
+      transition: top 0.16s ease, left 0.14s ease;
+      box-shadow: 0 8px 18px rgba(15, 23, 42, 0.08);
     }
 
     .app.reading.top-open .toolbar {
@@ -670,6 +673,44 @@
       overflow: auto;
     }
 
+    .status-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+
+    .status-table th,
+    .status-table td {
+      border: 1px solid var(--line);
+      padding: 7px 8px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .status-table th {
+      background: #f5f7f6;
+      color: #344054;
+    }
+
+    .status-ok {
+      color: #087443;
+      font-weight: 700;
+    }
+
+    .status-warn {
+      color: #b54708;
+      font-weight: 700;
+    }
+
+    .status-bad {
+      color: #b42318;
+      font-weight: 700;
+    }
+
+    .status-muted {
+      color: #667085;
+    }
+
     .reader {
       height: 100%;
       overflow: auto;
@@ -678,11 +719,11 @@
       --reader-left-col: 50%;
     }
 
-    .reader.focus-left {
+    .reader.mode-hover.focus-left {
       --reader-left-col: 62%;
     }
 
-    .reader.focus-right {
+    .reader.mode-hover.focus-right {
       --reader-left-col: 38%;
     }
 
@@ -698,18 +739,28 @@
       max-width: 100%;
       margin: 0;
       display: grid;
-      grid-template-columns: minmax(0, var(--reader-left-col)) 2px minmax(0, 1fr);
+      grid-template-columns: minmax(0, var(--reader-left-col)) 3px minmax(0, 1fr);
       gap: 0;
       align-items: stretch;
       background: #e9efec;
-      transition: grid-template-columns .16s ease;
+      transition: grid-template-columns 0.14s ease;
     }
 
     .pane-resizer {
-      width: 2px;
+      width: 3px;
       min-height: 80px;
       background: #cfd8d3;
       z-index: 2;
+      cursor: col-resize;
+    }
+
+    .reader.mode-wheel .pane-resizer {
+      cursor: default;
+    }
+
+    .reader.mode-manual .pane-resizer:hover,
+    .reader.mode-hover .pane-resizer:hover {
+      background: rgba(47, 111, 94, 0.55);
     }
 
     .paper-page {
@@ -739,10 +790,6 @@
       background: white;
       min-height: 400px;
       overflow: hidden;
-    }
-
-    .pdf-page.zoomed {
-      overflow: auto;
     }
 
     .pdf-placeholder {
@@ -831,10 +878,6 @@
       overflow-wrap: anywhere;
     }
 
-    .translation-page.zoomed-content {
-      transform-origin: top left;
-    }
-
     .figure-note {
       background: var(--amber-soft);
       border-left: 3px solid var(--amber);
@@ -914,14 +957,6 @@
       color: var(--muted);
       font-size: 13px;
       line-height: 1.8;
-    }
-
-    .hint-line {
-      max-width: 1180px;
-      margin: 0 auto 14px;
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.7;
     }
 
     @media (max-width: 1100px) {
@@ -1083,10 +1118,18 @@
         </div>
 
         <div class="tool-group">
-          当前侧缩放
-          <button class="tool-btn" id="zoomOut">−</button>
-          <span id="zoomText" style="min-width:72px;text-align:center;">左100% / 右100%</span>
-          <button class="tool-btn" id="zoomIn">＋</button>
+          宽度模式
+          <button class="mode-btn active" id="widthModeWheel">Ctrl滚轮调宽</button>
+          <button class="mode-btn" id="widthModeManual">手动拖拽</button>
+          <button class="mode-btn" id="widthModeHover">悬停聚焦</button>
+        </div>
+
+        <div class="tool-group">
+          左/右
+          <button class="tool-btn" id="leftWider">左＋</button>
+          <span id="widthText" style="min-width:56px;text-align:center;">50 / 50</span>
+          <button class="tool-btn" id="rightWider">右＋</button>
+          <button class="tool-btn" id="resetWidth">重置</button>
         </div>
 
         <div class="mode-group">
@@ -1160,7 +1203,7 @@
       </section>
 
       <section id="view-reader" class="view">
-        <div id="reader" class="reader">
+        <div id="reader" class="reader mode-wheel">
           <div id="readerInner" class="reader-inner"></div>
         </div>
       </section>
@@ -1214,7 +1257,21 @@
             <button id="saveSyncBtn" class="primary">保存同步设置</button>
             <button id="testSyncBtn" class="secondary">测试连接</button>
             <button id="pullRemoteBtn" class="secondary">从 GitHub 拉取文献库</button>
+            <button id="refreshRemoteStatusBtn" class="secondary">刷新仓库文件状态</button>
             <button id="clearTokenBtn" class="secondary">清除 Token</button>
+          </div>
+
+          <div class="box wide" style="max-width:1180px;margin:0 auto 14px;">
+            <h3>同步进度</h3>
+            <div style="height:10px;background:#e6ebe8;border-radius:999px;overflow:hidden;margin:8px 0 10px;">
+              <div id="syncProgressBar" style="height:100%;width:0%;background:#2f6f5e;transition:width .2s;"></div>
+            </div>
+            <div id="syncProgressText" class="small-note">等待同步。</div>
+          </div>
+
+          <div class="box wide" style="max-width:1180px;margin:0 auto 14px;">
+            <h3>仓库文件状态</h3>
+            <div id="syncStatusTable" style="overflow:auto;"></div>
           </div>
 
           <div id="syncLog" class="sync-log">等待操作...</div>
@@ -1222,9 +1279,9 @@
           <div class="box wide" style="max-width:1180px;margin:14px auto 0;">
             <h3>阅读器操作</h3>
             <ul>
-              <li>鼠标移到左页，左页自动变宽；鼠标移到右页，右页自动变宽。</li>
-              <li>普通滚轮：上下阅读。</li>
-              <li>Ctrl/⌘ + 滚轮：缩放鼠标所在侧页面。</li>
+              <li>默认模式：Ctrl/⌘ + 鼠标滚轮调左右栏宽度。</li>
+              <li>手动拖拽模式：拖动中间竖线调左右栏宽度。</li>
+              <li>悬停聚焦模式：鼠标放在哪边，哪边自动变宽。</li>
               <li>顶部工具栏在阅读模式默认隐藏，鼠标移到顶部出现。</li>
             </ul>
           </div>
@@ -1300,12 +1357,15 @@
     let sourcePdf = null;
     let translationPdf = null;
     let rightMode = "json";
-    let leftZoom = 1;
-    let rightZoom = 1;
+    let readerLeftPercent = 50;
+    let widthMode = "wheel";
     let lastFocusSide = "left";
     let rendered = new Set();
     let topTimer = null;
     let focusTimer = null;
+    let syncProgressTotal = 0;
+    let syncProgressDone = 0;
+    let remoteStatusCache = {};
 
     const els = {
       app: document.getElementById("app"),
@@ -1317,7 +1377,7 @@
       reader: document.getElementById("reader"),
       readerInner: document.getElementById("readerInner"),
       pageInput: document.getElementById("pageInput"),
-      zoomText: document.getElementById("zoomText"),
+      widthText: document.getElementById("widthText"),
       searchInput: document.getElementById("searchInput"),
       toast: document.getElementById("toast"),
       currentDocLabel: document.getElementById("currentDocLabel"),
@@ -1397,6 +1457,24 @@
       els.syncLog.textContent = message;
     }
 
+    function setSyncProgress(done, total, text) {
+      syncProgressDone = done;
+      syncProgressTotal = total || 1;
+      const pct = Math.round((syncProgressDone / syncProgressTotal) * 100);
+      const bar = document.getElementById("syncProgressBar");
+      const label = document.getElementById("syncProgressText");
+      if (bar) bar.style.width = `${Math.max(0, Math.min(100, pct))}%`;
+      if (label) label.textContent = `${pct}%｜${text || ""}`;
+    }
+
+    function fileStatusLabel(value) {
+      if (value === "ok") return `<span class="status-ok">已同步</span>`;
+      if (value === "missing") return `<span class="status-bad">远程缺失</span>`;
+      if (value === "none") return `<span class="status-muted">未设置</span>`;
+      if (value === "checking") return `<span class="status-muted">检查中</span>`;
+      return `<span class="status-muted">未知</span>`;
+    }
+
     function slugify(text) {
       const base = String(text || "")
         .toLowerCase()
@@ -1422,6 +1500,15 @@
       doc.assets.sourcePath = doc.assets.sourcePath || `papers/${rid}-en.pdf`;
       doc.assets.translationPath = doc.assets.translationPath || `papers/${rid}-cn.pdf`;
       return doc.assets;
+    }
+
+    function expectedPathsForDoc(doc) {
+      ensureRemotePaths(doc);
+      return {
+        json: doc.assets?.jsonPath || "",
+        source: doc.assets?.sourcePath || "",
+        translation: doc.assets?.translationPath || ""
+      };
     }
 
     function publicDoc(doc) {
@@ -2048,7 +2135,7 @@
       rendered.clear();
       bindReaderFocus();
       updateModeButtons();
-      updateZoomText();
+      updateWidthText();
       searchChinese(els.searchInput.value);
       setTimeout(() => {
         syncRowHeights();
@@ -2056,39 +2143,124 @@
       }, 80);
     }
 
+    function applyReaderWidth() {
+      readerLeftPercent = Math.max(30, Math.min(70, readerLeftPercent));
+      els.reader.style.setProperty("--reader-left-col", `${readerLeftPercent}%`);
+      updateWidthText();
+      rendered.clear();
+      setTimeout(() => {
+        syncRowHeights();
+        renderVisiblePdfPages();
+      }, 120);
+    }
+
+    function updateWidthText() {
+      const left = Math.round(readerLeftPercent);
+      els.widthText.textContent = `${left} / ${100 - left}`;
+    }
+
+    function setWidthMode(mode) {
+      widthMode = mode;
+
+      els.reader.classList.toggle("mode-wheel", mode === "wheel");
+      els.reader.classList.toggle("mode-manual", mode === "manual");
+      els.reader.classList.toggle("mode-hover", mode === "hover");
+
+      document.getElementById("widthModeWheel").classList.toggle("active", mode === "wheel");
+      document.getElementById("widthModeManual").classList.toggle("active", mode === "manual");
+      document.getElementById("widthModeHover").classList.toggle("active", mode === "hover");
+
+      if (mode !== "hover") {
+        els.reader.classList.remove("focus-left", "focus-right");
+      }
+
+      applyReaderWidth();
+    }
+
+    function changeReaderWidth(delta) {
+      readerLeftPercent += delta;
+      applyReaderWidth();
+    }
+
     function bindReaderFocus() {
       document.querySelectorAll("[data-side]").forEach(el => {
         el.addEventListener("mouseenter", () => {
+          lastFocusSide = el.dataset.side;
+
+          if (widthMode === "hover") {
+            els.reader.classList.toggle("focus-left", lastFocusSide === "left");
+            els.reader.classList.toggle("focus-right", lastFocusSide === "right");
+
+            clearTimeout(focusTimer);
+            focusTimer = setTimeout(() => {
+              rendered.clear();
+              syncRowHeights();
+              renderVisiblePdfPages();
+            }, 180);
+          }
+        });
+
+        el.addEventListener("wheel", event => {
+          if (widthMode !== "wheel") return;
+          if (!(event.ctrlKey || event.metaKey)) return;
+
+          event.preventDefault();
+
           const side = el.dataset.side;
           lastFocusSide = side;
-          els.reader.classList.toggle("focus-left", side === "left");
-          els.reader.classList.toggle("focus-right", side === "right");
+
+          const direction = event.deltaY < 0 ? 1 : -1;
+          const step = 3;
+
+          if (side === "left") {
+            changeReaderWidth(direction * step);
+          } else {
+            changeReaderWidth(-direction * step);
+          }
+        }, { passive: false });
+      });
+
+      document.querySelectorAll(".pane-resizer").forEach(handle => {
+        handle.addEventListener("pointerdown", event => {
+          if (widthMode === "wheel") return;
+
+          event.preventDefault();
+          const row = handle.closest(".page-row");
+          const rect = row.getBoundingClientRect();
+
+          function move(e) {
+            const pct = ((e.clientX - rect.left) / rect.width) * 100;
+            readerLeftPercent = Math.max(30, Math.min(70, pct));
+            els.reader.style.setProperty("--reader-left-col", `${readerLeftPercent}%`);
+            updateWidthText();
+          }
+
+          function up() {
+            window.removeEventListener("pointermove", move);
+            window.removeEventListener("pointerup", up);
+            rendered.clear();
+            setTimeout(() => {
+              syncRowHeights();
+              renderVisiblePdfPages();
+            }, 120);
+          }
+
+          window.addEventListener("pointermove", move);
+          window.addEventListener("pointerup", up);
+        });
+      });
+
+      els.reader.onmouseleave = () => {
+        if (widthMode === "hover") {
+          els.reader.classList.remove("focus-left", "focus-right");
           clearTimeout(focusTimer);
           focusTimer = setTimeout(() => {
             rendered.clear();
             syncRowHeights();
             renderVisiblePdfPages();
-          }, 190);
-        });
-
-        el.addEventListener("wheel", event => {
-          if (!(event.ctrlKey || event.metaKey)) return;
-          event.preventDefault();
-          lastFocusSide = el.dataset.side;
-          const delta = event.deltaY > 0 ? -0.08 : 0.08;
-          setSideZoom(lastFocusSide, delta);
-        }, { passive: false });
-      });
-
-      els.reader.addEventListener("mouseleave", () => {
-        els.reader.classList.remove("focus-left", "focus-right");
-        clearTimeout(focusTimer);
-        focusTimer = setTimeout(() => {
-          rendered.clear();
-          syncRowHeights();
-          renderVisiblePdfPages();
-        }, 190);
-      }, { once: true });
+          }, 180);
+        }
+      };
     }
 
     function syncRowHeights() {
@@ -2108,17 +2280,12 @@
       els.modePdf.title = translationPdf ? "显示中文翻译 PDF" : "未上传中文翻译 PDF，暂不可用";
     }
 
-    function updateZoomText() {
-      els.zoomText.textContent = `左${Math.round(leftZoom * 100)}% / 右${Math.round(rightZoom * 100)}%`;
-    }
-
-    async function renderPdfPage(pdf, holder, key, pageNo, side) {
+    async function renderPdfPage(pdf, holder, key, pageNo) {
       if (!pdf || rendered.has(key) || pageNo > pdf.numPages) return;
       rendered.add(key);
 
       try {
-        const sideZoom = side === "right" ? rightZoom : leftZoom;
-        const cssWidth = Math.max(260, Math.floor(holder.clientWidth * sideZoom));
+        const cssWidth = Math.max(260, Math.floor(holder.clientWidth));
         const page = await pdf.getPage(pageNo);
         const base = page.getViewport({ scale: 1 });
         const cssScale = cssWidth / base.width;
@@ -2136,7 +2303,6 @@
         canvas.style.height = `${Math.floor(base.height * cssScale)}px`;
 
         holder.style.aspectRatio = `${base.width} / ${base.height}`;
-        holder.classList.toggle("zoomed", sideZoom > 1.02);
         holder.innerHTML = "";
         holder.appendChild(canvas);
 
@@ -2164,12 +2330,12 @@
         if (rect.bottom > readerRect.top - 1200 && rect.top < readerRect.bottom + 1600) {
           const sourceHolder = row.querySelector('[data-render-type="source"]');
           if (sourceHolder && sourcePdf) {
-            renderPdfPage(sourcePdf, sourceHolder, `source-${currentDocId}-${pageNo}-${leftZoom}-${sourceHolder.clientWidth}`, pageNo, "left");
+            renderPdfPage(sourcePdf, sourceHolder, `source-${currentDocId}-${pageNo}-${readerLeftPercent}-${sourceHolder.clientWidth}`, pageNo);
           }
 
           const transHolder = row.querySelector('[data-render-type="translation"]');
           if (transHolder && translationPdf && rightMode === "pdf") {
-            renderPdfPage(translationPdf, transHolder, `translation-${currentDocId}-${pageNo}-${rightZoom}-${transHolder.clientWidth}`, pageNo, "right");
+            renderPdfPage(translationPdf, transHolder, `translation-${currentDocId}-${pageNo}-${readerLeftPercent}-${transHolder.clientWidth}`, pageNo);
           }
         }
       });
@@ -2220,10 +2386,43 @@
       `;
     }
 
+    function renderSyncStatusTable() {
+      const wrap = document.getElementById("syncStatusTable");
+      if (!wrap) return;
+
+      const rows = docs.map(doc => {
+        const paths = expectedPathsForDoc(doc);
+        const status = remoteStatusCache[doc.id] || {};
+        return `
+          <tr>
+            <td style="min-width:220px;">${escapeHtml(doc.titleCn || doc.title || doc.id)}</td>
+            <td>${escapeHtml(paths.json)}<br>${fileStatusLabel(status.json || "unknown")}</td>
+            <td>${escapeHtml(paths.source)}<br>${fileStatusLabel(status.source || "unknown")}</td>
+            <td>${escapeHtml(paths.translation)}<br>${fileStatusLabel(status.translation || "unknown")}</td>
+          </tr>
+        `;
+      }).join("");
+
+      wrap.innerHTML = `
+        <table class="status-table">
+          <thead>
+            <tr>
+              <th>文献</th>
+              <th>JSON</th>
+              <th>英文 PDF</th>
+              <th>中文 PDF</th>
+            </tr>
+          </thead>
+          <tbody>${rows || `<tr><td colspan="4">暂无文献。</td></tr>`}</tbody>
+        </table>
+      `;
+    }
+
     function renderAll() {
       renderLibrary();
       renderReader();
       renderAi();
+      renderSyncStatusTable();
       els.paperSelect.value = currentDocId;
       els.currentDocLabel.textContent = currentDoc().titleCn || currentDoc().title || "未命名文献";
     }
@@ -2395,25 +2594,6 @@
       }, 80);
     }
 
-    function setSideZoom(side, delta) {
-      if (side === "right") {
-        rightZoom = Math.max(0.7, Math.min(1.8, rightZoom + delta));
-      } else {
-        leftZoom = Math.max(0.7, Math.min(1.8, leftZoom + delta));
-      }
-
-      rendered.clear();
-      updateZoomText();
-      setTimeout(() => {
-        syncRowHeights();
-        renderVisiblePdfPages();
-      }, 70);
-    }
-
-    function resetZoomIfNeeded() {
-      updateZoomText();
-    }
-
     async function pushLibraryToGitHub(message = "Update literature library") {
       const cfg = getSyncConfig();
 
@@ -2432,43 +2612,72 @@
 
     async function syncOneDocToGitHub(doc) {
       ensureRemotePaths(doc);
-      logSync(`开始同步：${doc.titleCn || doc.title || doc.id}`);
 
+      const tasks = [];
       const assets = doc.assets || {};
 
       const sourceRecord = await getFile(doc.id, "source");
-      if (sourceRecord?.buffer) {
-        await ghUpsertBase64(
-          assets.sourcePath,
-          arrayBufferToBase64(sourceRecord.buffer),
-          `Upload source PDF: ${doc.title || doc.id}`
-        );
-        assets.sourceName = sourceRecord.name;
-        logSync(`已上传英文 PDF：${assets.sourcePath}`);
-      } else if (assets.sourcePath && assets.sourceName) {
-        logSync(`未找到本地英文 PDF，保留远程路径：${assets.sourcePath}`);
-      }
-
       const transRecord = await getFile(doc.id, "translation");
-      if (transRecord?.buffer) {
-        await ghUpsertBase64(
-          assets.translationPath,
-          arrayBufferToBase64(transRecord.buffer),
-          `Upload translation PDF: ${doc.title || doc.id}`
-        );
-        assets.translationName = transRecord.name;
-        logSync(`已上传中文 PDF：${assets.translationPath}`);
-      } else if (assets.translationPath && assets.translationName) {
-        logSync(`未找到本地中文 PDF，保留远程路径：${assets.translationPath}`);
+
+      if (sourceRecord?.buffer) {
+        tasks.push({
+          type: "source",
+          label: "英文 PDF",
+          path: assets.sourcePath,
+          run: () => ghUpsertBase64(
+            assets.sourcePath,
+            arrayBufferToBase64(sourceRecord.buffer),
+            `Upload source PDF: ${doc.title || doc.id}`
+          ),
+          after: () => { assets.sourceName = sourceRecord.name; }
+        });
       }
 
-      await ghUpsertText(
-        assets.jsonPath,
-        JSON.stringify(publicDoc(doc), null, 2),
-        `Update JSON: ${doc.title || doc.id}`
-      );
+      if (transRecord?.buffer) {
+        tasks.push({
+          type: "translation",
+          label: "中文 PDF",
+          path: assets.translationPath,
+          run: () => ghUpsertBase64(
+            assets.translationPath,
+            arrayBufferToBase64(transRecord.buffer),
+            `Upload translation PDF: ${doc.title || doc.id}`
+          ),
+          after: () => { assets.translationName = transRecord.name; }
+        });
+      }
 
-      logSync(`已上传文献 JSON：${assets.jsonPath}`);
+      tasks.push({
+        type: "json",
+        label: "文献 JSON",
+        path: assets.jsonPath,
+        run: () => ghUpsertText(
+          assets.jsonPath,
+          JSON.stringify(publicDoc(doc), null, 2),
+          `Update JSON: ${doc.title || doc.id}`
+        )
+      });
+
+      logSync(`开始同步：${doc.titleCn || doc.title || doc.id}`);
+      setSyncProgress(0, tasks.length + 1, `准备同步 ${tasks.length + 1} 个文件/索引`);
+
+      remoteStatusCache[doc.id] = remoteStatusCache[doc.id] || {};
+
+      let done = 0;
+
+      for (const task of tasks) {
+        logSync(`同步中：${task.label} → ${task.path}`);
+        await task.run();
+        if (task.after) task.after();
+
+        remoteStatusCache[doc.id][task.type] = "ok";
+        done += 1;
+
+        setSyncProgress(done, tasks.length + 1, `已同步：${task.label}`);
+        renderSyncStatusTable();
+        logSync(`已同步：${task.label} → ${task.path}`);
+      }
+
       saveDocs();
     }
 
@@ -2478,6 +2687,7 @@
         setSyncLog("开始同步当前文献...");
         await syncOneDocToGitHub(currentDoc());
         await pushLibraryToGitHub("Update library after syncing current document");
+        setSyncProgress(syncProgressDone + 1, syncProgressTotal, "已更新 library.json");
         saveDocs();
         renderAll();
         toast("当前文献已同步到 GitHub。GitHub Pages 可能需要几十秒更新。");
@@ -2530,6 +2740,46 @@
       } catch (err) {
         toast(`拉取失败：${err.message}`);
         logSync(`拉取失败：${err.message}`);
+      }
+    }
+
+    async function refreshRemoteStatus() {
+      try {
+        saveSyncConfig();
+        setSyncProgress(0, docs.length * 3 || 1, "开始检查仓库文件状态...");
+        setSyncLog("开始检查仓库文件状态...");
+
+        let done = 0;
+        remoteStatusCache = {};
+
+        for (const doc of docs) {
+          const paths = expectedPathsForDoc(doc);
+          remoteStatusCache[doc.id] = {
+            json: "checking",
+            source: "checking",
+            translation: "checking"
+          };
+          renderSyncStatusTable();
+
+          for (const [key, path] of Object.entries(paths)) {
+            if (!path) {
+              remoteStatusCache[doc.id][key] = "none";
+            } else {
+              const item = await ghMaybeGetContent(path);
+              remoteStatusCache[doc.id][key] = item ? "ok" : "missing";
+            }
+
+            done += 1;
+            setSyncProgress(done, docs.length * 3, `已检查 ${done}/${docs.length * 3}`);
+            renderSyncStatusTable();
+          }
+        }
+
+        logSync("仓库文件状态检查完成。");
+        toast("仓库文件状态已刷新。");
+      } catch (err) {
+        logSync(`状态检查失败：${err.message}`);
+        toast(`状态检查失败：${err.message}`);
       }
     }
 
@@ -2625,6 +2875,60 @@
       }
     }
 
+    function createNewDoc() {
+      const doc = {
+        id: `doc-${Date.now()}`,
+        remoteId: "",
+        title: "未命名文献",
+        titleCn: "新文献",
+        journal: "",
+        year: "",
+        doi: "",
+        journalRank: { IF: "-", CAS: "-", JCR: "-" },
+        tags: [],
+        pageCount: 1,
+        assets: {},
+        pageTranslations: {},
+        pageFigures: {},
+        pageKeyPoints: {},
+        originalEvidence: {},
+        aiReading: {}
+      };
+
+      docs.push(doc);
+      currentDocId = doc.id;
+      sourcePdf = null;
+      translationPdf = null;
+      rightMode = "json";
+      saveDocs();
+      renderAll();
+      fillJsonTextareaFromCurrent();
+      showView("upload");
+      toast("已新增空白文献，请上传 PDF 或导入 JSON。");
+    }
+
+    function bindSidebarResize() {
+      const handle = document.getElementById("sidebarResizer");
+
+      handle.addEventListener("pointerdown", event => {
+        event.preventDefault();
+        els.app.classList.remove("reading", "side-open");
+
+        function move(e) {
+          const width = Math.max(220, Math.min(430, e.clientX));
+          document.documentElement.style.setProperty("--sidebar-width", `${width}px`);
+        }
+
+        function up() {
+          window.removeEventListener("pointermove", move);
+          window.removeEventListener("pointerup", up);
+        }
+
+        window.addEventListener("pointermove", move);
+        window.addEventListener("pointerup", up);
+      });
+    }
+
     document.querySelectorAll(".nav button").forEach(btn => {
       btn.addEventListener("click", () => showView(btn.dataset.view));
     });
@@ -2671,8 +2975,18 @@
     });
 
     document.getElementById("jumpBtn").addEventListener("click", jumpToPage);
-    document.getElementById("zoomOut").addEventListener("click", () => setSideZoom(lastFocusSide, -0.08));
-    document.getElementById("zoomIn").addEventListener("click", () => setSideZoom(lastFocusSide, 0.08));
+
+    document.getElementById("widthModeWheel").addEventListener("click", () => setWidthMode("wheel"));
+    document.getElementById("widthModeManual").addEventListener("click", () => setWidthMode("manual"));
+    document.getElementById("widthModeHover").addEventListener("click", () => setWidthMode("hover"));
+
+    document.getElementById("leftWider").addEventListener("click", () => changeReaderWidth(3));
+    document.getElementById("rightWider").addEventListener("click", () => changeReaderWidth(-3));
+    document.getElementById("resetWidth").addEventListener("click", () => {
+      readerLeftPercent = 50;
+      applyReaderWidth();
+    });
+
     document.getElementById("importJsonBtn").addEventListener("click", importJson);
     document.getElementById("fillJsonBtn").addEventListener("click", fillJsonTextareaFromCurrent);
     document.getElementById("newDocBtn").addEventListener("click", createNewDoc);
@@ -2688,6 +3002,7 @@
 
     document.getElementById("testSyncBtn").addEventListener("click", testGitHubConnection);
     document.getElementById("pullRemoteBtn").addEventListener("click", pullLibraryFromGitHub);
+    document.getElementById("refreshRemoteStatusBtn").addEventListener("click", refreshRemoteStatus);
 
     document.getElementById("clearTokenBtn").addEventListener("click", () => {
       const cfg = loadSyncConfig();
@@ -2729,69 +3044,14 @@
     document.getElementById("translationPdfInput").addEventListener("change", e => loadPdf(e.target.files?.[0], "translation"));
     document.getElementById("jsonFileInput").addEventListener("change", e => readJsonFile(e.target.files?.[0]));
 
-    function createNewDoc() {
-      const doc = {
-        id: `doc-${Date.now()}`,
-        remoteId: "",
-        title: "未命名文献",
-        titleCn: "新文献",
-        journal: "",
-        year: "",
-        doi: "",
-        journalRank: { IF: "-", CAS: "-", JCR: "-" },
-        tags: [],
-        pageCount: 1,
-        assets: {},
-        pageTranslations: {},
-        pageFigures: {},
-        pageKeyPoints: {},
-        originalEvidence: {},
-        aiReading: {}
-      };
-
-      docs.push(doc);
-      currentDocId = doc.id;
-      sourcePdf = null;
-      translationPdf = null;
-      rightMode = "json";
-      leftZoom = 1;
-      rightZoom = 1;
-      saveDocs();
-      renderAll();
-      fillJsonTextareaFromCurrent();
-      showView("upload");
-      toast("已新增空白文献，请上传 PDF 或导入 JSON。");
-    }
-
-    function bindSidebarResize() {
-      const handle = document.getElementById("sidebarResizer");
-
-      handle.addEventListener("pointerdown", event => {
-        event.preventDefault();
-        els.app.classList.remove("reading", "side-open");
-
-        function move(e) {
-          const width = Math.max(220, Math.min(430, e.clientX));
-          document.documentElement.style.setProperty("--sidebar-width", `${width}px`);
-        }
-
-        function up() {
-          window.removeEventListener("pointermove", move);
-          window.removeEventListener("pointerup", up);
-        }
-
-        window.addEventListener("pointermove", move);
-        window.addEventListener("pointerup", up);
-      });
-    }
-
     bindSidebarResize();
     fillSyncForm();
 
     await hydratePdfs();
     renderAll();
     fillJsonTextareaFromCurrent();
-    resetZoomIfNeeded();
+    setWidthMode("wheel");
+    applyReaderWidth();
   </script>
 </body>
 </html>
