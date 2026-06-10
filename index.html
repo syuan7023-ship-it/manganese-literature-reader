@@ -334,7 +334,7 @@
     .top-hotzone { display: none; }
 
     .toolbar {
-      height: 54px;
+      height: 58px;
       background: white;
       border-bottom: 1px solid var(--line);
       display: flex;
@@ -344,14 +344,19 @@
       min-width: 0;
       flex-shrink: 0;
       z-index: 25;
+      overflow-x: auto;
+      overflow-y: hidden;
     }
+
+    .toolbar::-webkit-scrollbar { height: 6px; }
+    .toolbar::-webkit-scrollbar-thumb { background: #ccd6d1; border-radius: 999px; }
 
     .app.reading .toolbar {
       position: fixed;
       left: var(--sidebar-width);
       right: 0;
-      top: -54px;
-      height: 54px;
+      top: -58px;
+      height: 58px;
       transition: top .16s ease, left .14s ease;
       box-shadow: 0 8px 18px rgba(15,23,42,.08);
     }
@@ -380,17 +385,9 @@
       min-width: 0;
     }
 
-    .paper-select {
-      width: 320px;
-      max-width: 32vw;
-    }
-
-    .page-input {
-      width: 62px;
-      text-align: center;
-    }
-
-    .search-input { width: 165px; }
+    .paper-select { width: 310px; min-width: 240px; }
+    .page-input { width: 62px; text-align: center; }
+    .search-input { width: 165px; min-width: 130px; }
 
     .tool-group {
       display: inline-flex;
@@ -401,23 +398,18 @@
       flex-shrink: 0;
     }
 
-    .tool-btn {
-      min-width: 30px;
-      padding: 0 8px;
+    .tool-btn { min-width: 30px; padding: 0 8px; }
+
+    .range {
+      width: 130px;
+      accent-color: var(--green);
     }
 
-    .mode-group {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      flex-shrink: 0;
-    }
-
-    .spacer { flex: 1; }
+    .spacer { flex: 1 0 20px; }
 
     .view {
       display: none;
-      height: calc(100vh - 54px);
+      height: calc(100vh - 58px);
       min-height: 0;
     }
 
@@ -440,10 +432,7 @@
       gap: 12px;
     }
 
-    .panel-head h2 {
-      margin: 0;
-      font-size: 21px;
-    }
+    .panel-head h2 { margin: 0; font-size: 21px; }
 
     .panel-head p {
       margin: 5px 0 0;
@@ -479,11 +468,7 @@
       color: var(--text);
     }
 
-    .box ul {
-      margin: 0 0 0 18px;
-      padding: 0;
-    }
-
+    .box ul { margin: 0 0 0 18px; padding: 0; }
     .wide { grid-column: 1 / -1; }
 
     .upload-actions, .sync-actions {
@@ -495,10 +480,7 @@
       flex-wrap: wrap;
     }
 
-    .current-label {
-      color: var(--muted);
-      font-size: 13px;
-    }
+    .current-label { color: var(--muted); font-size: 13px; }
 
     .upload-grid {
       max-width: 1180px;
@@ -611,10 +593,7 @@
       padding: 14px;
     }
 
-    .preview-panel h3 {
-      margin: 0 0 8px;
-      font-size: 15px;
-    }
+    .preview-panel h3 { margin: 0 0 8px; font-size: 15px; }
 
     .sync-log {
       max-width: 1180px;
@@ -662,23 +641,24 @@
       --reader-left-col: 50%;
     }
 
+    .reader::-webkit-scrollbar { width: 12px; height: 14px; }
+    .reader::-webkit-scrollbar-thumb { background: #aebbb5; border-radius: 999px; }
+    .reader::-webkit-scrollbar-track { background: #e2e8e5; }
+
     .reader-inner {
-      width: 100%;
-      max-width: 100%;
-      min-width: 0;
+      min-width: max(100%, 1500px);
       margin: 0;
     }
 
     .page-row {
       width: 100%;
-      max-width: 100%;
       margin: 0;
       display: grid;
       grid-template-columns: minmax(0, var(--reader-left-col)) 3px minmax(0, 1fr);
       gap: 0;
       align-items: stretch;
       background: #e9efec;
-      transition: grid-template-columns .14s ease;
+      transition: grid-template-columns .12s ease;
     }
 
     .pane-resizer {
@@ -699,16 +679,17 @@
       background: white;
       border: 1px solid #cfd6d2;
       position: relative;
-      overflow: hidden;
+      overflow: auto;
       min-width: 0;
       box-shadow: none;
     }
 
+    .paper-page::-webkit-scrollbar { width: 10px; height: 10px; }
+    .paper-page::-webkit-scrollbar-thumb { background: #c0cbc6; border-radius: 999px; }
+
     .pane-left, .pane-right { min-width: 0; }
 
-    .mock-page, .translation-page {
-      aspect-ratio: 0.707 / 1;
-    }
+    .mock-page, .translation-page { aspect-ratio: 0.707 / 1; }
 
     .pdf-page {
       display: flex;
@@ -717,7 +698,7 @@
       padding: 0;
       background: white;
       min-height: 400px;
-      overflow: hidden;
+      overflow: auto;
     }
 
     .pdf-placeholder {
@@ -818,6 +799,31 @@
       color: #98a2b3;
       font-size: 11px;
       pointer-events: none;
+    }
+
+    .left-page-tools {
+      position: sticky;
+      top: 8px;
+      left: 8px;
+      z-index: 8;
+      display: flex;
+      gap: 6px;
+      padding: 6px;
+      pointer-events: none;
+      height: 0;
+    }
+
+    .left-page-tools button {
+      pointer-events: auto;
+      width: 30px;
+      height: 30px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.92);
+      border-radius: 6px;
+      cursor: pointer;
+      color: var(--green-dark);
+      font-weight: 800;
+      box-shadow: 0 2px 8px rgba(15,23,42,.12);
     }
 
     .highlight {
@@ -945,6 +951,10 @@
 
       .reader { min-height: calc(100vh - 160px); }
 
+      .reader-inner {
+        min-width: 100%;
+      }
+
       .page-row {
         display: grid;
         grid-template-columns: 1fr;
@@ -999,17 +1009,33 @@
         </div>
 
         <div class="tool-group">
-          宽度模式
-          <button class="mode-btn active" id="widthModeWheel">Ctrl滚轮调宽</button>
-          <button class="mode-btn" id="widthModeFocus">拖拽+聚焦</button>
+          宽度
+          <button class="mode-btn active" id="widthModeWheel">Alt滚轮调宽</button>
+          <button class="mode-btn" id="widthModeFocus">聚焦宽度</button>
+          <span id="widthText" style="min-width:58px;text-align:center;">50 / 50</span>
         </div>
 
         <div class="tool-group">
-          左/右
-          <button class="tool-btn" id="leftWider">左＋</button>
-          <span id="widthText" style="min-width:56px;text-align:center;">50 / 50</span>
-          <button class="tool-btn" id="rightWider">右＋</button>
-          <button class="tool-btn" id="resetWidth">重置</button>
+          左右比例
+          <input id="widthRange" class="range" type="range" min="30" max="70" value="50" />
+        </div>
+
+        <div class="tool-group">
+          聚焦侧
+          <button class="tool-btn" id="focusLeft">左</button>
+          <button class="tool-btn" id="focusNone">均分</button>
+          <button class="tool-btn" id="focusRight">右</button>
+        </div>
+
+        <div class="tool-group">
+          聚焦宽度
+          <input id="focusWidthRange" class="range" type="range" min="52" max="82" value="64" />
+          <span id="focusWidthText">64%</span>
+        </div>
+
+        <div class="tool-group">
+          局部缩放
+          <span id="zoomText">左100% / 右100%</span>
         </div>
 
         <div class="mode-group">
@@ -1192,20 +1218,28 @@
     import * as pdfjsLib from "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs";
     pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.mjs";
 
-    const DB_NAME = "mn-lit-db-v8";
+    const DB_NAME = "mn-lit-db-v9";
     const STORE = "files";
-    const STORAGE_KEY = "mn-lit-docs-v8";
-    const CURRENT_KEY = "mn-lit-current-v8";
-    const SYNC_KEY = "mn-lit-github-sync-v8";
+    const STORAGE_KEY = "mn-lit-docs-v9";
+    const CURRENT_KEY = "mn-lit-current-v9";
+    const SYNC_KEY = "mn-lit-github-sync-v9";
 
     let docs = loadDocs();
     let currentDocId = localStorage.getItem(CURRENT_KEY) || (docs[0]?.id || "");
     let sourcePdf = null;
     let translationPdf = null;
     let rightMode = "json";
-    let readerBaseLeftPercent = 50;
-    let readerCurrentLeftPercent = 50;
+
     let widthMode = "wheel";
+    let baseLeftPercent = 50;
+    let currentLeftPercent = 50;
+    let focusSide = "none";
+    let focusWidth = 64;
+
+    let leftZoom = 1;
+    let rightZoom = 1;
+    let sourceRotation = 0;
+
     let rendered = new Set();
     let topTimer = null;
     let syncProgressTotal = 0;
@@ -1223,6 +1257,10 @@
       readerInner: document.getElementById("readerInner"),
       pageInput: document.getElementById("pageInput"),
       widthText: document.getElementById("widthText"),
+      widthRange: document.getElementById("widthRange"),
+      focusWidthRange: document.getElementById("focusWidthRange"),
+      focusWidthText: document.getElementById("focusWidthText"),
+      zoomText: document.getElementById("zoomText"),
       searchInput: document.getElementById("searchInput"),
       toast: document.getElementById("toast"),
       currentDocLabel: document.getElementById("currentDocLabel"),
@@ -1991,6 +2029,10 @@
       for (let i = 1; i <= pageCount; i++) {
         const left = `
           <article class="paper-page pdf-page pane-left ${sourcePdf ? "" : "mock-page"}" data-side="left" data-render-type="source" data-pdf-page="${i}">
+            <div class="left-page-tools">
+              <button title="逆时针旋转左页" data-rotate-source="-90">⟲</button>
+              <button title="顺时针旋转左页" data-rotate-source="90">⟳</button>
+            </div>
             ${sourcePdf ? `<div class="empty-pdf">英文 PDF 第 ${i} 页等待渲染...</div>` : mockPdfPage()}
             <div class="page-no">${i}</div>
           </article>
@@ -2017,8 +2059,9 @@
       els.readerInner.innerHTML = rows.join("");
       rendered.clear();
       bindReaderInteraction();
+      bindRotationButtons();
       updateModeButtons();
-      applyReaderWidth(readerCurrentLeftPercent, false);
+      applyCurrentWidth(false);
       searchChinese(els.searchInput.value);
       setTimeout(() => {
         syncRowHeights();
@@ -2026,21 +2069,28 @@
       }, 80);
     }
 
-    function applyReaderWidth(percent, commit = true) {
-      readerCurrentLeftPercent = Math.max(30, Math.min(70, percent));
-      if (commit) readerBaseLeftPercent = readerCurrentLeftPercent;
-      els.reader.style.setProperty("--reader-left-col", `${readerCurrentLeftPercent}%`);
-      updateWidthText();
+    function getLeftPercentFromState() {
+      if (widthMode === "focus") {
+        if (focusSide === "left") return focusWidth;
+        if (focusSide === "right") return 100 - focusWidth;
+        return 50;
+      }
+      return baseLeftPercent;
+    }
+
+    function applyCurrentWidth(commitBase = true) {
+      currentLeftPercent = Math.max(18, Math.min(82, getLeftPercentFromState()));
+      els.reader.style.setProperty("--reader-left-col", `${currentLeftPercent}%`);
+      els.widthText.textContent = `${Math.round(currentLeftPercent)} / ${100 - Math.round(currentLeftPercent)}`;
+      els.widthRange.value = String(Math.max(30, Math.min(70, baseLeftPercent)));
+      els.focusWidthRange.value = String(focusWidth);
+      els.focusWidthText.textContent = `${focusWidth}%`;
+      updateZoomText();
       rendered.clear();
       setTimeout(() => {
         syncRowHeights();
         renderVisiblePdfPages();
-      }, 100);
-    }
-
-    function updateWidthText() {
-      const left = Math.round(readerCurrentLeftPercent);
-      els.widthText.textContent = `${left} / ${100 - left}`;
+      }, 80);
     }
 
     function setWidthMode(mode) {
@@ -2049,52 +2099,61 @@
       els.reader.classList.toggle("mode-focus", mode === "focus");
       document.getElementById("widthModeWheel").classList.toggle("active", mode === "wheel");
       document.getElementById("widthModeFocus").classList.toggle("active", mode === "focus");
-      applyReaderWidth(readerBaseLeftPercent, false);
+      applyCurrentWidth(false);
     }
 
-    function changeReaderWidth(delta) {
-      applyReaderWidth(readerBaseLeftPercent + delta, true);
+    function updateZoomText() {
+      els.zoomText.textContent = `左${Math.round(leftZoom * 100)}% / 右${Math.round(rightZoom * 100)}%`;
+    }
+
+    function changeBaseWidth(delta) {
+      baseLeftPercent = Math.max(30, Math.min(70, baseLeftPercent + delta));
+      if (widthMode === "wheel") applyCurrentWidth(true);
+    }
+
+    function changeZoom(side, delta) {
+      if (side === "left") leftZoom = Math.max(0.8, Math.min(2.2, leftZoom + delta));
+      else rightZoom = Math.max(0.8, Math.min(2.2, rightZoom + delta));
+      rendered.clear();
+      updateZoomText();
+      setTimeout(() => {
+        syncRowHeights();
+        renderVisiblePdfPages();
+      }, 70);
     }
 
     function bindReaderInteraction() {
       document.querySelectorAll("[data-side]").forEach(el => {
-        el.onmouseenter = () => {
-          if (widthMode !== "focus") return;
-          const side = el.dataset.side;
-          const focusWidth = side === "left" ? Math.min(70, readerBaseLeftPercent + 12) : Math.max(30, readerBaseLeftPercent - 12);
-          applyReaderWidth(focusWidth, false);
-        };
-
-        el.onmouseleave = () => {
-          if (widthMode !== "focus") return;
-          applyReaderWidth(readerBaseLeftPercent, false);
-        };
-
         el.onwheel = event => {
-          if (widthMode !== "wheel") return;
-          if (!(event.ctrlKey || event.metaKey)) return;
-
-          event.preventDefault();
           const side = el.dataset.side;
-          const direction = event.deltaY < 0 ? 1 : -1;
-          const step = 3;
 
-          if (side === "left") changeReaderWidth(direction * step);
-          else changeReaderWidth(-direction * step);
+          if (event.altKey) {
+            event.preventDefault();
+            const direction = event.deltaY < 0 ? 1 : -1;
+            if (side === "left") changeBaseWidth(direction * 3);
+            else changeBaseWidth(-direction * 3);
+            return;
+          }
+
+          if (event.ctrlKey || event.metaKey) {
+            event.preventDefault();
+            const direction = event.deltaY < 0 ? 0.08 : -0.08;
+            changeZoom(side, direction);
+          }
         };
       });
 
       document.querySelectorAll(".pane-resizer").forEach(handle => {
         handle.onpointerdown = event => {
-          if (widthMode !== "focus") return;
-
           event.preventDefault();
           const row = handle.closest(".page-row");
           const rect = row.getBoundingClientRect();
 
           function move(e) {
             const pct = ((e.clientX - rect.left) / rect.width) * 100;
-            applyReaderWidth(pct, true);
+            baseLeftPercent = Math.max(30, Math.min(70, pct));
+            widthMode = "wheel";
+            setWidthMode("wheel");
           }
 
           function up() {
@@ -2104,6 +2163,17 @@
 
           window.addEventListener("pointermove", move);
           window.addEventListener("pointerup", up);
+        };
+      });
+    }
+
+    function bindRotationButtons() {
+      document.querySelectorAll("[data-rotate-source]").forEach(btn => {
+        btn.onclick = event => {
+          event.stopPropagation();
+          sourceRotation = (sourceRotation + Number(btn.dataset.rotateSource) + 360) % 360;
+          rendered.clear();
+          setTimeout(() => renderVisiblePdfPages(), 50);
         };
       });
     }
@@ -2125,19 +2195,22 @@
       els.modePdf.title = translationPdf ? "显示中文翻译 PDF" : "未上传中文翻译 PDF，暂不可用";
     }
 
-    async function renderPdfPage(pdf, holder, key, pageNo) {
+    async function renderPdfPage(pdf, holder, key, pageNo, side) {
       if (!pdf || rendered.has(key) || pageNo > pdf.numPages) return;
       rendered.add(key);
 
       try {
-        const cssWidth = Math.max(260, Math.floor(holder.clientWidth));
+        const sideZoom = side === "left" ? leftZoom : rightZoom;
+        const cssWidth = Math.max(260, Math.floor(holder.clientWidth * sideZoom));
         const page = await pdf.getPage(pageNo);
-        const base = page.getViewport({ scale: 1 });
+
+        const rotation = side === "left" ? sourceRotation : 0;
+        const base = page.getViewport({ scale: 1, rotation });
         const cssScale = cssWidth / base.width;
         const dpr = Math.min(window.devicePixelRatio || 1, 2.5);
         const quality = 2.2;
         const renderScale = cssScale * dpr * quality;
-        const viewport = page.getViewport({ scale: renderScale });
+        const viewport = page.getViewport({ scale: renderScale, rotation });
 
         const canvas = document.createElement("canvas");
         const context = canvas.getContext("2d", { alpha: false });
@@ -2148,7 +2221,13 @@
         canvas.style.height = `${Math.floor(base.height * cssScale)}px`;
 
         holder.style.aspectRatio = `${base.width} / ${base.height}`;
-        holder.innerHTML = "";
+        holder.innerHTML = side === "left"
+          ? `<div class="left-page-tools">
+              <button title="逆时针旋转左页" data-rotate-source="-90">⟲</button>
+              <button title="顺时针旋转左页" data-rotate-source="90">⟳</button>
+            </div>`
+          : "";
+
         holder.appendChild(canvas);
 
         await page.render({ canvasContext: context, viewport }).promise;
@@ -2158,6 +2237,7 @@
         no.textContent = pageNo;
         holder.appendChild(no);
 
+        bindRotationButtons();
         syncRowHeights();
       } catch (err) {
         holder.innerHTML = `<div class="empty-pdf">第 ${pageNo} 页渲染失败。<br>${escapeHtml(err.message || "")}</div><div class="page-no">${pageNo}</div>`;
@@ -2175,12 +2255,24 @@
         if (rect.bottom > readerRect.top - 1200 && rect.top < readerRect.bottom + 1600) {
           const sourceHolder = row.querySelector('[data-render-type="source"]');
           if (sourceHolder && sourcePdf) {
-            renderPdfPage(sourcePdf, sourceHolder, `source-${currentDocId}-${pageNo}-${readerCurrentLeftPercent}-${sourceHolder.clientWidth}`, pageNo);
+            renderPdfPage(
+              sourcePdf,
+              sourceHolder,
+              `source-${currentDocId}-${pageNo}-${currentLeftPercent}-${sourceHolder.clientWidth}-${leftZoom}-${sourceRotation}`,
+              pageNo,
+              "left"
+            );
           }
 
           const transHolder = row.querySelector('[data-render-type="translation"]');
           if (transHolder && translationPdf && rightMode === "pdf") {
-            renderPdfPage(translationPdf, transHolder, `translation-${currentDocId}-${pageNo}-${readerCurrentLeftPercent}-${transHolder.clientWidth}`, pageNo);
+            renderPdfPage(
+              translationPdf,
+              transHolder,
+              `translation-${currentDocId}-${pageNo}-${currentLeftPercent}-${transHolder.clientWidth}-${rightZoom}`,
+              pageNo,
+              "right"
+            );
           }
         }
       });
@@ -2292,6 +2384,42 @@
       els.currentDocLabel.textContent = doc ? (doc.titleCn || doc.title || "未命名文献") : "暂无文献";
     }
 
+    function renderPathInputs() {
+      const doc = currentDoc();
+      if (!doc) {
+        els.sourcePathInput.value = "";
+        els.translationPathInput.value = "";
+        els.jsonPathInput.value = "";
+        return;
+      }
+      ensureRemotePaths(doc);
+      els.sourcePathInput.value = doc.assets.sourcePath || "";
+      els.translationPathInput.value = doc.assets.translationPath || "";
+      els.jsonPathInput.value = doc.assets.jsonPath || "";
+    }
+
+    function renderImportPreview() {
+      const doc = currentDoc();
+      if (!doc) {
+        els.importPreview.textContent = "暂无当前文献。";
+        return;
+      }
+      const pages = pageTranslationCount(doc);
+      const tags = normalizeList(doc.tags).join("、") || "无";
+      const aiKeys = Object.keys(doc.aiReading || {}).length;
+      els.importPreview.innerHTML = `
+        <b>英文题名：</b>${escapeHtml(doc.title || "-")}<br>
+        <b>中文题名：</b>${escapeHtml(doc.titleCn || "-")}<br>
+        <b>期刊/年份：</b>${escapeHtml(doc.journal || "-")} / ${escapeHtml(doc.year || "-")}<br>
+        <b>DOI：</b>${escapeHtml(doc.doi || "-")}<br>
+        <b>标签：</b>${escapeHtml(tags)}<br>
+        <b>JSON 译文页数：</b>${pages}<br>
+        <b>精读字段数：</b>${aiKeys}<br>
+        <b>英文 PDF：</b>${escapeHtml(doc.assets?.sourceName || doc.assets?.sourcePath || "未绑定")}<br>
+        <b>中文 PDF：</b>${escapeHtml(doc.assets?.translationName || doc.assets?.translationPath || "未绑定")}
+      `;
+    }
+
     function fillJsonTextareaFromCurrent() {
       const doc = currentDoc();
       els.jsonInput.value = doc ? JSON.stringify(publicDoc(doc), null, 2) : "";
@@ -2323,19 +2451,13 @@
 
     function normalizeImportedJson(data) {
       const normalized = structuredClone(data);
-
       normalized.journalRank = data.journalRank || data.rank || data.journalMetrics || {};
       normalized.tags = normalizeList(data.tags || data.keywords || []);
-
-      normalized.pageTranslations = normalizePageMap(
-        data.pageTranslations || data.translations || data.pages
-      );
-
+      normalized.pageTranslations = normalizePageMap(data.pageTranslations || data.translations || data.pages);
       normalized.pageFigures = data.pageFigures || data.figures || {};
       normalized.pageKeyPoints = data.pageKeyPoints || data.keyPointsByPage || data.pageKeypoints || {};
       normalized.originalEvidence = data.originalEvidence || data.evidence || {};
       normalized.aiReading = data.aiReading || data.reading || data.deepReading || data.analysis || {};
-
       return normalized;
     }
 
@@ -2362,10 +2484,7 @@
     async function importJsonText(text, sourceLabel = "JSON") {
       const data = JSON.parse(text);
       let target = currentDoc();
-
-      if (!target) {
-        target = ensureCurrentDoc();
-      }
+      if (!target) target = ensureCurrentDoc();
 
       mergeDoc(target, data);
       currentDocId = target.id;
@@ -2420,7 +2539,7 @@
           translationPdf = pdf;
           doc.assets.translationName = file.name;
           rightMode = "pdf";
-          status.textContent = `中文翻译 PDF 已载入：${file.name}，共 ${pdf.numPages} 页。`;
+          status.textContent = `中文 PDF 已载入：${file.name}，共 ${pdf.numPages} 页。`;
         }
 
         doc.pageCount = Math.max(Number(doc.pageCount || 0), pdf.numPages);
@@ -2938,14 +3057,47 @@
 
     document.getElementById("jumpBtn").addEventListener("click", jumpToPage);
 
-    document.getElementById("widthModeWheel").addEventListener("click", () => setWidthMode("wheel"));
-    document.getElementById("widthModeFocus").addEventListener("click", () => setWidthMode("focus"));
+    document.getElementById("widthModeWheel").addEventListener("click", () => {
+      widthMode = "wheel";
+      focusSide = "none";
+      setWidthMode("wheel");
+    });
 
-    document.getElementById("leftWider").addEventListener("click", () => changeReaderWidth(3));
-    document.getElementById("rightWider").addEventListener("click", () => changeReaderWidth(-3));
-    document.getElementById("resetWidth").addEventListener("click", () => {
-      readerBaseLeftPercent = 50;
-      applyReaderWidth(50, true);
+    document.getElementById("widthModeFocus").addEventListener("click", () => {
+      widthMode = "focus";
+      if (focusSide === "none") focusSide = "left";
+      setWidthMode("focus");
+    });
+
+    document.getElementById("widthRange").addEventListener("input", e => {
+      baseLeftPercent = Number(e.target.value);
+      widthMode = "wheel";
+      setWidthMode("wheel");
+    });
+
+    document.getElementById("focusWidthRange").addEventListener("input", e => {
+      focusWidth = Number(e.target.value);
+      widthMode = "focus";
+      if (focusSide === "none") focusSide = "left";
+      setWidthMode("focus");
+    });
+
+    document.getElementById("focusLeft").addEventListener("click", () => {
+      focusSide = "left";
+      widthMode = "focus";
+      setWidthMode("focus");
+    });
+
+    document.getElementById("focusRight").addEventListener("click", () => {
+      focusSide = "right";
+      widthMode = "focus";
+      setWidthMode("focus");
+    });
+
+    document.getElementById("focusNone").addEventListener("click", () => {
+      focusSide = "none";
+      widthMode = "focus";
+      setWidthMode("focus");
     });
 
     document.getElementById("importJsonBtn").addEventListener("click", importJson);
@@ -3009,6 +3161,15 @@
     document.getElementById("translationPdfInput").addEventListener("change", e => loadPdf(e.target.files?.[0], "translation"));
     document.getElementById("jsonFileInput").addEventListener("change", e => readJsonFile(e.target.files?.[0]));
 
+    function setWidthMode(mode) {
+      widthMode = mode;
+      els.reader.classList.toggle("mode-wheel", mode === "wheel");
+      els.reader.classList.toggle("mode-focus", mode === "focus");
+      document.getElementById("widthModeWheel").classList.toggle("active", mode === "wheel");
+      document.getElementById("widthModeFocus").classList.toggle("active", mode === "focus");
+      applyCurrentWidth();
+    }
+
     bindSidebarResize();
     fillSyncForm();
 
@@ -3016,7 +3177,6 @@
     renderAll();
     fillJsonTextareaFromCurrent();
     setWidthMode("wheel");
-    applyReaderWidth(50, true);
   </script>
 </body>
 </html>
