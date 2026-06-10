@@ -663,6 +663,66 @@
       font-size: 15px;
     }
 
+    .sync-dashboard {
+      max-width: 1180px;
+      margin: 0 auto 14px;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+    }
+
+    .sync-card {
+      background: #ffffff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+    }
+
+    .sync-card h3 {
+      margin: 0 0 8px;
+      font-size: 14px;
+      color: #243b35;
+    }
+
+    .sync-number {
+      font-size: 24px;
+      font-weight: 900;
+      color: var(--green-dark);
+    }
+
+    .progress-wrap {
+      max-width: 1180px;
+      margin: 0 auto 14px;
+      border: 1px solid var(--line);
+      background: #ffffff;
+      border-radius: 8px;
+      padding: 14px;
+    }
+
+    .progress-title {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 13px;
+      font-weight: 800;
+      color: #243b35;
+      margin-bottom: 10px;
+    }
+
+    .progress-track {
+      height: 12px;
+      border-radius: 999px;
+      background: #e6ebe8;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #2f6f5e, #52a58d);
+      transition: width 0.2s ease;
+    }
+
     .sync-log {
       max-width: 1180px;
       margin: 0 auto;
@@ -673,7 +733,8 @@
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
       font-size: 12px;
       line-height: 1.65;
-      min-height: 130px;
+      min-height: 150px;
+      max-height: 270px;
       white-space: pre-wrap;
       overflow: auto;
     }
@@ -711,6 +772,11 @@
       color: #667085;
     }
 
+    .status-working {
+      color: #b87916;
+      font-weight: 700;
+    }
+
     .reader {
       height: 100%;
       overflow: auto;
@@ -725,10 +791,12 @@
 
     .page-row {
       width: 100%;
+      height: 100vh;
       display: grid;
       grid-template-columns: minmax(0, var(--left-width)) 2px minmax(0, 1fr);
       align-items: stretch;
       gap: 0;
+      scroll-snap-align: start;
     }
 
     .pane-divider {
@@ -742,19 +810,23 @@
       border: 1px solid #cfd6d2;
       position: relative;
       min-width: 0;
+      height: 100vh;
       overflow: auto;
       scroll-behavior: auto;
     }
 
     .pdf-page {
-      display: flex;
-      align-items: flex-start;
-      justify-content: center;
-      min-height: 420px;
+      display: block;
+      min-height: 100vh;
+      padding: 0;
+    }
+
+    .pdf-page canvas {
+      margin: 0 auto;
     }
 
     .translation-page {
-      aspect-ratio: 0.707 / 1;
+      aspect-ratio: auto;
       padding: 34px 38px 44px;
     }
 
@@ -802,7 +874,7 @@
     }
 
     .page-no {
-      position: absolute;
+      position: sticky;
       bottom: 10px;
       left: 0;
       right: 0;
@@ -810,11 +882,14 @@
       color: #98a2b3;
       font-size: 11px;
       pointer-events: none;
+      display: block;
+      width: 100%;
+      padding-bottom: 4px;
     }
 
     .empty-pdf {
       width: 100%;
-      min-height: 420px;
+      min-height: 100vh;
       padding: 34px;
       display: grid;
       place-items: center;
@@ -827,7 +902,7 @@
     .pdf-placeholder {
       padding: 34px 38px 44px;
       width: 100%;
-      height: 100%;
+      min-height: 100vh;
       font-family: Georgia, "Times New Roman", serif;
     }
 
@@ -970,7 +1045,8 @@
 
     @media (max-width: 1100px) {
       .upload-grid,
-      .form-grid {
+      .form-grid,
+      .sync-dashboard {
         grid-template-columns: 1fr;
       }
 
@@ -1195,12 +1271,29 @@
             <button id="clearTokenBtn" class="secondary">清除 Token</button>
           </div>
 
-          <div class="box wide" style="max-width:1180px;margin:0 auto 14px;">
-            <h3>同步进度</h3>
-            <div style="height:10px;background:#e6ebe8;border-radius:999px;overflow:hidden;margin:8px 0 10px;">
-              <div id="syncProgressBar" style="height:100%;width:0%;background:#2f6f5e;transition:width .2s;"></div>
+          <div class="sync-dashboard">
+            <div class="sync-card">
+              <h3>文献数</h3>
+              <div class="sync-number" id="syncDocCount">0</div>
             </div>
-            <div id="syncProgressText" class="small-note">等待同步。</div>
+            <div class="sync-card">
+              <h3>远程已确认文件</h3>
+              <div class="sync-number" id="syncOkCount">0</div>
+            </div>
+            <div class="sync-card">
+              <h3>远程缺失文件</h3>
+              <div class="sync-number" id="syncMissingCount">0</div>
+            </div>
+          </div>
+
+          <div class="progress-wrap">
+            <div class="progress-title">
+              <span id="syncProgressText">等待同步。</span>
+              <span id="syncProgressPercent">0%</span>
+            </div>
+            <div class="progress-track">
+              <div id="syncProgressBar" class="progress-bar"></div>
+            </div>
           </div>
 
           <div class="box wide" style="max-width:1180px;margin:0 auto 14px;">
@@ -1238,7 +1331,7 @@
         <button class="secondary" id="rotateRight">左页⟳</button>
       </div>
 
-      <div class="small-note">Alt+滚轮：左右宽度；Ctrl+滚轮：鼠标所在侧局部缩放。靠近中线时按进入方向控制左右页横向滚动。</div>
+      <div class="small-note">Alt+滚轮：左右宽度；Ctrl+滚轮：鼠标所在侧局部缩放。左/右页内部滚动现在会真正生效。</div>
     </div>
 
     <button class="reset-toggle" id="resetView">重置</button>
@@ -1248,11 +1341,11 @@
   <div id="toast" class="toast"></div>
 
   <script>
-    const DB_NAME = "mn-lit-db-v13";
+    const DB_NAME = "mn-lit-db-v14";
     const STORE = "files";
-    const STORAGE_KEY = "mn-lit-docs-v13";
-    const CURRENT_KEY = "mn-lit-current-v13";
-    const SYNC_KEY = "mn-lit-github-sync-v13";
+    const STORAGE_KEY = "mn-lit-docs-v14";
+    const CURRENT_KEY = "mn-lit-current-v14";
+    const SYNC_KEY = "mn-lit-github-sync-v14";
 
     let pdfjsLib = null;
     let docs = loadDocs();
@@ -1309,7 +1402,13 @@
       translationPathInput: $("translationPathInput"),
       jsonPathInput: $("jsonPathInput"),
       importPreview: $("importPreview"),
-      scrollZoneHint: $("scrollZoneHint")
+      scrollZoneHint: $("scrollZoneHint"),
+      syncProgressBar: $("syncProgressBar"),
+      syncProgressText: $("syncProgressText"),
+      syncProgressPercent: $("syncProgressPercent"),
+      syncDocCount: $("syncDocCount"),
+      syncOkCount: $("syncOkCount"),
+      syncMissingCount: $("syncMissingCount")
     };
 
     async function ensurePdfJs() {
@@ -1406,6 +1505,24 @@
       setTimeout(() => {
         els.toast.style.display = "none";
       }, 2600);
+    }
+
+    function setProgress(percent, text) {
+      const safe = Math.max(0, Math.min(100, Math.round(percent)));
+
+      els.syncProgressBar.style.width = `${safe}%`;
+      els.syncProgressPercent.textContent = `${safe}%`;
+      els.syncProgressText.textContent = text || "处理中...";
+    }
+
+    function logSync(message) {
+      const time = new Date().toLocaleTimeString();
+      els.syncLog.textContent += `\n[${time}] ${message}`;
+      els.syncLog.scrollTop = els.syncLog.scrollHeight;
+    }
+
+    function resetSyncLog(message = "等待操作...") {
+      els.syncLog.textContent = message;
     }
 
     function slugify(text) {
@@ -2326,7 +2443,7 @@
         const rowRect = row.getBoundingClientRect();
         const pageNo = Number(row.dataset.page);
 
-        const nearViewport = rowRect.bottom > readerRect.top - 900 && rowRect.top < readerRect.bottom + 1200;
+        const nearViewport = rowRect.bottom > readerRect.top - 400 && rowRect.top < readerRect.bottom + 500;
 
         if (!nearViewport) return;
 
@@ -2419,6 +2536,21 @@
     function renderStatus() {
       const container = $("syncStatusTable");
 
+      els.syncDocCount.textContent = docs.length;
+
+      let okCount = 0;
+      let missingCount = 0;
+
+      Object.values(remoteStatusCache).forEach((record) => {
+        ["json", "source", "translation"].forEach((key) => {
+          if (record[key] === "ok") okCount += 1;
+          if (record[key] === "missing") missingCount += 1;
+        });
+      });
+
+      els.syncOkCount.textContent = okCount;
+      els.syncMissingCount.textContent = missingCount;
+
       if (!docs.length) {
         container.innerHTML = `<p class="small-note">暂无文献。</p>`;
         return;
@@ -2459,6 +2591,7 @@
     function renderFileStatus(status) {
       if (status === "ok") return `<span class="status-ok">已同步</span>`;
       if (status === "missing") return `<span class="status-bad">远程缺失</span>`;
+      if (status === "working") return `<span class="status-working">检查中</span>`;
       return `<span class="status-muted">未知</span>`;
     }
 
@@ -2746,39 +2879,47 @@
 
         ensureRemotePaths(doc);
 
-        els.syncLog.textContent = "开始同步当前文献...";
+        resetSyncLog("开始同步当前文献...");
+        setProgress(5, "准备同步当前文献");
 
         const sourceRecord = await getFile(doc.id, "source");
         const translationRecord = await getFile(doc.id, "translation");
 
         if (sourceRecord) {
+          setProgress(25, "上传英文 PDF");
+          logSync(`上传英文 PDF：${doc.assets.sourcePath}`);
           await githubPutContent(
             doc.assets.sourcePath,
             bytesToBase64(new Uint8Array(sourceRecord.buffer)),
             `Upload source PDF: ${doc.title || doc.id}`
           );
-
-          els.syncLog.textContent += `\n已上传英文 PDF：${doc.assets.sourcePath}`;
+          logSync(`完成英文 PDF：${doc.assets.sourcePath}`);
+        } else {
+          logSync("跳过英文 PDF：本地没有缓存文件");
         }
 
         if (translationRecord) {
+          setProgress(45, "上传中文 PDF");
+          logSync(`上传中文 PDF：${doc.assets.translationPath}`);
           await githubPutContent(
             doc.assets.translationPath,
             bytesToBase64(new Uint8Array(translationRecord.buffer)),
             `Upload translation PDF: ${doc.title || doc.id}`
           );
-
-          els.syncLog.textContent += `\n已上传中文 PDF：${doc.assets.translationPath}`;
+          logSync(`完成中文 PDF：${doc.assets.translationPath}`);
+        } else {
+          logSync("跳过中文 PDF：本地没有缓存文件");
         }
 
+        setProgress(65, "上传 JSON");
+        logSync(`上传 JSON：${doc.assets.jsonPath}`);
         await githubPutContent(
           doc.assets.jsonPath,
           textToBase64(JSON.stringify(doc, null, 2)),
           `Update JSON: ${doc.title || doc.id}`
         );
 
-        els.syncLog.textContent += `\n已上传 JSON：${doc.assets.jsonPath}`;
-
+        setProgress(85, "更新 library.json");
         await githubPutContent(
           loadSyncConfig().libraryPath,
           textToBase64(JSON.stringify({
@@ -2789,10 +2930,13 @@
           "Update literature library"
         );
 
-        els.syncLog.textContent += "\n已更新 library.json\n同步完成。";
+        setProgress(100, "同步完成");
+        logSync("同步完成。");
         toast("同步完成。");
+        await refreshRemoteStatus(false);
       } catch (error) {
-        els.syncLog.textContent += `\n同步失败：${error.message}`;
+        logSync(`同步失败：${error.message}`);
+        setProgress(100, "同步失败");
         toast(`同步失败：${error.message}`);
       }
     }
@@ -2800,6 +2944,9 @@
     async function pullLibraryFromGitHub() {
       try {
         saveSyncConfig();
+
+        resetSyncLog("开始从 GitHub 拉取文献库...");
+        setProgress(10, "读取 library.json");
 
         const library = await githubGetJson(loadSyncConfig().libraryPath);
         const remoteDocs = Array.isArray(library) ? library : library.docs;
@@ -2810,7 +2957,11 @@
 
         const pulledDocs = [];
 
-        for (const item of remoteDocs) {
+        for (let i = 0; i < remoteDocs.length; i += 1) {
+          const item = remoteDocs[i];
+          setProgress(10 + ((i + 1) / remoteDocs.length) * 75, `读取第 ${i + 1} / ${remoteDocs.length} 篇 JSON`);
+          logSync(`读取文献：${item.titleCn || item.title || item.id}`);
+
           let doc = {
             assets: {},
             pageTranslations: {},
@@ -2837,7 +2988,9 @@
                 }
               };
             }
-          } catch {}
+          } catch (error) {
+            logSync(`文献 JSON 读取失败，保留索引信息：${error.message}`);
+          }
 
           pulledDocs.push(doc);
         }
@@ -2851,33 +3004,64 @@
         renderAll();
         fillJsonTextareaFromCurrent();
 
+        setProgress(100, "文献库拉取完成");
+        logSync("拉取完成。");
         toast("已拉取文献库。");
       } catch (error) {
-        els.syncLog.textContent += `\n拉取失败：${error.message}`;
+        logSync(`拉取失败：${error.message}`);
+        setProgress(100, "拉取失败");
         toast(`拉取失败：${error.message}`);
       }
     }
 
-    async function refreshRemoteStatus() {
+    async function refreshRemoteStatus(showToast = true) {
       try {
         saveSyncConfig();
 
+        resetSyncLog("开始刷新仓库文件状态...");
+        setProgress(5, "检查仓库文件状态");
+
         remoteStatusCache = {};
+
+        const total = Math.max(docs.length * 3, 1);
+        let done = 0;
 
         for (const doc of docs) {
           ensureRemotePaths(doc);
 
           remoteStatusCache[doc.id] = {
-            json: (await githubGetContent(doc.assets.jsonPath)) ? "ok" : "missing",
-            source: (await githubGetContent(doc.assets.sourcePath)) ? "ok" : "missing",
-            translation: (await githubGetContent(doc.assets.translationPath)) ? "ok" : "missing"
+            json: "working",
+            source: "working",
+            translation: "working"
           };
 
           renderStatus();
+
+          logSync(`检查：${doc.titleCn || doc.title || doc.id}`);
+
+          remoteStatusCache[doc.id].json = (await githubGetContent(doc.assets.jsonPath)) ? "ok" : "missing";
+          done += 1;
+          setProgress((done / total) * 100, `检查 JSON：${doc.assets.jsonPath}`);
+          renderStatus();
+
+          remoteStatusCache[doc.id].source = (await githubGetContent(doc.assets.sourcePath)) ? "ok" : "missing";
+          done += 1;
+          setProgress((done / total) * 100, `检查英文 PDF：${doc.assets.sourcePath}`);
+          renderStatus();
+
+          remoteStatusCache[doc.id].translation = (await githubGetContent(doc.assets.translationPath)) ? "ok" : "missing";
+          done += 1;
+          setProgress((done / total) * 100, `检查中文 PDF：${doc.assets.translationPath}`);
+          renderStatus();
         }
 
-        toast("状态已刷新。");
+        setProgress(100, "仓库文件状态刷新完成");
+        logSync("状态刷新完成。");
+
+        if (showToast) toast("状态已刷新。");
       } catch (error) {
+        logSync(`状态检查失败：${error.message}`);
+        setProgress(100, "状态检查失败");
         toast(`状态检查失败：${error.message}`);
       }
     }
@@ -2885,6 +3069,8 @@
     async function testConnection() {
       try {
         saveSyncConfig();
+        resetSyncLog("正在测试 GitHub 连接...");
+        setProgress(25, "连接 GitHub API");
 
         const config = loadSyncConfig();
 
@@ -2898,10 +3084,12 @@
           throw new Error(`GitHub API ${response.status}`);
         }
 
-        els.syncLog.textContent = "连接成功。";
+        setProgress(100, "连接成功");
+        logSync("连接成功。");
         toast("连接成功。");
       } catch (error) {
-        els.syncLog.textContent = `连接失败：${error.message}`;
+        setProgress(100, "连接失败");
+        logSync(`连接失败：${error.message}`);
         toast(`连接失败：${error.message}`);
       }
     }
@@ -2921,17 +3109,21 @@
       try {
         ensureRemotePaths(doc);
 
+        resetSyncLog("开始删除当前文献...");
+        setProgress(10, "准备删除");
+
         if (hasToken) {
-          els.syncLog.textContent = "开始删除远程文件...";
-
+          setProgress(25, "删除远程英文 PDF");
           await githubDeleteContent(doc.assets.sourcePath, `Delete source PDF: ${doc.title || doc.id}`);
-          els.syncLog.textContent += `\n已处理英文 PDF：${doc.assets.sourcePath}`;
+          logSync(`已处理英文 PDF：${doc.assets.sourcePath}`);
 
+          setProgress(45, "删除远程中文 PDF");
           await githubDeleteContent(doc.assets.translationPath, `Delete translation PDF: ${doc.title || doc.id}`);
-          els.syncLog.textContent += `\n已处理中文 PDF：${doc.assets.translationPath}`;
+          logSync(`已处理中文 PDF：${doc.assets.translationPath}`);
 
+          setProgress(65, "删除远程 JSON");
           await githubDeleteContent(doc.assets.jsonPath, `Delete JSON: ${doc.title || doc.id}`);
-          els.syncLog.textContent += `\n已处理 JSON：${doc.assets.jsonPath}`;
+          logSync(`已处理 JSON：${doc.assets.jsonPath}`);
         }
 
         await deleteFile(doc.id, "source");
@@ -2947,6 +3139,7 @@
         saveDocs();
 
         if (hasToken) {
+          setProgress(85, "更新 library.json");
           await githubPutContent(
             loadSyncConfig().libraryPath,
             textToBase64(JSON.stringify({
@@ -2957,16 +3150,19 @@
             "Update literature library after deletion"
           );
 
-          els.syncLog.textContent += "\n已更新 library.json";
+          logSync("已更新 library.json");
         }
 
         await hydratePdfs();
         renderAll();
         showView("library");
+
+        setProgress(100, "删除完成");
         toast("文献已删除。");
       } catch (error) {
+        setProgress(100, "删除失败");
         toast(`删除失败：${error.message}`);
-        els.syncLog.textContent += `\n删除失败：${error.message}`;
+        logSync(`删除失败：${error.message}`);
       }
     }
 
@@ -3139,7 +3335,7 @@
 
       $("testSyncBtn").onclick = testConnection;
       $("pullRemoteBtn").onclick = pullLibraryFromGitHub;
-      $("refreshRemoteStatusBtn").onclick = refreshRemoteStatus;
+      $("refreshRemoteStatusBtn").onclick = () => refreshRemoteStatus(true);
 
       $("clearTokenBtn").onclick = () => {
         const config = loadSyncConfig();
@@ -3169,6 +3365,7 @@
       renderAll();
       fillJsonTextareaFromCurrent();
       applyView(false);
+      setProgress(0, "等待同步。");
     }
 
     start().catch(showFatal);
