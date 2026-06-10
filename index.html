@@ -20,7 +20,8 @@
       --amber: #b87916;
       --amber-soft: #fff3d6;
       --blue-soft: #edf2f7;
-      --shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
+      --danger: #b42318;
+      --danger-soft: #fee4e2;
       --sidebar-width: 310px;
       --left-col: 50%;
     }
@@ -36,8 +37,14 @@
       font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans CJK SC", Arial, sans-serif;
     }
 
-    button, input, select, textarea { font-family: inherit; }
-    button:disabled { opacity: .45; cursor: not-allowed; }
+    button, input, select, textarea {
+      font-family: inherit;
+    }
+
+    button:disabled {
+      opacity: .45;
+      cursor: not-allowed;
+    }
 
     .app {
       height: 100vh;
@@ -71,7 +78,9 @@
       z-index: 10;
     }
 
-    .sidebar-resizer:hover { background: rgba(47,111,94,.18); }
+    .sidebar-resizer:hover {
+      background: rgba(47,111,94,.18);
+    }
 
     .brand {
       height: 58px;
@@ -110,7 +119,10 @@
       flex-shrink: 0;
     }
 
-    .brand-text { min-width: 0; }
+    .brand-text {
+      min-width: 0;
+    }
+
     .brand-title {
       font-weight: 800;
       font-size: 15px;
@@ -171,7 +183,11 @@
       font-size: 16px;
     }
 
-    .nav button:hover { background: #f7faf8; border-color: #dbe6e1; }
+    .nav button:hover {
+      background: #f7faf8;
+      border-color: #dbe6e1;
+    }
+
     .nav button.active {
       background: var(--green-soft);
       border-color: #bdd4ca;
@@ -226,9 +242,23 @@
       border: 1px solid transparent;
     }
 
-    .rank-if { color: #6b4b14; background: var(--amber-soft); border-color: #eccb84; }
-    .rank-cas { color: var(--green-dark); background: var(--green-soft); border-color: #b8d2c8; }
-    .rank-jcr { color: #31435a; background: var(--blue-soft); border-color: #c9d5e3; }
+    .rank-if {
+      color: #6b4b14;
+      background: var(--amber-soft);
+      border-color: #eccb84;
+    }
+
+    .rank-cas {
+      color: var(--green-dark);
+      background: var(--green-soft);
+      border-color: #b8d2c8;
+    }
+
+    .rank-jcr {
+      color: #31435a;
+      background: var(--blue-soft);
+      border-color: #c9d5e3;
+    }
 
     .meta {
       display: grid;
@@ -240,7 +270,11 @@
       margin: 8px 0;
     }
 
-    .meta b { color: #475467; margin-right: 4px; }
+    .meta b {
+      color: #475467;
+      margin-right: 4px;
+    }
+
     .meta .doi {
       grid-column: 1 / -1;
       overflow-wrap: anywhere;
@@ -265,9 +299,17 @@
       text-overflow: ellipsis;
     }
 
-    .button-row { display: flex; flex-wrap: wrap; gap: 8px; }
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
 
-    .primary, .secondary, .tool-btn, .mode-btn {
+    .primary,
+    .secondary,
+    .danger,
+    .tool-btn,
+    .mode-btn {
       border-radius: 6px;
       height: 32px;
       padding: 0 10px;
@@ -287,16 +329,31 @@
       font-weight: 700;
     }
 
-    .primary:hover { background: var(--green-dark); }
+    .primary:hover {
+      background: var(--green-dark);
+    }
 
-    .secondary, .tool-btn, .mode-btn {
+    .secondary,
+    .tool-btn,
+    .mode-btn {
       background: white;
       color: var(--text);
       border: 1px solid var(--line);
       font-weight: 600;
     }
 
-    .secondary:hover, .tool-btn:hover, .mode-btn:hover { background: #f7faf8; }
+    .danger {
+      background: var(--danger-soft);
+      color: var(--danger);
+      border: 1px solid #fda29b;
+      font-weight: 700;
+    }
+
+    .secondary:hover,
+    .tool-btn:hover,
+    .mode-btn:hover {
+      background: #f7faf8;
+    }
 
     .mode-btn.active {
       background: var(--green-soft);
@@ -313,7 +370,9 @@
       position: relative;
     }
 
-    .top-hotzone { display: none; }
+    .top-hotzone {
+      display: none;
+    }
 
     .toolbar {
       height: 54px;
@@ -338,7 +397,9 @@
       box-shadow: 0 8px 18px rgba(15,23,42,.08);
     }
 
-    .app.reading.top-open .toolbar { top: 0; }
+    .app.reading.top-open .toolbar {
+      top: 0;
+    }
 
     .app.reading .top-hotzone {
       display: block;
@@ -350,7 +411,8 @@
       z-index: 24;
     }
 
-    .toolbar select, .toolbar input {
+    .toolbar select,
+    .toolbar input {
       height: 32px;
       border: 1px solid var(--line);
       border-radius: 6px;
@@ -362,9 +424,18 @@
       min-width: 0;
     }
 
-    .paper-select { width: 300px; }
-    .page-input { width: 62px; text-align: center; }
-    .search-input { width: 165px; }
+    .paper-select {
+      width: 300px;
+    }
+
+    .page-input {
+      width: 62px;
+      text-align: center;
+    }
+
+    .search-input {
+      width: 165px;
+    }
 
     .tool-group {
       display: inline-flex;
@@ -375,9 +446,21 @@
       flex-shrink: 0;
     }
 
-    .tool-btn { min-width: 30px; padding: 0 8px; }
-    .mode-group { display: inline-flex; align-items: center; gap: 4px; flex-shrink: 0; }
-    .spacer { flex: 1; }
+    .tool-btn {
+      min-width: 30px;
+      padding: 0 8px;
+    }
+
+    .mode-group {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      flex-shrink: 0;
+    }
+
+    .spacer {
+      flex: 1;
+    }
 
     .view {
       display: none;
@@ -385,8 +468,13 @@
       min-height: 0;
     }
 
-    .view.active { display: block; }
-    .app.reading .view { height: 100vh; }
+    .view.active {
+      display: block;
+    }
+
+    .app.reading .view {
+      height: 100vh;
+    }
 
     .panel {
       height: 100%;
@@ -404,7 +492,11 @@
       gap: 12px;
     }
 
-    .panel-head h2 { margin: 0; font-size: 21px; }
+    .panel-head h2 {
+      margin: 0;
+      font-size: 21px;
+    }
+
     .panel-head p {
       margin: 5px 0 0;
       color: var(--muted);
@@ -433,16 +525,24 @@
       color: #243b35;
     }
 
-    .box p, .box li {
+    .box p,
+    .box li {
       font-size: 13px;
       line-height: 1.85;
       color: var(--text);
     }
 
-    .box ul { margin: 0 0 0 18px; padding: 0; }
-    .wide { grid-column: 1 / -1; }
+    .box ul {
+      margin: 0 0 0 18px;
+      padding: 0;
+    }
 
-    .upload-actions {
+    .wide {
+      grid-column: 1 / -1;
+    }
+
+    .upload-actions,
+    .sync-actions {
       max-width: 1180px;
       margin: 0 auto 14px;
       display: flex;
@@ -485,6 +585,38 @@
       margin: 0 0 12px;
     }
 
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      max-width: 1180px;
+      margin: 0 auto 14px;
+    }
+
+    .field {
+      display: grid;
+      gap: 6px;
+    }
+
+    .field label {
+      font-size: 13px;
+      color: #344054;
+      font-weight: 700;
+    }
+
+    .field input {
+      height: 36px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 0 10px;
+      font-size: 13px;
+      outline: none;
+    }
+
+    .field.full {
+      grid-column: 1 / -1;
+    }
+
     textarea {
       width: 100%;
       min-height: 150px;
@@ -504,6 +636,22 @@
       margin-top: 10px;
       min-height: 18px;
       overflow-wrap: anywhere;
+      white-space: pre-wrap;
+    }
+
+    .sync-log {
+      max-width: 1180px;
+      margin: 0 auto;
+      background: #101828;
+      color: #e4e7ec;
+      border-radius: 8px;
+      padding: 12px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 12px;
+      line-height: 1.65;
+      min-height: 120px;
+      white-space: pre-wrap;
+      overflow: auto;
     }
 
     .reader {
@@ -538,7 +686,9 @@
       z-index: 2;
     }
 
-    .pane-resizer:hover { background: rgba(47,111,94,.55); }
+    .pane-resizer:hover {
+      background: rgba(47,111,94,.55);
+    }
 
     .paper-page {
       background: white;
@@ -549,7 +699,10 @@
       box-shadow: none;
     }
 
-    .mock-page, .translation-page { aspect-ratio: 0.707 / 1; }
+    .mock-page,
+    .translation-page {
+      aspect-ratio: 0.707 / 1;
+    }
 
     .pdf-page {
       display: flex;
@@ -574,7 +727,11 @@
       margin: 0 0 10px;
     }
 
-    .pdf-placeholder h2 { font-size: 14px; margin: 16px 0 8px; }
+    .pdf-placeholder h2 {
+      font-size: 14px;
+      margin: 16px 0 8px;
+    }
+
     .pdf-placeholder p {
       font-size: 12px;
       line-height: 1.65;
@@ -614,7 +771,8 @@
       color: var(--text);
     }
 
-    .mock-table th, .mock-table td {
+    .mock-table th,
+    .mock-table td {
       border: 1px solid #d6ddd9;
       padding: 5px;
       text-align: left;
@@ -722,15 +880,30 @@
     }
 
     @media (max-width: 1100px) {
-      .upload-grid { grid-template-columns: 1fr; }
-      .paper-select { width: 220px; }
-      .search-input { width: 145px; }
+      .upload-grid,
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .field.full {
+        grid-column: auto;
+      }
+
+      .paper-select {
+        width: 220px;
+      }
+
+      .search-input {
+        width: 145px;
+      }
     }
 
     @media (max-width: 840px) {
       body { overflow: auto; }
 
-      .app, .app.reading, .app.reading.side-open {
+      .app,
+      .app.reading,
+      .app.reading.side-open {
         height: auto;
         min-height: 100vh;
         display: block;
@@ -742,7 +915,10 @@
         border-bottom: 1px solid var(--line);
       }
 
-      .sidebar-resizer, .top-hotzone { display: none !important; }
+      .sidebar-resizer,
+      .top-hotzone {
+        display: none !important;
+      }
 
       .brand-text,
       .sidebar-content,
@@ -753,10 +929,17 @@
         display: block;
       }
 
-      .brand { justify-content: flex-start; }
-      .app.reading:not(.side-open) .logo { display: grid; }
+      .brand {
+        justify-content: flex-start;
+      }
 
-      .nav { grid-template-columns: repeat(4, 1fr); }
+      .app.reading:not(.side-open) .logo {
+        display: grid;
+      }
+
+      .nav {
+        grid-template-columns: repeat(5, 1fr);
+      }
 
       .nav button,
       .app.reading:not(.side-open) .nav button {
@@ -764,8 +947,13 @@
         font-size: 13px;
       }
 
-      .sidebar-content { display: none !important; }
-      .main { height: auto; }
+      .sidebar-content {
+        display: none !important;
+      }
+
+      .main {
+        height: auto;
+      }
 
       .toolbar,
       .app.reading .toolbar {
@@ -777,12 +965,15 @@
         box-shadow: none;
       }
 
-      .view, .app.reading .view {
+      .view,
+      .app.reading .view {
         height: auto;
         min-height: calc(100vh - 160px);
       }
 
-      .reader { min-height: calc(100vh - 160px); }
+      .reader {
+        min-height: calc(100vh - 160px);
+      }
 
       .reader-inner {
         min-width: 0;
@@ -795,9 +986,17 @@
         gap: 0;
       }
 
-      .pane-resizer { display: none; }
-      .grid { grid-template-columns: 1fr; }
-      .wide { grid-column: auto; }
+      .pane-resizer {
+        display: none;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .wide {
+        grid-column: auto;
+      }
     }
   </style>
 </head>
@@ -821,6 +1020,7 @@
         <button data-view="upload">⇧ <span class="nav-label">上传/导入</span></button>
         <button data-view="reader">◫ <span class="nav-label">对照阅读</span></button>
         <button data-view="ai">◎ <span class="nav-label">精读结果</span></button>
+        <button data-view="sync">↻ <span class="nav-label">同步</span></button>
       </nav>
 
       <div class="sidebar-content">
@@ -856,7 +1056,7 @@
         <div class="spacer"></div>
 
         <input id="searchInput" class="search-input" placeholder="搜索 JSON 译文" />
-        <button class="secondary" data-view-btn="ai">◎ 精读结果</button>
+        <button class="secondary" data-view-btn="sync">↻ 同步</button>
       </div>
 
       <section id="view-library" class="view active">
@@ -864,7 +1064,7 @@
           <div class="panel-head">
             <div>
               <h2>文献库</h2>
-              <p>管理英文 PDF、中文译文 PDF、AI 精读 JSON。导入时会按 DOI / 标题自动更新，避免重复文献。</p>
+              <p>文献可保存到本机，也可同步到 GitHub 仓库。远程删除会同时删除仓库中的 PDF、JSON 和 library 记录。</p>
             </div>
             <button class="primary" data-view-btn="upload">⇧ 上传/导入</button>
           </div>
@@ -877,21 +1077,22 @@
           <div class="panel-head">
             <div>
               <h2>上传 / 导入</h2>
-              <p>先选中文献或点击“新增文献”。PDF 绑定到当前文献；JSON 会自动更新标题、标签、IF、CAS、JCR 和精读结果。</p>
+              <p>PDF 绑定到当前文献；JSON 会自动更新标题、标签、IF、CAS、JCR 和精读结果。点“同步当前文献”即可自动写入 GitHub。</p>
             </div>
           </div>
 
           <div class="upload-actions">
             <button id="newDocBtn" class="primary">＋ 新增文献</button>
-            <button id="deleteDocBtn" class="secondary">删除当前文献</button>
-            <button id="clearFilesBtn" class="secondary">清除当前 PDF 缓存</button>
+            <button id="deleteDocBtn" class="danger">删除当前文献</button>
+            <button id="clearFilesBtn" class="secondary">清除本地 PDF 缓存</button>
+            <button id="syncCurrentBtnA" class="primary">↻ 同步当前文献到 GitHub</button>
             <span class="current-label">当前文献：<b id="currentDocLabel"></b></span>
           </div>
 
           <div class="upload-grid">
             <div class="drop">
               <h3>📄 英文原文 PDF</h3>
-              <p>绑定到当前文献左侧。高分辨率 PDF.js 渲染，不使用 iframe、embed 或 object。</p>
+              <p>绑定到当前文献左侧。同步时会上传到仓库 <b>papers/</b> 目录。</p>
               <input id="sourcePdfInput" type="file" accept="application/pdf" />
               <div id="sourcePdfStatus" class="small-note"></div>
             </div>
@@ -905,7 +1106,7 @@
 
             <div class="drop">
               <h3>{ } AI 精读 JSON</h3>
-              <p>可上传 JSON 文件，也可粘贴 JSON。导入后自动更新文献信息和精读结果。</p>
+              <p>可上传 JSON 文件，也可粘贴 JSON。同步时会写入仓库 <b>data/</b> 目录。</p>
               <input id="jsonFileInput" type="file" accept="application/json,.json" />
               <textarea id="jsonInput">{
   "title": "Extraction and separation of manganese and iron from ferruginous manganese ores: A review",
@@ -954,6 +1155,63 @@
           <div id="aiGrid" class="grid"></div>
         </div>
       </section>
+
+      <section id="view-sync" class="view">
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <h2>GitHub 同步</h2>
+              <p>第一次填入 GitHub Token 后，网站可自动上传、更新、删除仓库中的 PDF、JSON 和文献库索引。</p>
+            </div>
+          </div>
+
+          <div class="form-grid">
+            <div class="field">
+              <label>GitHub 用户名 / Owner</label>
+              <input id="ghOwner" value="syuan7023-ship-it" />
+            </div>
+            <div class="field">
+              <label>仓库名 / Repo</label>
+              <input id="ghRepo" value="manganese-literature-reader" />
+            </div>
+            <div class="field">
+              <label>分支 / Branch</label>
+              <input id="ghBranch" value="main" />
+            </div>
+            <div class="field">
+              <label>文献库索引路径</label>
+              <input id="ghLibraryPath" value="data/library.json" />
+            </div>
+            <div class="field full">
+              <label>GitHub Token</label>
+              <input id="ghToken" type="password" placeholder="github_pat_xxx 或 ghp_xxx，只保存在本机浏览器" />
+            </div>
+          </div>
+
+          <div class="sync-actions">
+            <button id="saveSyncBtn" class="primary">保存同步设置</button>
+            <button id="testSyncBtn" class="secondary">测试连接</button>
+            <button id="pullRemoteBtn" class="secondary">从 GitHub 拉取文献库</button>
+            <button id="syncCurrentBtnB" class="primary">同步当前文献</button>
+            <button id="syncAllBtn" class="primary">同步全部文献</button>
+            <button id="deleteRemoteBtn" class="danger">删除当前文献及仓库文件</button>
+            <button id="clearTokenBtn" class="secondary">清除 Token</button>
+          </div>
+
+          <div id="syncLog" class="sync-log">等待操作...</div>
+
+          <div class="box wide" style="max-width:1180px;margin:14px auto 0;">
+            <h3>仓库数据结构</h3>
+            <p>同步后会自动生成：</p>
+            <ul>
+              <li><b>data/library.json</b>：文献库索引，跨设备读取。</li>
+              <li><b>data/文献ID.json</b>：单篇文献 JSON 精读文件。</li>
+              <li><b>papers/文献ID-en.pdf</b>：英文原文 PDF。</li>
+              <li><b>papers/文献ID-cn.pdf</b>：中文译文 PDF。</li>
+            </ul>
+          </div>
+        </div>
+      </section>
     </main>
   </div>
 
@@ -963,10 +1221,11 @@
     import * as pdfjsLib from "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs";
     pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.mjs";
 
-    const DB_NAME = "mn-lit-db-v4";
+    const DB_NAME = "mn-lit-db-v5";
     const STORE = "files";
-    const STORAGE_KEY = "mn-lit-docs-v4";
-    const CURRENT_KEY = "mn-lit-current-v4";
+    const STORAGE_KEY = "mn-lit-docs-v5";
+    const CURRENT_KEY = "mn-lit-current-v5";
+    const SYNC_KEY = "mn-lit-github-sync-v5";
 
     const samplePaper = {
       id: "sample-review-2019",
@@ -1057,7 +1316,13 @@
       modePdf: document.getElementById("modePdf"),
       modeJson: document.getElementById("modeJson"),
       toolbar: document.getElementById("toolbar"),
-      topHotzone: document.getElementById("topHotzone")
+      topHotzone: document.getElementById("topHotzone"),
+      ghOwner: document.getElementById("ghOwner"),
+      ghRepo: document.getElementById("ghRepo"),
+      ghBranch: document.getElementById("ghBranch"),
+      ghLibraryPath: document.getElementById("ghLibraryPath"),
+      ghToken: document.getElementById("ghToken"),
+      syncLog: document.getElementById("syncLog")
     };
 
     function loadDocs() {
@@ -1106,10 +1371,255 @@
     function toast(message) {
       els.toast.textContent = message;
       els.toast.style.display = "block";
-      setTimeout(() => els.toast.style.display = "none", 2400);
+      setTimeout(() => els.toast.style.display = "none", 2600);
     }
 
-    function openDB() {
+    function logSync(message) {
+      const time = new Date().toLocaleTimeString();
+      els.syncLog.textContent += `\n[${time}] ${message}`;
+      els.syncLog.scrollTop = els.syncLog.scrollHeight;
+    }
+
+    function setSyncLog(message) {
+      els.syncLog.textContent = message;
+    }
+
+    function slugify(text) {
+      const base = String(text || "")
+        .toLowerCase()
+        .replace(/https?:\/\//g, "")
+        .replace(/doi\.org\//g, "")
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "")
+        .slice(0, 80);
+      return base || `paper-${Date.now()}`;
+    }
+
+    function ensureDocId(doc) {
+      if (!doc.id || doc.id.startsWith("doc-")) {
+        doc.id = slugify(doc.doi || doc.title || doc.titleCn || doc.id);
+      }
+      return doc.id;
+    }
+
+    function ensureRemotePaths(doc) {
+      const id = ensureDocId(doc);
+      doc.assets = doc.assets || {};
+      doc.assets.jsonPath = doc.assets.jsonPath || `data/${id}.json`;
+      doc.assets.sourcePath = doc.assets.sourcePath || `papers/${id}-en.pdf`;
+      doc.assets.translationPath = doc.assets.translationPath || `papers/${id}-cn.pdf`;
+      return doc.assets;
+    }
+
+    function publicDoc(doc) {
+      const copy = structuredClone(doc);
+      copy.assets = copy.assets || {};
+      return copy;
+    }
+
+    function libraryPayload() {
+      return {
+        version: 1,
+        updatedAt: new Date().toISOString(),
+        docs: docs.map(publicDoc)
+      };
+    }
+
+    function bytesToBase64(bytes) {
+      let binary = "";
+      const chunk = 0x8000;
+      for (let i = 0; i < bytes.length; i += chunk) {
+        binary += String.fromCharCode(...bytes.subarray(i, i + chunk));
+      }
+      return btoa(binary);
+    }
+
+    function arrayBufferToBase64(buffer) {
+      return bytesToBase64(new Uint8Array(buffer));
+    }
+
+    function textToBase64(text) {
+      return bytesToBase64(new TextEncoder().encode(text));
+    }
+
+    function base64ToText(base64) {
+      const clean = String(base64 || "").replace(/\n/g, "");
+      const binary = atob(clean);
+      const bytes = new Uint8Array(binary.length);
+      for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+      return new TextDecoder().decode(bytes);
+    }
+
+    function encodePath(path) {
+      return String(path).split("/").map(encodeURIComponent).join("/");
+    }
+
+    function relativeUrl(path) {
+      return String(path || "").replace(/^\/+/, "");
+    }
+
+    function loadSyncConfig() {
+      try {
+        const raw = localStorage.getItem(SYNC_KEY);
+        if (!raw) {
+          return {
+            owner: "syuan7023-ship-it",
+            repo: "manganese-literature-reader",
+            branch: "main",
+            libraryPath: "data/library.json",
+            token: ""
+          };
+        }
+        return {
+          owner: "syuan7023-ship-it",
+          repo: "manganese-literature-reader",
+          branch: "main",
+          libraryPath: "data/library.json",
+          token: "",
+          ...JSON.parse(raw)
+        };
+      } catch {
+        return {
+          owner: "syuan7023-ship-it",
+          repo: "manganese-literature-reader",
+          branch: "main",
+          libraryPath: "data/library.json",
+          token: ""
+        };
+      }
+    }
+
+    function saveSyncConfig() {
+      const cfg = {
+        owner: els.ghOwner.value.trim(),
+        repo: els.ghRepo.value.trim(),
+        branch: els.ghBranch.value.trim() || "main",
+        libraryPath: els.ghLibraryPath.value.trim() || "data/library.json",
+        token: els.ghToken.value.trim()
+      };
+
+      localStorage.setItem(SYNC_KEY, JSON.stringify(cfg));
+      return cfg;
+    }
+
+    function fillSyncForm() {
+      const cfg = loadSyncConfig();
+      els.ghOwner.value = cfg.owner || "syuan7023-ship-it";
+      els.ghRepo.value = cfg.repo || "manganese-literature-reader";
+      els.ghBranch.value = cfg.branch || "main";
+      els.ghLibraryPath.value = cfg.libraryPath || "data/library.json";
+      els.ghToken.value = cfg.token || "";
+    }
+
+    function getSyncConfig() {
+      const cfg = loadSyncConfig();
+      if (!cfg.owner || !cfg.repo || !cfg.branch || !cfg.token) {
+        throw new Error("请先在“同步”页面填写并保存 GitHub Token、owner、repo、branch。");
+      }
+      return cfg;
+    }
+
+    async function ghFetch(path, options = {}) {
+      const cfg = getSyncConfig();
+
+      const res = await fetch(`https://api.github.com/repos/${cfg.owner}/${cfg.repo}${path}`, {
+        ...options,
+        headers: {
+          "Accept": "application/vnd.github+json",
+          "Authorization": `Bearer ${cfg.token}`,
+          "X-GitHub-Api-Version": "2022-11-28",
+          ...(options.headers || {})
+        }
+      });
+
+      if (!res.ok) {
+        let detail = "";
+        try {
+          const json = await res.json();
+          detail = json.message ? `：${json.message}` : "";
+        } catch {}
+        throw new Error(`GitHub API ${res.status}${detail}`);
+      }
+
+      return res;
+    }
+
+    async function ghMaybeGetContent(path) {
+      const cfg = getSyncConfig();
+      const url = `/contents/${encodePath(path)}?ref=${encodeURIComponent(cfg.branch)}`;
+      const res = await fetch(`https://api.github.com/repos/${cfg.owner}/${cfg.repo}${url}`, {
+        headers: {
+          "Accept": "application/vnd.github+json",
+          "Authorization": `Bearer ${cfg.token}`,
+          "X-GitHub-Api-Version": "2022-11-28"
+        }
+      });
+
+      if (res.status === 404) return null;
+
+      if (!res.ok) {
+        let detail = "";
+        try {
+          const json = await res.json();
+          detail = json.message ? `：${json.message}` : "";
+        } catch {}
+        throw new Error(`GitHub API ${res.status}${detail}`);
+      }
+
+      return await res.json();
+    }
+
+    async function ghGetJson(path) {
+      const item = await ghMaybeGetContent(path);
+      if (!item) return null;
+      if (!item.content) throw new Error(`${path} 无可读取 content`);
+      return JSON.parse(base64ToText(item.content));
+    }
+
+    async function ghUpsertBase64(path, base64, message) {
+      const cfg = getSyncConfig();
+      const existing = await ghMaybeGetContent(path);
+
+      const body = {
+        message,
+        content: base64,
+        branch: cfg.branch
+      };
+
+      if (existing?.sha) body.sha = existing.sha;
+
+      await ghFetch(`/contents/${encodePath(path)}`, {
+        method: "PUT",
+        body: JSON.stringify(body)
+      });
+    }
+
+    async function ghUpsertText(path, text, message) {
+      await ghUpsertBase64(path, textToBase64(text), message);
+    }
+
+    async function ghDeletePath(path, message) {
+      const cfg = getSyncConfig();
+      const existing = await ghMaybeGetContent(path);
+      if (!existing?.sha) {
+        logSync(`远程不存在，跳过删除：${path}`);
+        return false;
+      }
+
+      await ghFetch(`/contents/${encodePath(path)}`, {
+        method: "DELETE",
+        body: JSON.stringify({
+          message,
+          sha: existing.sha,
+          branch: cfg.branch
+        })
+      });
+
+      logSync(`已删除远程文件：${path}`);
+      return true;
+    }
+
+    async function openDB() {
       return new Promise((resolve, reject) => {
         const req = indexedDB.open(DB_NAME, 1);
         req.onupgradeneeded = () => {
@@ -1124,20 +1634,35 @@
 
     async function putFile(docId, type, file) {
       const buffer = await file.arrayBuffer();
-
       const db = await openDB();
+
       return new Promise((resolve, reject) => {
         const tx = db.transaction(STORE, "readwrite");
-        const store = tx.objectStore(STORE);
-
-        store.put({
+        tx.objectStore(STORE).put({
           key: `${docId}:${type}`,
           name: file.name,
           size: file.size,
           mime: file.type || "application/pdf",
           buffer
         });
+        tx.oncomplete = () => resolve();
+        tx.onerror = () => reject(tx.error);
+        tx.onabort = () => reject(tx.error || new Error("IndexedDB transaction aborted"));
+      });
+    }
 
+    async function putRemoteBufferToLocal(docId, type, name, buffer) {
+      const db = await openDB();
+
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction(STORE, "readwrite");
+        tx.objectStore(STORE).put({
+          key: `${docId}:${type}`,
+          name,
+          size: buffer.byteLength,
+          mime: "application/pdf",
+          buffer
+        });
         tx.oncomplete = () => resolve();
         tx.onerror = () => reject(tx.error);
         tx.onabort = () => reject(tx.error || new Error("IndexedDB transaction aborted"));
@@ -1150,7 +1675,6 @@
       return new Promise(resolve => {
         const tx = db.transaction(STORE, "readonly");
         const req = tx.objectStore(STORE).get(`${docId}:${type}`);
-
         req.onsuccess = () => resolve(req.result || null);
         req.onerror = () => resolve(null);
       });
@@ -1167,9 +1691,26 @@
       });
     }
 
+    async function loadPdfFromBuffer(buffer) {
+      return await pdfjsLib.getDocument({ data: buffer.slice(0) }).promise;
+    }
+
     async function loadPdfRecord(record) {
       if (!record?.buffer) return null;
-      return await pdfjsLib.getDocument({ data: record.buffer.slice(0) }).promise;
+      return await loadPdfFromBuffer(record.buffer);
+    }
+
+    async function fetchRemotePdfToLocal(doc, type, path) {
+      try {
+        const res = await fetch(`${relativeUrl(path)}?v=${Date.now()}`);
+        if (!res.ok) return null;
+        const buffer = await res.arrayBuffer();
+        const name = path.split("/").pop();
+        await putRemoteBufferToLocal(doc.id, type, name, buffer);
+        return await loadPdfFromBuffer(buffer);
+      } catch {
+        return null;
+      }
     }
 
     async function hydratePdfs() {
@@ -1177,19 +1718,22 @@
       translationPdf = null;
 
       const doc = currentDoc();
+      doc.assets = doc.assets || {};
 
       const sourceRecord = await getFile(doc.id, "source");
       if (sourceRecord) {
         try {
           sourcePdf = await loadPdfRecord(sourceRecord);
-          doc.assets = doc.assets || {};
           doc.assets.sourceName = sourceRecord.name;
           doc.pageCount = Math.max(Number(doc.pageCount || 0), sourcePdf.numPages);
           els.sourcePdfStatus.textContent = `已恢复英文 PDF：${sourceRecord.name}`;
         } catch {
           await deleteFile(doc.id, "source");
-          els.sourcePdfStatus.textContent = "英文 PDF 缓存损坏，已清除。";
+          els.sourcePdfStatus.textContent = "英文 PDF 本地缓存损坏，已清除。";
         }
+      } else if (doc.assets.sourcePath) {
+        sourcePdf = await fetchRemotePdfToLocal(doc, "source", doc.assets.sourcePath);
+        els.sourcePdfStatus.textContent = sourcePdf ? `已从 GitHub Pages 读取英文 PDF：${doc.assets.sourcePath}` : "";
       } else {
         els.sourcePdfStatus.textContent = "";
       }
@@ -1198,14 +1742,16 @@
       if (transRecord) {
         try {
           translationPdf = await loadPdfRecord(transRecord);
-          doc.assets = doc.assets || {};
           doc.assets.translationName = transRecord.name;
           doc.pageCount = Math.max(Number(doc.pageCount || 0), translationPdf.numPages);
           els.translationPdfStatus.textContent = `已恢复中文 PDF：${transRecord.name}`;
         } catch {
           await deleteFile(doc.id, "translation");
-          els.translationPdfStatus.textContent = "中文 PDF 缓存损坏，已清除。";
+          els.translationPdfStatus.textContent = "中文 PDF 本地缓存损坏，已清除。";
         }
+      } else if (doc.assets.translationPath) {
+        translationPdf = await fetchRemotePdfToLocal(doc, "translation", doc.assets.translationPath);
+        els.translationPdfStatus.textContent = translationPdf ? `已从 GitHub Pages 读取中文 PDF：${doc.assets.translationPath}` : "";
       } else {
         els.translationPdfStatus.textContent = "";
       }
@@ -1244,7 +1790,6 @@
     function renderPaperCard(doc) {
       const tags = normalizeList(doc.tags).map(tag => `<span class="tag">${escapeHtml(tag)}</span>`).join("");
       const assets = doc.assets || {};
-
       return `
         <div class="paper-card">
           <h3>${escapeHtml(doc.title || "未命名文献")}</h3>
@@ -1254,11 +1799,14 @@
             <span><b>期刊</b>${escapeHtml(doc.journal || "-")}</span>
             <span><b>年份</b>${escapeHtml(doc.year || "-")}</span>
             <span class="doi"><b>DOI</b>${escapeHtml(doc.doi || "-")}</span>
-            <span class="doi"><b>英文PDF</b>${escapeHtml(assets.sourceName || "未上传")}</span>
-            <span class="doi"><b>译文PDF</b>${escapeHtml(assets.translationName || "未上传")}</span>
+            <span class="doi"><b>英文PDF</b>${escapeHtml(assets.sourceName || assets.sourcePath || "未上传")}</span>
+            <span class="doi"><b>译文PDF</b>${escapeHtml(assets.translationName || assets.translationPath || "未上传")}</span>
           </div>
           <div class="tags">${tags}</div>
-          <button class="primary" data-open-reader="${doc.id}">📖 打开对照阅读</button>
+          <div class="button-row">
+            <button class="primary" data-open-reader="${doc.id}">📖 打开对照阅读</button>
+            <button class="secondary" data-select-doc="${doc.id}">设为当前</button>
+          </div>
         </div>
       `;
     }
@@ -1281,6 +1829,16 @@
           await hydratePdfs();
           renderAll();
           showView("reader");
+        };
+      });
+
+      document.querySelectorAll("[data-select-doc]").forEach(btn => {
+        btn.onclick = async () => {
+          currentDocId = btn.dataset.selectDoc;
+          saveDocs();
+          await hydratePdfs();
+          renderAll();
+          toast("已切换当前文献。");
         };
       });
     }
@@ -1556,11 +2114,13 @@
 
     function mergeDoc(target, data) {
       const keepAssets = target.assets || {};
+      const keepId = target.id;
+
       const merged = {
         ...target,
         ...data,
         assets: keepAssets,
-        id: target.id,
+        id: keepId,
         journalRank: data.journalRank || data.rank || target.journalRank || {},
         tags: normalizeList(data.tags || target.tags),
         pageCount: data.pageCount || Object.keys(data.pageTranslations || target.pageTranslations || {}).length || target.pageCount || 1
@@ -1574,6 +2134,7 @@
       }
 
       Object.assign(target, merged);
+      ensureDocId(target);
     }
 
     async function importJson() {
@@ -1589,7 +2150,7 @@
           target = current;
         } else {
           target = {
-            id: `doc-${Date.now()}`,
+            id: slugify(data.doi || data.title || data.titleCn),
             title: data.title || "未命名文献",
             titleCn: data.titleCn || "",
             journal: "",
@@ -1637,13 +2198,14 @@
 
       const status = type === "source" ? els.sourcePdfStatus : els.translationPdfStatus;
       const doc = currentDoc();
+      ensureDocId(doc);
 
       try {
         status.textContent = `正在读取：${file.name}`;
         await putFile(doc.id, type, file);
 
         const buffer = await file.arrayBuffer();
-        const pdf = await pdfjsLib.getDocument({ data: buffer.slice(0) }).promise;
+        const pdf = await loadPdfFromBuffer(buffer);
 
         doc.assets = doc.assets || {};
 
@@ -1794,35 +2356,228 @@
       }
 
       const doc = currentDoc();
-      const ok = confirm(`确定删除当前文献？\n${doc.titleCn || doc.title || "未命名文献"}`);
-      if (!ok) return;
+      const hasCfg = !!loadSyncConfig().token;
+      const message = hasCfg
+        ? `确定删除当前文献并同步删除 GitHub 仓库文件？\n\n${doc.titleCn || doc.title || "未命名文献"}`
+        : `确定删除当前文献？\n\n${doc.titleCn || doc.title || "未命名文献"}`;
 
-      await deleteFile(doc.id, "source");
-      await deleteFile(doc.id, "translation");
+      if (!confirm(message)) return;
 
-      docs = docs.filter(d => d.id !== doc.id);
-      currentDocId = docs[0].id;
-      sourcePdf = null;
-      translationPdf = null;
-      rightMode = "json";
-      saveDocs();
-      await hydratePdfs();
-      renderAll();
-      showView("library");
-      toast("当前文献已删除。");
+      try {
+        if (hasCfg) {
+          setSyncLog("开始删除远程文献...");
+          await deleteRemoteFilesForDoc(doc);
+        }
+
+        await deleteFile(doc.id, "source");
+        await deleteFile(doc.id, "translation");
+
+        docs = docs.filter(d => d.id !== doc.id);
+        currentDocId = docs[0].id;
+        sourcePdf = null;
+        translationPdf = null;
+        rightMode = "json";
+        saveDocs();
+
+        if (hasCfg) {
+          await pushLibraryToGitHub("Update library after deleting document");
+        }
+
+        await hydratePdfs();
+        renderAll();
+        showView("library");
+        toast(hasCfg ? "当前文献和仓库文件已删除。" : "当前文献已删除。");
+      } catch (err) {
+        toast(`删除失败：${err.message}`);
+        logSync(`删除失败：${err.message}`);
+      }
     }
 
     async function clearCurrentFiles() {
       const doc = currentDoc();
       await deleteFile(doc.id, "source");
       await deleteFile(doc.id, "translation");
-      doc.assets = {};
+      doc.assets = {
+        ...(doc.assets || {}),
+        sourceName: "",
+        translationName: ""
+      };
       sourcePdf = null;
       translationPdf = null;
       rightMode = "json";
       saveDocs();
       renderAll();
-      toast("当前文献的 PDF 缓存已清除。");
+      toast("当前文献的本地 PDF 缓存已清除，远程仓库文件未删除。");
+    }
+
+    async function pushLibraryToGitHub(message = "Update literature library") {
+      const cfg = getSyncConfig();
+
+      docs.forEach(doc => {
+        ensureDocId(doc);
+        ensureRemotePaths(doc);
+      });
+
+      await ghUpsertText(
+        cfg.libraryPath || "data/library.json",
+        JSON.stringify(libraryPayload(), null, 2),
+        message
+      );
+
+      logSync(`已更新远程文献库索引：${cfg.libraryPath || "data/library.json"}`);
+    }
+
+    async function syncOneDocToGitHub(doc) {
+      ensureDocId(doc);
+      const assets = ensureRemotePaths(doc);
+
+      logSync(`开始同步：${doc.titleCn || doc.title || doc.id}`);
+
+      const sourceRecord = await getFile(doc.id, "source");
+      if (sourceRecord?.buffer) {
+        await ghUpsertBase64(
+          assets.sourcePath,
+          arrayBufferToBase64(sourceRecord.buffer),
+          `Upload source PDF: ${doc.title || doc.id}`
+        );
+        assets.sourceName = sourceRecord.name;
+        logSync(`已上传英文 PDF：${assets.sourcePath}`);
+      } else if (assets.sourcePath) {
+        logSync(`未找到本地英文 PDF，保留远程路径：${assets.sourcePath}`);
+      }
+
+      const transRecord = await getFile(doc.id, "translation");
+      if (transRecord?.buffer) {
+        await ghUpsertBase64(
+          assets.translationPath,
+          arrayBufferToBase64(transRecord.buffer),
+          `Upload translation PDF: ${doc.title || doc.id}`
+        );
+        assets.translationName = transRecord.name;
+        logSync(`已上传中文 PDF：${assets.translationPath}`);
+      } else if (assets.translationPath && assets.translationName) {
+        logSync(`未找到本地中文 PDF，保留远程路径：${assets.translationPath}`);
+      }
+
+      await ghUpsertText(
+        assets.jsonPath,
+        JSON.stringify(publicDoc(doc), null, 2),
+        `Update JSON: ${doc.title || doc.id}`
+      );
+
+      logSync(`已上传文献 JSON：${assets.jsonPath}`);
+
+      saveDocs();
+    }
+
+    async function syncCurrentDocToGitHub() {
+      try {
+        saveSyncConfig();
+        setSyncLog("开始同步当前文献...");
+        await syncOneDocToGitHub(currentDoc());
+        await pushLibraryToGitHub("Update library after syncing current document");
+        saveDocs();
+        renderAll();
+        toast("当前文献已同步到 GitHub。GitHub Pages 可能需要几十秒更新。");
+        logSync("同步完成。");
+      } catch (err) {
+        toast(`同步失败：${err.message}`);
+        logSync(`同步失败：${err.message}`);
+      }
+    }
+
+    async function syncAllDocsToGitHub() {
+      try {
+        saveSyncConfig();
+        setSyncLog("开始同步全部文献...");
+        for (const doc of docs) {
+          await syncOneDocToGitHub(doc);
+        }
+        await pushLibraryToGitHub("Update full literature library");
+        saveDocs();
+        renderAll();
+        toast("全部文献已同步到 GitHub。");
+        logSync("全部同步完成。");
+      } catch (err) {
+        toast(`同步失败：${err.message}`);
+        logSync(`同步失败：${err.message}`);
+      }
+    }
+
+    async function pullLibraryFromGitHub() {
+      try {
+        saveSyncConfig();
+        const cfg = getSyncConfig();
+        setSyncLog(`开始拉取：${cfg.libraryPath}`);
+
+        const data = await ghGetJson(cfg.libraryPath);
+        if (!data) {
+          logSync("远程还没有 library.json。");
+          toast("远程还没有文献库索引。");
+          return;
+        }
+
+        const remoteDocs = Array.isArray(data) ? data : data.docs;
+        if (!Array.isArray(remoteDocs) || !remoteDocs.length) {
+          throw new Error("远程 library.json 中没有 docs 数组。");
+        }
+
+        docs = remoteDocs;
+        docs.forEach(doc => {
+          doc.assets = doc.assets || {};
+          ensureDocId(doc);
+        });
+
+        currentDocId = docs[0].id;
+        saveDocs();
+
+        await hydratePdfs();
+        renderAll();
+        showView("library");
+
+        logSync(`已拉取 ${docs.length} 篇文献。PDF 会在打开对应文献时从 GitHub Pages 读取并缓存到本机。`);
+        toast("已从 GitHub 拉取文献库。");
+      } catch (err) {
+        toast(`拉取失败：${err.message}`);
+        logSync(`拉取失败：${err.message}`);
+      }
+    }
+
+    async function deleteRemoteFilesForDoc(doc) {
+      ensureDocId(doc);
+      const assets = ensureRemotePaths(doc);
+      const paths = [
+        assets.sourcePath,
+        assets.translationPath,
+        assets.jsonPath
+      ].filter(Boolean);
+
+      for (const path of paths) {
+        await ghDeletePath(path, `Delete file for ${doc.title || doc.id}: ${path}`);
+      }
+    }
+
+    async function deleteCurrentRemoteAndLocal() {
+      await deleteCurrentDoc();
+    }
+
+    async function testGitHubConnection() {
+      try {
+        saveSyncConfig();
+        const cfg = getSyncConfig();
+        setSyncLog("正在测试 GitHub 连接...");
+
+        const res = await ghFetch("");
+        const repo = await res.json();
+
+        logSync(`连接成功：${repo.full_name}`);
+        logSync(`默认分支：${repo.default_branch}`);
+        logSync(`当前配置分支：${cfg.branch}`);
+        toast("GitHub 连接成功。");
+      } catch (err) {
+        toast(`连接失败：${err.message}`);
+        logSync(`连接失败：${err.message}`);
+      }
     }
 
     document.querySelectorAll(".nav button").forEach(btn => {
@@ -1877,6 +2632,28 @@
     document.getElementById("newDocBtn").addEventListener("click", createNewDoc);
     document.getElementById("deleteDocBtn").addEventListener("click", deleteCurrentDoc);
     document.getElementById("clearFilesBtn").addEventListener("click", clearCurrentFiles);
+    document.getElementById("syncCurrentBtnA").addEventListener("click", syncCurrentDocToGitHub);
+
+    document.getElementById("saveSyncBtn").addEventListener("click", () => {
+      saveSyncConfig();
+      setSyncLog("同步设置已保存到本机浏览器。");
+      toast("同步设置已保存。");
+    });
+
+    document.getElementById("testSyncBtn").addEventListener("click", testGitHubConnection);
+    document.getElementById("pullRemoteBtn").addEventListener("click", pullLibraryFromGitHub);
+    document.getElementById("syncCurrentBtnB").addEventListener("click", syncCurrentDocToGitHub);
+    document.getElementById("syncAllBtn").addEventListener("click", syncAllDocsToGitHub);
+    document.getElementById("deleteRemoteBtn").addEventListener("click", deleteCurrentRemoteAndLocal);
+
+    document.getElementById("clearTokenBtn").addEventListener("click", () => {
+      const cfg = loadSyncConfig();
+      cfg.token = "";
+      localStorage.setItem(SYNC_KEY, JSON.stringify(cfg));
+      fillSyncForm();
+      setSyncLog("Token 已从本机浏览器清除。");
+      toast("Token 已清除。");
+    });
 
     document.getElementById("resetBtn").addEventListener("click", async () => {
       docs = [structuredClone(samplePaper)];
@@ -1890,7 +2667,7 @@
       saveDocs();
       renderAll();
       showView("library");
-      toast("已恢复示例文献。");
+      toast("已恢复示例文献。本操作不删除 GitHub 仓库文件。");
     });
 
     els.modePdf.addEventListener("click", () => {
@@ -1911,6 +2688,7 @@
 
     els.searchInput.addEventListener("input", () => searchChinese(els.searchInput.value));
     els.reader.addEventListener("scroll", renderVisiblePdfPages);
+
     window.addEventListener("resize", () => {
       rendered.clear();
       setTimeout(() => {
@@ -1924,6 +2702,7 @@
     document.getElementById("jsonFileInput").addEventListener("change", e => readJsonFile(e.target.files?.[0]));
 
     bindSidebarResize();
+    fillSyncForm();
 
     await hydratePdfs();
     renderAll();
