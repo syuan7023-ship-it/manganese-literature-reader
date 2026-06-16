@@ -1,0 +1,173 @@
+name: Patch Alt Wheel Width Control
+
+on:
+  push:
+    paths:
+      - .github/workflows/patch-alt-width.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Patch index.html
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+
+          if 'let widthAdjustingUntil = 0;' not in s:
+              s = s.replace(
+                  '    let remoteStatusCache = {};\n',
+                  '    let remoteStatusCache = {};\n    let widthAdjustingUntil = 0;\n    let readerWheelBound = false;\n'
+              )
+          elif 'let readerWheelBound = false;' not in s:
+              s = s.replace(
+                  '    let widthAdjustingUntil = 0;\n',
+                  '    let widthAdjustingUntil = 0;\n    let readerWheelBound = false;\n'
+              )
+
+          old_calc = '''    function calculateEffectiveWidth() {
+      if (!hoverFocus || !hoverSide) {
+        return baseLeftWidth;
+      }
+
+      if (hoverSide === "left") {
+        return Math.max(baseLeftWidth, 80);
+      }
+
+      if (hoverSide === "right") {
+        return Math.min(baseLeftWidth, 20);
+      }
+
+      return baseLeftWidth;
+    }
+'''
+          new_calc = '''    function calculateEffectiveWidth() {
+      if (Date.now() < widthAdjustingUntil) {
+        return baseLeftWidth;
+      }
+
+      if (!hoverFocus || !hoverSide) {
+        return baseLeftWidth;
+      }
+
+      if (hoverSide === "left") {
+        return Math.max(baseLeftWidth, 80);
+      }
+
+      if (hoverSide === "right") {
+        return Math.min(baseLeftWidth, 20);
+      }
+
+      return baseLeftWidth;
+    }
+'''
+          if old_calc in s:
+              s = s.replace(old_calc, new_calc)
+
+          old_wheel = '''    function handleReaderWheel(event) {
+      if (!els.app.classList.contains("reading")) return;
+
+      if (event.altKey) {
+        event.preventDefault();
+
+        const side = getSideFromEvent(event);
+        const direction = event.deltaY < 0 ? 2 : -2;
+
+        if (side === "right") {
+          baseLeftWidth -= direction;
+        } else {
+          baseLeftWidth += direction;
+        }
+
+        baseLeftWidth = Math.max(20, Math.min(80, baseLeftWidth));
+        applyView(false);
+        return;
+      }
+
+      if (event.ctrlKey || event.metaKey) {
+        event.preventDefault();
+
+        const side = getSideFromEvent(event);
+        const direction = event.deltaY < 0 ? 0.08 : -0.08;
+
+        if (side === "right") {
+          rightZoom = Math.max(0.8, Math.min(2.4, rightZoom + direction));
+        } else {
+          leftZoom = Math.max(0.8, Math.min(2.4, leftZoom + direction));
+        }
+
+        applyView(true);
+      }
+    }
+'''
+          new_wheel = '''    function handleReaderWheel(event) {
+      if (!els.app.classList.contains("reading")) return;
+      if (!event.target.closest("#reader")) return;
+
+      if (event.altKey) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        const side = getSideFromEvent(event);
+        const direction = event.deltaY < 0 ? 2 : -2;
+
+        if (side === "right") {
+          baseLeftWidth -= direction;
+        } else {
+          baseLeftWidth += direction;
+        }
+
+        baseLeftWidth = Math.max(20, Math.min(80, baseLeftWidth));
+        hoverSide = null;
+        widthAdjustingUntil = Date.now() + 900;
+        applyView(false);
+        rendered.clear();
+        setTimeout(renderVisiblePdfPages, 80);
+        return;
+      }
+
+      if (event.ctrlKey || event.metaKey) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        const side = getSideFromEvent(event);
+        const direction = event.deltaY < 0 ? 0.08 : -0.08;
+
+        if (side === "right") {
+          rightZoom = Math.max(0.8, Math.min(2.4, rightZoom + direction));
+        } else {
+          leftZoom = Math.max(0.8, Math.min(2.4, leftZoom + direction));
+        }
+
+        applyView(true);
+      }
+    }
+'''
+          if old_wheel in s:
+              s = s.replace(old_wheel, new_wheel)
+
+          s = s.replace(
+              '      els.reader.onwheel = handleReaderWheel;\n      els.reader.onscroll = renderVisiblePdfPages;\n',
+              '      if (!readerWheelBound) {\n        els.reader.addEventListener("wheel", handleReaderWheel, { passive: false, capture: true });\n        readerWheelBound = true;\n      }\n      els.reader.onscroll = renderVisiblePdfPages;\n'
+          )
+
+          p.write_text(s, encoding='utf-8')
+          PY
+      - name: Commit patch
+        run: |
+          if git diff --quiet index.html; then
+            echo "No changes to commit"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "Fix Alt wheel width control"
+          git push
