@@ -1,35 +1,30 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-29T13:05:00.000Z",
+  "updatedAt": "2026-06-29T13:08:18.658Z",
   "docs": [
     {
       "id": "10-1016-j-seppur-2021-119283",
-      "remoteId": "10-1016-j-seppur-2021-119283",
+      "remoteId": "doi:10.1016/j.seppur.2021.119283",
       "title": "Selective and enhanced nickel adsorption from sulfate- and calcium-rich solutions using chitosan",
       "titleCn": "使用壳聚糖从富硫酸盐和富钙溶液中选择性强化吸附镍",
       "journal": "Separation and Purification Technology",
       "year": 2021,
       "doi": "10.1016/j.seppur.2021.119283",
-      "journalRank": {
-        "IF": "未核验",
-        "CAS": "未核验",
-        "JCR": "未核验",
-        "note": "PDF未提供影响因子和分区信息；需后续人工核验。"
-      },
+      "journalRank": "不确定（PDF未提供期刊分区信息）",
       "tags": [
-        "nickel-adsorption",
-        "sulfate-rich-leachate",
-        "calcium-rich-leachate",
-        "chitosan",
-        "resource-recovery",
-        "heavy-metal-polishing",
-        "non-manganese-core",
-        "mnso4-purification-reference"
+        "镍吸附",
+        "硫酸盐富集溶液",
+        "钙富集溶液",
+        "壳聚糖",
+        "资源回收",
+        "高盐浸出液净化",
+        "重金属选择性去除",
+        "对锰硫酸盐溶液净化有借鉴"
       ],
       "pageCount": 10,
       "assets": {
         "sourcePath": "papers/10-1016-j-seppur-2021-119283-en.pdf",
-        "translationPath": "papers/10-1016-j-seppur-2021-119283-cn.pdf",
+        "translationPath": "papers/doi:10.1016/j.seppur.2021.119283-cn.pdf",
         "jsonPath": "data/10-1016-j-seppur-2021-119283.json"
       }
     },
