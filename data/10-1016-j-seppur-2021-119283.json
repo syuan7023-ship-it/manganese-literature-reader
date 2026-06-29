@@ -1,0 +1,445 @@
+{
+  "id": "10-1016-j-seppur-2021-119283",
+  "remoteId": "10-1016-j-seppur-2021-119283",
+  "title": "Selective and enhanced nickel adsorption from sulfate- and calcium-rich solutions using chitosan",
+  "titleCn": "使用壳聚糖从富硫酸盐和富钙溶液中选择性强化吸附镍",
+  "authors": [
+    "Nina Ricci Nicomel",
+    "Lila Otero-Gonzalez",
+    "Karel Folens",
+    "Bernd Mees",
+    "Tom Hennebel",
+    "Gijs Du Laing"
+  ],
+  "journal": "Separation and Purification Technology",
+  "year": 2021,
+  "doi": "10.1016/j.seppur.2021.119283",
+  "journalRank": {
+    "IF": "未核验",
+    "CAS": "未核验",
+    "JCR": "未核验",
+    "note": "PDF未提供影响因子和分区信息；需后续人工核验。"
+  },
+  "keywords": [
+    "Adsorption",
+    "Nickel",
+    "Sulfate",
+    "Chitosan",
+    "Resource recovery"
+  ],
+  "tags": [
+    "nickel-adsorption",
+    "sulfate-rich-leachate",
+    "calcium-rich-leachate",
+    "chitosan",
+    "resource-recovery",
+    "heavy-metal-polishing",
+    "non-manganese-core",
+    "mnso4-purification-reference"
+  ],
+  "researchTopicTags": [
+    "Ni(II)吸附回收",
+    "SO4²⁻络合效应",
+    "Ca(II)共存体系",
+    "固定床柱吸附",
+    "XPS机理表征",
+    "高硫酸盐二次资源浸出液处理",
+    "对MnSO4溶液净化有借鉴"
+  ],
+  "pageCount": 10,
+  "assets": {
+    "sourcePath": "papers/10-1016-j-seppur-2021-119283-en.pdf",
+    "translationPath": "papers/10-1016-j-seppur-2021-119283-cn.pdf",
+    "jsonPath": "data/10-1016-j-seppur-2021-119283.json"
+  },
+  "pageTranslations": {
+    "1": [
+      "题名：使用壳聚糖从富硫酸盐和富钙溶液中选择性强化吸附镍。",
+      "作者：Nina Ricci Nicomel、Lila Otero-Gonzalez、Karel Folens、Bernd Mees、Tom Hennebel、Gijs Du Laing。作者单位包括比利时根特大学绿色化学与技术系分析化学与应用生态化学实验室，以及比利时根特大学生物技术系微生物生态与技术中心。",
+      "论文信息：发表于 Separation and Purification Technology，第276卷，2021年，文章号119283。论文于2021年7月20日在线发表。DOI 为 10.1016/j.seppur.2021.119283。关键词为 Adsorption、Nickel、Sulfate、Chitosan、Resource recovery，即吸附、镍、硫酸盐、壳聚糖和资源回收。",
+      "摘要：镍（Ni）是一种具有重要经济价值的金属，其特点是具有机械强度和耐腐蚀性能。随着工业对镍的需求增加，以及易获得的原生镍矿逐渐枯竭，需要采用可持续技术从替代资源中回收这种金属。",
+      "本研究考察了以壳聚糖吸附作为一种可持续技术，从富含硫酸根（SO4²⁻）和钙（Ca）的二次资源中回收镍。作者通过批量实验研究了 pH、接触时间以及 SO4²⁻ 和 Ca 的存在对镍吸附的影响。",
+      "作者还进行了化学形态模拟，以分析不同条件下存在的主要镍物种如何影响吸附过程的效率。比较壳聚糖在不含 500 mM SO4²⁻ 和 10 mM Ca 时的最大镍吸附容量（1.00 mmol/g）与含有这些离子时的最大镍吸附容量（1.49 mmol/g）表明，这些离子对镍吸附具有正面作用。",
+      "在 Ni/SO4²⁻ 体系中，占优势的中性 NiSO4⁰ 物种促进了壳聚糖对镍的增强吸附；这一点通过 X 射线光电子能谱（XPS）分析得到验证。然而，动力学研究确认，当存在 SO4²⁻ 时，镍吸附速率降低了 4.5 倍。",
+      "随后，在柱装置中使用真实的富 SO4²⁻ 浸出液进行连续镍吸附实验。结果显示，壳聚糖对镍相对于钙和铬具有选择性，选择性商分别为 KNi/Ca=9.6 和 KNi/Cr=3.0。",
+      "总体来看，本研究表明，镍与 SO4²⁻ 络合能够提高壳聚糖的镍吸附容量，但会减慢吸附过程。",
+      "1 引言：镍是用途最广泛的金属之一，其特点是在高温和腐蚀环境中具有良好的可加工性和机械强度。这些性质使镍在不锈钢、有色合金、可充电电池、硬币、涂料配方和电镀制造中不可或缺。",
+      "作为多个经济部门的支柱，原生镍产量已从1999年的1.14 Mt增加到2019年的2.70 Mt以上。据报道，在若干生产过程中替代镍是可行的；但是，大规模替代要么成本更高，要么会导致产品质量下降。",
+      "此外，镍采矿和生产的经济地理格局随时间发生了变化：它从俄罗斯和加拿大转移到新喀里多尼亚、澳大利亚和巴西，最近又转移到印度尼西亚和菲律宾。因此，长期可持续镍供应已经成为一个全球性问题。",
+      "考虑到原生镍资源持续枯竭，并且新矿山作业从规划到建设至少需要十年，有必要从二次资源中回收镍，例如矿山尾矿和富镍废物流。",
+      "镍回收不仅可以减少原生镍生产所需的能源以及相关 CO2 排放，还可以降低对不稳定原生镍市场的暴露风险。此外，它还能帮助防止富镍废物流积累并排入环境，从而降低人类和生物暴露于高浓度镍的可能性。",
+      "镍存在于许多工业废水中，包括银精炼、电镀、锌基铸造和蓄电池行业废水，其浓度通常为 0.05–15.3 mM。在许多情况下，这些废水是复杂体系，因为除镍之外还共存其他离子，其中最普遍的两种是硫酸根（SO4²⁻）和钙（Ca）。"
+    ],
+    "2": [
+      "多数镍电镀行业使用硫酸溶液进行酸洗，以实现表面活化。另一方面，在化学镀镍中，钙用于沉淀次磷酸盐还原剂与 NiSO4 反应形成的亚磷酸根阴离子。",
+      "镍、SO4²⁻ 和钙也可能在浸出液中共存，例如来自工业污泥的浸出液；这类污泥由 Ca(OH)2 中和酸性废水产生，而酸性废水常见于金属电镀和采矿等多种工业活动。",
+      "与镍电镀和工业污泥浸出有关的液体流通常含有高浓度 SO4²⁻ 和钙，浓度可分别高达 560 mM 和 11 mM。如此高的 SO4²⁻ 和钙浓度可能给一些镍去除和/或回收技术带来问题。",
+      "例如，在溶剂萃取中，钙可能以石膏形式沉淀，从而导致溶剂萃取设备结垢和堵塞。因此，需要为这些富 SO4²⁻ 和富钙溶液开发替代技术，使其即使在复杂基质中仍能保持有效。",
+      "在可用于从废水中去除镍的技术中，吸附表现出很大潜力，原因如下：（1）操作容易；（2）由于吸附剂可能再生而具有成本效益；（3）如果所用吸附剂是其他过程产生的丰富、低成本副产物，则可持续性较好；（4）可能对目标金属具有选择性。",
+      "例如，壳聚糖已被用于从多种类型的废水中吸附金属离子，包括电镀和金属精饰作业废水、镍盐制造厂废水、铅蓄电池制造行业废水以及羊毛织物生产废水。",
+      "壳聚糖是由几丁质脱乙酰化得到的聚合材料，而几丁质是多种甲壳类动物外壳的组成部分。全球每年产生的贝壳废弃物约为 6–8 Mt，因此应推动其高附加值应用。",
+      "壳聚糖结合金属离子的能力主要来自其酮基以及一级和二级胺基，这些基团可作为多种金属离子的配位位点。此外，金属吸附程度取决于壳聚糖来源、脱乙酰度、金属离子性质以及溶液条件，例如 pH。",
+      "因此，壳聚糖的金属吸附行为具有很强的不可预测性，这使得实验程序成为评估其在特定条件下吸附容量的唯一手段。",
+      "过去已有关于壳聚糖吸附镍的研究；然而，多数研究没有报告壳聚糖诱导的 pH 变化，也没有报告这种变化随后对镍形态的影响。因此，壳聚糖吸附镍通常被高估，并且解释不准确。",
+      "此外，大多数使用壳聚糖进行镍吸附的研究集中在单金属溶液上。由于其他离子通常与镍共存，并且浓度往往高得多，因此应研究能够代表真实废物流条件的复杂体系。",
+      "本研究的主要目标是检验以下假设：壳聚糖对镍的吸附容量在很大程度上受 SO4²⁻ 存在的影响，特别是在形成 Ni/SO4²⁻ 络合物的 pH 条件下。",
+      "作者进行了批量吸附试验，用壳聚糖从含有镍、SO4²⁻ 和钙的合成浸出液中吸附镍。作者详细研究了这些离子对壳聚糖镍吸附动力学和最大吸附容量的影响。",
+      "此外，作者还在连续流体系中评估了使用壳聚糖从真实浸出液中选择性去除镍的可行性。",
+      "2 材料与方法。2.1 壳聚糖和化学试剂：中等分子量、脱乙酰度为75–85%的壳聚糖购自德国达姆施塔特 Merck 公司。Ni(II)、Ca(II)、SO4²⁻ 和 NO3⁻ 储备液分别由 Ni(NO3)2·6H2O、Ca(NO3)2·4H2O、Na2SO4 和 NaNO3 配制。",
+      "吸附实验使用的工作溶液通过稀释相应储备液得到。所有水溶液均使用去离子水配制，电阻率大于 18.2 MΩ·cm。必要时使用 HNO3 调节溶液 pH。",
+      "2.2 壳聚糖表征。2.2.1 粒度分布：壳聚糖粒度分布采用 Malvern Mastersizer 2000 激光散射仪测定，该仪器可测量 20 nm 至 2 mm 的粒径范围。将壳聚糖加入液体分散单元，直至信号处于 15–25% 的可接受范围。测试重复三次，并将平均体积频率（%）对粒径作图。",
+      "2.2.2 比表面积：壳聚糖的 Brunauer–Emmett–Teller（BET）比表面积（SSA）和总孔体积（PV）通过 77 K 下的氮气吸附–脱附测量确定，仪器为 Micromeritics TriStar II 3020。测量前，样品在 60 ℃ 真空条件下脱气 48 h。",
+      "2.2.3 等电点（IEP）：壳聚糖的等电点使用配备滴定单元的 SurPASS 3 电动分析仪测定，该设备可自动测定 ζ 电位随 pH 的变化。约 50 mg 壳聚糖被置于设备粉末池中。背景电解质溶液为 0.01 M KCl，并使用 0.05 M HCl 和 0.05 M KOH 调节 pH。",
+      "2.2.4 傅里叶变换红外光谱：采用傅里叶变换红外光谱（FTIR；Thermo Scientific Nicolet 6700 FT-IR Spectrometer）考察镍吸附前后壳聚糖的表面官能团。约 15 mg 壳聚糖被置于压入微杯的溴化钾（KBr）粉末上。FTIR 光谱采集范围为 700–4000 cm⁻¹，光谱分辨率为 4 cm⁻¹，扫描 256 次。纯 KBr 用于背景测量，背景会从样品谱图中自动扣除。",
+      "2.2.5 X 射线光电子能谱：在无 SO4²⁻ 和有 SO4²⁻ 条件下，对原始壳聚糖和吸附镍后的壳聚糖进行 X 射线光电子能谱（XPS）分析。仪器为 Kratos AXIS Supra X 射线光电子能谱仪，使用单色 Al Kα 源（15 mA，15 kV）。",
+      "仪器功函数校准为使金属金的 Au 4f7/2 线结合能为 83.96 eV，光谱仪色散调整为使金属铜的 Cu 2p3/2 线结合能为 932.62 eV。所有样品均使用 Kratos 电荷中和系统。",
+      "全谱扫描分析面积为 300 × 700 µm，通能为 160 eV。高分辨率分析面积为 300 × 700 µm，通能为 20 eV。谱图以碳 1s 谱主线（C–C、C–H）284.8 eV 进行电荷校正。谱图使用 CasaXPS 软件（2.3.14版）分析。"
+    ],
+    "3": [
+      "2.3 化学平衡模拟：作者使用 Visual MINTEQ 3.0 模拟含 SO4²⁻ 和不含 SO4²⁻ 水体系中的 Ni(II) 形态。Visual MINTEQ 的热力学参数来自 NIST Critical Stability constants 数据库。",
+      "在每个定义体系中，作者将 Ni(II) 和 SO4²⁻ 的初始浓度作为输入，用于绘制主要 Ni(II) 物种的分数随溶液 pH 变化的图。所得图用于观察 Ni(II) 形态随 SO4²⁻ 浓度增加而发生的变化。",
+      "2.4 批量吸附实验：作者使用批量实验研究不同条件下壳聚糖对 Ni(II) 的吸附。为了考察 pH 影响，作者配制了初始 pH 为 4–8 的 10 mM Ni(II) 溶液。",
+      "为了达到 100 mL/g 的液固比（L/S），作者将 10 mL 各溶液加入装有 100 mg 壳聚糖的聚丙烯离心管中。悬浮液初始 pH 使用 Thermo Scientific Orion Star A211 pH 计测定。",
+      "样品被转移到设定为 115 rpm 的轨道振荡器中振荡 24 h。随后测定每个样品的最终 pH，并使用孔径 0.45 µm 的膜过滤器进行固液分离。滤液中的 Ni(II) 浓度使用电感耦合等离子体发射光谱（Varian Vista-MPX CCD Simultaneous ICP-OES）测定。",
+      "所有样品制备四个平行样，数据以平均值和标准差表示。作者还制备并分析了不含壳聚糖的对照样品，以监测不同 pH 下 Ni(II) 的沉淀情况。",
+      "此外，作者又制备了两组溶液，以研究 pH 7–8 条件下 SO4²⁻ 和 Ca(II) 对 Ni(II) 吸附的影响。第一组含 10 mM Ni(II) 和 500 mM SO4²⁻；第二组含 10 mM Ni(II)、500 mM SO4²⁻ 和 10 mM Ca(II)。",
+      "由于 Ni(II) 和 Ca(II) 以硝酸盐形式加入，而 SO4²⁻ 以 Na2SO4 加入，因此所有溶液也含有 NO3⁻ 和 Na。该实验的结果作为后续研究 SO4²⁻ 浓度增加对壳聚糖吸附 Ni(II) 影响的基础。",
+      "在该吸附实验中，作者在 pH 7 条件下制备了五种溶液，均含 10 mM Ni(II)，并含有不同 SO4²⁻ 浓度（0.05 至 500 mM）。样品按前述方法制备。",
+      "壳聚糖对 Ni(II) 的去除效率和吸附容量分别使用公式（1）和公式（2）计算。R(%) = ((C0 − Ce)/C0) × 100。q = ((C0 − Ce) × V)/m。",
+      "其中，R 为 Ni(II) 去除效率（%）；q 为单位质量壳聚糖吸附的 Ni(II) 量（mmol/g）；C0 和 Ce 分别为初始和吸附平衡时的 Ni(II) 浓度（mM）；V 为 Ni(II) 溶液体积（L）；m 为壳聚糖质量（g）。",
+      "作者在 pH 7、初始 Ni(II) 浓度为 10 mM 条件下，进行了两组 Ni(II) 吸附动力学实验：一组不含 500 mM SO4²⁻，另一组含有 500 mM SO4²⁻。样品在 15 min 至 24 h 的不同时间间隔下振荡。",
+      "作者采用准二级动力学模型描述随时间变化的实验数据。公式为 t/qt = 1/(k2 qe²) + t/qe。其中，qe 和 qt（mmol/g）分别为平衡时和时间 t 时的 Ni(II) 吸附容量，k2（g/mmol·min）为准二级吸附速率常数。",
+      "作者还在有和无 500 mM SO4²⁻ 及 10 mM Ca(II) 条件下，考察了不同初始 Ni(II) 浓度下壳聚糖对 Ni(II) 的吸附。吸附数据用于确定两种体系中壳聚糖对 Ni(II) 的最大吸附容量（qmax）。",
+      "实验使用的初始 pH 约为 7.5，初始 Ni(II) 浓度从 1 mM 到 100 mM 变化。作者用 Langmuir 吸附等温线模型拟合所得实验数据。公式为 qe = (qmax b Ce)/(1 + b Ce)。",
+      "其中，qe 为平衡吸附容量（mmol/g）；qmax 为最大吸附容量（mmol/g）；b 为 Langmuir 吸附平衡常数（L/mmol）；Ce 为平衡 Ni(II) 浓度（mM）。吸附等温线和相应参数使用 SigmaPlot 13.0 版确定。",
+      "2.5 柱吸附实验：固定床吸附实验在内径 1 cm 的玻璃柱中进行。柱内填充 8.1 g 壳聚糖，床层高度为 10 cm，并在顶部用玻璃珠固定。在通入测试溶液之前，柱子用去离子水调理 30 min。",
+      "测试溶液为真实浸出液，其组成列于表 1。该溶液使用 Watson-Marlow 530S 蠕动泵以 36 mL/h 的恒定上向流速通入柱中。作者在预设时间间隔取样，并使用 ICP-OES 分析样品中的金属浓度。",
+      "突破曲线通过绘制任意时间 t 的样品金属浓度与浸出液初始金属浓度之比随时间的变化获得。",
+      "作者使用公式（5）计算选择性商 KNi/(Ca or Cr)，用于评价吸附体系中镍与其他离子（即钙或铬）之间的选择性。公式为 KNi/(Ca or Cr) = KdNi/KdCa or Cr。",
+      "其中，KdNi 和 KdCa or Cr 分别为镍和钙或铬的分配系数，使用公式（6）计算。公式为 Kd = ((100 − X)/X) · (V/m)。其中，X 为处理后浸出液中的 Ni、Ca 或 Cr 浓度，以初始浓度的百分数表示；V 为所取浸出液体积（mL）；m 为壳聚糖质量（g）。",
+      "表1：柱实验所用真实浸出液（pH 7.6）中化合物浓度。Ni 为 1.10 mM；Ca 为 11.7 mM；Co 为 0.03 mM；Cr 为 0.02 mM；Mn 为 0.12 mM；SO4²⁻ 为 563 mM。",
+      "3 结果与讨论。3.1 壳聚糖表征：壳聚糖的物理和电化学特性汇总于表 2。本文所用壳聚糖的体积中值粒径 d50 为 0.54 mm，而体积分布中 10% 和 90% 对应的粒径 d10 和 d90 分别小于 0.17 mm 和 1.15 mm。",
+      "氮气吸附–脱附测量确认了文献中的已有报道，即壳聚糖具有较低的比表面积（0.8 m²/g）和总孔体积（0.002 cm³/g）。壳聚糖的 pHPZC 与 IEP 之差为正值（0.88），说明颗粒外表面比内表面带有更多负电荷。"
+    ],
+    "4": [
+      "表2：壳聚糖的物理和电化学特性。粒径为 d10=0.17 mm、d50=0.54 mm、d90=1.15 mm；比表面积为 0.8 m²/g；总孔体积为 0.002 cm³/g；pHPZC 为 6.60；IEP 为 5.72。表注说明，pHPZC 是文献报道值的平均值。",
+      "壳聚糖的 FTIR 光谱显示出不同特征峰，表明壳聚糖表面存在相应官能团（图1）。约 3330 cm⁻¹ 处的宽峰表明二级酰胺 N–H 键和一级醇 O–H 键的伸缩振动发生重叠。",
+      "2878 cm⁻¹、1657 cm⁻¹ 和 1596 cm⁻¹ 处的峰可分别归属于 C–H 伸缩振动、酰胺 C=O 伸缩振动以及非乙酰化酰胺的 N–H 弯曲振动。1422 cm⁻¹ 和 1382 cm⁻¹ 处的其他显著峰分别对应 C–O–C 伸缩振动和 CH3 对称变形。",
+      "约 1013 cm⁻¹ 处的吸收带可归属于羧酸基团中 C–O 键的伸缩振动。壳聚糖以其酰胺中的胺亚基而闻名，这些胺亚基主要通过配位影响过渡金属的吸附。",
+      "壳聚糖在吸附 Ni(II) 和吸附 Ni(II)/SO4²⁻ 后的 FTIR 光谱（图1）显示，一些特征峰发生位移，特别是 3330 cm⁻¹、1422 cm⁻¹ 和 1382 cm⁻¹ 处的峰。这些结果说明，壳聚糖的酰胺、醇、醚和烷烃官能团参与了 Ni(II) 吸附。",
+      "3.2 pH 对 Ni(II) 去除的影响：溶液 pH 是金属吸附过程中的关键参数，因为它同时影响金属形态和吸附剂表面特性。",
+      "在不额外加入 SO4²⁻ 或 Ca(II) 的 Ni(II) 溶液中，当最终 pH 从 5.6 增加到 6.7 时，壳聚糖对 Ni(II) 的去除效率从 42% 略降至 31%；随后，当最终 pH 增加到 7.82 时，Ni(II) 去除效率又增加到 44%（图2）。",
+      "考虑到壳聚糖 IEP 为 5.72，pH 5.6 到 6.7 之间 Ni(II) 去除率下降 11% 是出乎意料的。在高于 IEP 的 pH 下，壳聚糖表面变为带负电，理论上应有利于其与 Ni²⁺ 发生更强的静电相互作用，而 Ni²⁺ 是 pH≤8 时预测的主要 Ni(II) 物种（图3A）。",
+      "这一结果与先前文献相反；先前文献中，壳聚糖对 Ni(II) 的吸附随 pH 升高而增加，原因是 H⁺ 与 Ni²⁺ 对吸附表面位点的竞争减弱。",
+      "在本研究中，低 pH 下更高的 Ni(II) 吸附可能是由于壳聚糖在酸性 pH 下发生溶解，使金属更容易与 2-氨基-2-脱氧-D-葡萄糖（葡萄糖胺）单元中的酮基和胺基相互作用。",
+      "pH 超过 6.7 后 Ni(II) 去除增加，可能归因于 Ni²⁺ 与壳聚糖表面之间的静电吸引；此时壳聚糖部分官能团去质子化，表面带负电。例如，壳聚糖胺基在 pH 高于其 pKa 6.2–6.5 时会发生去质子化。",
+      "此外，在弱碱性溶液中，壳聚糖失去氢离子可能导致 Ni²⁺ 离子与羟基氧原子和氮原子配位。除此之外，pH 7.82 下的 Ni(II) 去除很可能部分来自沉淀。",
+      "不含壳聚糖的对照样品显示，在最终 pH 为 7.48 时 Ni(II) 去除率为 7%。同样，水溶液中 Ni(II) 的化学形态（图3A）也显示，固体 Ni(OH)2 约在 pH 7.5 开始形成。",
+      "作者原本希望在与无 SO4²⁻ 和 Ca(II) 的 Ni(II) 体系相同的 pH 范围内，测试 SO4²⁻ 和 Ca(II) 对壳聚糖吸附 Ni(II) 的影响（图2）。然而，加入 SO4²⁻ 和 Ca(II) 会导致最终 pH 值较高，使得在三种不同 Ni(II) 体系之间客观比较 Ni(II) 去除效率变得困难。",
+      "这三种体系分别为：仅含 Ni(II)；含 Ni(II) 和 SO4²⁻；含 Ni(II)、SO4²⁻ 和 Ca(II)。500 mM SO4²⁻ 的存在使壳聚糖对 Ni(II) 的去除效率至少提高 43%。考虑到溶液中存在 1000 mM Na，这一提高幅度相当大，因为 SO4²⁻ 是以 Na2SO4 形式加入的。",
+      "过量 Na⁺ 可能竞争表面吸附位点并降低金属吸附。在 500 mM SO4²⁻ 存在时，根据化学形态模拟估算，Ni(OH)2 仅在约 pH 8 时开始沉淀（图3B）。",
+      "含 10 mM Ni(II) 和 500 mM SO4²⁻ 的对照样品也表明，在最终 pH 达到 8.24 之前没有发生沉淀。这些结果说明，所报告的壳聚糖去除效率可完全归因于吸附，而不受沉淀贡献影响。",
+      "在含 500 mM SO4²⁻ 和 10 mM Ni(II) 的体系中进一步加入 10 mM Ca(II)，并未对 Ni(II) 去除表现出明显影响，尽管在约 pH 8 附近可能存在 Ni(OH)2 沉淀。"
+    ],
+    "5": [
+      "3.3 SO4²⁻ 对 Ni(II) 吸附的影响：由于已经明显看出 SO4²⁻ 会提高 Ni(II) 在壳聚糖上的吸附，作者进一步研究了这种强化作用的程度。",
+      "图4显示了壳聚糖从含不同 SO4²⁻ 浓度的溶液中去除 Ni(II) 的效率。较低 SO4²⁻ 浓度，即 0.05–0.5 mM，对壳聚糖吸附 Ni(II) 没有影响；但是，当 SO4²⁻ 浓度增加到 5 mM 时，Ni(II) 去除率从 32% 增加到 67%。",
+      "当体系中存在 50 mM SO4²⁻ 时，Ni(II) 去除率进一步达到 89%；但是，当 SO4²⁻ 浓度超过这一水平后，Ni(II) 去除率不再进一步增加。作者还观察到，最终溶液 pH 随 SO4²⁻ 浓度增加而升高（图4）。",
+      "溶液与壳聚糖接触后 pH 会升高，而升高程度也取决于溶液中组分的活度。存在 SO4²⁻ 时，预计 Ni²⁺ 作为 Lewis 酸的活度会降低，因为它会与 SO4²⁻ 配位，而不是与水分子配位；因此出现 pH 升高趋势。",
+      "尽管如此，即使在 SO4²⁻ 浓度最高的溶液中，对照样品也没有显示任何 Ni(II) 去除。",
+      "Mitani 等人也观察到，随着体系中 SO4²⁻ 浓度增加，溶胀壳聚糖珠对 Ni(II) 的去除效率呈升高趋势。根据实验条件得到的 Ni(II) 形态图也显示，NiSO4⁰ 物种比例随着 SO4²⁻ 浓度增加而增加；这与本研究观察到的现象相似（补充图 SI-1）。",
+      "此外，Mitani 等人提出，SO4²⁻ 可能引起壳聚糖构象发生某些变化，从而使 Ni(II) 离子更容易与壳聚糖表面相互作用。SO4²⁻ 离子倾向于在壳聚糖链中积累，并交联质子化胺基，引入能够络合金属阳离子的负电荷。",
+      "3.4 X 射线光电子能谱分析：作者通过 XPS 分析壳聚糖，试图揭示 Ni(II) 吸附前后元素化学状态的差异，并验证 SO4²⁻ 存在所产生的影响。",
+      "0–1200 eV 结合能范围内所得谱图绘于图5。吸附前壳聚糖的 XPS 谱清楚显示，壳聚糖表面存在氧（O 1s）、氮（N 1s）、钙（Ca 2p）和碳（C 1s）。",
+      "N 1s 峰被分解为 399.3 eV 和 401.5 eV 两个峰，分别表明存在胺/酰胺基和石墨型氮（补充图 SI-2A）。作者还通过 C 1s 高分辨率扫描确定了壳聚糖表面的不同碳官能团。",
+      "C 1s 谱被解卷积为四个组分峰，即 O–C=O（289.1 eV）、C=O（287.8 eV）、C–OH（286.3 eV）以及 C–C、C–H（284.8 eV）。这些 N 和 C 官能团与图1中的 FTIR 结果相对应。",
+      "除 C、O 和 N 之外，吸附 Ni(II) 后的壳聚糖 XPS 谱中也观察到 Ni（图5）。在无 SO4²⁻ 和有 SO4²⁻ 条件下观察到的 Ni 2p 峰的高分辨率扫描和解卷积分别见图6A和图6B，两者都显示一个主光电子峰和一个相关卫星峰，卫星峰位于比主峰高 5.8 eV 的位置。",
+      "在无 SO4²⁻ 条件下，856.0 eV 和 861.8 eV 处的主峰和卫星峰归属于 Ni(OH)2，而 855.3 eV 和 860.8 eV 处的峰归属于 NiO。",
+      "在 SO4²⁻ 存在时，Ni 2p 峰被分解为主要峰，分别指示 Ni(OH)2（855.9 eV、861.7 eV）和 NiSO4（856.5 eV、861.5 eV）。补充图 SI-3 显示，Ni(II) 吸附后，N 1s（胺基）的结合能由 399.3 eV 增加到 399.8 eV（无 SO4²⁻）和 399.6 eV（有 SO4²⁻）。",
+      "类似地，对应 C–OH 的主要 C 1s 峰的结合能由 286.3 eV 增加到 286.5 eV（无 SO4²⁻）和 286.4 eV（有 SO4²⁻）（补充图 SI-4）。",
+      "XPS 结果表明，Ni(II) 形态，特别是 Ni(SO4)⁰ 的形成，促进了 Ni(II) 在壳聚糖上的吸附。"
+    ],
+    "6": [
+      "此外，当用不络合的硝酸根代替 SO4²⁻ 时，并未导致 Ni(II) 去除增加；这从实验上验证了 Ni(II) 与 SO4²⁻ 的络合作用（补充图 SI-5）。",
+      "在图6B中，Ni 的卫星峰以及主峰中测得的 NiSO4 结合能（856.5 eV）都是八面体环境中顺磁性 Ni(II) 的特征。这一点可由 Matienzo 等人的研究支持；他们发现 856–857 eV 范围内的结合能是八面体 Ni(II) 的特征，并且 NiSO4·6H2O 的结合能等于 856.5 eV。",
+      "因此，所得 XPS 数据表明，被吸附的 NiSO4 是一种水合物种，具体为六水合离子（补充图 SI-6）。因此，该 Ni(II) 物种很可能通过 SO4²⁻ 与壳聚糖胺基结合而被吸附，这一点可由 FTIR（图1）和 XPS（补充图 SI-2 和 SI-3）结果支持。",
+      "XPS 结果提示两个壳聚糖样品上都存在 Ni(OH)2，但这一点与对照样品和化学形态模拟结果并不一致。使用 PHREEQC 进行的额外形态模拟（补充图 SI-7）也显示，Ni(OH)2 只在无 SO4²⁻ 条件下约 pH 7.6、在有 SO4²⁻ 条件下约 pH 8.1 开始形成。",
+      "XPS 结果与对照样品及化学形态模拟结果之间的不一致说明，Ni(OH)2 只有在壳聚糖存在时才形成。Ni(OH)2 可能是一种表面诱导沉淀，因为壳聚糖表面存在局部微环境，例如 pH 的局部偏差。",
+      "3.5 Ni(II) 吸附动力学：作者在不同时间间隔下研究了 SO4²⁻ 对壳聚糖 Ni(II) 吸附速率的影响。",
+      "图7显示了时间 t 时壳聚糖 Ni(II) 吸附容量（qt）与平衡 Ni(II) 吸附容量（qe）之比随时间的变化。在吸附的最初 15 min，不含 SO4²⁻ 体系的 qt/qe 更高，为 0.4；而含 500 mM SO4²⁻ 体系的 qt/qe 为 0.2。",
+      "15 min 之后至约 4 h，两种体系获得几乎相似的 qt/qe，说明两者吸附速率可比。在无 500 mM SO4²⁻ 和有 500 mM SO4²⁻ 条件下，分别在 4 h 和 16 h 后达到平衡。",
+      "吸附最初 1 h 内 Ni(II) 的快速去除（图7）可能部分归因于壳聚糖的快速溶胀，这提供了更多用于吸附的内部表面。",
+      "壳聚糖的吸附动力学数据用准二级动力学模型拟合（补充图 SI-8）。该模型较好估算了实验 qe 值；无 500 mM SO4²⁻ 和有 500 mM SO4²⁻ 体系的 qe 分别为 0.43 mmol/g 和 0.87 mmol/g（表3）。",
+      "这意味着限速步骤可能是化学吸附，说明 NiSO4⁰ 物种在壳聚糖上发生单层吸附。该结论与 Mende 等人的观点相反；Mende 等人认为，SO4²⁻ 存在时可能发生多层 Ni(II) 吸附。",
+      "吸附速率常数 k2 证实，当 SO4²⁻ 不存在时，Ni(II) 在壳聚糖上的吸附速度更快，尽管该体系中吸附的 Ni(II) 量较少。",
+      "表3：Ni(II) 在壳聚糖上的吸附动力学参数。准二级模型中，无 SO4²⁻ 条件下 qe=0.379 mmol/g，k2=0.080 g/(mmol·min)，R²=0.986；含 500 mM SO4²⁻ 条件下 qe=0.888 mmol/g，k2=0.018 g/(mmol·min)，R²=0.997。"
+    ],
+    "7": [
+      "3.6 吸附等温线：作者将 Langmuir 等温线模型拟合到无 SO4²⁻ 和 Ca(II) 条件下以及同时存在 SO4²⁻ 和 Ca(II) 条件下 Ni(II) 在壳聚糖上的平衡吸附数据（图8）。",
+      "两种体系的等温线表现出不同的曲线变化。在没有 SO4²⁻ 和 Ca(II) 共存离子的情况下，Langmuir 等温线表现为较小的弯曲，并且这种弯曲贯穿整个等温线。",
+      "相反，含 SO4²⁻ 和 Ca(II) 的体系在较低 Ni(II) 浓度下表现出陡峭上升，随后迅速达到饱和。一般而言，Langmuir 模型更适合像含 SO4²⁻ 和 Ca(II) 体系这样的等温线，因为该模型指示吸附位点发生单层覆盖且能量均一。",
+      "表4显示了 Langmuir 模型拟合所得参数，说明该模型对两种体系的吸附数据均具有较好拟合。壳聚糖对 Ni(II) 的最大吸附容量（qmax）估计值显示，当溶液中存在 SO4²⁻ 和 Ca(II) 时，qmax 较高，为 1.49 mmol/g（表4）。",
+      "在存在 SO4²⁻ 和 Ca(II) 时，Langmuir 吸附平衡常数 b 也较大，为 1.50 L/mmol；相比之下，仅有 Ni(II) 存在时 b 为 0.08 L/mmol。",
+      "根据这些平衡常数，作者分别得到两种体系的标准 Gibbs 自由能变化（ΔG°，公式 SI-1）为 −17.94 kJ/mol 和 −10.75 kJ/mol，说明吸附过程是自发的。",
+      "在 SO4²⁻ 和 Ca(II) 存在时较大的 ΔG° 表明，当反应中使用更多反应物时，体系释放的 Gibbs 自由能也会增加，这意味着更高的吸附驱动力。",
+      "本文得到的壳聚糖 qmax 值与文献中关于 Ni(II) 吸附的结果相当（表5）。在一些情况下，壳聚糖在无 SO4²⁻ 体系中的 qmax 高于其他吸附剂，例如 Saccharomyces cerevisiae 以及壳聚糖（几丁质）/纤维素复合材料；这两者的 qmax 均为 0.2 mmol/g。",
+      "此外，表5所列所有研究均未报告最终平衡 pH，而最终平衡 pH 可以提供信息，用于判断所报告的 qmax 是否因 Ni(OH)2 沉淀而被高估。因此，与仅由吸附导致的实际 qmax 相比，这些文献报告的 qmax 可能存在偏差。",
+      "其他吸附剂表现出比壳聚糖更高的吸附容量，特别是聚合物树脂 Amberlite IRC 748® 和 Dowex M4195®，这些树脂也在含 SO4²⁻ 的溶液中进行了测试。",
+      "表4：壳聚糖吸附 Ni(II) 的 Langmuir 模型常数和相关系数。无 SO4²⁻ 和 Ca(II) 条件下，qmax=1.00 mmol/g，b=0.08 L/mmol，R²=0.96；含 500 mM SO4²⁻ 和 10 mM Ca(II) 条件下，qmax=1.49 mmol/g，b=1.50 L/mmol，R²=0.90。",
+      "图7说明：图中给出了不含 SO4²⁻ 和含 500 mM SO4²⁻ 体系中壳聚糖吸附 Ni(II) 的动力学。qt/qe 为时间 t 时吸附容量与平衡吸附容量之比。数据为四个平行样的平均值，误差线表示标准差；未显示时，误差线位于符号大小范围内。",
+      "图8说明：图中给出了无 SO4²⁻ 和 Ca(II) 体系以及含 500 mM SO4²⁻ 和 10 mM Ca(II) 体系中 Ni(II) 在壳聚糖上的 Langmuir 等温线模型。q 表示每克壳聚糖吸附的 Ni(II) 毫摩尔数。数据为四个平行样的平均值，误差线表示标准差。某些浓度下较大的误差线源于样品分析前采用了较大的稀释倍数。"
+    ],
+    "8": [
+      "表5：不同吸附剂的 Ni(II) 最大吸附容量比较。Chlorella vulgaris 在仅含 Ni(II) 溶液、初始 pH 4.5 下 qmax 为 1.0 mmol/g；Sargassum muticum 在仅含 Ni(II) 溶液、初始 pH 5.0 下 qmax 为 1.2 mmol/g；Gracilaria caudata 在仅含 Ni(II) 溶液、初始 pH 5.0 下 qmax 为 0.8 mmol/g。",
+      "经 0.1 M HCl 处理的 Oedogonium hatei 在仅含 Ni(II) 溶液、初始 pH 5.0 下 qmax 为 0.8 mmol/g。废杏制备活性炭在仅含 Ni(II) 溶液、初始 pH 5.0 下 qmax 为 1.7 mmol/g。椰壳髓制备活性炭在仅含 Ni(II) 溶液、初始 pH 5.0 下 qmax 为 1.1 mmol/g。",
+      "Saccharomyces cerevisiae 在仅含 Ni(II) 溶液、初始 pH 6.8 下 qmax 为 0.2 mmol/g。Amberlite IRC 748® 在含 SO4²⁻ 条件、初始 pH 3.0 下 qmax 为 2.1 mmol/g。Dowex M4195® 在含 SO4²⁻ 条件、初始 pH 3.0 下 qmax 为 1.6 mmol/g。Ionac SR-5® 在含 SO4²⁻ 条件、初始 pH 3.0 下 qmax 为 1.4 mmol/g。",
+      "壳聚糖/磁铁矿纳米复合珠在仅含 Ni(II) 溶液、初始 pH 6.0 下 qmax 为 0.9 mmol/g。壳聚糖（几丁质）/纤维素复合材料在仅含 Ni(II) 溶液、初始 pH 5.3 下 qmax 为 0.2 mmol/g。本研究中，壳聚糖在仅含 Ni(II) 溶液、最终平衡 pH 6.8–7.3 下 qmax 为 0.9 mmol/g；在含 500 mM SO4²⁻ 和 10 mM Ca(II)、最终平衡 pH 7.1–8.4 下 qmax 为 1.4 mmol/g。",
+      "表注说明：表中 a 表示初始 pH 值，作者未报告最终平衡 pH；b 表示最终平衡 pH，本文作者观察到溶液中 Ni(II) 浓度增加时 pH 呈下降趋势；星号表示 SO4²⁻ 浓度未报告。",
+      "3.7 柱实验：由于壳聚糖在 SO4²⁻ 和 Ca(II) 存在时表现出更好的 Ni(II) 吸附，作者进行了柱实验，以验证其在半连续体系中的性能（图9）。",
+      "由于实际操作上无法让柱实验通宵运行，流动在图9中灰色区域所示时间段内停止。柱实验所用浸出液组成见表1。该浸出液 pH 为 7.6，吸附后 pH 在 7.4 至 8.0 之间变化。",
+      "SO4²⁻（563 mM）和 Ca(II)（11.7 mM）的浓度远高于 Ni(II)（1.1 mM），这很好代表了真实二次资源条件。尽管存在高浓度 Ca(II) 和 SO4²⁻，结果显示，在前 7 h 内 Ni(II) 可被有效去除，去除率为 95.9–100%，对应渗出液与入口 Ni(II) 浓度比（Ct/C0）小于 0.05（图9）。",
+      "在第2天和第3天采样开始时观察到 Ni(II) Ct/C0 下降，这可能是因为流动停止后，壳聚糖与被采样浸出液之间的接触时间更长。",
+      "作者还发现，壳聚糖对 Ni(II) 相对于 Ca(II) 和 Cr(III) 具有选择性。这种选择性 Ni(II) 吸附也反映在最后一个时间点计算得到的选择性商中：KNi/Ca 为 9.6，KNi/Cr 为 3.0；在柱实验初始阶段，这些选择性商甚至更高。",
+      "然而，由于进液中 Ca(II) 浓度远高于 Ni(II) 浓度，Ca(II) 仍然会被柱内壳聚糖吸附。如果目标是在吸附过程后获得纯 Ni(II)，这一点需要进一步研究。",
+      "在最后一个采样时间点（52.7 h），柱子仍吸附了入口 Ni 的 36.6%，表明尚未达到饱和。此时，壳聚糖上的 Ni(II) 负载量仅为 0.04 mmol/g。",
+      "壳聚糖未达到饱和，是因为柱中浸出液与壳聚糖的接触时间较短。对于相同处理量的浸出液，可通过降低浸出液流速以延长接触时间、采用串联柱进行连续吸附，或增加柱尺寸来提高 Ni(II) 吸附量。",
+      "从可持续性角度看，还需要进一步研究 Ni 和壳聚糖的回收。一些研究已成功解决了壳聚糖上金属的解吸问题；然而，由于必须避免使用会导致壳聚糖溶解的过低 pH 条件，这一步需要谨慎进行。",
+      "此外，多组分模型可能有助于设计集成式 Ni(II) 去除和壳聚糖再生系统，并评估其未来用于复杂基质工业应用的可行性。",
+      "4 结论：本研究考察了壳聚糖从富 SO4²⁻ 和富 Ca(II) 溶液中去除 Ni(II) 的潜力；这些溶液代表了真实二次资源条件。",
+      "在无 SO4²⁻ 和 Ca(II) 以及有 SO4²⁻ 和 Ca(II) 条件下，Ni(II) 吸附平衡数据的分析均可由 Langmuir 吸附等温线较好描述，说明 Ni(II) 物种以单层形式吸附在壳聚糖吸附位点上。",
+      "结果显示，在 500 mM SO4²⁻ 和 10 mM Ca(II) 存在时，壳聚糖获得了更高的最大 Ni(II) 吸附容量，为 1.49 mmol/g；而这些离子不存在时，最大吸附容量为 1.00 mmol/g。",
+      "XPS 结果表明，在 SO4²⁻ 存在下 Ni(II) 吸附增强，是由于溶液中形成 NiSO4⁰。虽然在无 SO4²⁻ 条件下吸附的 Ni(II) 较少，但动力学数据表明，该体系中 Ni(II) 吸附速率更快，4 h 后达到平衡。",
+      "此外，使用真实浸出液在连续柱装置中验证后，壳聚糖表现出对 Ni(II) 相对于 Ca(II) 和 Cr(III) 的选择性。如果能够获得纯 Ni(II)，这一点将非常有利，因为它可以降低后续下游处理相关的运行成本。",
+      "总体而言，本研究证明，壳聚糖可用于从富 SO4²⁻ 和富 Ca(II) 液流中吸附 Ni(II)，并且无需进行可能因这些液流复杂性而需要的吸附前处理。对于未来研究，应优化柱装置及其操作条件，以实现完全 Ni(II) 选择性，而这对于 Ni(II) 回收至关重要。"
+    ],
+    "9": [
+      "作者贡献声明：Nina Ricci Nicomel 负责方法学、形式分析、调查、原稿撰写、审稿与编辑以及可视化。Lila Otero-Gonzalez 负责概念化、方法学、形式分析、调查、审稿与编辑、可视化和监督。",
+      "Karel Folens 负责审稿与编辑、监督和可视化。Bernd Mees 负责调查以及审稿与编辑。Tom Hennebel 负责概念化和监督。Gijs Du Laing 负责概念化、方法学、审稿与编辑、监督和经费获取。",
+      "利益冲突声明：作者声明，他们没有已知的竞争性财务利益或个人关系会影响本文所报告的工作。",
+      "致谢：作者感谢 Vlaamse Instelling voor Technologisch Onderzoek（VITO）的 Liesbeth Horckmans 提供本研究所用浸出液；感谢根特大学有序材料、有机金属和催化中心的 Pascal Van Der Voort 教授允许使用其 FTIR 光谱仪；感谢英属哥伦比亚大学环境工程组的 Loretta Li 教授允许作者使用其实验室完成修订所需的额外实验。",
+      "经费来源：本研究受到欧盟 Horizon 2020 METGROW+ 项目支持，资助协议号为 690088，项目主题是从低品位矿石和废弃物中回收金属。NRN 由根特大学特别研究基金（BOF）资助。KF 由 SBO Project SMART（从尾矿中可持续提取金属）资助，该项目属于佛兰德斯 SIM（战略材料倡议）计划。",
+      "附录A 补充材料：本文补充数据可通过 DOI 链接在线获得。",
+      "参考文献开始：[1] A. Nieto 讨论了镍的战略重要性以及面向全球供应的情景和展望。[2] V. Srivastava 等研究了纳米氧化铝从水溶液中吸附镍离子的动力学、传质和平衡。",
+      "[3] 和 [4] 为 USGS 2000 年和 2020 年矿产品概要。[5] M.L.C.M. Henckens 和 E. Worrell 综述了未来世代铜和镍的可获得性，并讨论了生产增长、可持续性和回收率之间的平衡。[6] Zeng、Xu 和 Li 研究了中国镍供应的可持续性。",
+      "[7] Reck 等分析了人为镍循环中的使用、贸易和回收。[8] Coman、Robotin 和 Ilea 综述了从工业废弃物中回收或去除镍。[9] Kadirvelu 等研究了由椰壳髓制备的活性炭吸附水溶液中的 Ni(II)。[10] Erdogan 等优化了废杏制备活性炭吸附水溶液中镍的过程。",
+      "[11] Ismail 等研究了独立和电辅助离子交换过程去除电镀废水中的镍。[12] Duong 等提出了膜蒸馏促进电镀废水镍回收的新应用。[13] de Souza 和 Mansur 研究了 Cyanex 272 和/或 D2EHPA 对钙和/或镍的竞争溶剂萃取。[14] Sun 等研究了使用复合萃取剂从浓缩冶炼废水中分离和回收重金属。",
+      "[15] Park 和 Kim 研究了硫酸浴 pH 对化学镀镍涂层在天然海水中空蚀行为的影响。[16] Martyak 和 McCaskie John 研究了从化学镀镍浴中去除亚磷酸根离子。[17] Spooren 等讨论了从填埋中和污泥中原位回收 Cr 和 Ni。[18] Reinsel 提出了一种从工业水中去除硫酸盐的新工艺。",
+      "[19] Pelser 研究了硫酸盐基底金属浸出液中钙和镁的控制。[20] Sharma 等研究了通过吸附从水溶液中去除 Ni(II)。[21] De Gisi 等综述了低成本吸附剂的特性和废水处理吸附容量。[22] Gerente 等综述了壳聚糖通过吸附去除废水中金属的机制和模型。",
+      "[23] No 和 Meyers 综述了壳聚糖在废水处理中的应用。[24] Lu 等研究了铜–柠檬酸络合物在壳聚糖上的吸附和平衡建模。[25] Yan 和 Chen 讨论了海产品废弃物的可持续利用。[26] Folens 等研究了化疗后尿液中残留铂类抗肿瘤药物的生物吸附。"
+    ],
+    "10": [
+      "[27] Chu 研究了虾壳壳聚糖从水溶液中去除铜的吸附平衡和动力学。[28] Mende 等以镍为例研究了盐阴离子对重金属离子吸附的影响。[29] Mitani 等研究了离子强度对溶胀壳聚糖珠吸附重金属的影响。[30] Pivarčiová 等研究了镍在壳聚糖上的吸附。[31] Tran 等制备了壳聚糖/磁铁矿复合珠，并将其用于去除水溶液中的 Pb(II) 和 Ni(II)。",
+      "[32] Gustafsson 为 Visual MINTEQ 3.0 用户指南。[33] Ho 和 McKay 提出了吸附过程的准二级模型。[34] Kar、Pandeya 和 Bhaduri 研究了水合氧化铈的离子交换性质。[35] Upadhyay 等综述了壳聚糖基吸附剂去除重金属的最新进展。[36] Tran、You、Hosseini-Bandegharaei 和 Chao 批判性综述了水溶液污染物吸附研究中的错误和不一致。",
+      "[37] Caje 等研究了甲基橙在化学改性壳聚糖上的吸附性质，包括热力学和动力学。[38] Fras 等研究了可溶和沉淀壳聚糖在纤维素黏胶纤维上的吸附和抗菌活性。[39] Gür 等制备并表征了用于四环素释放的壳聚糖/海泡石生物纳米复合材料。[40] Marques Neto 等制备并评价了固定铁(III)的壳聚糖珠用于去除水中 As(III) 和 As(V)。",
+      "[41] Queiroz 等讨论了壳聚糖使用是否会促进草酸盐肾结石形成。[42] Çabuk 等研究了固定在黑松球果生物基质上的 Saccharomyces cerevisiae 工业菌株对 Pb(II) 的生物吸附及机制。[43] Juang 和 Shao 研究了 pH 对壳聚糖珠竞争吸附 Cu(II)、Ni(II) 和 Zn(II) 的影响。[44] Liao 等研究了 Ni(II) 在壳聚糖及其三乙烯四胺衍生物上的吸附平衡和动力学。",
+      "[45] Minamisawa 等研究了重金属在生物材料上的吸附行为。[46] Islam 等研究了用于肺部给药的壳聚糖微/纳米颗粒的可降解性。[47] Braier 和 Jishi 使用密度泛函理论研究了 Cu²⁺ 和 Ni²⁺ 与壳聚糖的结合。[48] El-Hefnawy 等研究了氯离子和硫酸根离子对 Cd²⁺ 在埃及黏土和砂壤土上吸附的影响。",
+      "[49] Weißpflog 等研究了铁和硫酸根离子同时吸附在壳聚糖上并形成正交结构的机制。[50] Koppelman 和 Dillard 研究了 Ni(II) 和 Cu(II) 在黏土矿物上的吸附。[51] Matienzo 等研究了镍化合物的 X 射线光电子能谱。[52] Inyang 等综述了生物炭作为低成本吸附剂去除水中重金属的研究。",
+      "[53] Xiaofu 等提出了计算离子吸附反应 Gibbs 自由能变化的简单方法。[54] Li 等研究了棉秆纤维制备活性炭吸附 2-硝基苯胺的平衡、动力学和热力学。[55] Padmavathy 等研究了 Baker 酵母对 Ni(II) 离子的生物吸附。[56] Sun 等使用离子液体制备壳聚糖（几丁质）/纤维素复合生物吸附剂，并用于吸附重金属离子。",
+      "[57] Mendes 和 Martins 研究了使用螯合树脂从硫酸盐溶液中选择性吸附镍和钴。[58] Aksu 确定了 Chlorella vulgaris 批量生物吸附 Ni(II) 的平衡、动力学和热力学参数。[59] Bermúdez 等使用 Gracilaria caudata 和 Sargassum muticum 进行镍生物吸附。[60] Gupta、Rastogi 和 Nayak 研究了处理藻类 Oedogonium hatei 对镍的生物吸附，并应用等温线和动力学模型。",
+      "页面页脚信息：第10页为参考文献列表结束页，作者署名仍为 N.R. Nicomel et al.，期刊信息为 Separation and Purification Technology 276 (2021) 119283。"
+    ]
+  },
+  "pageFigures": {
+    "1": [
+      "无图表。页面包括题名、作者、摘要、关键词和引言开头。"
+    ],
+    "2": [
+      "无图表。页面主要包括引言后半部分和材料方法开始。"
+    ],
+    "3": [
+      "表1列出真实浸出液组成：Ni 1.10 mM、Ca 11.7 mM、Co 0.03 mM、Cr 0.02 mM、Mn 0.12 mM、SO4²⁻ 563 mM。"
+    ],
+    "4": [
+      "表2列出壳聚糖性质：d10=0.17 mm、d50=0.54 mm、d90=1.15 mm、比表面积0.8 m²/g、孔体积0.002 cm³/g、pHPZC=6.60、IEP=5.72。图1为 FTIR 光谱，显示吸附前后壳聚糖官能团峰位变化。图2为 pH 对 Ni(II) 去除率的影响，显示 SO4²⁻ 存在可显著提高去除率。"
+    ],
+    "5": [
+      "图3为 10 mM Ni(II) 在无 SO4²⁻ 和含 500 mM SO4²⁻ 水溶液中的平衡形态模拟，显示高 SO4²⁻ 条件下 NiSO4⁰ 成为主要物种。图4为 SO4²⁻ 浓度对 Ni(II) 去除率和最终 pH 的影响，显示 5 mM 起明显提升，50 mM 达到约89%去除率。"
+    ],
+    "6": [
+      "图5为壳聚糖吸附前后 XPS 全谱。图6为 Ni 2p 高分辨率 XPS 谱，显示无 SO4²⁻ 时主要出现 Ni(OH)2/NiO 相关峰，有 SO4²⁻ 时出现 NiSO4 相关峰。"
+    ],
+    "7": [
+      "图7为 Ni(II) 吸附动力学曲线，显示 SO4²⁻ 存在时平衡时间由约4 h延长到约16 h。表3列出准二级动力学参数。图8为 Langmuir 等温吸附模型，表4列出 qmax、b 和 R²。"
+    ],
+    "8": [
+      "表5比较不同吸附剂的 Ni(II) 最大吸附容量。图9为真实浸出液柱实验突破曲线，显示 Ni 相对 Ca 和 Cr 更优先被壳聚糖吸附。"
+    ],
+    "9": [
+      "无新增图表。页面包括作者贡献、利益冲突、致谢、经费来源和参考文献开始。"
+    ],
+    "10": [
+      "无新增图表。页面为参考文献列表结束。"
+    ]
+  },
+  "pageKeyPoints": {
+    "1": [
+      "研究对象是富 SO4²⁻/Ca 溶液中 Ni 的壳聚糖选择性吸附。",
+      "核心摘要结论是 SO4²⁻ 可将 qmax 从1.00提高到1.49 mmol/g，但吸附速率降低4.5倍。",
+      "真实富 SO4²⁻ 浸出液中壳聚糖对 Ni 相对 Ca 和 Cr 有选择性。"
+    ],
+    "2": [
+      "真实镍废水和污泥浸出液通常同时含高 SO4²⁻ 和 Ca。",
+      "作者强调单金属溶液研究不足，必须研究复杂基质。",
+      "研究假设是 SO4²⁻ 络合会显著影响壳聚糖对 Ni 的吸附容量。"
+    ],
+    "3": [
+      "实验设计包括 pH、SO4²⁻浓度、Ca共存、动力学、等温线和真实浸出液柱实验。",
+      "批量实验为四平行样，并设置无壳聚糖对照检查沉淀。",
+      "真实浸出液含 SO4²⁻ 563 mM 和 Ca 11.7 mM，适合作为高盐高钙复杂基质。"
+    ],
+    "4": [
+      "壳聚糖表面胺基、酰胺、醇、醚等官能团参与 Ni 吸附。",
+      "无 SO4²⁻体系中 pH 对 Ni 去除影响并非简单随 pH 升高而增强。",
+      "含 500 mM SO4²⁻ 时 Ni 去除显著提高，且对照表明该范围内不是沉淀贡献。"
+    ],
+    "5": [
+      "SO4²⁻浓度达到5 mM 后显著促进 Ni 去除，50 mM 时约89%。",
+      "形态模拟显示 SO4²⁻增加会提高 NiSO4⁰比例。",
+      "XPS 初步证明吸附后壳聚糖表面存在 NiSO4 相关化学状态。"
+    ],
+    "6": [
+      "NiSO4⁰形成促进吸附，但 SO4²⁻存在会降低吸附速率。",
+      "无 SO4²⁻约4 h达平衡，有 SO4²⁻约16 h达平衡。",
+      "Ni(OH)2可能作为表面诱导沉淀在壳聚糖表面形成。"
+    ],
+    "7": [
+      "Langmuir 模型较好描述等温线，提示单层吸附。",
+      "含 500 mM SO4²⁻和10 mM Ca 时 qmax=1.49 mmol/g，高于无共存离子时的1.00 mmol/g。",
+      "文献比较中很多研究未报告最终 pH，可能存在 Ni(OH)2 沉淀高估。"
+    ],
+    "8": [
+      "柱实验用真实浸出液验证，前7 h Ni 去除率为95.9–100%。",
+      "最终时间点仍未饱和，Ni负载量仅0.04 mmol/g。",
+      "高 Ca 背景下即使有选择性，Ca 仍会被共吸附，需要进一步纯化和再生研究。"
+    ],
+    "9": [
+      "研究获得 Horizon 2020 METGROW+ 项目支持，该项目关注从低品位矿石和废物中回收金属。",
+      "作者声明无利益冲突。",
+      "参考文献覆盖 Ni 供应、废水来源、壳聚糖吸附和离子交换等背景。"
+    ],
+    "10": [
+      "参考文献支持 pH 效应、SO4²⁻络合效应、XPS峰归属和吸附热力学解释。",
+      "对 MnSO4 溶液净化的启发是，高 SO4²⁻背景会改变 Ni 等重金属杂质形态。",
+      "吸附研究必须报告最终 pH，否则可能将沉淀误判为吸附。"
+    ]
+  },
+  "originalEvidence": {
+    "1": [
+      "The comparison of chitosan’s maximum Ni adsorption capacities in the absence (1.00 mmol/g) and presence (1.49 mmol/g) of 500 mM SO4²− and 10 mM Ca indicated the positive effect of these ions on Ni adsorption.",
+      "The predominance of the neutrally charged NiSO4⁰ species in Ni/SO4²− system has contributed to the enhanced Ni adsorption on chitosan as verified by X-ray photoelectron spectroscopy (XPS) analysis.",
+      "The subsequent continuous Ni adsorption from a real SO4²−-rich leachate in a column setup revealed that chitosan is selective for Ni over Ca and Cr with selectivity quotients of 9.6 (KNi/Ca) and 3.0 (KNi/Cr)."
+    ],
+    "2": [
+      "Liquid streams associated with both Ni plating and industrial sludge leaching typically contain high amounts of SO4²− and Ca that can reach up to 560 mM and 11 mM, respectively.",
+      "The main goal of this study was to test the hypothesis that the adsorption capacity of chitosan for Ni is largely affected by the presence of SO4²−, especially at pH values where Ni/SO4²− complexes are formed.",
+      "Complex systems that are representative of real waste stream conditions should be investigated."
+    ],
+    "3": [
+      "Ni(II) speciation in aqueous systems with and without SO4²− was modeled using Visual MINTEQ 3.0.",
+      "All samples were prepared in quadruplicates and the data presented are mean values with standard deviation.",
+      "The test solution was a real leachate with components shown in Table 1."
+    ],
+    "4": [
+      "The FTIR spectra of chitosan after Ni(II) and Ni(II)/SO4²− adsorption indicated a shift in some of the characteristic peaks.",
+      "The presence of 500 mM SO4²− increased the Ni(II) removal efficiency of chitosan by at least 43%.",
+      "The control samples with 10 mM Ni(II) and 500 mM SO4²− have also shown that there was no precipitation up to a final pH of 8.24."
+    ],
+    "5": [
+      "Lower SO4²− concentrations (i.e., 0.05–0.5 mM) did not have an effect on Ni(II) adsorption onto chitosan, but as SO4²− concentration increased to 5 mM, Ni(II) removal increased from 32% to 67%.",
+      "Higher Ni(II) removal (89%) was further achieved when 50 mM SO4²− was present in the system, but beyond this level of SO4²−, Ni(II) removal did not further increase.",
+      "The Ni(II) speciation diagrams obtained from the experimental conditions also revealed an increasing fraction of NiSO4⁰ species as SO4²− concentration increased."
+    ],
+    "6": [
+      "The XPS results indicate that Ni(II) speciation, specifically the formation of Ni(SO4)⁰, promoted Ni(II) adsorption onto chitosan.",
+      "Equilibrium was reached after 4 and 16 h in the absence and presence of 500 mM SO4²−, respectively.",
+      "The adsorption rate constant k2 confirmed that Ni(II) adsorbed more quickly onto chitosan when SO4²− was not present, although the amount of Ni(II) adsorbed in the former system was less."
+    ],
+    "7": [
+      "The estimated maximum Ni(II) adsorption capacities (qmax) of chitosan revealed a higher qmax (1.49 mmol/g) when SO4²− and Ca(II) are present in the solution.",
+      "A larger Langmuir adsorption equilibrium constant (b) of 1.50 L/mmol was also obtained in the presence of SO4²− and Ca(II) compared to 0.08 L/mmol when only Ni(II) was present.",
+      "All studies shown in Table 5 did not report the final equilibrium pH, which could provide information if the reported qmax was overestimated due to Ni(OH)2 precipitation."
+    ],
+    "8": [
+      "Despite the presence of high Ca(II) and SO4²− concentrations, the results show that Ni(II) can be effectively removed at 95.9–100% in the first 7 h.",
+      "Chitosan was also found to be selective for Ni(II) over Ca(II) and Cr(III).",
+      "At the last collected time point (52.7 h), the column still adsorbed 36.6% of the inlet Ni, indicating that saturation was still not reached."
+    ],
+    "9": [
+      "This research was supported by the EU Horizon 2020 METGROW+ project (Grant Agreement no 690088) on Metal Recovery from Low Grade Ores and Wastes.",
+      "The authors declare that they have no known competing financial interests or personal relationships that could have appeared to influence the work reported in this paper."
+    ],
+    "10": [
+      "References [43]–[60] include studies on pH effects, chitosan/Ni adsorption, sulfate effects, XPS interpretation, thermodynamics, and comparative Ni biosorption or resin adsorption capacities."
+    ]
+  },
+  "aiReading": {
+    "oneSentenceTakeaway": "高 SO4²⁻/Ca 背景下，Ni 与 SO4²⁻形成中性 NiSO4⁰，可提高壳聚糖对 Ni 的吸附容量和选择性，但会显著减慢吸附动力学；该研究对 MnSO4 溶液中 Ni/Cr 等重金属深度净化有方法借鉴价值。",
+    "structuredSummary": {
+      "problem": "真实镍电镀废水、污泥浸出液和二次资源浸出液常含高 SO4²⁻ 和 Ca，传统溶剂萃取可能因 Ca 结垢和复杂基质而受限。作者希望验证壳聚糖能否在高 SO4²⁻/Ca 体系中选择性吸附 Ni。",
+      "method": "研究采用批量吸附实验考察 pH、SO4²⁻浓度、Ca 共存、接触时间和 Ni 浓度；用 Visual MINTEQ 模拟 Ni 形态；用 FTIR 和 XPS 分析机理；用真实富 SO4²⁻浸出液进行固定床柱验证。",
+      "mainResults": "SO4²⁻浓度从 5 mM 起显著促进 Ni 去除，50 mM 时去除率约 89%；有 500 mM SO4²⁻和 10 mM Ca 时 Langmuir qmax 为 1.49 mmol/g，高于无共存离子时的 1.00 mmol/g；但有 SO4²⁻时平衡时间由 4 h 延长到 16 h。真实浸出液柱实验中前 7 h Ni 去除率为 95.9–100%，最终时间点选择性商 KNi/Ca=9.6、KNi/Cr=3.0。",
+      "mechanism": "高 SO4²⁻条件下 NiSO4⁰ 在宽 pH 范围内占主导；XPS 检测到 NiSO4 相关结合能峰，表明 NiSO4 水合物种可能通过 SO4²⁻与壳聚糖胺基结合。SO4²⁻也可能改变壳聚糖链上电荷和构象，从而促进金属络合。"
+    },
+    "criticalAppraisal": {
+      "研究问题": "在富 SO4²⁻和富 Ca(II) 的复杂二次资源浸出液中，壳聚糖是否能高效、选择性吸附 Ni(II)，以及 SO4²⁻络合是否改变 Ni 吸附容量、动力学和机理。",
+      "核心贡献": "论文把壳聚糖 Ni 吸附研究从单一 Ni 溶液推进到高 SO4²⁻/Ca 复杂基质，并将形态模拟、XPS 证据、动力学、等温线和真实浸出液柱实验结合起来，证明 SO4²⁻通过形成 NiSO4⁰提高吸附容量但降低吸附速率。",
+      "主要结论": [
+        "SO4²⁻对 Ni 吸附具有明显促进作用，500 mM SO4²⁻和10 mM Ca 条件下 qmax=1.49 mmol/g，高于无 SO4²⁻/Ca 条件下的1.00 mmol/g。",
+        "SO4²⁻提高容量的核心原因是 NiSO4⁰成为优势物种，并在 XPS 中出现 NiSO4 相关峰。",
+        "动力学存在负面影响：无 SO4²⁻约4 h平衡，有 SO4²⁻约16 h平衡，k2由0.080降至0.018 g/(mmol·min)。",
+        "真实浸出液柱实验显示壳聚糖对 Ni 优先于 Ca 和 Cr，但在高 Ca 背景下 Ca 仍会被吸附，纯 Ni 回收仍需进一步验证。"
+      ],
+      "结论可靠性": "中等偏高。批量实验有四平行并给出标准差；Ni 形态模拟与 XPS 证据相互支持；真实浸出液柱实验增强了外推性。但柱实验未达到饱和，未做再生/解吸和长期循环，纯化产品质量未验证，因此工业回收结论仍属初步。",
+      "样本量": "批量吸附实验每个条件 N=4；动力学和等温吸附也显示为四平行。柱实验为真实浸出液单柱运行，未见平行柱或重复突破曲线。",
+      "重复实验": "批量体系重复较充分；柱实验重复性不足，且因夜间停止流动导致突破曲线存在操作间断，需要进一步连续运行或重复验证。",
+      "误差线": "pH、SO4²⁻浓度、动力学和等温线图中给出标准差误差线；部分点误差线小于符号大小。表征数据和柱实验曲线未提供显著误差线。",
+      "统计方法": "主要为平均值、标准差、准二级动力学拟合、Langmuir 等温线拟合和 R² 评价；未见显著性检验、置信区间或模型残差系统分析。",
+      "对照实验": "设置了无壳聚糖对照以排查 Ni(OH)2 沉淀；设置无 SO4²⁻与有 SO4²⁻体系对照；还用非络合硝酸根替代 SO4²⁻验证络合作用。这些对照较好支持机理判断。",
+      "实验设计是否支持结论": "支持主要结论。SO4²⁻浓度梯度、Ni 形态模拟、XPS 峰归属和容量提升之间形成闭环证据；但柱实验仅验证选择性趋势，尚不足以证明可直接获得高纯 Ni 产品或完全工业化。",
+      "研究局限": [
+        "真实浸出液柱实验未运行至饱和，最大动态容量和突破容量无法充分确定。",
+        "未开展酸洗/盐洗等解吸再生实验，无法评价 Ni 回收液纯度、壳聚糖损失和循环稳定性。",
+        "高 Ca 体系中 Ca 仍被吸附，后续若追求纯 Ni 产品需要进一步分离。",
+        "未系统考察 Mg、Al、Fe、Si、Zn 等更复杂杂质对壳聚糖选择性的影响。",
+        "实验 pH 范围接近 Ni(OH)2 沉淀边界，虽然设置对照，但局部表面诱导沉淀仍可能参与。"
+      ],
+      "与同领域研究是否有矛盾": "与一些认为 Ni 在壳聚糖上的吸附主要随 pH 升高而增强的文献存在差异；与 Mende 等提出 SO4²⁻存在时可能发生多层 Ni 吸附的解释也不同，本文更倾向准二级化学吸附和 NiSO4⁰单层吸附解释。",
+      "矛盾可能原因": "原因可能包括壳聚糖来源、脱乙酰度、粒径、溶胀行为、最终 pH 是否报告、Ni(OH)2 沉淀是否被误计为吸附、SO4²⁻浓度差异、离子强度和具体金属形态不同。",
+      "能否迁移到用户低品位锰矿问题": "可部分迁移，但不是主体选冶路线。对于低品位锰矿酸浸制备 MnSO4 溶液，若浸出液中含 Ni/Cr 等重金属杂质且 SO4²⁻浓度高，该研究提示高硫酸盐背景不一定削弱 Ni 吸附，反而可能通过 NiSO4⁰促进壳聚糖选择性捕集 Ni。对 Fe、Al、Ca、Mg、Si 等主量杂质控制则迁移有限，不能替代氧化水解除铁铝、脱钙镁或固液分离工艺。",
+      "对用户研究路线的启发": [
+        "评价 MnSO4 净化时不能只看 Mn 浸出率，还要跟踪 Ni/Cr/Zn 等重金属在高 SO4²⁻体系中的络合形态和可吸附性。",
+        "在高 Ca 浸出液中，选择性吸附剂即使对目标杂质有偏好，也可能因 Ca 浓度过高而共吸附 Ca，因此应计算选择性商和负载量，而不是只报告去除率。",
+        "吸附前 pH 调节必须避开 Ni(OH)2 等沉淀区，否则容易把沉淀误认为吸附，导致净化机理误判。",
+        "壳聚糖或改性壳聚糖可作为 MnSO4 溶液深度除 Ni/Cr 的候选抛光单元，但需要与 Fe/Al 水解、Ca/Mg 控制、过滤性能和酸耗一起评价。"
+      ],
+      "下一步验证实验": [
+        "用实际低品位锰矿酸浸液或模拟 MnSO4 母液，设置 MnSO4 高背景、SO4²⁻高背景和不同 Ca/Mg 浓度，测定壳聚糖对 Ni、Cr、Zn、Co、Cu、Fe、Al、Mn 的选择性。",
+        "在 pH 4–7 范围内做沉淀空白和形态模拟，避免 Ni(OH)2、Fe(OH)3、Al(OH)3 沉淀干扰吸附量计算。",
+        "开展固定床连续突破实验至饱和，计算动态容量、床层利用率、处理体积和尾液杂质浓度是否满足 MnSO4 净化要求。",
+        "进行解吸再生实验，比较 H2SO4、NaCl、弱酸或络合解吸剂对 Ni 回收率、Mn 损失、Ca/Mg 共解吸和壳聚糖溶解的影响。",
+        "评价改性壳聚糖或复合吸附剂对高 SO4²⁻/Ca/Mg 体系中 Ni/Cr 的选择性是否优于原始壳聚糖。"
+      ],
+      "用于MnSO4路线的风险点": [
+        "壳聚糖在低 pH 下可能溶解，因此不能直接用于强酸浸出液，通常需先调 pH 或在除铁铝后使用。",
+        "调 pH 会引起 Fe/Al 水解和 CaSO4 结晶风险，可能影响过滤性能。",
+        "若使用 Na2SO4 或 NaOH 调节体系，可能引入 Na 杂质；对于电池级 MnSO4 尤其要控制 Na/K 负荷。",
+        "高 Ca/Mg 背景下吸附剂容量可能被非目标离子占用，需用真实母液验证而不能只用单金属溶液。"
+      ]
+    },
+    "manganeseProcessInterpretation": {
+      "forATypeFeS2MnO2Mn2O3Ore": "该论文不涉及 FeS2-MnO2/Mn2O3 矿的还原焙烧或酸浸；但若 A 类矿经硫酸浸出后产生含 Ni/Cr 的高 SO4²⁻溶液，壳聚糖深度除 Ni 可作为后处理备选。需先完成 Fe 共浸出后的氧化水解除铁，避免 Fe 占用壳聚糖位点或形成胶体堵塞柱床。",
+      "forBTypeMn2O3FeMnO3CaCO3SilicateOre": "B 类含 CaCO3 矿酸浸后 Ca 负荷高，本文高 Ca 背景柱实验具有参考性。即使壳聚糖对 Ni 有选择性，Ca 浓度远高于 Ni 时仍会共吸附并占用容量。因此对于 B 类路线，应优先弱酸脱碳或控制 Ca 进入浸出液，再考虑 Ni/Cr 吸附抛光。",
+      "forMagneticFlotationPretreatment": "本文不涉及磁选、浮选、重选；但从后续净化角度提醒，预富集不仅要提高 Mn 品位，还要降低进入浸出液的 Ni/Cr/Ca/Mg/Fe/Al 负荷，否则后续吸附/净化压力增加。"
+    }
+  },
+  "fieldRelevance": {
+    "belongsToLowGradeManganeseOreCoreTopic": false,
+    "judgement": "该论文不是低品位锰矿、铁锰矿、锰矿浸出、MnSO4制备或锰矿选冶主线论文；核心对象是高SO4²⁻/高Ca(II)体系中Ni(II)的壳聚糖吸附回收。",
+    "relevanceToManganeseLiteratureReader": "可作为MnSO4或锰矿酸浸液净化环节的参考文献，尤其对高硫酸盐、高钙背景中Ni、Cr等杂质的选择性吸附、后续净化压力与吸附剂再生评价有借鉴价值。"
+  },
+  "translationStyle": {
+    "principle": "逐页、按原文段落顺序、逐句忠实翻译；每个数组元素为一个短段落，避免整页译文堆成一个长段。",
+    "notes": "参考文献页按条目含义翻译，不臆造未提供信息。"
+  },
+  "updatedAt": "2026-06-29T12:58:00.000Z"
+}
