@@ -1,1 +1,146 @@
-{"version":1,"updatedAt":"2026-06-29T10:15:00.000Z","docs":[{"id":"sample-review-2019","remoteId":"sample-review-2019","title":"Zn-doped aerogel paper","titleCn":"掺锌气凝胶论文","journal":"Journal of Industrial and Engineering Chemistry","year":2025,"doi":"10.1016/j.jiec.2024.07.010","journalRank":{"IF":"不确定","CAS":"不确定","JCR":"不确定"},"tags":["aerogel","carbon-aerogel","non-manganese-core"],"pageCount":12,"assets":{"sourcePath":"papers/sample-review-2019-en.pdf","translationPath":"papers/sample-review-2019-cn.pdf","jsonPath":"data/sample-review-2019.json"},"aiReading":{"summary":"AI 精读已完成。本文为材料制备、水处理应用和材料再利用研究，不属于低品位锰矿主线。","researchQuestion":"研究问题是材料能否用于水处理并进一步再利用。","contribution":["提出材料制备与再利用路线。","展示多用途应用潜力。"],"keyFindings":["材料表现出吸附能力。","再利用材料表现出应用潜力。"],"methods":["材料制备。","性能测试。","结构表征。"],"statistics":"未系统报告样本量、误差线和显著性检验。","reliability":["表征较完整。","真实体系验证不足。"],"limitations":["不属于低品位锰矿主线。","缺少真实体系和放大验证。"],"contradictions":["机理解释仍需更多证据。"],"possibleReasons":"结果可能来自结构和表面位点共同作用。","transferability":["只能作为旁支参考。"],"nextExperiments":["补充真实体系验证。","补充重复实验和对照。"],"criticalAppraisal":{"researchQuestion":"研究材料制备、应用和再利用。","contribution":["提出组合路线。"],"keyFindings":["显示应用潜力。"],"methods":"制备、测试和表征。","statistics":"未系统报告。","reliability":["中等。"],"limitations":["非主线文献。"],"contradictions":["需更多证据。"],"possibleReasons":"结构和表面位点共同作用。","transferability":["旁支参考。"],"nextExperiments":["真实体系验证。"]}}},{"id":"10-1080-01496395-2018-1504795","remoteId":"10-1080-01496395-2018-1504795","title":"Upgrading of low-grade manganese ore based on reduction roasting and magnetic separation technique","titleCn":"基于还原焙烧与磁选技术的低品位锰矿提质研究","journal":"Separation Science and Technology","year":"2018","doi":"10.1080/01496395.2018.1504795","journalRank":{"IF":"2.3","CAS":"4区","JCR":"Q3"},"tags":["低品位锰矿","还原焙烧","磁选"],"pageCount":13,"assets":{"jsonPath":"data/10-1080-01496395-2018-1504795.json","sourcePath":"papers/10-1080-01496395-2018-1504795-en.pdf","translationPath":"papers/10-1080-01496395-2018-1504795-cn.pdf"}}]}
+{
+  "version": 1,
+  "updatedAt": "2026-06-29T12:19:38.988Z",
+  "docs": [
+    {
+      "id": "doc-1782735519081-a281e43cc3e59",
+      "remoteId": "paper-1782735519081",
+      "title": "Selective and enhanced nickel adsorption from sulfate- and calcium-rich solutions using chitosan",
+      "titleCn": "使用壳聚糖从富硫酸盐和富钙溶液中选择性强化吸附镍",
+      "journal": "Separation and Purification Technology",
+      "year": 2021,
+      "doi": "10.1016/j.seppur.2021.119283",
+      "journalRank": "不确定（PDF未提供期刊分区信息）",
+      "tags": [
+        "镍吸附",
+        "硫酸盐富集溶液",
+        "钙富集溶液",
+        "壳聚糖",
+        "资源回收",
+        "高盐浸出液净化",
+        "重金属选择性去除",
+        "对锰硫酸盐溶液净化有借鉴"
+      ],
+      "pageCount": 10,
+      "assets": {
+        "sourcePath": "papers/paper-1782735519081-en.pdf",
+        "translationPath": "papers/paper-1782735519081-cn.pdf",
+        "jsonPath": "data/paper-1782735519081.json"
+      }
+    },
+    {
+      "id": "sample-review-2019",
+      "remoteId": "sample-review-2019",
+      "title": "Zn-doped aerogel paper",
+      "titleCn": "掺锌气凝胶论文",
+      "journal": "Journal of Industrial and Engineering Chemistry",
+      "year": 2025,
+      "doi": "10.1016/j.jiec.2024.07.010",
+      "journalRank": {
+        "IF": "不确定",
+        "CAS": "不确定",
+        "JCR": "不确定"
+      },
+      "tags": [
+        "aerogel",
+        "carbon-aerogel",
+        "non-manganese-core"
+      ],
+      "pageCount": 12,
+      "assets": {
+        "sourcePath": "papers/sample-review-2019-en.pdf",
+        "translationPath": "papers/sample-review-2019-cn.pdf",
+        "jsonPath": "data/sample-review-2019.json"
+      },
+      "aiReading": {
+        "summary": "AI 精读已完成。本文为材料制备、水处理应用和材料再利用研究，不属于低品位锰矿主线。",
+        "researchQuestion": "研究问题是材料能否用于水处理并进一步再利用。",
+        "contribution": [
+          "提出材料制备与再利用路线。",
+          "展示多用途应用潜力。"
+        ],
+        "keyFindings": [
+          "材料表现出吸附能力。",
+          "再利用材料表现出应用潜力。"
+        ],
+        "methods": [
+          "材料制备。",
+          "性能测试。",
+          "结构表征。"
+        ],
+        "statistics": "未系统报告样本量、误差线和显著性检验。",
+        "reliability": [
+          "表征较完整。",
+          "真实体系验证不足。"
+        ],
+        "limitations": [
+          "不属于低品位锰矿主线。",
+          "缺少真实体系和放大验证。"
+        ],
+        "contradictions": [
+          "机理解释仍需更多证据。"
+        ],
+        "possibleReasons": "结果可能来自结构和表面位点共同作用。",
+        "transferability": [
+          "只能作为旁支参考。"
+        ],
+        "nextExperiments": [
+          "补充真实体系验证。",
+          "补充重复实验和对照。"
+        ],
+        "criticalAppraisal": {
+          "researchQuestion": "研究材料制备、应用和再利用。",
+          "contribution": [
+            "提出组合路线。"
+          ],
+          "keyFindings": [
+            "显示应用潜力。"
+          ],
+          "methods": "制备、测试和表征。",
+          "statistics": "未系统报告。",
+          "reliability": [
+            "中等。"
+          ],
+          "limitations": [
+            "非主线文献。"
+          ],
+          "contradictions": [
+            "需更多证据。"
+          ],
+          "possibleReasons": "结构和表面位点共同作用。",
+          "transferability": [
+            "旁支参考。"
+          ],
+          "nextExperiments": [
+            "真实体系验证。"
+          ]
+        }
+      }
+    },
+    {
+      "id": "10-1080-01496395-2018-1504795",
+      "remoteId": "10-1080-01496395-2018-1504795",
+      "title": "Upgrading of low-grade manganese ore based on reduction roasting and magnetic separation technique",
+      "titleCn": "基于还原焙烧与磁选技术的低品位锰矿提质研究",
+      "journal": "Separation Science and Technology",
+      "year": "2018",
+      "doi": "10.1080/01496395.2018.1504795",
+      "journalRank": {
+        "IF": "2.3",
+        "CAS": "4区",
+        "JCR": "Q3"
+      },
+      "tags": [
+        "低品位锰矿",
+        "还原焙烧",
+        "磁选"
+      ],
+      "pageCount": 13,
+      "assets": {
+        "jsonPath": "data/10-1080-01496395-2018-1504795.json",
+        "sourcePath": "papers/10-1080-01496395-2018-1504795-en.pdf",
+        "translationPath": "papers/10-1080-01496395-2018-1504795-cn.pdf"
+      }
+    }
+  ]
+}
