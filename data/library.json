@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-29T12:40:00.000Z",
+  "updatedAt": "2026-06-29T12:45:00.000Z",
   "docs": [
     {
       "id": "doc-1782735519081-a281e43cc3e59",
@@ -56,70 +56,6 @@
         "sourcePath": "papers/sample-review-2019-en.pdf",
         "translationPath": "papers/sample-review-2019-cn.pdf",
         "jsonPath": "data/sample-review-2019.json"
-      },
-      "aiReading": {
-        "summary": "AI 精读已完成。本文为材料制备、水处理应用和材料再利用研究，不属于低品位锰矿主线。",
-        "researchQuestion": "研究问题是材料能否用于水处理并进一步再利用。",
-        "contribution": [
-          "提出材料制备与再利用路线。",
-          "展示多用途应用潜力。"
-        ],
-        "keyFindings": [
-          "材料表现出吸附能力。",
-          "再利用材料表现出应用潜力。"
-        ],
-        "methods": [
-          "材料制备。",
-          "性能测试。",
-          "结构表征。"
-        ],
-        "statistics": "未系统报告样本量、误差线和显著性检验。",
-        "reliability": [
-          "表征较完整。",
-          "真实体系验证不足。"
-        ],
-        "limitations": [
-          "不属于低品位锰矿主线。",
-          "缺少真实体系和放大验证。"
-        ],
-        "contradictions": [
-          "机理解释仍需更多证据。"
-        ],
-        "possibleReasons": "结果可能来自结构和表面位点共同作用。",
-        "transferability": [
-          "只能作为旁支参考。"
-        ],
-        "nextExperiments": [
-          "补充真实体系验证。",
-          "补充重复实验和对照。"
-        ],
-        "criticalAppraisal": {
-          "researchQuestion": "研究材料制备、应用和再利用。",
-          "contribution": [
-            "提出组合路线。"
-          ],
-          "keyFindings": [
-            "显示应用潜力。"
-          ],
-          "methods": "制备、测试和表征。",
-          "statistics": "未系统报告。",
-          "reliability": [
-            "中等。"
-          ],
-          "limitations": [
-            "非主线文献。"
-          ],
-          "contradictions": [
-            "需更多证据。"
-          ],
-          "possibleReasons": "结构和表面位点共同作用。",
-          "transferability": [
-            "旁支参考。"
-          ],
-          "nextExperiments": [
-            "真实体系验证。"
-          ]
-        }
       }
     },
     {
