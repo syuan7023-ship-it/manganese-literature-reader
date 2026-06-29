@@ -464,96 +464,8 @@
       "下一步验证实验": "建议针对锰矿浸出液开展：1）在真实或模拟 MnSO₄ 高盐基体中测试 Ni²⁺/Zn²⁺/Co²⁺/Cu²⁺/Fe³⁺/Al³⁺/Ca²⁺/Mg²⁺ 竞争吸附；2）测定吸附前后 Mn 损失率，确保不显著吸附 Mn²⁺；3）测试 pH 2–6、硫酸根浓度和离子强度影响；4）检测吸附剂 Zn、Na、TOC 淋出；5）做柱实验或过滤实验评估压降、堵塞和固液分离；6）做吸附剂再生/处置实验；7）与常规硫化沉淀、氧化水解除杂、离子交换树脂进行成本和杂质负荷对比。"
     }
   },
-  "readingAnchors": {
-    "1": [
-      "Abstract",
-      "Introduction",
-      "Fe-Mn ores as substitution resources"
-    ],
-    "2": [
-      "Physical beneficiation limitations",
-      "Manganese resources and consumption",
-      "Table 1",
-      "Fig. 1"
-    ],
-    "3": [
-      "Fig. 2",
-      "Fe-Mn composite oxides",
-      "5-10 μm intergrowth"
-    ],
-    "4": [
-      "Fig. 3",
-      "Fig. 4",
-      "Physical separation"
-    ],
-    "5": [
-      "Flotation",
-      "High intensity magnetic separation",
-      "Direct reduction leaching"
-    ],
-    "6": [
-      "Direct reduction leaching conditions",
-      "Table 3",
-      "MnS2O6 issue"
-    ],
-    "7": [
-      "Table 3 continuation",
-      "reductants comparison"
-    ],
-    "8": [
-      "Mn-rich slag smelting",
-      "Fig. 5",
-      "Table 4",
-      "Carbothermic reduction roasting"
-    ],
-    "9": [
-      "Fig. 6",
-      "Magnetic separation",
-      "Area A / Area C"
-    ],
-    "10": [
-      "Fig. 7",
-      "Table 5",
-      "magnetic/direct reduction roasting"
-    ],
-    "11": [
-      "MnFe2O4 formation",
-      "sodium additives",
-      "direct reduction roasting"
-    ],
-    "12": [
-      "Acid leaching after magnetic reduction",
-      "Fig. 8",
-      "Fig. 9"
-    ],
-    "13": [
-      "Sulfation roasting",
-      "Fig. 10",
-      "Table 6"
-    ],
-    "14": [
-      "Industrial sulfation roasting",
-      "Fig. 11",
-      "Combined processes"
-    ],
-    "15": [
-      "Fig. 11",
-      "Fig. 12",
-      "manganese ferrites"
-    ],
-    "16": [
-      "Conclusions",
-      "Acknowledgements",
-      "References"
-    ],
-    "17": [
-      "References"
-    ],
-    "18": [
-      "References"
-    ]
-  },
   "id": "sample-review-2019",
+  "remoteId": "10-1016-j-mineng-2018-11-016",
   "title": "Zn-doped aerogel for Ni2+ adsorption (Zn-A-Ni) and reuse of Zn-A-Ni to create Zn, Ni-co-doped carbon aerogel for applications in adsorption and energy storage",
   "titleCn": "用于 Ni2+ 吸附的掺锌气凝胶（Zn-A-Ni）及将 Zn-A-Ni 再利用制备用于吸附和储能的 Zn、Ni 共掺杂碳气凝胶",
   "journal": "Journal of Industrial and Engineering Chemistry",
@@ -571,6 +483,5 @@
     "non-manganese-core"
   ],
   "pageCount": 12,
-  "remoteId": "10-1016-j-mineng-2018-11-016",
-  "updatedAt": "2026-06-29T08:33:12.554Z"
+  "updatedAt": "2026-06-29T08:38:14.554Z"
 }
