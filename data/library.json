@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-06-29T12:19:38.988Z",
+  "updatedAt": "2026-06-29T12:40:00.000Z",
   "docs": [
     {
       "id": "doc-1782735519081-a281e43cc3e59",
@@ -10,7 +10,12 @@
       "journal": "Separation and Purification Technology",
       "year": 2021,
       "doi": "10.1016/j.seppur.2021.119283",
-      "journalRank": "不确定（PDF未提供期刊分区信息）",
+      "journalRank": {
+        "IF": "未核验",
+        "CAS": "未核验",
+        "JCR": "未核验",
+        "note": "PDF 未提供影响因子和分区信息，需后续人工核验。"
+      },
       "tags": [
         "镍吸附",
         "硫酸盐富集溶液",
